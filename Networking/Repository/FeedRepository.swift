@@ -20,7 +20,7 @@
 //  or have any questions.
 //
 //  FeedRepository.swift
-//  Network
+//  Networking
 //
 //  Created by Tanakorn Phoochaliaw on 13/7/2564 BE.
 //

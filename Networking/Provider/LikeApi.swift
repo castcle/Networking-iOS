@@ -20,7 +20,7 @@
 //  or have any questions.
 //
 //  LikeApi.swift
-//  Network
+//  Networking
 //
 //  Created by Tanakorn Phoochaliaw on 23/7/2564 BE.
 //

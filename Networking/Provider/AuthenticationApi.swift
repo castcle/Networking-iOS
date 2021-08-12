@@ -20,7 +20,7 @@
 //  or have any questions.
 //
 //  AuthenticationApi.swift
-//  Network
+//  Networking
 //
 //  Created by Tanakorn Phoochaliaw on 12/8/2564 BE.
 //
@@ -36,6 +36,7 @@ enum AuthenticationApi {
     case register(AuthenRequest)
     case verificationEmail
     case requestLinkVerify
+    case refreshToken
 }
 
 extension AuthenticationApi: TargetType {
@@ -59,6 +60,8 @@ extension AuthenticationApi: TargetType {
             return "/authentications/verificationEmail"
         case .requestLinkVerify:
             return "/authentications/requestLinkVerify"
+        case .refreshToken:
+            return "/authentications/refreshToken"
         }
     }
     
@@ -88,6 +91,11 @@ extension AuthenticationApi: TargetType {
     }
     
     var headers: [String : String]? {
-        return ApiHelper.header
+        switch self {
+        case .refreshToken:
+            return ApiHelper.headerRefreshToken
+        default:
+            return ApiHelper.header
+        }
     }
 }

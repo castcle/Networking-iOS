@@ -20,7 +20,7 @@
 //  or have any questions.
 //
 //  AuthenticationRepository.swift
-//  Network
+//  Networking
 //
 //  Created by Tanakorn Phoochaliaw on 12/8/2564 BE.
 //
@@ -38,6 +38,7 @@ public protocol AuthenticationRepository {
     func register(authenRequest: AuthenRequest, _ completion: @escaping (Bool) -> ())
     func verificationEmail(_ completion: @escaping (Bool) -> ())
     func requestLinkVerify(_ completion: @escaping (Bool) -> ())
+    func refreshToken(_ completion: @escaping (Bool) -> ())
 }
 
 public enum AuthenticationApiKey: String {
@@ -214,6 +215,32 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     if response.statusCode < 300 {
+                        completion(true)
+                    } else {
+                        ApiHelper.displayError(error: "\(json[ResponseErrorKey.code.rawValue].stringValue) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
+                        completion(false)
+                    }
+                } catch {
+                    ApiHelper.displayError(error: "Something Went wrong")
+                    completion(false)
+                }
+            case .failure:
+                ApiHelper.displayError(error: "Something Went wrong")
+                completion(false)
+            }
+        }
+    }
+    
+    public func refreshToken(_ completion: @escaping (Bool) -> ()) {
+        self.authenticationApi.request(.refreshToken) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let rawJson = try response.mapJSON()
+                    let json = JSON(rawJson)
+                    if response.statusCode < 300 {
+                        let accessToken = json[AuthenticationApiKey.accessToken.rawValue].stringValue
+                        Defaults[.accessToken] = accessToken
                         completion(true)
                     } else {
                         ApiHelper.displayError(error: "\(json[ResponseErrorKey.code.rawValue].stringValue) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
