@@ -40,6 +40,8 @@
 		B7684A7126C5061C00C438C5 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A5526C5061C00C438C5 /* LoginRequest.swift */; };
 		B7684A7226C5061C00C438C5 /* AuthenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A5626C5061C00C438C5 /* AuthenRequest.swift */; };
 		B78795B326C5512400FECC21 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = B78795B226C5512400FECC21 /* Moya */; };
+		B7C252A426D2D2FE00ACBB84 /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C252A326D2D2FE00ACBB84 /* Provider.swift */; };
+		B7C2530E26D5409A00ACBB84 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2530D26D5409A00ACBB84 /* Language.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -96,6 +98,8 @@
 		B7684A5326C5061C00C438C5 /* Feeds.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Feeds.json; sourceTree = "<group>"; };
 		B7684A5526C5061C00C438C5 /* LoginRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
 		B7684A5626C5061C00C438C5 /* AuthenRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenRequest.swift; sourceTree = "<group>"; };
+		B7C252A326D2D2FE00ACBB84 /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
+		B7C2530D26D5409A00ACBB84 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +184,7 @@
 		B7684A3926C5061B00C438C5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B7C2530C26D5408100ACBB84 /* Setting */,
 				B7684A3A26C5061B00C438C5 /* Feed */,
 			);
 			path = Model;
@@ -219,6 +224,7 @@
 		B7684A4C26C5061C00C438C5 /* Provider */ = {
 			isa = PBXGroup;
 			children = (
+				B7C252A326D2D2FE00ACBB84 /* Provider.swift */,
 				B7684A4D26C5061C00C438C5 /* AuthenticationApi.swift */,
 				B7684A4E26C5061C00C438C5 /* RecastApi.swift */,
 				B7684A4F26C5061C00C438C5 /* FeedApi.swift */,
@@ -244,6 +250,14 @@
 				B7684A5626C5061C00C438C5 /* AuthenRequest.swift */,
 			);
 			path = Request;
+			sourceTree = "<group>";
+		};
+		B7C2530C26D5408100ACBB84 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				B7C2530D26D5409A00ACBB84 /* Language.swift */,
+			);
+			path = Setting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -375,6 +389,8 @@
 				B7684A6526C5061C00C438C5 /* Aggregator.swift in Sources */,
 				B7684A6826C5061C00C438C5 /* Circle.swift in Sources */,
 				B7684A6026C5061C00C438C5 /* Liked.swift in Sources */,
+				B7C252A426D2D2FE00ACBB84 /* Provider.swift in Sources */,
+				B7C2530E26D5409A00ACBB84 /* Language.swift in Sources */,
 				B7684A5C26C5061C00C438C5 /* Link.swift in Sources */,
 				B7684A6D26C5061C00C438C5 /* FeedApi.swift in Sources */,
 				B7684A6726C5061C00C438C5 /* HashtagShelf.swift in Sources */,
