@@ -36,7 +36,9 @@ public protocol RecastRepository {
 public final class RecastRepositoryImpl: RecastRepository {
     private let recastProvider = MoyaProvider<RecastApi>(stubClosure: MoyaProvider.delayedStub(1.0))
     
-    public init() {}
+    public init() {
+        // MARK: - Init
+    }
     
     public func recasted(feedUuid: String, _ completion: @escaping (Bool) -> ()) {
         self.recastProvider.request(.recasted(feedUuid)) { result in

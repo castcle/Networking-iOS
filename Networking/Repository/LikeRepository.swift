@@ -36,7 +36,9 @@ public protocol LikeRepository {
 public final class LikeRepositoryImpl: LikeRepository {
     private let likeProvider = MoyaProvider<LikeApi>(stubClosure: MoyaProvider.delayedStub(1.0))
     
-    public init() {}
+    public init() {
+        // MARK: - Init
+    }
     
     public func liked(feedUuid: String, _ completion: @escaping (Bool) -> ()) {
         self.likeProvider.request(.liked(feedUuid)) { result in

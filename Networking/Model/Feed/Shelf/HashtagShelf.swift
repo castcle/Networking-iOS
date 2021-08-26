@@ -35,7 +35,9 @@ public enum HashtagShelfKey: String, Codable {
 public class HashtagShelf: NSObject {
     public var hashtags: [Hashtag] = []
     
-    public override init() { }
+    public override init() {
+        // MARK: - Init
+    }
     
     public init(json: JSON) {
         self.hashtags = (json[HashtagShelfKey.payload.rawValue].arrayValue).map { Hashtag(json: $0) }

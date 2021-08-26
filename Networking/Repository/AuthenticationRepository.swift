@@ -52,7 +52,9 @@ public enum AuthenticationApiKey: String {
 public final class AuthenticationRepositoryImpl: AuthenticationRepository {
     private let authenticationApi = MoyaProvider<AuthenticationApi>()
     
-    public init() {}
+    public init() {
+        // MARK: - Init
+    }
     
     public func guestLogin(uuid: String, _ completion: @escaping (Bool) -> ()) {
         self.authenticationApi.request(.guestLogin(uuid)) { result in
@@ -73,11 +75,11 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                         completion(false)
                     }
                 } catch {
-                    ApiHelper.displayError(error: "Something Went wrong")
+                    ApiHelper.displayError()
                     completion(false)
                 }
             case .failure:
-                ApiHelper.displayError(error: "Something Went wrong")
+                ApiHelper.displayError()
                 completion(false)
             }
         }
@@ -110,11 +112,11 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                         completion(false, false)
                     }
                 } catch {
-                    ApiHelper.displayError(error: "Something Went wrong")
+                    ApiHelper.displayError()
                     completion(false, false)
                 }
             case .failure:
-                ApiHelper.displayError(error: "Something Went wrong")
+                ApiHelper.displayError()
                 completion(false, false)
             }
         }
@@ -136,11 +138,11 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                         completion(false, false)
                     }
                 } catch {
-                    ApiHelper.displayError(error: "Something Went wrong")
+                    ApiHelper.displayError()
                     completion(false, false)
                 }
             case .failure:
-                ApiHelper.displayError(error: "Something Went wrong")
+                ApiHelper.displayError()
                 completion(false, false)
             }
         }
@@ -165,11 +167,11 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                         completion(false)
                     }
                 } catch {
-                    ApiHelper.displayError(error: "Something Went wrong")
+                    ApiHelper.displayError()
                     completion(false)
                 }
             case .failure:
-                ApiHelper.displayError(error: "Something Went wrong")
+                ApiHelper.displayError()
                 completion(false)
             }
         }
@@ -193,11 +195,11 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                         completion(false)
                     }
                 } catch {
-                    ApiHelper.displayError(error: "Something Went wrong")
+                    ApiHelper.displayError()
                     completion(false)
                 }
             case .failure:
-                ApiHelper.displayError(error: "Something Went wrong")
+                ApiHelper.displayError()
                 completion(false)
             }
         }
@@ -221,11 +223,11 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                         completion(false)
                     }
                 } catch {
-                    ApiHelper.displayError(error: "Something Went wrong")
+                    ApiHelper.displayError()
                     completion(false)
                 }
             case .failure:
-                ApiHelper.displayError(error: "Something Went wrong")
+                ApiHelper.displayError()
                 completion(false)
             }
         }
@@ -247,11 +249,11 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                         completion(false)
                     }
                 } catch {
-                    ApiHelper.displayError(error: "Something Went wrong")
+                    ApiHelper.displayError()
                     completion(false)
                 }
             case .failure:
-                ApiHelper.displayError(error: "Something Went wrong")
+                ApiHelper.displayError()
                 completion(false)
             }
         }

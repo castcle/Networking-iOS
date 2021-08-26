@@ -48,12 +48,7 @@ extension FeedApi: TargetType {
     }
     
     var method: Moya.Method {
-        switch self {
-        case .getHashtags:
-            return .get
-        case .getFeeds:
-            return .get
-        }
+        return .get
     }
     
     var sampleData: Data {
@@ -84,12 +79,7 @@ extension FeedApi: TargetType {
     }
     
     var task: Task {
-        switch self {
-        case .getHashtags:
-            return .requestPlain
-        case .getFeeds:
-            return .requestPlain
-        }
+        return .requestPlain
     }
     
     var headers: [String : String]? {

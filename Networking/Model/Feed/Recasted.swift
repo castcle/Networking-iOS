@@ -30,18 +30,18 @@ import SwiftyJSON
 // MARK: - Liked
 public enum RecastedKey: String, Codable {
     case count
-    case recasted
+    case isRecast = "recasted"
     case participant
 }
 
 public class Recasted: NSObject {
     public let count: Int
-    public var recasted: Bool
+    public var isRecast: Bool
     public let participant: [Participant]
     
     public init(json: JSON) {
         self.count = json[RecastedKey.count.rawValue].intValue
-        self.recasted = json[RecastedKey.recasted.rawValue].boolValue
+        self.isRecast = json[RecastedKey.isRecast.rawValue].boolValue
         
         // MARK: - Participant
         self.participant = (json[RecastedKey.participant.rawValue].arrayValue).map { Participant(json: $0) }

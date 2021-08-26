@@ -36,7 +36,9 @@ public protocol FeedRepository {
 public final class FeedRepositoryImpl: FeedRepository {
     private let feedProvider = MoyaProvider<FeedApi>(stubClosure: MoyaProvider.delayedStub(1.0))
     
-    public init() {}
+    public init() {
+        // MARK: - Init
+    }
     
     public func getHashtags(_ completion: @escaping (Bool, HashtagShelf) -> ()) {
         self.feedProvider.request(.getHashtags) { result in

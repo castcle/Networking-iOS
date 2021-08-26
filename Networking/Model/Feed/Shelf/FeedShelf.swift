@@ -37,7 +37,9 @@ public enum FeedShelfKey: String, Codable {
 public class FeedShelf: NSObject {
     public var feeds: [Feed] = []
     
-    public override init() { }
+    public override init() {
+        // MARK: - Init
+    }
     
     public init(json: JSON) {
         self.feeds = (json[FeedShelfKey.payload.rawValue].arrayValue).map { Feed(json: $0) }

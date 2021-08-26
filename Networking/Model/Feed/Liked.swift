@@ -30,18 +30,18 @@ import SwiftyJSON
 // MARK: - Liked
 public enum LikedKey: String, Codable {
     case count
-    case liked
+    case isLike = "liked"
     case participant
 }
 
 public class Liked: NSObject {
     public let count: Int
-    public var liked: Bool
+    public var isLike: Bool
     public let participant: [Participant]
     
     public init(json: JSON) {
         self.count = json[LikedKey.count.rawValue].intValue
-        self.liked = json[LikedKey.liked.rawValue].boolValue
+        self.isLike = json[LikedKey.isLike.rawValue].boolValue
         
         // MARK: - Participant
         self.participant = (json[LikedKey.participant.rawValue].arrayValue).map { Participant(json: $0) }
