@@ -32,7 +32,7 @@ import Defaults
 
 public protocol AuthenticationRepository {
     func guestLogin(uuid: String, _ completion: @escaping (Bool) -> ())
-    func login(loginRequest: LoginRequest, _ completion: @escaping (Bool) -> ())
+    func login(loginRequest: LoginRequest, _ completion: @escaping complate)
     func checkEmailExists(authenRequest: AuthenRequest, _ completion: @escaping (Bool, Bool) -> ())
     func checkCastcleIdExists(authenRequest: AuthenRequest, _ completion: @escaping (Bool, Bool) -> ())
     func register(authenRequest: AuthenRequest, _ completion: @escaping (Bool) -> ())
@@ -71,8 +71,13 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                         Defaults[.refreshToken] = refreshToken
                         completion(true)
                     } else {
-                        ApiHelper.displayError(error: "\(json[ResponseErrorKey.code.rawValue].stringValue) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                        completion(false)
+                        let code = json[ResponseErrorKey.code.rawValue].stringValue
+//                        if code == "" {
+//
+//                        } else {
+                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
+                            completion(false)
+//                        }
                     }
                 } catch {
                     ApiHelper.displayError()
@@ -85,7 +90,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
         }
     }
     
-    public func login(loginRequest: LoginRequest, _ completion: @escaping (Bool) -> ()) {
+    public func login(loginRequest: LoginRequest, _ completion: @escaping complate) {
         self.authenticationApi.request(.login(loginRequest)) { result in
             switch result {
             case .success:

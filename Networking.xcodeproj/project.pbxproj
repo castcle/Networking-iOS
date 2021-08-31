@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		82A58218234A511E562F9BE5 /* Pods_Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 546DDC4CB85DF7697289CD73 /* Pods_Networking.framework */; };
+		B743387C26DCBEDE004BBC05 /* UserApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743387B26DCBEDE004BBC05 /* UserApi.swift */; };
+		B743388C26DCE960004BBC05 /* Completion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743388B26DCE95F004BBC05 /* Completion.swift */; };
+		B743388E26DE21F8004BBC05 /* UserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743388D26DE21F8004BBC05 /* UserRequest.swift */; };
 		B74CEF1226C50727006B1F2C /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B74CEF1126C50727006B1F2C /* Core.framework */; };
 		B74CEF1326C50727006B1F2C /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B74CEF1126C50727006B1F2C /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B7684A2626C5049100C438C5 /* Networking.h in Headers */ = {isa = PBXBuildFile; fileRef = B7684A2426C5049100C438C5 /* Networking.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -66,6 +69,9 @@
 		7AC3E1963BB6A2923E7B8B3F /* Pods-Networking.debug (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Networking.debug (staging).xcconfig"; path = "Target Support Files/Pods-Networking/Pods-Networking.debug (staging).xcconfig"; sourceTree = "<group>"; };
 		93D2970BD0A05FE98DDE0394 /* Pods-Networking.debug (production).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Networking.debug (production).xcconfig"; path = "Target Support Files/Pods-Networking/Pods-Networking.debug (production).xcconfig"; sourceTree = "<group>"; };
 		9BE55BC65C42B22EA6BD4612 /* Pods-Networking.release (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Networking.release (staging).xcconfig"; path = "Target Support Files/Pods-Networking/Pods-Networking.release (staging).xcconfig"; sourceTree = "<group>"; };
+		B743387B26DCBEDE004BBC05 /* UserApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserApi.swift; sourceTree = "<group>"; };
+		B743388B26DCE95F004BBC05 /* Completion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Completion.swift; sourceTree = "<group>"; };
+		B743388D26DE21F8004BBC05 /* UserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRequest.swift; sourceTree = "<group>"; };
 		B74CEF1126C50727006B1F2C /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7684A2126C5049100C438C5 /* Networking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Networking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7684A2426C5049100C438C5 /* Networking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Networking.h; sourceTree = "<group>"; };
@@ -173,6 +179,7 @@
 		B7684A3426C5061B00C438C5 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
+				B743388B26DCE95F004BBC05 /* Completion.swift */,
 				B7684A3526C5061B00C438C5 /* AuthenticationRepository.swift */,
 				B7684A3626C5061B00C438C5 /* RecastRepository.swift */,
 				B7684A3726C5061B00C438C5 /* LikeRepository.swift */,
@@ -229,6 +236,7 @@
 				B7684A4E26C5061C00C438C5 /* RecastApi.swift */,
 				B7684A4F26C5061C00C438C5 /* FeedApi.swift */,
 				B7684A5026C5061C00C438C5 /* LikeApi.swift */,
+				B743387B26DCBEDE004BBC05 /* UserApi.swift */,
 				B7684A5126C5061C00C438C5 /* Mockup */,
 			);
 			path = Provider;
@@ -248,6 +256,7 @@
 			children = (
 				B7684A5526C5061C00C438C5 /* LoginRequest.swift */,
 				B7684A5626C5061C00C438C5 /* AuthenRequest.swift */,
+				B743388D26DE21F8004BBC05 /* UserRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -378,6 +387,7 @@
 				B7684A6126C5061C00C438C5 /* Recasted.swift in Sources */,
 				B7684A5726C5061C00C438C5 /* AuthenticationRepository.swift in Sources */,
 				B7684A6C26C5061C00C438C5 /* RecastApi.swift in Sources */,
+				B743387C26DCBEDE004BBC05 /* UserApi.swift in Sources */,
 				B7684A6426C5061C00C438C5 /* Participant.swift in Sources */,
 				B7684A5E26C5061C00C438C5 /* Author.swift in Sources */,
 				B7684A6E26C5061C00C438C5 /* LikeApi.swift in Sources */,
@@ -387,12 +397,14 @@
 				B7684A6226C5061C00C438C5 /* Commented.swift in Sources */,
 				B7684A6326C5061C00C438C5 /* Content.swift in Sources */,
 				B7684A6526C5061C00C438C5 /* Aggregator.swift in Sources */,
+				B743388C26DCE960004BBC05 /* Completion.swift in Sources */,
 				B7684A6826C5061C00C438C5 /* Circle.swift in Sources */,
 				B7684A6026C5061C00C438C5 /* Liked.swift in Sources */,
 				B7C252A426D2D2FE00ACBB84 /* Provider.swift in Sources */,
 				B7C2530E26D5409A00ACBB84 /* Language.swift in Sources */,
 				B7684A5C26C5061C00C438C5 /* Link.swift in Sources */,
 				B7684A6D26C5061C00C438C5 /* FeedApi.swift in Sources */,
+				B743388E26DE21F8004BBC05 /* UserRequest.swift in Sources */,
 				B7684A6726C5061C00C438C5 /* HashtagShelf.swift in Sources */,
 				B7684A7126C5061C00C438C5 /* LoginRequest.swift in Sources */,
 				B7684A5826C5061C00C438C5 /* RecastRepository.swift in Sources */,
