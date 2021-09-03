@@ -54,12 +54,7 @@ public class ContentPayload: NSObject {
         
         // MARK: - Photo
         let photoJson = JSON(json[ContentPayloadKey.photo.rawValue].dictionaryValue)
-        let photoPayloadJson = photoJson[ContentPayloadKey.contents.rawValue].arrayValue
-        var photoArr: [Photo] = []
-        photoPayloadJson.forEach { item in
-            photoArr.append(Photo(json: item))
-        }
-        self.photo = photoArr
+        self.photo = (photoJson[ContentPayloadKey.contents.rawValue].arrayValue).map { Photo(json: $0) }
         
         // MARK: - Cover
         let photoCoverJson = JSON(photoJson[ContentPayloadKey.cover.rawValue].dictionaryValue)

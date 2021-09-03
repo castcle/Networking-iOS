@@ -19,12 +19,56 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Completion.swift
+//  CommentApi.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 30/8/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 2/9/2564 BE.
 //
 
+import Core
 import Moya
 
-public typealias complate = (_ complate: Bool, _ response: Response) -> ()
+enum CommentApi {
+    case getComments(String)
+}
+
+extension CommentApi: TargetType {
+    var baseURL: URL {
+        return URL(string: Environment.baseUrl)!
+    }
+    
+    var path: String {
+        switch self {
+        case .getComments(let contentId):
+            return "/contents/\(contentId)/comments"
+        }
+    }
+    
+    var method: Moya.Method {
+        return .get
+    }
+    
+    var sampleData: Data {
+        switch self {
+        case .getComments:
+            if let path = ConfigBundle.network.path(forResource: "Comments", ofType: "json") {
+                do {
+                    let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+                    return data
+                } catch {
+                    return Data()
+                }
+            } else {
+                return Data()
+            }
+        }
+    }
+    
+    var task: Task {
+        return .requestPlain
+    }
+    
+    var headers: [String : String]? {
+        return nil
+    }
+}

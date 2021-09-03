@@ -13,6 +13,10 @@
 		B743388E26DE21F8004BBC05 /* UserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743388D26DE21F8004BBC05 /* UserRequest.swift */; };
 		B74CEF1226C50727006B1F2C /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B74CEF1126C50727006B1F2C /* Core.framework */; };
 		B74CEF1326C50727006B1F2C /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B74CEF1126C50727006B1F2C /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B7642C5A26E1073800CDCE95 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7642C5926E1073800CDCE95 /* Comment.swift */; };
+		B7642C5C26E10DFA00CDCE95 /* Comments.json in Resources */ = {isa = PBXBuildFile; fileRef = B7642C5B26E10DFA00CDCE95 /* Comments.json */; };
+		B7642C5E26E10F8000CDCE95 /* CommentApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7642C5D26E10F8000CDCE95 /* CommentApi.swift */; };
+		B7642C6026E1105A00CDCE95 /* CommentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7642C5F26E1105A00CDCE95 /* CommentRepository.swift */; };
 		B7684A2626C5049100C438C5 /* Networking.h in Headers */ = {isa = PBXBuildFile; fileRef = B7684A2426C5049100C438C5 /* Networking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B7684A5726C5061C00C438C5 /* AuthenticationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A3526C5061B00C438C5 /* AuthenticationRepository.swift */; };
 		B7684A5826C5061C00C438C5 /* RecastRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A3626C5061B00C438C5 /* RecastRepository.swift */; };
@@ -73,6 +77,10 @@
 		B743388B26DCE95F004BBC05 /* Completion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Completion.swift; sourceTree = "<group>"; };
 		B743388D26DE21F8004BBC05 /* UserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRequest.swift; sourceTree = "<group>"; };
 		B74CEF1126C50727006B1F2C /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7642C5926E1073800CDCE95 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		B7642C5B26E10DFA00CDCE95 /* Comments.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Comments.json; sourceTree = "<group>"; };
+		B7642C5D26E10F8000CDCE95 /* CommentApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentApi.swift; sourceTree = "<group>"; };
+		B7642C5F26E1105A00CDCE95 /* CommentRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentRepository.swift; sourceTree = "<group>"; };
 		B7684A2126C5049100C438C5 /* Networking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Networking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7684A2426C5049100C438C5 /* Networking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Networking.h; sourceTree = "<group>"; };
 		B7684A2526C5049100C438C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -145,6 +153,14 @@
 			path = ../Pods;
 			sourceTree = "<group>";
 		};
+		B7642C5826E1063700CDCE95 /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				B7642C5926E1073800CDCE95 /* Comment.swift */,
+			);
+			path = Comment;
+			sourceTree = "<group>";
+		};
 		B7684A1726C5049100C438C5 = {
 			isa = PBXGroup;
 			children = (
@@ -184,6 +200,7 @@
 				B7684A3626C5061B00C438C5 /* RecastRepository.swift */,
 				B7684A3726C5061B00C438C5 /* LikeRepository.swift */,
 				B7684A3826C5061B00C438C5 /* FeedRepository.swift */,
+				B7642C5F26E1105A00CDCE95 /* CommentRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -191,6 +208,7 @@
 		B7684A3926C5061B00C438C5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B7642C5826E1063700CDCE95 /* Comment */,
 				B7C2530C26D5408100ACBB84 /* Setting */,
 				B7684A3A26C5061B00C438C5 /* Feed */,
 			);
@@ -237,6 +255,7 @@
 				B7684A4F26C5061C00C438C5 /* FeedApi.swift */,
 				B7684A5026C5061C00C438C5 /* LikeApi.swift */,
 				B743387B26DCBEDE004BBC05 /* UserApi.swift */,
+				B7642C5D26E10F8000CDCE95 /* CommentApi.swift */,
 				B7684A5126C5061C00C438C5 /* Mockup */,
 			);
 			path = Provider;
@@ -247,6 +266,7 @@
 			children = (
 				B7684A5226C5061C00C438C5 /* Hashtag.json */,
 				B7684A5326C5061C00C438C5 /* Feeds.json */,
+				B7642C5B26E10DFA00CDCE95 /* Comments.json */,
 			);
 			path = Mockup;
 			sourceTree = "<group>";
@@ -347,6 +367,7 @@
 			files = (
 				B7684A6F26C5061C00C438C5 /* Hashtag.json in Resources */,
 				B7684A7026C5061C00C438C5 /* Feeds.json in Resources */,
+				B7642C5C26E10DFA00CDCE95 /* Comments.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,6 +416,7 @@
 				B7684A5F26C5061C00C438C5 /* Photo.swift in Sources */,
 				B7684A5B26C5061C00C438C5 /* Feature.swift in Sources */,
 				B7684A6226C5061C00C438C5 /* Commented.swift in Sources */,
+				B7642C6026E1105A00CDCE95 /* CommentRepository.swift in Sources */,
 				B7684A6326C5061C00C438C5 /* Content.swift in Sources */,
 				B7684A6526C5061C00C438C5 /* Aggregator.swift in Sources */,
 				B743388C26DCE960004BBC05 /* Completion.swift in Sources */,
@@ -403,12 +425,14 @@
 				B7C252A426D2D2FE00ACBB84 /* Provider.swift in Sources */,
 				B7C2530E26D5409A00ACBB84 /* Language.swift in Sources */,
 				B7684A5C26C5061C00C438C5 /* Link.swift in Sources */,
+				B7642C5E26E10F8000CDCE95 /* CommentApi.swift in Sources */,
 				B7684A6D26C5061C00C438C5 /* FeedApi.swift in Sources */,
 				B743388E26DE21F8004BBC05 /* UserRequest.swift in Sources */,
 				B7684A6726C5061C00C438C5 /* HashtagShelf.swift in Sources */,
 				B7684A7126C5061C00C438C5 /* LoginRequest.swift in Sources */,
 				B7684A5826C5061C00C438C5 /* RecastRepository.swift in Sources */,
 				B7684A6A26C5061C00C438C5 /* ContentPayload.swift in Sources */,
+				B7642C5A26E1073800CDCE95 /* Comment.swift in Sources */,
 				B7684A5D26C5061C00C438C5 /* Hashtag.swift in Sources */,
 				B7684A6B26C5061C00C438C5 /* AuthenticationApi.swift in Sources */,
 				B7684A5A26C5061C00C438C5 /* FeedRepository.swift in Sources */,

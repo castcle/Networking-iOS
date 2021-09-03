@@ -7,19 +7,19 @@
                 "id": "{UUID}",
                 "slug": "feed",
                 "name": "Feed",
-                "key": "feature.feed",
+                "key": "feature.feed"
             },
             "circle": {
                 "id": "{UUID}",
                 "slug": "forYou",
                 "name": "For You",
-                "key": "circle.forYou",
+                "key": "circle.forYou"
             },
             "aggregator": {
                 "type": "friend",
                 "id": "{UUID}",
                 "action": "liked",
-                "message": "A liked",
+                "message": "A liked"
             },
             "type": "content",
             "payload": {
@@ -36,7 +36,7 @@
                     "id": "{UUID}",
                     "slug": "feed",
                     "name": "Feed",
-                    "key": "feature.feed",
+                    "key": "feature.feed"
                 },
                 "liked": {
                     "count": 234,
@@ -46,7 +46,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -58,7 +58,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -70,7 +70,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -95,19 +95,19 @@
                 "id": "{UUID}",
                 "slug": "feed",
                 "name": "Feed",
-                "key": "feature.feed",
+                "key": "feature.feed"
             },
             "circle": {
                 "id": "{UUID}",
                 "slug": "forYou",
                 "name": "For You",
-                "key": "circle.forYou",
+                "key": "circle.forYou"
             },
             "aggregator": {
                 "type": "friend",
                 "id": "{UUID}",
                 "action": "liked",
-                "message": "A liked",
+                "message": "A liked"
             },
             "type": "content",
             "payload": {
@@ -123,13 +123,13 @@
                             "type": "other",
                             "url": "https://ethereum.org/en/"
                         }
-                    ],
+                    ]
                 },
                 "feature": {
                     "id": "{UUID}",
                     "slug": "feed",
                     "name": "Feed",
-                    "key": "feature.feed",
+                    "key": "feature.feed"
                 },
                 "liked": {
                     "count": 1234,
@@ -139,7 +139,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -151,7 +151,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -163,7 +163,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -188,19 +188,19 @@
                 "id": "{UUID}",
                 "slug": "feed",
                 "name": "Feed",
-                "key": "feature.feed",
+                "key": "feature.feed"
             },
             "circle": {
                 "id": "{UUID}",
                 "slug": "forYou",
                 "name": "For You",
-                "key": "circle.forYou",
+                "key": "circle.forYou"
             },
             "aggregator": {
                 "type": "friend",
                 "id": "{UUID}",
                 "action": "liked",
-                "message": "A liked",
+                "message": "A liked"
             },
             "type": "content",
             "payload": {
@@ -216,13 +216,13 @@
                             "type": "youtube",
                             "url": "https://youtu.be/C8E7u_Pq0F8"
                         }
-                    ],
+                    ]
                 },
                 "feature": {
                     "id": "{UUID}",
                     "slug": "feed",
                     "name": "Feed",
-                    "key": "feature.feed",
+                    "key": "feature.feed"
                 },
                 "liked": {
                     "count": 1234,
@@ -232,7 +232,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -244,7 +244,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -256,7 +256,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -281,19 +281,19 @@
                 "id": "{UUID}",
                 "slug": "feed",
                 "name": "Feed",
-                "key": "feature.feed",
+                "key": "feature.feed"
             },
             "circle": {
                 "id": "{UUID}",
                 "slug": "forYou",
                 "name": "For You",
-                "key": "circle.forYou",
+                "key": "circle.forYou"
             },
             "aggregator": {
                 "type": "friend",
                 "id": "{UUID}",
                 "action": "liked",
-                "message": "A liked",
+                "message": "A liked"
             },
             "type": "content",
             "payload": {
@@ -308,13 +308,13 @@
                             }
                         ]
                     },
-                    "link": [],
+                    "link": []
                 },
                 "feature": {
                     "id": "{UUID}",
                     "slug": "feed",
                     "name": "Feed",
-                    "key": "feature.feed",
+                    "key": "feature.feed"
                 },
                 "liked": {
                     "count": 1234,
@@ -324,7 +324,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -336,7 +336,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -348,7 +348,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -373,19 +373,19 @@
                 "id": "{UUID}",
                 "slug": "feed",
                 "name": "Feed",
-                "key": "feature.feed",
+                "key": "feature.feed"
             },
             "circle": {
                 "id": "{UUID}",
                 "slug": "forYou",
                 "name": "For You",
-                "key": "circle.forYou",
+                "key": "circle.forYou"
             },
             "aggregator": {
                 "type": "friend",
                 "id": "{UUID}",
                 "action": "liked",
-                "message": "A liked",
+                "message": "A liked"
             },
             "type": "content",
             "payload": {
@@ -403,13 +403,13 @@
                             }
                         ]
                     },
-                    "link": [],
+                    "link": []
                 },
                 "feature": {
                     "id": "{UUID}",
                     "slug": "feed",
                     "name": "Feed",
-                    "key": "feature.feed",
+                    "key": "feature.feed"
                 },
                 "liked": {
                     "count": 1234,
@@ -419,7 +419,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -431,7 +431,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -443,7 +443,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -468,19 +468,19 @@
                 "id": "{UUID}",
                 "slug": "feed",
                 "name": "Feed",
-                "key": "feature.feed",
+                "key": "feature.feed"
             },
             "circle": {
                 "id": "{UUID}",
                 "slug": "forYou",
                 "name": "For You",
-                "key": "circle.forYou",
+                "key": "circle.forYou"
             },
             "aggregator": {
                 "type": "friend",
                 "id": "{UUID}",
                 "action": "liked",
-                "message": "A liked",
+                "message": "A liked"
             },
             "type": "content",
             "payload": {
@@ -501,13 +501,13 @@
                             }
                         ]
                     },
-                    "link": [],
+                    "link": []
                 },
                 "feature": {
                     "id": "{UUID}",
                     "slug": "feed",
                     "name": "Feed",
-                    "key": "feature.feed",
+                    "key": "feature.feed"
                 },
                 "liked": {
                     "count": 1234,
@@ -517,7 +517,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -529,7 +529,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -541,7 +541,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -566,19 +566,19 @@
                 "id": "{UUID}",
                 "slug": "feed",
                 "name": "Feed",
-                "key": "feature.feed",
+                "key": "feature.feed"
             },
             "circle": {
                 "id": "{UUID}",
                 "slug": "forYou",
                 "name": "For You",
-                "key": "circle.forYou",
+                "key": "circle.forYou"
             },
             "aggregator": {
                 "type": "friend",
                 "id": "{UUID}",
                 "action": "liked",
-                "message": "A liked",
+                "message": "A liked"
             },
             "type": "content",
             "payload": {
@@ -602,13 +602,13 @@
                             }
                         ]
                     },
-                    "link": [],
+                    "link": []
                 },
                 "feature": {
                     "id": "{UUID}",
                     "slug": "feed",
                     "name": "Feed",
-                    "key": "feature.feed",
+                    "key": "feature.feed"
                 },
                 "liked": {
                     "count": 1234,
@@ -618,7 +618,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -630,7 +630,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -642,7 +642,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -667,19 +667,19 @@
                 "id": "{UUID}",
                 "slug": "feed",
                 "name": "Feed",
-                "key": "feature.feed",
+                "key": "feature.feed"
             },
             "circle": {
                 "id": "{UUID}",
                 "slug": "forYou",
                 "name": "For You",
-                "key": "circle.forYou",
+                "key": "circle.forYou"
             },
             "aggregator": {
                 "type": "friend",
                 "id": "{UUID}",
                 "action": "liked",
-                "message": "A liked",
+                "message": "A liked"
             },
             "type": "content",
             "payload": {
@@ -712,13 +712,13 @@
                             }
                         ]
                     },
-                    "link": [],
+                    "link": []
                 },
                 "feature": {
                     "id": "{UUID}",
                     "slug": "feed",
                     "name": "Feed",
-                    "key": "feature.feed",
+                    "key": "feature.feed"
                 },
                 "liked": {
                     "count": 1234,
@@ -728,7 +728,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -740,7 +740,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -752,7 +752,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -777,19 +777,19 @@
                 "id": "{UUID}",
                 "slug": "feed",
                 "name": "Feed",
-                "key": "feature.feed",
+                "key": "feature.feed"
             },
             "circle": {
                 "id": "{UUID}",
                 "slug": "forYou",
                 "name": "For You",
-                "key": "circle.forYou",
+                "key": "circle.forYou"
             },
             "aggregator": {
                 "type": "friend",
                 "id": "{UUID}",
                 "action": "liked",
-                "message": "A liked",
+                "message": "A liked"
             },
             "type": "content",
             "payload": {
@@ -804,13 +804,13 @@
                         },
                         "contents": []
                     },
-                    "link": [],
+                    "link": []
                 },
                 "feature": {
                     "id": "{UUID}",
                     "slug": "feed",
                     "name": "Feed",
-                    "key": "feature.feed",
+                    "key": "feature.feed"
                 },
                 "liked": {
                     "count": 1234,
@@ -820,7 +820,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -832,7 +832,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -844,7 +844,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -869,19 +869,19 @@
                 "id": "{UUID}",
                 "slug": "feed",
                 "name": "Feed",
-                "key": "feature.feed",
+                "key": "feature.feed"
             },
             "circle": {
                 "id": "{UUID}",
                 "slug": "forYou",
                 "name": "For You",
-                "key": "circle.forYou",
+                "key": "circle.forYou"
             },
             "aggregator": {
                 "type": "friend",
                 "id": "{UUID}",
                 "action": "liked",
-                "message": "A liked",
+                "message": "A liked"
             },
             "type": "content",
             "payload": {
@@ -894,13 +894,13 @@
                         "cover": {},
                         "contents": []
                     },
-                    "link": [],
+                    "link": []
                 },
                 "feature": {
                     "id": "{UUID}",
                     "slug": "feed",
                     "name": "Feed",
-                    "key": "feature.feed",
+                    "key": "feature.feed"
                 },
                 "liked": {
                     "count": 1234,
@@ -910,7 +910,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -922,7 +922,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -934,7 +934,7 @@
                             "type": "people",
                             "id": "{UUID}",
                             "name": "display name",
-                            "avatar": "{url-image}",
+                            "avatar": "{url-image}"
                         }
                     ]
                 },
@@ -959,5 +959,5 @@
         "self": 2,
         "next": 3,
         "limit": 25
-    },
+    }
 }

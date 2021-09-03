@@ -31,6 +31,7 @@ import SwiftyJSON
 public enum AuthorKey: String, Codable {
     case id
     case type
+    case castcleId
     case displayName
     case avatar
     case verified
@@ -45,15 +46,16 @@ public enum AuthorType: String, Codable {
 public class Author: NSObject {
     public let type: AuthorType
     public let id: String
+    public let castcleId: String
     public let displayName: String
     public let avatar: String
     public let verified: Bool
     public let followed: Bool
     
     public init(json: JSON) {
-        
         self.id = json[AuthorKey.id.rawValue].stringValue
         self.type = AuthorType(rawValue: json[AuthorKey.type.rawValue].stringValue) ?? .people
+        self.castcleId = json[AuthorKey.castcleId.rawValue].stringValue
         self.displayName = json[AuthorKey.displayName.rawValue].stringValue
         self.avatar = json[AuthorKey.avatar.rawValue].stringValue
         self.verified = json[AuthorKey.verified.rawValue].boolValue
