@@ -35,7 +35,7 @@ public enum CommentedKey: String, Codable {
 }
 
 public class Commented: NSObject {
-    public let count: Int
+    public var count: Int
     public var isComment: Bool
     public let participant: [Participant]
     

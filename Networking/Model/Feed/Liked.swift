@@ -35,7 +35,7 @@ public enum LikedKey: String, Codable {
 }
 
 public class Liked: NSObject {
-    public let count: Int
+    public var count: Int
     public var isLike: Bool
     public let participant: [Participant]
     

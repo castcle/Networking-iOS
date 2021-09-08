@@ -35,7 +35,7 @@ public enum RecastedKey: String, Codable {
 }
 
 public class Recasted: NSObject {
-    public let count: Int
+    public var count: Int
     public var isRecast: Bool
     public let participant: [Participant]
     
