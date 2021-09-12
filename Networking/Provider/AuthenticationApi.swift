@@ -38,6 +38,8 @@ enum AuthenticationApi {
     case verificationEmail
     case requestLinkVerify
     case refreshToken
+    case verificationPassword(AuthenRequest)
+    case changePasswordSubmit(AuthenRequest)
 }
 
 extension AuthenticationApi: TargetType {
@@ -65,6 +67,10 @@ extension AuthenticationApi: TargetType {
             return "/authentications/requestLinkVerify"
         case .refreshToken:
             return "/authentications/refreshToken"
+        case .verificationPassword:
+            return "/authentications/verificationPassword"
+        case .changePasswordSubmit:
+            return "/authentications/changePasswordSubmit"
         }
     }
     
@@ -90,6 +96,10 @@ extension AuthenticationApi: TargetType {
             return .requestParameters(parameters: authenRequest.payload.paramCheckCastcleIdExists, encoding: JSONEncoding.default)
         case .register(let authenRequest):
             return .requestParameters(parameters: authenRequest.paramRegister, encoding: JSONEncoding.default)
+        case .verificationPassword(let authenRequest):
+            return .requestParameters(parameters: authenRequest.payload.paramVerificationPassword, encoding: JSONEncoding.default)
+        case .changePasswordSubmit(let authenRequest):
+            return .requestParameters(parameters: authenRequest.payload.paramChangePasswordSubmit, encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }

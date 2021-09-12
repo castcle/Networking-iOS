@@ -60,22 +60,28 @@ public struct AuthenPayloadRequest {
         case mobileNumber
         case displayName
         case castcleId
+        case refCode
+        case newPassword
     }
     
     public var email: String
     public var password: String
+    public var newPassword: String
     public var countryCode: String
     public var mobileNumber: String
     public var displayName: String
     public var castcleId: String
+    public var refCode: String
     
     public init() {
         self.email = ""
         self.password = ""
+        self.newPassword = ""
         self.countryCode = ""
         self.mobileNumber = ""
         self.displayName = ""
         self.castcleId = ""
+        self.refCode = ""
     }
     
     public var paramCheckEmailExists: [String: Any] {
@@ -104,6 +110,19 @@ public struct AuthenPayloadRequest {
             AuthenPayloadKey.mobileNumber.rawValue: self.mobileNumber,
             AuthenPayloadKey.displayName.rawValue: self.displayName,
             AuthenPayloadKey.castcleId.rawValue: self.castcleId
+        ]
+    }
+    
+    public var paramVerificationPassword: [String: Any] {
+        return [
+            AuthenPayloadKey.password.rawValue: self.password
+        ]
+    }
+    
+    public var paramChangePasswordSubmit: [String: Any] {
+        return [
+            AuthenPayloadKey.refCode.rawValue: self.refCode,
+            AuthenPayloadKey.newPassword.rawValue: self.newPassword
         ]
     }
 }

@@ -40,6 +40,8 @@ public protocol AuthenticationRepository {
     func verificationEmail(_ completion: @escaping (Bool) -> ())
     func requestLinkVerify(_ completion: @escaping (Bool) -> ())
     func refreshToken(_ completion: @escaping (Bool, Bool) -> ())
+    func verificationPassword(authenRequest: AuthenRequest, _ completion: @escaping complate)
+    func changePasswordSubmit(authenRequest: AuthenRequest, _ completion: @escaping complate)
 }
 
 public enum AuthenticationApiKey: String {
@@ -49,6 +51,7 @@ public enum AuthenticationApiKey: String {
     case exist
     case suggestCastcleId
     case payload
+    case refCode
 }
 
 public final class AuthenticationRepositoryImpl: AuthenticationRepository {
@@ -306,6 +309,60 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             case .failure:
                 ApiHelper.displayError()
                 completion(false, false)
+            }
+        }
+    }
+    
+    public func verificationPassword(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+        self.authenticationApi.request(.verificationPassword(authenRequest)) { result in
+            switch result {
+            case .success(let response):
+                if response.statusCode < 300 {
+                    completion(true, response, false)
+                } else {
+                    do {
+                        let rawJson = try response.mapJSON()
+                        let json = JSON(rawJson)
+                        let code = json[ResponseErrorKey.code.rawValue].stringValue
+                        if code == errorRefreshToken {
+                            completion(false, response, true)
+                        } else {
+                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
+                            completion(false, response, false)
+                        }
+                    } catch {
+                        completion(false, response, false)
+                    }
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func changePasswordSubmit(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+        self.authenticationApi.request(.changePasswordSubmit(authenRequest)) { result in
+            switch result {
+            case .success(let response):
+                if response.statusCode < 300 {
+                    completion(true, response, false)
+                } else {
+                    do {
+                        let rawJson = try response.mapJSON()
+                        let json = JSON(rawJson)
+                        let code = json[ResponseErrorKey.code.rawValue].stringValue
+                        if code == errorRefreshToken {
+                            completion(false, response, true)
+                        } else {
+                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
+                            completion(false, response, false)
+                        }
+                    } catch {
+                        completion(false, response, false)
+                    }
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
             }
         }
     }

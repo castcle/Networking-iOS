@@ -19,7 +19,7 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  TokenViewModel.swift
+//  TokenHelper.swift
 //  Networking
 //
 //  Created by Tanakorn Phoochaliaw on 12/9/2564 BE.
@@ -28,13 +28,13 @@
 import Core
 import Defaults
 
-public protocol TokenViewModelDelegate {
+public protocol TokenHelperDelegate {
     func didRefreshTokenFinish()
 }
 
-public class TokenViewModel {
+public class TokenHelper {
     
-    public var delegate: TokenViewModelDelegate?
+    public var delegate: TokenHelperDelegate?
     public var authenticationRepository: AuthenticationRepository
 
     public func refreshToken() {
@@ -43,7 +43,9 @@ public class TokenViewModel {
                 self.delegate?.didRefreshTokenFinish()
             } else {
                 if refreshTokenExpired {
-                    self.guestLogin()
+                    if Defaults[.userRole] == "GUEST" {
+                        self.guestLogin()
+                    }
                 }
             }
         }
