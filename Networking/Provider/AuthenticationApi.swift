@@ -32,6 +32,7 @@ enum AuthenticationApi {
     case guestLogin(String)
     case login(LoginRequest)
     case checkEmailExists(AuthenRequest)
+    case suggestCastcleId(AuthenRequest)
     case checkCastcleIdExists(AuthenRequest)
     case register(AuthenRequest)
     case verificationEmail
@@ -52,6 +53,8 @@ extension AuthenticationApi: TargetType {
             return "/authentications/login"
         case .checkEmailExists:
             return "/authentications/checkEmailExists"
+        case .suggestCastcleId:
+            return "/authentications/suggestCastcleId"
         case .checkCastcleIdExists:
             return "/authentications/checkCastcleIdExists"
         case .register:
@@ -81,6 +84,8 @@ extension AuthenticationApi: TargetType {
             return .requestParameters(parameters: loginRequest.paramLogin, encoding: JSONEncoding.default)
         case .checkEmailExists(let authenRequest):
             return .requestParameters(parameters: authenRequest.payload.paramCheckEmailExists, encoding: JSONEncoding.default)
+        case .suggestCastcleId(let authenRequest):
+            return .requestParameters(parameters: authenRequest.payload.paramSuggestCastcleId, encoding: JSONEncoding.default)
         case .checkCastcleIdExists(let authenRequest):
             return .requestParameters(parameters: authenRequest.payload.paramCheckCastcleIdExists, encoding: JSONEncoding.default)
         case .register(let authenRequest):

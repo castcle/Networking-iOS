@@ -45,20 +45,24 @@ public final class CommentRepositoryImpl: CommentRepository {
             switch result {
             case .success(let response):
                 if response.statusCode < 300 {
-                    completion(true, response)
+                    completion(true, response, false)
                 } else {
                     do {
                         let rawJson = try response.mapJSON()
                         let json = JSON(rawJson)
                         let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                        completion(false, response)
+                        if code == errorRefreshToken {
+                            completion(false, response, true)
+                        } else {
+                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
+                            completion(false, response, false)
+                        }
                     } catch {
-                        completion(false, response)
+                        completion(false, response, false)
                     }
                 }
             case .failure(let error):
-                completion(false, error as! Response)
+                completion(false, error as! Response, false)
             }
         }
     }

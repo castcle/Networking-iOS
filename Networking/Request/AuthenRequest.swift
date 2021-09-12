@@ -84,7 +84,7 @@ public struct AuthenPayloadRequest {
         ]
     }
     
-    public var paramCheckDisplayNameExists: [String: Any] {
+    public var paramSuggestCastcleId: [String: Any] {
         return [
             AuthenPayloadKey.displayName.rawValue: self.displayName
         ]

@@ -27,4 +27,7 @@
 
 import Moya
 
-public typealias complate = (_ complate: Bool, _ response: Response) -> ()
+public typealias complate = (_ complate: Bool, _ response: Response, _ isRefreshToken: Bool) -> ()
+
+public let errorRefreshToken: String = "1003"
+public let errorRefreshTokenExpired: String = "1004"

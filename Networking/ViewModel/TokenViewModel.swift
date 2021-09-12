@@ -19,30 +19,45 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  LoginRequest.swift
+//  TokenViewModel.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 12/8/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 12/9/2564 BE.
 //
 
-public struct LoginRequest {
-    enum LoginRequestKey: String {
-        case username
-        case password
+import Core
+import Defaults
+
+public protocol TokenViewModelDelegate {
+    func didRefreshTokenFinish()
+}
+
+public class TokenViewModel {
+    
+    public var delegate: TokenViewModelDelegate?
+    public var authenticationRepository: AuthenticationRepository
+
+    public func refreshToken() {
+        self.authenticationRepository.refreshToken() { (success, refreshTokenExpired) in
+            if success {
+                self.delegate?.didRefreshTokenFinish()
+            } else {
+                if refreshTokenExpired {
+                    self.guestLogin()
+                }
+            }
+        }
     }
     
-    public var username: String
-    public var password: String
-    
-    public init() {
-        self.username = ""
-        self.password = ""
+    public init(authenticationRepository: AuthenticationRepository = AuthenticationRepositoryImpl()) {
+        self.authenticationRepository = authenticationRepository
     }
     
-    public var paramLogin: [String: Any] {
-        return [
-            LoginRequestKey.username.rawValue: self.username,
-            LoginRequestKey.password.rawValue: self.password
-        ]
+    private func guestLogin() {
+        self.authenticationRepository.guestLogin(uuid: Defaults[.deviceUuid]) { (success) in
+            if success {
+                self.delegate?.didRefreshTokenFinish()
+            }
+        }
     }
 }

@@ -34,11 +34,12 @@ public protocol AuthenticationRepository {
     func guestLogin(uuid: String, _ completion: @escaping (Bool) -> ())
     func login(loginRequest: LoginRequest, _ completion: @escaping complate)
     func checkEmailExists(authenRequest: AuthenRequest, _ completion: @escaping (Bool, Bool) -> ())
-    func checkCastcleIdExists(authenRequest: AuthenRequest, _ completion: @escaping (Bool, Bool) -> ())
-    func register(authenRequest: AuthenRequest, _ completion: @escaping (Bool) -> ())
+    func suggestCastcleId(authenRequest: AuthenRequest, _ completion: @escaping complate)
+    func checkCastcleIdExists(authenRequest: AuthenRequest, _ completion: @escaping complate)
+    func register(authenRequest: AuthenRequest, _ completion: @escaping complate)
     func verificationEmail(_ completion: @escaping (Bool) -> ())
     func requestLinkVerify(_ completion: @escaping (Bool) -> ())
-    func refreshToken(_ completion: @escaping (Bool) -> ())
+    func refreshToken(_ completion: @escaping (Bool, Bool) -> ())
 }
 
 public enum AuthenticationApiKey: String {
@@ -46,6 +47,7 @@ public enum AuthenticationApiKey: String {
     case accessToken
     case refreshToken
     case exist
+    case suggestCastcleId
     case payload
 }
 
@@ -72,12 +74,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                         completion(true)
                     } else {
                         let code = json[ResponseErrorKey.code.rawValue].stringValue
-//                        if code == "" {
-//
-//                        } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                            completion(false)
-//                        }
+                        ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
+                        completion(false)
                     }
                 } catch {
                     ApiHelper.displayError()
@@ -93,10 +91,26 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
     public func login(loginRequest: LoginRequest, _ completion: @escaping complate) {
         self.authenticationApi.request(.login(loginRequest)) { result in
             switch result {
-            case .success:
-                print("Success")
-            case .failure:
-                print("Failure")
+            case .success(let response):
+                if response.statusCode < 300 {
+                    completion(true, response, false)
+                } else {
+                    do {
+                        let rawJson = try response.mapJSON()
+                        let json = JSON(rawJson)
+                        let code = json[ResponseErrorKey.code.rawValue].stringValue
+                        if code == errorRefreshToken {
+                            completion(false, response, true)
+                        } else {
+                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
+                            completion(false, response, false)
+                        }
+                    } catch {
+                        completion(false, response, false)
+                    }
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
             }
         }
     }
@@ -119,6 +133,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                 } catch {
                     ApiHelper.displayError()
                     completion(false, false)
+                    
                 }
             case .failure:
                 ApiHelper.displayError()
@@ -127,57 +142,83 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
         }
     }
     
-    public func checkCastcleIdExists(authenRequest: AuthenRequest, _ completion: @escaping (Bool, Bool) -> ()) {
+    public func suggestCastcleId(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+        self.authenticationApi.request(.suggestCastcleId(authenRequest)) { result in
+            switch result {
+            case .success(let response):
+                if response.statusCode < 300 {
+                    completion(true, response, false)
+                } else {
+                    do {
+                        let rawJson = try response.mapJSON()
+                        let json = JSON(rawJson)
+                        let code = json[ResponseErrorKey.code.rawValue].stringValue
+                        if code == errorRefreshToken {
+                            completion(false, response, true)
+                        } else {
+                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
+                            completion(false, response, false)
+                        }
+                    } catch {
+                        completion(false, response, false)
+                    }
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func checkCastcleIdExists(authenRequest: AuthenRequest, _ completion: @escaping complate) {
         self.authenticationApi.request(.checkCastcleIdExists(authenRequest)) { result in
             switch result {
             case .success(let response):
-                do {
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    if response.statusCode < 300 {
-                        let payload = JSON(json[AuthenticationApiKey.payload.rawValue].dictionaryValue)
-                        let exist = payload[AuthenticationApiKey.exist.rawValue].boolValue
-                        completion(true, exist)
-                    } else {
-                        ApiHelper.displayError(error: "\(json[ResponseErrorKey.code.rawValue].stringValue) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                        completion(false, false)
+                if response.statusCode < 300 {
+                    completion(true, response, false)
+                } else {
+                    do {
+                        let rawJson = try response.mapJSON()
+                        let json = JSON(rawJson)
+                        let code = json[ResponseErrorKey.code.rawValue].stringValue
+                        if code == errorRefreshToken {
+                            completion(false, response, true)
+                        } else {
+                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
+                            completion(false, response, false)
+                        }
+                    } catch {
+                        completion(false, response, false)
                     }
-                } catch {
-                    ApiHelper.displayError()
-                    completion(false, false)
                 }
-            case .failure:
-                ApiHelper.displayError()
-                completion(false, false)
+            case .failure(let error):
+                completion(false, error as! Response, false)
             }
         }
     }
     
-    public func register(authenRequest: AuthenRequest, _ completion: @escaping (Bool) -> ()) {
+    public func register(authenRequest: AuthenRequest, _ completion: @escaping complate) {
         self.authenticationApi.request(.register(authenRequest)) { result in
             switch result {
             case .success(let response):
-                do {
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    if response.statusCode < 300 {
-                        let accessToken = json[AuthenticationApiKey.accessToken.rawValue].stringValue
-                        let refreshToken = json[AuthenticationApiKey.refreshToken.rawValue].stringValue
-                        Defaults[.userRole] = "USER"
-                        Defaults[.accessToken] = accessToken
-                        Defaults[.refreshToken] = refreshToken
-                        completion(true)
-                    } else {
-                        ApiHelper.displayError(error: "\(json[ResponseErrorKey.code.rawValue].stringValue) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                        completion(false)
+                if response.statusCode < 300 {
+                    completion(true, response, false)
+                } else {
+                    do {
+                        let rawJson = try response.mapJSON()
+                        let json = JSON(rawJson)
+                        let code = json[ResponseErrorKey.code.rawValue].stringValue
+                        if code == errorRefreshToken {
+                            completion(false, response, true)
+                        } else {
+                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
+                            completion(false, response, false)
+                        }
+                    } catch {
+                        completion(false, response, false)
                     }
-                } catch {
-                    ApiHelper.displayError()
-                    completion(false)
                 }
-            case .failure:
-                ApiHelper.displayError()
-                completion(false)
+            case .failure(let error):
+                completion(false, error as! Response, false)
             }
         }
     }
@@ -238,7 +279,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
         }
     }
     
-    public func refreshToken(_ completion: @escaping (Bool) -> ()) {
+    public func refreshToken(_ completion: @escaping (Bool, Bool) -> ()) {
         self.authenticationApi.request(.refreshToken) { result in
             switch result {
             case .success(let response):
@@ -248,18 +289,23 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                     if response.statusCode < 300 {
                         let accessToken = json[AuthenticationApiKey.accessToken.rawValue].stringValue
                         Defaults[.accessToken] = accessToken
-                        completion(true)
+                        completion(true, false)
                     } else {
-                        ApiHelper.displayError(error: "\(json[ResponseErrorKey.code.rawValue].stringValue) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                        completion(false)
+                        let code = json[ResponseErrorKey.code.rawValue].stringValue
+                        if code == errorRefreshTokenExpired {
+                            completion(false, true)
+                        } else {
+                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
+                            completion(false, false)
+                        }
                     }
                 } catch {
                     ApiHelper.displayError()
-                    completion(false)
+                    completion(false, false)
                 }
             case .failure:
                 ApiHelper.displayError()
-                completion(false)
+                completion(false, false)
             }
         }
     }
