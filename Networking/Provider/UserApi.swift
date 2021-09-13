@@ -29,7 +29,7 @@ import Core
 import Moya
 
 enum UserApi {
-    case getMe
+    case me
     case delateUser(UserRequest)
 }
 
@@ -44,7 +44,7 @@ extension UserApi: TargetType {
     
     var method: Moya.Method {
         switch self {
-        case .getMe:
+        case .me:
             return .get
         case .delateUser:
             return .delete
