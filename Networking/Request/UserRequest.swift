@@ -37,11 +37,11 @@ public struct UserRequest {
     }
     
     public var channel: UserChannelKey
-    public var payload: UserloadRequest
+    public var payload: UserPayloadRequest
     
     public init() {
         self.channel = .email
-        self.payload = UserloadRequest()
+        self.payload = UserPayloadRequest()
     }
     
     public var paramDeleteUser: [String: Any] {
@@ -52,8 +52,8 @@ public struct UserRequest {
     }
 }
 
-public struct UserloadRequest {
-    enum UserPayloadKey: String {
+public struct UserPayloadRequest {
+    enum UserPlayloadKey: String {
         case password
     }
     
@@ -65,7 +65,7 @@ public struct UserloadRequest {
     
     public var paramDeleteUserWithEmail: [String: Any] {
         return [
-            UserPayloadKey.password.rawValue: self.password
+            UserPlayloadKey.password.rawValue: self.password
         ]
     }
 }

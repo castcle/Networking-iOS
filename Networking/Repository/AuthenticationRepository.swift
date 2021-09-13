@@ -55,14 +55,14 @@ public enum AuthenticationApiKey: String {
 }
 
 public final class AuthenticationRepositoryImpl: AuthenticationRepository {
-    private let authenticationApi = MoyaProvider<AuthenticationApi>()
+    private let authenticationProvider = MoyaProvider<AuthenticationApi>()
     
     public init() {
         // MARK: - Init
     }
     
     public func guestLogin(uuid: String, _ completion: @escaping (Bool) -> ()) {
-        self.authenticationApi.request(.guestLogin(uuid)) { result in
+        self.authenticationProvider.request(.guestLogin(uuid)) { result in
             switch result {
             case .success(let response):
                 do {
@@ -92,7 +92,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
     }
     
     public func login(loginRequest: LoginRequest, _ completion: @escaping complate) {
-        self.authenticationApi.request(.login(loginRequest)) { result in
+        self.authenticationProvider.request(.login(loginRequest)) { result in
             switch result {
             case .success(let response):
                 if response.statusCode < 300 {
@@ -119,7 +119,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
     }
     
     public func checkEmailExists(authenRequest: AuthenRequest, _ completion: @escaping (Bool, Bool) -> ()) {
-        self.authenticationApi.request(.checkEmailExists(authenRequest)) { result in
+        self.authenticationProvider.request(.checkEmailExists(authenRequest)) { result in
             switch result {
             case .success(let response):
                 do {
@@ -146,7 +146,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
     }
     
     public func suggestCastcleId(authenRequest: AuthenRequest, _ completion: @escaping complate) {
-        self.authenticationApi.request(.suggestCastcleId(authenRequest)) { result in
+        self.authenticationProvider.request(.suggestCastcleId(authenRequest)) { result in
             switch result {
             case .success(let response):
                 if response.statusCode < 300 {
@@ -173,7 +173,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
     }
     
     public func checkCastcleIdExists(authenRequest: AuthenRequest, _ completion: @escaping complate) {
-        self.authenticationApi.request(.checkCastcleIdExists(authenRequest)) { result in
+        self.authenticationProvider.request(.checkCastcleIdExists(authenRequest)) { result in
             switch result {
             case .success(let response):
                 if response.statusCode < 300 {
@@ -200,7 +200,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
     }
     
     public func register(authenRequest: AuthenRequest, _ completion: @escaping complate) {
-        self.authenticationApi.request(.register(authenRequest)) { result in
+        self.authenticationProvider.request(.register(authenRequest)) { result in
             switch result {
             case .success(let response):
                 if response.statusCode < 300 {
@@ -227,7 +227,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
     }
     
     public func verificationEmail(_ completion: @escaping (Bool) -> ()) {
-        self.authenticationApi.request(.requestLinkVerify) { result in
+        self.authenticationProvider.request(.requestLinkVerify) { result in
             switch result {
             case .success(let response):
                 do {
@@ -255,7 +255,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
     }
     
     public func requestLinkVerify(_ completion: @escaping (Bool) -> ()) {
-        self.authenticationApi.request(.requestLinkVerify) { result in
+        self.authenticationProvider.request(.requestLinkVerify) { result in
             switch result {
             case .success(let response):
                 do {
@@ -283,7 +283,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
     }
     
     public func refreshToken(_ completion: @escaping (Bool, Bool) -> ()) {
-        self.authenticationApi.request(.refreshToken) { result in
+        self.authenticationProvider.request(.refreshToken) { result in
             switch result {
             case .success(let response):
                 do {
@@ -314,7 +314,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
     }
     
     public func verificationPassword(authenRequest: AuthenRequest, _ completion: @escaping complate) {
-        self.authenticationApi.request(.verificationPassword(authenRequest)) { result in
+        self.authenticationProvider.request(.verificationPassword(authenRequest)) { result in
             switch result {
             case .success(let response):
                 if response.statusCode < 300 {
@@ -341,7 +341,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
     }
     
     public func changePasswordSubmit(authenRequest: AuthenRequest, _ completion: @escaping complate) {
-        self.authenticationApi.request(.changePasswordSubmit(authenRequest)) { result in
+        self.authenticationProvider.request(.changePasswordSubmit(authenRequest)) { result in
             switch result {
             case .success(let response):
                 if response.statusCode < 300 {

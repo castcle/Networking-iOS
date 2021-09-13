@@ -19,48 +19,43 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  UserApi.swift
+//  EngagementApi.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 30/8/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 13/9/2564 BE.
 //
 
 import Core
 import Moya
 
-enum UserApi {
-    case getMe
-    case delateUser(UserRequest)
+enum EngagementApi {
+    case engagement(EngagementRequest)
 }
 
-extension UserApi: TargetType {
+extension EngagementApi: TargetType {
     var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }
     
     var path: String {
-        return "/users/me"
-    }
-    
-    var method: Moya.Method {
         switch self {
-        case .getMe:
-            return .get
-        case .delateUser:
-            return .delete
+        case .engagement:
+            return "/engagements"
         }
     }
     
+    var method: Moya.Method {
+        return .post
+    }
+    
     var sampleData: Data {
-        return "{\"message\": \"success message\"}".dataEncoded
+        return Data()
     }
     
     var task: Task {
         switch self {
-        case .delateUser(let userRequest):
-            return .requestParameters(parameters: userRequest.paramDeleteUser, encoding: JSONEncoding.default)
-        default:
-            return .requestPlain
+        case .engagement(let engagementRequest):
+            return .requestParameters(parameters: engagementRequest.paramEngagement, encoding: JSONEncoding.default)
         }
     }
     

@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		82A58218234A511E562F9BE5 /* Pods_Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 546DDC4CB85DF7697289CD73 /* Pods_Networking.framework */; };
 		B7189ACC26EDCADF00CB9719 /* TokenHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189ACB26EDCADF00CB9719 /* TokenHelper.swift */; };
+		B7189AD026EF24A000CB9719 /* EngagementApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189ACF26EF24A000CB9719 /* EngagementApi.swift */; };
+		B7189AD326EF260100CB9719 /* EngagementRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189AD226EF260100CB9719 /* EngagementRequest.swift */; };
+		B7189AD526EF2E1F00CB9719 /* EngagementRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189AD426EF2E1F00CB9719 /* EngagementRepository.swift */; };
 		B743387C26DCBEDE004BBC05 /* UserApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743387B26DCBEDE004BBC05 /* UserApi.swift */; };
 		B743388C26DCE960004BBC05 /* Completion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743388B26DCE95F004BBC05 /* Completion.swift */; };
 		B743388E26DE21F8004BBC05 /* UserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743388D26DE21F8004BBC05 /* UserRequest.swift */; };
@@ -74,6 +77,9 @@
 		93D2970BD0A05FE98DDE0394 /* Pods-Networking.debug (production).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Networking.debug (production).xcconfig"; path = "Target Support Files/Pods-Networking/Pods-Networking.debug (production).xcconfig"; sourceTree = "<group>"; };
 		9BE55BC65C42B22EA6BD4612 /* Pods-Networking.release (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Networking.release (staging).xcconfig"; path = "Target Support Files/Pods-Networking/Pods-Networking.release (staging).xcconfig"; sourceTree = "<group>"; };
 		B7189ACB26EDCADF00CB9719 /* TokenHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHelper.swift; sourceTree = "<group>"; };
+		B7189ACF26EF24A000CB9719 /* EngagementApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngagementApi.swift; sourceTree = "<group>"; };
+		B7189AD226EF260100CB9719 /* EngagementRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngagementRequest.swift; sourceTree = "<group>"; };
+		B7189AD426EF2E1F00CB9719 /* EngagementRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngagementRepository.swift; sourceTree = "<group>"; };
 		B743387B26DCBEDE004BBC05 /* UserApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserApi.swift; sourceTree = "<group>"; };
 		B743388B26DCE95F004BBC05 /* Completion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Completion.swift; sourceTree = "<group>"; };
 		B743388D26DE21F8004BBC05 /* UserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRequest.swift; sourceTree = "<group>"; };
@@ -210,6 +216,7 @@
 				B7684A3726C5061B00C438C5 /* LikeRepository.swift */,
 				B7684A3826C5061B00C438C5 /* FeedRepository.swift */,
 				B7642C5F26E1105A00CDCE95 /* CommentRepository.swift */,
+				B7189AD426EF2E1F00CB9719 /* EngagementRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -264,6 +271,7 @@
 				B7684A5026C5061C00C438C5 /* LikeApi.swift */,
 				B743387B26DCBEDE004BBC05 /* UserApi.swift */,
 				B7642C5D26E10F8000CDCE95 /* CommentApi.swift */,
+				B7189ACF26EF24A000CB9719 /* EngagementApi.swift */,
 				B7684A5126C5061C00C438C5 /* Mockup */,
 			);
 			path = Provider;
@@ -285,6 +293,7 @@
 				B7684A5526C5061C00C438C5 /* LoginRequest.swift */,
 				B7684A5626C5061C00C438C5 /* AuthenRequest.swift */,
 				B743388D26DE21F8004BBC05 /* UserRequest.swift */,
+				B7189AD226EF260100CB9719 /* EngagementRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -417,6 +426,8 @@
 				B7684A5726C5061C00C438C5 /* AuthenticationRepository.swift in Sources */,
 				B7684A6C26C5061C00C438C5 /* RecastApi.swift in Sources */,
 				B743387C26DCBEDE004BBC05 /* UserApi.swift in Sources */,
+				B7189AD526EF2E1F00CB9719 /* EngagementRepository.swift in Sources */,
+				B7189AD326EF260100CB9719 /* EngagementRequest.swift in Sources */,
 				B7684A6426C5061C00C438C5 /* Participant.swift in Sources */,
 				B7684A5E26C5061C00C438C5 /* Author.swift in Sources */,
 				B7684A6E26C5061C00C438C5 /* LikeApi.swift in Sources */,
@@ -433,6 +444,7 @@
 				B7684A6026C5061C00C438C5 /* Liked.swift in Sources */,
 				B7C2530E26D5409A00ACBB84 /* Language.swift in Sources */,
 				B7684A5C26C5061C00C438C5 /* Link.swift in Sources */,
+				B7189AD026EF24A000CB9719 /* EngagementApi.swift in Sources */,
 				B7642C5E26E10F8000CDCE95 /* CommentApi.swift in Sources */,
 				B7684A6D26C5061C00C438C5 /* FeedApi.swift in Sources */,
 				B743388E26DE21F8004BBC05 /* UserRequest.swift in Sources */,
