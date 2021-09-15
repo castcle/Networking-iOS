@@ -29,8 +29,23 @@ import Core
 import Moya
 
 enum UserApi {
-    case me
+    case getAllUser
+    
+    case getMe
+    case updateMe(UserRequest)
+    case updateMeAvatar(UserRequest)
+    case updateMeCover(UserRequest)
     case delateUser(UserRequest)
+    
+    case getUser(String)
+    case getMeContents
+    case getUserContents(String)
+    
+    case getUserFollower(String)
+    case getUserFollowing(String)
+    
+    case follow(String)
+    case unfollow(String)
 }
 
 extension UserApi: TargetType {
@@ -39,13 +54,34 @@ extension UserApi: TargetType {
     }
     
     var path: String {
-        return "/users/me"
+        switch self {
+        case .getAllUser:
+            return "/users"
+        case .getUser(let userId):
+            return "/users\(userId)"
+        case .getMeContents:
+            return "/users/me/contents"
+        case .getUserContents(let userId):
+            return "/users/\(userId)/contents"
+        case .getUserFollower(let userId):
+            return "/users/\(userId)/follower"
+        case .getUserFollowing(let userId):
+            return "/users/\(userId)/following"
+        case .follow(let userId):
+            return "/users/\(userId)/follow"
+        case .unfollow(let userId):
+            return "/users/\(userId)/unfollow"
+        default:
+            return "/users/me"
+        }
     }
     
     var method: Moya.Method {
         switch self {
-        case .me:
+        case .getAllUser, .getMe, .getUser, .getMeContents, .getUserContents, .getUserFollower, .getUserFollowing:
             return .get
+        case .updateMe, .updateMeAvatar, .updateMeCover, .follow, .unfollow:
+            return .put
         case .delateUser:
             return .delete
         }
@@ -57,6 +93,12 @@ extension UserApi: TargetType {
     
     var task: Task {
         switch self {
+        case .updateMe(let userRequest):
+            return .requestParameters(parameters: userRequest.payload.paramEditUserProfile, encoding: JSONEncoding.default)
+        case .updateMeAvatar(let userRequest):
+            return .requestParameters(parameters: userRequest.payload.paramEditUserAvatar, encoding: JSONEncoding.default)
+        case .updateMeCover(let userRequest):
+            return .requestParameters(parameters: userRequest.payload.paramEditUserCover, encoding: JSONEncoding.default)
         case .delateUser(let userRequest):
             return .requestParameters(parameters: userRequest.paramDeleteUser, encoding: JSONEncoding.default)
         default:

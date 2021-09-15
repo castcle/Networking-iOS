@@ -53,6 +53,8 @@
 		B7684A7126C5061C00C438C5 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A5526C5061C00C438C5 /* LoginRequest.swift */; };
 		B7684A7226C5061C00C438C5 /* AuthenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A5626C5061C00C438C5 /* AuthenRequest.swift */; };
 		B78795B326C5512400FECC21 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = B78795B226C5512400FECC21 /* Moya */; };
+		B7AF660326F0611C00BDE9C4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF660226F0611C00BDE9C4 /* User.swift */; };
+		B7AF660526F06EE400BDE9C4 /* UserHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF660426F06EE400BDE9C4 /* UserHelper.swift */; };
 		B7C2530E26D5409A00ACBB84 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2530D26D5409A00ACBB84 /* Language.swift */; };
 /* End PBXBuildFile section */
 
@@ -123,6 +125,8 @@
 		B7684A5326C5061C00C438C5 /* Feeds.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Feeds.json; sourceTree = "<group>"; };
 		B7684A5526C5061C00C438C5 /* LoginRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
 		B7684A5626C5061C00C438C5 /* AuthenRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenRequest.swift; sourceTree = "<group>"; };
+		B7AF660226F0611C00BDE9C4 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		B7AF660426F06EE400BDE9C4 /* UserHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHelper.swift; sourceTree = "<group>"; };
 		B7C2530D26D5409A00ACBB84 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -168,6 +172,7 @@
 			children = (
 				B7189ACB26EDCADF00CB9719 /* TokenHelper.swift */,
 				B7189ADD26EF489100CB9719 /* EngagementHelper.swift */,
+				B7AF660426F06EE400BDE9C4 /* UserHelper.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -233,6 +238,7 @@
 				B7642C5826E1063700CDCE95 /* Comment */,
 				B7C2530C26D5408100ACBB84 /* Setting */,
 				B7684A3A26C5061B00C438C5 /* Feed */,
+				B7AF660226F0611C00BDE9C4 /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -427,6 +433,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7684A6626C5061C00C438C5 /* FeedShelf.swift in Sources */,
+				B7AF660526F06EE400BDE9C4 /* UserHelper.swift in Sources */,
 				B7684A5926C5061C00C438C5 /* LikeRepository.swift in Sources */,
 				B7684A6126C5061C00C438C5 /* Recasted.swift in Sources */,
 				B7684A5726C5061C00C438C5 /* AuthenticationRepository.swift in Sources */,
@@ -454,6 +461,7 @@
 				B7189AD026EF24A000CB9719 /* EngagementApi.swift in Sources */,
 				B7642C5E26E10F8000CDCE95 /* CommentApi.swift in Sources */,
 				B7684A6D26C5061C00C438C5 /* FeedApi.swift in Sources */,
+				B7AF660326F0611C00BDE9C4 /* User.swift in Sources */,
 				B743388E26DE21F8004BBC05 /* UserRequest.swift in Sources */,
 				B7684A6726C5061C00C438C5 /* HashtagShelf.swift in Sources */,
 				B7684A7126C5061C00C438C5 /* LoginRequest.swift in Sources */,

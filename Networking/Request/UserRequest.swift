@@ -55,17 +55,110 @@ public struct UserRequest {
 public struct UserPayloadRequest {
     enum UserPlayloadKey: String {
         case password
+        case overview
+        case dob
+        case images
+        case links
     }
     
     public var password: String
+    public var overview: String
+    public var dob: String
+    public var images: UserImageRequest
+    public var links: UserLinkRequest
     
     public init() {
         self.password = ""
+        self.overview = ""
+        self.dob = ""
+        self.images = UserImageRequest()
+        self.links = UserLinkRequest()
     }
     
     public var paramDeleteUserWithEmail: [String: Any] {
         return [
             UserPlayloadKey.password.rawValue: self.password
+        ]
+    }
+    
+    public var paramEditUserProfile: [String: Any] {
+        return [
+            UserPlayloadKey.overview.rawValue: self.overview,
+//            UserPlayloadKey.dob.rawValue: self.dob,
+            UserPlayloadKey.links.rawValue: self.links.paramEditUserLink
+        ]
+    }
+    
+    public var paramEditUserAvatar: [String: Any] {
+        return [
+            UserPlayloadKey.images.rawValue: self.images.paramEditUserAvatar
+        ]
+    }
+    
+    public var paramEditUserCover: [String: Any] {
+        return [
+            UserPlayloadKey.images.rawValue: self.images.paramEditUserCover
+        ]
+    }
+}
+
+public struct UserImageRequest {
+    enum UserImageRequestKey: String {
+        case avatar
+        case cover
+    }
+    
+    public var avatar: String
+    public var cover: String
+    
+    public init() {
+        self.avatar = ""
+        self.cover = ""
+    }
+    
+    public var paramEditUserAvatar: [String: Any] {
+        return [
+            UserImageRequestKey.avatar.rawValue: self.avatar
+        ]
+    }
+    
+    public var paramEditUserCover: [String: Any] {
+        return [
+            UserImageRequestKey.cover.rawValue: self.cover
+        ]
+    }
+}
+
+public struct UserLinkRequest {
+    enum UserLinkRequestKey: String {
+        case facebook
+        case twitter
+        case youtube
+        case medium
+        case website
+    }
+    
+    public var facebook: String
+    public var twitter: String
+    public var youtube: String
+    public var medium: String
+    public var website: String
+    
+    public init() {
+        self.facebook = ""
+        self.twitter = ""
+        self.youtube = ""
+        self.medium = ""
+        self.website = ""
+    }
+    
+    public var paramEditUserLink: [String: Any] {
+        return [
+            UserLinkRequestKey.facebook.rawValue: self.facebook,
+            UserLinkRequestKey.twitter.rawValue: self.twitter,
+            UserLinkRequestKey.youtube.rawValue: self.youtube,
+            UserLinkRequestKey.medium.rawValue: self.medium,
+            UserLinkRequestKey.website.rawValue: self.website
         ]
     }
 }
