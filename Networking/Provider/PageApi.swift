@@ -19,39 +19,47 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Completion.swift
+//  PageApi.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 30/8/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 16/9/2564 BE.
 //
 
 import Core
 import Moya
-import SwiftyJSON
 
-public typealias complate = (_ complate: Bool, _ response: Response, _ isRefreshToken: Bool) -> ()
+enum PageApi {
+    case createPage(PageRequest)
+}
 
-public let errorRefreshToken: String = "1003"
-public let errorRefreshTokenExpired: String = "1004"
-
-public class CompletionHelper {
-    func handleNetworingResponse(response: Response,_ completion: @escaping complate) {
-        if response.statusCode < 300 {
-            completion(true, response, false)
-        } else {
-            do {
-                let rawJson = try response.mapJSON()
-                let json = JSON(rawJson)
-                let code = json[ResponseErrorKey.code.rawValue].stringValue
-                if code == errorRefreshToken {
-                    completion(false, response, true)
-                } else {
-                    ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                    completion(false, response, false)
-                }
-            } catch {
-                completion(false, response, false)
-            }
+extension PageApi: TargetType {
+    var baseURL: URL {
+        return URL(string: Environment.baseUrl)!
+    }
+    
+    var path: String {
+        switch self {
+        case .createPage:
+            return "/pages"
         }
+    }
+    
+    var method: Moya.Method {
+        return .post
+    }
+    
+    var sampleData: Data {
+        return Data()
+    }
+    
+    var task: Task {
+        switch self {
+        case .createPage(let pageRequest):
+            return .requestParameters(parameters: pageRequest.paramCreatePage, encoding: JSONEncoding.default)
+        }
+    }
+    
+    var headers: [String : String]? {
+        return ApiHelper.header
     }
 }

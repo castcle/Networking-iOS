@@ -55,6 +55,9 @@
 		B78795B326C5512400FECC21 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = B78795B226C5512400FECC21 /* Moya */; };
 		B7AF660326F0611C00BDE9C4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF660226F0611C00BDE9C4 /* User.swift */; };
 		B7AF660526F06EE400BDE9C4 /* UserHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF660426F06EE400BDE9C4 /* UserHelper.swift */; };
+		B7AF661826F2FA1200BDE9C4 /* PageApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF661726F2FA1200BDE9C4 /* PageApi.swift */; };
+		B7AF661A26F2FAD500BDE9C4 /* PageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF661926F2FAD500BDE9C4 /* PageRequest.swift */; };
+		B7AF661C26F2FD4700BDE9C4 /* PageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF661B26F2FD4700BDE9C4 /* PageRepository.swift */; };
 		B7C2530E26D5409A00ACBB84 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2530D26D5409A00ACBB84 /* Language.swift */; };
 /* End PBXBuildFile section */
 
@@ -127,6 +130,9 @@
 		B7684A5626C5061C00C438C5 /* AuthenRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenRequest.swift; sourceTree = "<group>"; };
 		B7AF660226F0611C00BDE9C4 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B7AF660426F06EE400BDE9C4 /* UserHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHelper.swift; sourceTree = "<group>"; };
+		B7AF661726F2FA1200BDE9C4 /* PageApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageApi.swift; sourceTree = "<group>"; };
+		B7AF661926F2FAD500BDE9C4 /* PageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageRequest.swift; sourceTree = "<group>"; };
+		B7AF661B26F2FD4700BDE9C4 /* PageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageRepository.swift; sourceTree = "<group>"; };
 		B7C2530D26D5409A00ACBB84 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -228,6 +234,7 @@
 				B7642C5F26E1105A00CDCE95 /* CommentRepository.swift */,
 				B7189AD626EF347100CB9719 /* UserRepository.swift */,
 				B7189AD426EF2E1F00CB9719 /* EngagementRepository.swift */,
+				B7AF661B26F2FD4700BDE9C4 /* PageRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -284,6 +291,7 @@
 				B743387B26DCBEDE004BBC05 /* UserApi.swift */,
 				B7642C5D26E10F8000CDCE95 /* CommentApi.swift */,
 				B7189ACF26EF24A000CB9719 /* EngagementApi.swift */,
+				B7AF661726F2FA1200BDE9C4 /* PageApi.swift */,
 				B7684A5126C5061C00C438C5 /* Mockup */,
 			);
 			path = Provider;
@@ -306,6 +314,7 @@
 				B7684A5626C5061C00C438C5 /* AuthenRequest.swift */,
 				B743388D26DE21F8004BBC05 /* UserRequest.swift */,
 				B7189AD226EF260100CB9719 /* EngagementRequest.swift */,
+				B7AF661926F2FAD500BDE9C4 /* PageRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -464,7 +473,9 @@
 				B7AF660326F0611C00BDE9C4 /* User.swift in Sources */,
 				B743388E26DE21F8004BBC05 /* UserRequest.swift in Sources */,
 				B7684A6726C5061C00C438C5 /* HashtagShelf.swift in Sources */,
+				B7AF661C26F2FD4700BDE9C4 /* PageRepository.swift in Sources */,
 				B7684A7126C5061C00C438C5 /* LoginRequest.swift in Sources */,
+				B7AF661826F2FA1200BDE9C4 /* PageApi.swift in Sources */,
 				B7684A5826C5061C00C438C5 /* RecastRepository.swift in Sources */,
 				B7684A6A26C5061C00C438C5 /* ContentPayload.swift in Sources */,
 				B7642C5A26E1073800CDCE95 /* Comment.swift in Sources */,
@@ -473,6 +484,7 @@
 				B7684A5A26C5061C00C438C5 /* FeedRepository.swift in Sources */,
 				B7189AD726EF347100CB9719 /* UserRepository.swift in Sources */,
 				B7684A6926C5061C00C438C5 /* Feed.swift in Sources */,
+				B7AF661A26F2FAD500BDE9C4 /* PageRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

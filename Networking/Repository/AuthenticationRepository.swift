@@ -38,7 +38,7 @@ public protocol AuthenticationRepository {
     func checkCastcleIdExists(authenRequest: AuthenRequest, _ completion: @escaping complate)
     func register(authenRequest: AuthenRequest, _ completion: @escaping complate)
     func verificationEmail(_ completion: @escaping (Bool) -> ())
-    func requestLinkVerify(_ completion: @escaping (Bool) -> ())
+    func requestLinkVerify(_ completion: @escaping complate)
     func refreshToken(_ completion: @escaping (Bool, Bool) -> ())
     func verificationPassword(authenRequest: AuthenRequest, _ completion: @escaping complate)
     func changePasswordSubmit(authenRequest: AuthenRequest, _ completion: @escaping complate)
@@ -56,6 +56,7 @@ public enum AuthenticationApiKey: String {
 
 public final class AuthenticationRepositoryImpl: AuthenticationRepository {
     private let authenticationProvider = MoyaProvider<AuthenticationApi>()
+    private let completionHelper: CompletionHelper = CompletionHelper()
     
     public init() {
         // MARK: - Init
@@ -95,22 +96,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
         self.authenticationProvider.request(.login(loginRequest)) { result in
             switch result {
             case .success(let response):
-                if response.statusCode < 300 {
-                    completion(true, response, false)
-                } else {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        if code == errorRefreshToken {
-                            completion(false, response, true)
-                        } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                            completion(false, response, false)
-                        }
-                    } catch {
-                        completion(false, response, false)
-                    }
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
             case .failure(let error):
                 completion(false, error as! Response, false)
@@ -149,22 +136,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
         self.authenticationProvider.request(.suggestCastcleId(authenRequest)) { result in
             switch result {
             case .success(let response):
-                if response.statusCode < 300 {
-                    completion(true, response, false)
-                } else {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        if code == errorRefreshToken {
-                            completion(false, response, true)
-                        } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                            completion(false, response, false)
-                        }
-                    } catch {
-                        completion(false, response, false)
-                    }
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
             case .failure(let error):
                 completion(false, error as! Response, false)
@@ -176,22 +149,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
         self.authenticationProvider.request(.checkCastcleIdExists(authenRequest)) { result in
             switch result {
             case .success(let response):
-                if response.statusCode < 300 {
-                    completion(true, response, false)
-                } else {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        if code == errorRefreshToken {
-                            completion(false, response, true)
-                        } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                            completion(false, response, false)
-                        }
-                    } catch {
-                        completion(false, response, false)
-                    }
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
             case .failure(let error):
                 completion(false, error as! Response, false)
@@ -203,22 +162,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
         self.authenticationProvider.request(.register(authenRequest)) { result in
             switch result {
             case .success(let response):
-                if response.statusCode < 300 {
-                    completion(true, response, false)
-                } else {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        if code == errorRefreshToken {
-                            completion(false, response, true)
-                        } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                            completion(false, response, false)
-                        }
-                    } catch {
-                        completion(false, response, false)
-                    }
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
             case .failure(let error):
                 completion(false, error as! Response, false)
@@ -231,7 +176,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             switch result {
             case .success(let response):
                 do {
-                    if response.statusCode < 204 {
+                    if response.statusCode <= 204 {
                         completion(true)
                     }
                     
@@ -254,30 +199,15 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
         }
     }
     
-    public func requestLinkVerify(_ completion: @escaping (Bool) -> ()) {
+    public func requestLinkVerify(_ completion: @escaping complate) {
         self.authenticationProvider.request(.requestLinkVerify) { result in
             switch result {
             case .success(let response):
-                do {
-                    if response.statusCode < 204 {
-                        completion(true)
-                    }
-                    
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    if response.statusCode < 300 {
-                        completion(true)
-                    } else {
-                        ApiHelper.displayError(error: "\(json[ResponseErrorKey.code.rawValue].stringValue) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                        completion(false)
-                    }
-                } catch {
-                    ApiHelper.displayError()
-                    completion(false)
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
-            case .failure:
-                ApiHelper.displayError()
-                completion(false)
+            case .failure(let error):
+                completion(false, error as! Response, false)
             }
         }
     }
@@ -317,22 +247,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
         self.authenticationProvider.request(.verificationPassword(authenRequest)) { result in
             switch result {
             case .success(let response):
-                if response.statusCode < 300 {
-                    completion(true, response, false)
-                } else {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        if code == errorRefreshToken {
-                            completion(false, response, true)
-                        } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                            completion(false, response, false)
-                        }
-                    } catch {
-                        completion(false, response, false)
-                    }
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
             case .failure(let error):
                 completion(false, error as! Response, false)
@@ -344,22 +260,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
         self.authenticationProvider.request(.changePasswordSubmit(authenRequest)) { result in
             switch result {
             case .success(let response):
-                if response.statusCode < 300 {
-                    completion(true, response, false)
-                } else {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        if code == errorRefreshToken {
-                            completion(false, response, true)
-                        } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                            completion(false, response, false)
-                        }
-                    } catch {
-                        completion(false, response, false)
-                    }
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
             case .failure(let error):
                 completion(false, error as! Response, false)

@@ -19,38 +19,38 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Completion.swift
+//  PageRepository.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 30/8/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 16/9/2564 BE.
 //
 
 import Core
 import Moya
 import SwiftyJSON
 
-public typealias complate = (_ complate: Bool, _ response: Response, _ isRefreshToken: Bool) -> ()
+public protocol PageRepository {
+    func createPage(pageRequest: PageRequest, _ completion: @escaping complate)
+}
 
-public let errorRefreshToken: String = "1003"
-public let errorRefreshTokenExpired: String = "1004"
-
-public class CompletionHelper {
-    func handleNetworingResponse(response: Response,_ completion: @escaping complate) {
-        if response.statusCode < 300 {
-            completion(true, response, false)
-        } else {
-            do {
-                let rawJson = try response.mapJSON()
-                let json = JSON(rawJson)
-                let code = json[ResponseErrorKey.code.rawValue].stringValue
-                if code == errorRefreshToken {
-                    completion(false, response, true)
-                } else {
-                    ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                    completion(false, response, false)
+public final class PageRepositoryImpl: PageRepository {
+    private let pageProvider = MoyaProvider<PageApi>()
+    private let completionHelper: CompletionHelper = CompletionHelper()
+    
+    public init() {
+        // MARK: - Init
+    }
+    
+    public func createPage(pageRequest: PageRequest, _ completion: @escaping complate) {
+        self.pageProvider.request(.createPage(pageRequest)) { result in
+            switch result {
+            case .success(let response):
+                print(response)
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
-            } catch {
-                completion(false, response, false)
+            case .failure(let error):
+                completion(false, error as! Response, false)
             }
         }
     }
