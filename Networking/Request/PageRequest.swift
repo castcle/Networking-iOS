@@ -48,7 +48,7 @@ public struct PageRequest {
             PageKey.payload.rawValue: [
                 PageKey.castcleId.rawValue: self.castcleId,
                 PageKey.displayName.rawValue: self.displayName,
-//                PageKey.avatar.rawValue: self.avatar
+                PageKey.avatar.rawValue: self.avatar
             ]
         ]
     }
