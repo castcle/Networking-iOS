@@ -84,7 +84,7 @@ public struct UserPayloadRequest {
     public var paramEditUserProfile: [String: Any] {
         return [
             UserPlayloadKey.overview.rawValue: self.overview,
-//            UserPlayloadKey.dob.rawValue: self.dob,
+            UserPlayloadKey.dob.rawValue: self.dob,
             UserPlayloadKey.links.rawValue: self.links.paramEditUserLink
         ]
     }
