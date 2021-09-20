@@ -18,7 +18,6 @@
 		B743388C26DCE960004BBC05 /* Completion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743388B26DCE95F004BBC05 /* Completion.swift */; };
 		B743388E26DE21F8004BBC05 /* UserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743388D26DE21F8004BBC05 /* UserRequest.swift */; };
 		B74CEF1226C50727006B1F2C /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B74CEF1126C50727006B1F2C /* Core.framework */; };
-		B74CEF1326C50727006B1F2C /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B74CEF1126C50727006B1F2C /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B7642C5A26E1073800CDCE95 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7642C5926E1073800CDCE95 /* Comment.swift */; };
 		B7642C5C26E10DFA00CDCE95 /* Comments.json in Resources */ = {isa = PBXBuildFile; fileRef = B7642C5B26E10DFA00CDCE95 /* Comments.json */; };
 		B7642C5E26E10F8000CDCE95 /* CommentApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7642C5D26E10F8000CDCE95 /* CommentApi.swift */; };
@@ -60,20 +59,6 @@
 		B7AF661C26F2FD4700BDE9C4 /* PageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF661B26F2FD4700BDE9C4 /* PageRepository.swift */; };
 		B7C2530E26D5409A00ACBB84 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2530D26D5409A00ACBB84 /* Language.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		B74CEF1426C50727006B1F2C /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				B74CEF1326C50727006B1F2C /* Core.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1CE19EEF8353F04516B983A5 /* Pods-Networking.debug (development).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Networking.debug (development).xcconfig"; path = "Target Support Files/Pods-Networking/Pods-Networking.debug (development).xcconfig"; sourceTree = "<group>"; };
@@ -350,7 +335,6 @@
 				B7684A1D26C5049100C438C5 /* Sources */,
 				B7684A1E26C5049100C438C5 /* Frameworks */,
 				B7684A1F26C5049100C438C5 /* Resources */,
-				B74CEF1426C50727006B1F2C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
