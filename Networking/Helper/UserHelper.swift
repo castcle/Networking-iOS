@@ -32,6 +32,7 @@ public class UserHelper {
     public init() {
         // Init UserHelper
     }
+    
     public func updateLocalProfile(user: User) {
         Defaults[.userId] = user.id
         Defaults[.castcleId] = user.castcleId

@@ -52,6 +52,9 @@
 		B7684A7126C5061C00C438C5 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A5526C5061C00C438C5 /* LoginRequest.swift */; };
 		B7684A7226C5061C00C438C5 /* AuthenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A5626C5061C00C438C5 /* AuthenRequest.swift */; };
 		B78795B326C5512400FECC21 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = B78795B226C5512400FECC21 /* Moya */; };
+		B7A71D0326FC5B860092F318 /* NotificationApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A71D0226FC5B860092F318 /* NotificationApi.swift */; };
+		B7A71D0526FC5C160092F318 /* NotificationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A71D0426FC5C160092F318 /* NotificationRequest.swift */; };
+		B7A71D0726FC64700092F318 /* NotificationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A71D0626FC64700092F318 /* NotificationRepository.swift */; };
 		B7AF660326F0611C00BDE9C4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF660226F0611C00BDE9C4 /* User.swift */; };
 		B7AF660526F06EE400BDE9C4 /* UserHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF660426F06EE400BDE9C4 /* UserHelper.swift */; };
 		B7AF661826F2FA1200BDE9C4 /* PageApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF661726F2FA1200BDE9C4 /* PageApi.swift */; };
@@ -113,6 +116,9 @@
 		B7684A5326C5061C00C438C5 /* Feeds.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Feeds.json; sourceTree = "<group>"; };
 		B7684A5526C5061C00C438C5 /* LoginRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
 		B7684A5626C5061C00C438C5 /* AuthenRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenRequest.swift; sourceTree = "<group>"; };
+		B7A71D0226FC5B860092F318 /* NotificationApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationApi.swift; sourceTree = "<group>"; };
+		B7A71D0426FC5C160092F318 /* NotificationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRequest.swift; sourceTree = "<group>"; };
+		B7A71D0626FC64700092F318 /* NotificationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRepository.swift; sourceTree = "<group>"; };
 		B7AF660226F0611C00BDE9C4 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B7AF660426F06EE400BDE9C4 /* UserHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHelper.swift; sourceTree = "<group>"; };
 		B7AF661726F2FA1200BDE9C4 /* PageApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageApi.swift; sourceTree = "<group>"; };
@@ -220,6 +226,7 @@
 				B7189AD626EF347100CB9719 /* UserRepository.swift */,
 				B7189AD426EF2E1F00CB9719 /* EngagementRepository.swift */,
 				B7AF661B26F2FD4700BDE9C4 /* PageRepository.swift */,
+				B7A71D0626FC64700092F318 /* NotificationRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -277,6 +284,7 @@
 				B7642C5D26E10F8000CDCE95 /* CommentApi.swift */,
 				B7189ACF26EF24A000CB9719 /* EngagementApi.swift */,
 				B7AF661726F2FA1200BDE9C4 /* PageApi.swift */,
+				B7A71D0226FC5B860092F318 /* NotificationApi.swift */,
 				B7684A5126C5061C00C438C5 /* Mockup */,
 			);
 			path = Provider;
@@ -300,6 +308,7 @@
 				B743388D26DE21F8004BBC05 /* UserRequest.swift */,
 				B7189AD226EF260100CB9719 /* EngagementRequest.swift */,
 				B7AF661926F2FAD500BDE9C4 /* PageRequest.swift */,
+				B7A71D0426FC5C160092F318 /* NotificationRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -443,7 +452,9 @@
 				B7684A5B26C5061C00C438C5 /* Feature.swift in Sources */,
 				B7684A6226C5061C00C438C5 /* Commented.swift in Sources */,
 				B7642C6026E1105A00CDCE95 /* CommentRepository.swift in Sources */,
+				B7A71D0326FC5B860092F318 /* NotificationApi.swift in Sources */,
 				B7189ACC26EDCADF00CB9719 /* TokenHelper.swift in Sources */,
+				B7A71D0526FC5C160092F318 /* NotificationRequest.swift in Sources */,
 				B7684A6326C5061C00C438C5 /* Content.swift in Sources */,
 				B7684A6526C5061C00C438C5 /* Aggregator.swift in Sources */,
 				B743388C26DCE960004BBC05 /* Completion.swift in Sources */,
@@ -452,6 +463,7 @@
 				B7C2530E26D5409A00ACBB84 /* Language.swift in Sources */,
 				B7684A5C26C5061C00C438C5 /* Link.swift in Sources */,
 				B7189AD026EF24A000CB9719 /* EngagementApi.swift in Sources */,
+				B7A71D0726FC64700092F318 /* NotificationRepository.swift in Sources */,
 				B7642C5E26E10F8000CDCE95 /* CommentApi.swift in Sources */,
 				B7684A6D26C5061C00C438C5 /* FeedApi.swift in Sources */,
 				B7AF660326F0611C00BDE9C4 /* User.swift in Sources */,
