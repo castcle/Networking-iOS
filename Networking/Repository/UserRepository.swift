@@ -37,7 +37,6 @@ public protocol UserRepository {
     func updateMeCover(userRequest: UserRequest, _ completion: @escaping complate)
     func delateUser(userRequest: UserRequest, _ completion: @escaping complate)
     func getUser(userId: String, _ completion: @escaping complate)
-    func getMeContents(_ completion: @escaping complate)
     func getUserContents(userId: String, _ completion: @escaping complate)
     func getUserFollower(userId: String, _ completion: @escaping complate)
     func getUserFollowing(userId: String, _ completion: @escaping complate)
@@ -216,33 +215,6 @@ public final class UserRepositoryImpl: UserRepository {
     
     public func getUser(userId: String, _ completion: @escaping complate) {
         self.userProvider.request(.getUser(userId)) { result in
-            switch result {
-            case .success(let response):
-                if response.statusCode < 300 {
-                    completion(true, response, false)
-                } else {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        if code == errorRefreshToken {
-                            completion(false, response, true)
-                        } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                            completion(false, response, false)
-                        }
-                    } catch {
-                        completion(false, response, false)
-                    }
-                }
-            case .failure(let error):
-                completion(false, error as! Response, false)
-            }
-        }
-    }
-    
-    public func getMeContents(_ completion: @escaping complate) {
-        self.userProvider.request(.getMeContents) { result in
             switch result {
             case .success(let response):
                 if response.statusCode < 300 {

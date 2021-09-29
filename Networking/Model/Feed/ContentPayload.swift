@@ -31,7 +31,7 @@ import SwiftyJSON
 // MARK: - ContentPayload
 public enum ContentPayloadKey: String, Codable {
     case header
-    case content
+    case message
     case photo
     case link
     
@@ -43,14 +43,14 @@ public enum ContentPayloadKey: String, Codable {
 
 public class ContentPayload: NSObject {
     public let header: String
-    public let content: String
+    public let message: String
     public let cover: String
     public let photo: [Photo]
     public let link: [Link]
     
     public init(json: JSON) {
         self.header = json[ContentPayloadKey.header.rawValue].stringValue
-        self.content = json[ContentPayloadKey.content.rawValue].stringValue
+        self.message = json[ContentPayloadKey.message.rawValue].stringValue
         
         // MARK: - Photo
         let photoJson = JSON(json[ContentPayloadKey.photo.rawValue].dictionaryValue)

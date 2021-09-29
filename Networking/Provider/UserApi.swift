@@ -38,7 +38,6 @@ enum UserApi {
     case delateUser(UserRequest)
     
     case getUser(String)
-    case getMeContents
     case getUserContents(String)
     
     case getUserFollower(String)
@@ -59,8 +58,6 @@ extension UserApi: TargetType {
             return "/users"
         case .getUser(let userId):
             return "/users\(userId)"
-        case .getMeContents:
-            return "/users/me/contents"
         case .getUserContents(let userId):
             return "/users/\(userId)/contents"
         case .getUserFollower(let userId):
@@ -78,7 +75,7 @@ extension UserApi: TargetType {
     
     var method: Moya.Method {
         switch self {
-        case .getAllUser, .getMe, .getUser, .getMeContents, .getUserContents, .getUserFollower, .getUserFollowing:
+        case .getAllUser, .getMe, .getUser, .getUserContents, .getUserFollower, .getUserFollowing:
             return .get
         case .updateMe, .updateMeAvatar, .updateMeCover, .follow, .unfollow:
             return .put

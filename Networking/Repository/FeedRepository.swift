@@ -31,17 +31,19 @@ import SwiftyJSON
 public protocol FeedRepository {
     func getHashtags(_ completion: @escaping (Bool, HashtagShelf) -> ())
     func getFeeds(featureSlug: String, circleSlug: String, _ completion: @escaping (Bool, FeedShelf) -> ())
+    func getFeedsMock(featureSlug: String, circleSlug: String, _ completion: @escaping (Bool, FeedShelf) -> ())
 }
 
 public final class FeedRepositoryImpl: FeedRepository {
-    private let feedProvider = MoyaProvider<FeedApi>(stubClosure: MoyaProvider.delayedStub(1.0))
+    private let feedProviderMock = MoyaProvider<FeedApi>(stubClosure: MoyaProvider.delayedStub(1.0))
+    private let feedProvider = MoyaProvider<FeedApi>()
     
     public init() {
         // MARK: - Init
     }
     
     public func getHashtags(_ completion: @escaping (Bool, HashtagShelf) -> ()) {
-        self.feedProvider.request(.getHashtags) { result in
+        self.feedProviderMock.request(.getHashtags) { result in
             switch result {
             case .success(let response):
                 do {
@@ -59,6 +61,25 @@ public final class FeedRepositoryImpl: FeedRepository {
     
     public func getFeeds(featureSlug: String, circleSlug: String, _ completion: @escaping (Bool, FeedShelf) -> ()) {
         self.feedProvider.request(.getFeeds(featureSlug, circleSlug)) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let rawJson = try response.mapJSON()
+                    let json = JSON(rawJson)
+                    print(json)
+//                    completion(true, FeedShelf(json: json))
+                    completion(true, FeedShelf())
+                } catch {
+                    completion(false, FeedShelf())
+                }
+            case .failure:
+                completion(false, FeedShelf())
+            }
+        }
+    }
+    
+    public func getFeedsMock(featureSlug: String, circleSlug: String, _ completion: @escaping (Bool, FeedShelf) -> ()) {
+        self.feedProviderMock.request(.getFeeds(featureSlug, circleSlug)) { result in
             switch result {
             case .success(let response):
                 do {

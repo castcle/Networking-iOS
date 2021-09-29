@@ -19,23 +19,22 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  FeedShelf.swift
+//  ContentShelf.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 14/7/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 29/9/2564 BE.
 //
 
 import SwiftyJSON
 
 // MARK: - Hashtag List
-public enum FeedShelfKey: String, Codable {
-    case message
+public enum ContentShelfKey: String, Codable {
     case payload
     case pagination
 }
 
-public class FeedShelf: NSObject {
-    public var feeds: [Feed] = []
+public class ContentShelf: NSObject {
+    public var contents: [Content] = []
     public var pagination: Pagination = Pagination()
     
     public override init() {
@@ -43,7 +42,7 @@ public class FeedShelf: NSObject {
     }
     
     public init(json: JSON) {
-        self.feeds = (json[FeedShelfKey.payload.rawValue].arrayValue).map { Feed(json: $0) }
+        self.contents = (json[FeedShelfKey.payload.rawValue].arrayValue).map { Content(json: $0) }
         self.pagination = Pagination(json: JSON(json[FeedShelfKey.pagination.rawValue].dictionaryValue))
     }
 }

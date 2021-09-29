@@ -50,6 +50,7 @@ public enum ContentType: String, Codable {
     case shortClip
     case clip
     case live
+    case unknow = ""
 }
 
 public enum FeedDisplayType {
@@ -64,7 +65,7 @@ public enum FeedDisplayType {
     case blogNoImage
 }
 
-public class Content: NSObject {
+public class Content {
     public let id: String
     public let type: ContentType
     public let contentPayload: ContentPayload

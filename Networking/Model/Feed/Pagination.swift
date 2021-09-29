@@ -19,31 +19,33 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  FeedShelf.swift
+//  Pagination.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 14/7/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 29/9/2564 BE.
 //
 
 import SwiftyJSON
 
-// MARK: - Hashtag List
-public enum FeedShelfKey: String, Codable {
-    case message
-    case payload
-    case pagination
+// MARK: - Circle
+public enum PaginationKey: String, Codable {
+    case now = "self"
+    case next
+    case limit
 }
 
-public class FeedShelf: NSObject {
-    public var feeds: [Feed] = []
-    public var pagination: Pagination = Pagination()
+public class Pagination: NSObject {
+    public var now: Int = 1
+    public var next: Int = 0
+    public var limit: Int = 25
     
     public override init() {
         // MARK: - Init
     }
     
     public init(json: JSON) {
-        self.feeds = (json[FeedShelfKey.payload.rawValue].arrayValue).map { Feed(json: $0) }
-        self.pagination = Pagination(json: JSON(json[FeedShelfKey.pagination.rawValue].dictionaryValue))
+        self.now = json[PaginationKey.now.rawValue].intValue
+        self.next = json[PaginationKey.next.rawValue].intValue
+        self.limit = json[PaginationKey.limit.rawValue].intValue
     }
 }

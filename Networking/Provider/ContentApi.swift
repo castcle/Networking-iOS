@@ -19,67 +19,54 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  FeedApi.swift
+//  ContentApi.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 12/8/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 28/9/2564 BE.
 //
 
 import Core
 import Moya
 
-enum FeedApi {
-    case getHashtags
-    case getFeeds(String, String)
+enum ContentApi {
+    case getMeContents(ContentRequest)
+    case createContent(String, ContentRequest)
 }
 
-extension FeedApi: TargetType {
+extension ContentApi: TargetType {
     var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }
     
     var path: String {
         switch self {
-        case .getHashtags:
-            return "/hashtags"
-        case .getFeeds(let featureSlug, let circleSlug):
-            return "/feeds/\(featureSlug)/\(circleSlug)"
+        case .getMeContents:
+            return "/users/me/contents"
+        case .createContent(let feature, _):
+            return "/contents/\(feature)"
         }
     }
     
     var method: Moya.Method {
-        return .get
-    }
-    
-    var sampleData: Data {
         switch self {
-        case .getHashtags:
-            if let path = ConfigBundle.network.path(forResource: "Hashtag", ofType: "json") {
-                do {
-                    let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-                    return data
-                } catch {
-                    return Data()
-                }
-            } else {
-                return Data()
-            }
-        case .getFeeds:
-            if let path = ConfigBundle.network.path(forResource: "Feeds", ofType: "json") {
-                do {
-                    let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-                    return data
-                } catch {
-                    return Data()
-                }
-            } else {
-                return Data()
-            }
+        case .getMeContents:
+            return .get
+        case .createContent:
+            return .post
         }
     }
     
+    var sampleData: Data {
+        return Data()
+    }
+    
     var task: Task {
-        return .requestPlain
+        switch self {
+        case .getMeContents(let contentRequest):
+            return .requestParameters(parameters: contentRequest.paramGetContent, encoding: URLEncoding.queryString)
+        case .createContent(_, let contentRequest):
+            return .requestParameters(parameters: contentRequest.paramCreateContent, encoding: JSONEncoding.default)
+        }
     }
     
     var headers: [String : String]? {
