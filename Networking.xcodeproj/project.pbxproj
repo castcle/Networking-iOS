@@ -25,7 +25,6 @@
 		B7684A2626C5049100C438C5 /* Networking.h in Headers */ = {isa = PBXBuildFile; fileRef = B7684A2426C5049100C438C5 /* Networking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B7684A5726C5061C00C438C5 /* AuthenticationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A3526C5061B00C438C5 /* AuthenticationRepository.swift */; };
 		B7684A5826C5061C00C438C5 /* RecastRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A3626C5061B00C438C5 /* RecastRepository.swift */; };
-		B7684A5926C5061C00C438C5 /* LikeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A3726C5061B00C438C5 /* LikeRepository.swift */; };
 		B7684A5A26C5061C00C438C5 /* FeedRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A3826C5061B00C438C5 /* FeedRepository.swift */; };
 		B7684A5B26C5061C00C438C5 /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A3B26C5061B00C438C5 /* Feature.swift */; };
 		B7684A5C26C5061C00C438C5 /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A3C26C5061B00C438C5 /* Link.swift */; };
@@ -46,7 +45,6 @@
 		B7684A6B26C5061C00C438C5 /* AuthenticationApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A4D26C5061C00C438C5 /* AuthenticationApi.swift */; };
 		B7684A6C26C5061C00C438C5 /* RecastApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A4E26C5061C00C438C5 /* RecastApi.swift */; };
 		B7684A6D26C5061C00C438C5 /* FeedApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A4F26C5061C00C438C5 /* FeedApi.swift */; };
-		B7684A6E26C5061C00C438C5 /* LikeApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A5026C5061C00C438C5 /* LikeApi.swift */; };
 		B7684A6F26C5061C00C438C5 /* Hashtag.json in Resources */ = {isa = PBXBuildFile; fileRef = B7684A5226C5061C00C438C5 /* Hashtag.json */; };
 		B7684A7026C5061C00C438C5 /* Feeds.json in Resources */ = {isa = PBXBuildFile; fileRef = B7684A5326C5061C00C438C5 /* Feeds.json */; };
 		B7684A7126C5061C00C438C5 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A5526C5061C00C438C5 /* LoginRequest.swift */; };
@@ -95,7 +93,6 @@
 		B7684A2526C5049100C438C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B7684A3526C5061B00C438C5 /* AuthenticationRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationRepository.swift; sourceTree = "<group>"; };
 		B7684A3626C5061B00C438C5 /* RecastRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecastRepository.swift; sourceTree = "<group>"; };
-		B7684A3726C5061B00C438C5 /* LikeRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikeRepository.swift; sourceTree = "<group>"; };
 		B7684A3826C5061B00C438C5 /* FeedRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedRepository.swift; sourceTree = "<group>"; };
 		B7684A3B26C5061B00C438C5 /* Feature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
 		B7684A3C26C5061B00C438C5 /* Link.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
@@ -116,7 +113,6 @@
 		B7684A4D26C5061C00C438C5 /* AuthenticationApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationApi.swift; sourceTree = "<group>"; };
 		B7684A4E26C5061C00C438C5 /* RecastApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecastApi.swift; sourceTree = "<group>"; };
 		B7684A4F26C5061C00C438C5 /* FeedApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedApi.swift; sourceTree = "<group>"; };
-		B7684A5026C5061C00C438C5 /* LikeApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikeApi.swift; sourceTree = "<group>"; };
 		B7684A5226C5061C00C438C5 /* Hashtag.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Hashtag.json; sourceTree = "<group>"; };
 		B7684A5326C5061C00C438C5 /* Feeds.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Feeds.json; sourceTree = "<group>"; };
 		B7684A5526C5061C00C438C5 /* LoginRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
@@ -230,7 +226,6 @@
 				B743388B26DCE95F004BBC05 /* Completion.swift */,
 				B7684A3526C5061B00C438C5 /* AuthenticationRepository.swift */,
 				B7684A3626C5061B00C438C5 /* RecastRepository.swift */,
-				B7684A3726C5061B00C438C5 /* LikeRepository.swift */,
 				B7684A3826C5061B00C438C5 /* FeedRepository.swift */,
 				B7642C5F26E1105A00CDCE95 /* CommentRepository.swift */,
 				B7189AD626EF347100CB9719 /* UserRepository.swift */,
@@ -292,7 +287,6 @@
 				B7684A4D26C5061C00C438C5 /* AuthenticationApi.swift */,
 				B7684A4E26C5061C00C438C5 /* RecastApi.swift */,
 				B7684A4F26C5061C00C438C5 /* FeedApi.swift */,
-				B7684A5026C5061C00C438C5 /* LikeApi.swift */,
 				B743387B26DCBEDE004BBC05 /* UserApi.swift */,
 				B7642C5D26E10F8000CDCE95 /* CommentApi.swift */,
 				B7189ACF26EF24A000CB9719 /* EngagementApi.swift */,
@@ -451,7 +445,6 @@
 			files = (
 				B7684A6626C5061C00C438C5 /* FeedShelf.swift in Sources */,
 				B7AF660526F06EE400BDE9C4 /* UserHelper.swift in Sources */,
-				B7684A5926C5061C00C438C5 /* LikeRepository.swift in Sources */,
 				B7A71D792704192E0092F318 /* Pagination.swift in Sources */,
 				B7684A6126C5061C00C438C5 /* Recasted.swift in Sources */,
 				B7684A5726C5061C00C438C5 /* AuthenticationRepository.swift in Sources */,
@@ -463,7 +456,6 @@
 				B7189AD326EF260100CB9719 /* EngagementRequest.swift in Sources */,
 				B7684A6426C5061C00C438C5 /* Participant.swift in Sources */,
 				B7684A5E26C5061C00C438C5 /* Author.swift in Sources */,
-				B7684A6E26C5061C00C438C5 /* LikeApi.swift in Sources */,
 				B7684A7226C5061C00C438C5 /* AuthenRequest.swift in Sources */,
 				B7684A5F26C5061C00C438C5 /* Photo.swift in Sources */,
 				B7A71D77270308910092F318 /* ContentRepository.swift in Sources */,

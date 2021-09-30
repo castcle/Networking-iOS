@@ -32,6 +32,9 @@ import SwiftyJSON
 public protocol ContentRepository {
     func getMeContents(contentRequest: ContentRequest, _ completion: @escaping complate)
     func createContent(featureSlug: String, contentRequest: ContentRequest, _ completion: @escaping complate)
+    func likeContent(contentId: String, _ completion: @escaping complate)
+    func unlikeContent(contentId: String, _ completion: @escaping complate)
+    func deleteContent(contentId: String, _ completion: @escaping complate)
 }
 
 public final class ContentRepositoryImpl: ContentRepository {
@@ -57,6 +60,45 @@ public final class ContentRepositoryImpl: ContentRepository {
     
     public func createContent(featureSlug: String, contentRequest: ContentRequest, _ completion: @escaping complate) {
         self.contentProvider.request(.createContent(featureSlug, contentRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func likeContent(contentId: String, _ completion: @escaping complate) {
+        self.contentProvider.request(.likeContent(contentId)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func unlikeContent(contentId: String, _ completion: @escaping complate) {
+        self.contentProvider.request(.unlikeContent(contentId)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func deleteContent(contentId: String, _ completion: @escaping complate) {
+        self.contentProvider.request(.deleteContent(contentId)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
