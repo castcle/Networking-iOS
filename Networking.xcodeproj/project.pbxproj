@@ -24,7 +24,6 @@
 		B7642C6026E1105A00CDCE95 /* CommentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7642C5F26E1105A00CDCE95 /* CommentRepository.swift */; };
 		B7684A2626C5049100C438C5 /* Networking.h in Headers */ = {isa = PBXBuildFile; fileRef = B7684A2426C5049100C438C5 /* Networking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B7684A5726C5061C00C438C5 /* AuthenticationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A3526C5061B00C438C5 /* AuthenticationRepository.swift */; };
-		B7684A5826C5061C00C438C5 /* RecastRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A3626C5061B00C438C5 /* RecastRepository.swift */; };
 		B7684A5A26C5061C00C438C5 /* FeedRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A3826C5061B00C438C5 /* FeedRepository.swift */; };
 		B7684A5B26C5061C00C438C5 /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A3B26C5061B00C438C5 /* Feature.swift */; };
 		B7684A5C26C5061C00C438C5 /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A3C26C5061B00C438C5 /* Link.swift */; };
@@ -43,7 +42,6 @@
 		B7684A6926C5061C00C438C5 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A4A26C5061B00C438C5 /* Feed.swift */; };
 		B7684A6A26C5061C00C438C5 /* ContentPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A4B26C5061B00C438C5 /* ContentPayload.swift */; };
 		B7684A6B26C5061C00C438C5 /* AuthenticationApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A4D26C5061C00C438C5 /* AuthenticationApi.swift */; };
-		B7684A6C26C5061C00C438C5 /* RecastApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A4E26C5061C00C438C5 /* RecastApi.swift */; };
 		B7684A6D26C5061C00C438C5 /* FeedApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A4F26C5061C00C438C5 /* FeedApi.swift */; };
 		B7684A6F26C5061C00C438C5 /* Hashtag.json in Resources */ = {isa = PBXBuildFile; fileRef = B7684A5226C5061C00C438C5 /* Hashtag.json */; };
 		B7684A7026C5061C00C438C5 /* Feeds.json in Resources */ = {isa = PBXBuildFile; fileRef = B7684A5326C5061C00C438C5 /* Feeds.json */; };
@@ -92,7 +90,6 @@
 		B7684A2426C5049100C438C5 /* Networking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Networking.h; sourceTree = "<group>"; };
 		B7684A2526C5049100C438C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B7684A3526C5061B00C438C5 /* AuthenticationRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationRepository.swift; sourceTree = "<group>"; };
-		B7684A3626C5061B00C438C5 /* RecastRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecastRepository.swift; sourceTree = "<group>"; };
 		B7684A3826C5061B00C438C5 /* FeedRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedRepository.swift; sourceTree = "<group>"; };
 		B7684A3B26C5061B00C438C5 /* Feature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
 		B7684A3C26C5061B00C438C5 /* Link.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
@@ -111,7 +108,6 @@
 		B7684A4A26C5061B00C438C5 /* Feed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
 		B7684A4B26C5061B00C438C5 /* ContentPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentPayload.swift; sourceTree = "<group>"; };
 		B7684A4D26C5061C00C438C5 /* AuthenticationApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationApi.swift; sourceTree = "<group>"; };
-		B7684A4E26C5061C00C438C5 /* RecastApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecastApi.swift; sourceTree = "<group>"; };
 		B7684A4F26C5061C00C438C5 /* FeedApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedApi.swift; sourceTree = "<group>"; };
 		B7684A5226C5061C00C438C5 /* Hashtag.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Hashtag.json; sourceTree = "<group>"; };
 		B7684A5326C5061C00C438C5 /* Feeds.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Feeds.json; sourceTree = "<group>"; };
@@ -225,7 +221,6 @@
 			children = (
 				B743388B26DCE95F004BBC05 /* Completion.swift */,
 				B7684A3526C5061B00C438C5 /* AuthenticationRepository.swift */,
-				B7684A3626C5061B00C438C5 /* RecastRepository.swift */,
 				B7684A3826C5061B00C438C5 /* FeedRepository.swift */,
 				B7642C5F26E1105A00CDCE95 /* CommentRepository.swift */,
 				B7189AD626EF347100CB9719 /* UserRepository.swift */,
@@ -285,7 +280,6 @@
 			isa = PBXGroup;
 			children = (
 				B7684A4D26C5061C00C438C5 /* AuthenticationApi.swift */,
-				B7684A4E26C5061C00C438C5 /* RecastApi.swift */,
 				B7684A4F26C5061C00C438C5 /* FeedApi.swift */,
 				B743387B26DCBEDE004BBC05 /* UserApi.swift */,
 				B7642C5D26E10F8000CDCE95 /* CommentApi.swift */,
@@ -449,7 +443,6 @@
 				B7684A6126C5061C00C438C5 /* Recasted.swift in Sources */,
 				B7684A5726C5061C00C438C5 /* AuthenticationRepository.swift in Sources */,
 				B7A71D7B27041F1F0092F318 /* ContentShelf.swift in Sources */,
-				B7684A6C26C5061C00C438C5 /* RecastApi.swift in Sources */,
 				B743387C26DCBEDE004BBC05 /* UserApi.swift in Sources */,
 				B7189AD526EF2E1F00CB9719 /* EngagementRepository.swift in Sources */,
 				B7189ADE26EF489100CB9719 /* EngagementHelper.swift in Sources */,
@@ -484,7 +477,6 @@
 				B7AF661C26F2FD4700BDE9C4 /* PageRepository.swift in Sources */,
 				B7684A7126C5061C00C438C5 /* LoginRequest.swift in Sources */,
 				B7AF661826F2FA1200BDE9C4 /* PageApi.swift in Sources */,
-				B7684A5826C5061C00C438C5 /* RecastRepository.swift in Sources */,
 				B7684A6A26C5061C00C438C5 /* ContentPayload.swift in Sources */,
 				B7642C5A26E1073800CDCE95 /* Comment.swift in Sources */,
 				B7684A5D26C5061C00C438C5 /* Hashtag.swift in Sources */,

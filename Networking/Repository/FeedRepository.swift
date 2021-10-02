@@ -30,13 +30,14 @@ import SwiftyJSON
 
 public protocol FeedRepository {
     func getHashtags(_ completion: @escaping (Bool, HashtagShelf) -> ())
-    func getFeeds(featureSlug: String, circleSlug: String, _ completion: @escaping (Bool, FeedShelf) -> ())
+    func getFeeds(featureSlug: String, circleSlug: String, _ completion: @escaping complate)
     func getFeedsMock(featureSlug: String, circleSlug: String, _ completion: @escaping (Bool, FeedShelf) -> ())
 }
 
 public final class FeedRepositoryImpl: FeedRepository {
     private let feedProviderMock = MoyaProvider<FeedApi>(stubClosure: MoyaProvider.delayedStub(1.0))
     private let feedProvider = MoyaProvider<FeedApi>()
+    private let completionHelper: CompletionHelper = CompletionHelper()
     
     public init() {
         // MARK: - Init
@@ -59,21 +60,15 @@ public final class FeedRepositoryImpl: FeedRepository {
         }
     }
     
-    public func getFeeds(featureSlug: String, circleSlug: String, _ completion: @escaping (Bool, FeedShelf) -> ()) {
+    public func getFeeds(featureSlug: String, circleSlug: String, _ completion: @escaping complate) {
         self.feedProvider.request(.getFeeds(featureSlug, circleSlug)) { result in
             switch result {
             case .success(let response):
-                do {
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    print(json)
-//                    completion(true, FeedShelf(json: json))
-                    completion(true, FeedShelf())
-                } catch {
-                    completion(false, FeedShelf())
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
-            case .failure:
-                completion(false, FeedShelf())
+            case .failure(let error):
+                completion(false, error as! Response, false)
             }
         }
     }

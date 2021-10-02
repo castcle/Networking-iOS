@@ -56,7 +56,6 @@ public enum ContentType: String, Codable {
 public enum FeedDisplayType {
     case postText
     case postLink
-    case postYoutube
     case postImageX1
     case postImageX2
     case postImageX3
@@ -79,17 +78,23 @@ public class Content {
     public let updated: String
     
     public var postDate: Date {
-        return Date.stringToDate(str: self.updated)
+        return Date.stringToDate(str: self.created)
     }
     
     public var feedDisplayType: FeedDisplayType {
         if self.type == .short {
-            if let link = self.contentPayload.link.first {
-                if link.type == .youtube {
-                    return .postYoutube
+            if !self.contentPayload.photo.isEmpty {
+                if self.contentPayload.photo.count == 1 {
+                    return .postImageX1
+                } else if self.contentPayload.photo.count == 2 {
+                    return .postImageX2
+                } else if self.contentPayload.photo.count == 3 {
+                    return .postImageX3
                 } else {
-                    return .postLink
+                    return .postImageXMore
                 }
+            } else if self.contentPayload.link.isEmpty {
+                return .postLink
             } else {
                 return .postText
             }

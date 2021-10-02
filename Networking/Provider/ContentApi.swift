@@ -34,6 +34,9 @@ enum ContentApi {
     case likeContent(String)
     case unlikeContent(String)
     case deleteContent(String)
+    case recastContent(String, ContentRequest)
+    case unrecastContent(String, ContentRequest)
+    case quotecastContent(String, ContentRequest)
 }
 
 extension ContentApi: TargetType {
@@ -53,6 +56,12 @@ extension ContentApi: TargetType {
             return "/contents/\(contentId)/unliked"
         case .deleteContent(let contentId):
             return "/contents/\(contentId)"
+        case .recastContent(let contentId, _):
+            return "/contents/\(contentId)/recast"
+        case .unrecastContent(let contentId, _):
+            return "/contents/\(contentId)/unrecast"
+        case .quotecastContent(let contentId, _):
+            return "/contents/\(contentId)/quotecast"
         }
     }
     
@@ -60,11 +69,11 @@ extension ContentApi: TargetType {
         switch self {
         case .getMeContents:
             return .get
-        case .createContent:
+        case .createContent, .recastContent, .quotecastContent:
             return .post
         case .likeContent, .unlikeContent:
             return .put
-        case .deleteContent:
+        case .deleteContent, .unrecastContent:
             return .delete
         }
     }
@@ -79,6 +88,12 @@ extension ContentApi: TargetType {
             return .requestParameters(parameters: contentRequest.paramGetContent, encoding: URLEncoding.queryString)
         case .createContent(_, let contentRequest):
             return .requestParameters(parameters: contentRequest.paramCreateContent, encoding: JSONEncoding.default)
+        case .recastContent(_, let contentRequest):
+            return .requestParameters(parameters: contentRequest.paramRecastContent, encoding: JSONEncoding.default)
+        case .unrecastContent(_, let contentRequest):
+            return .requestParameters(parameters: contentRequest.paramUnrecastContent, encoding: JSONEncoding.default)
+        case .quotecastContent(_, let contentRequest):
+            return .requestParameters(parameters: contentRequest.paramQuotecastContent, encoding: JSONEncoding.default)
         default:
             return.requestPlain
         }

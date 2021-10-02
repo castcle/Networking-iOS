@@ -32,12 +32,16 @@ public struct ContentRequest {
         case limit
         case payload
         case castcleId
+        case feedItemId
+        case message
     }
     public var type: ContentType = .unknow
     public var page: Int = 1
     public var limit: Int = 25
     public var payload: ContentPayloadRequest = ContentPayloadRequest()
     public var castcleId: String = ""
+    public var feedItemId: String = ""
+    public var message: String = ""
     
     public init() {
         // Init ContentRequest
@@ -55,6 +59,28 @@ public struct ContentRequest {
         return [
             ContentKey.type.rawValue: self.type.rawValue,
             ContentKey.payload.rawValue: self.payload.paramCreateShotContent,
+            ContentKey.castcleId.rawValue: self.castcleId
+        ]
+    }
+    
+    public var paramRecastContent: [String: Any] {
+        return [
+            ContentKey.feedItemId.rawValue: self.feedItemId,
+            ContentKey.castcleId.rawValue: self.castcleId
+        ]
+    }
+    
+    public var paramUnrecastContent: [String: Any] {
+        return [
+            ContentKey.feedItemId.rawValue: self.feedItemId,
+            ContentKey.castcleId.rawValue: self.castcleId
+        ]
+    }
+    
+    public var paramQuotecastContent: [String: Any] {
+        return [
+            ContentKey.message.rawValue: self.message,
+            ContentKey.feedItemId.rawValue: self.feedItemId,
             ContentKey.castcleId.rawValue: self.castcleId
         ]
     }
