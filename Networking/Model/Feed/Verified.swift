@@ -19,48 +19,33 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Author.swift
+//  Verified.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 14/7/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 4/10/2564 BE.
 //
 
 import SwiftyJSON
 
-// MARK: - Liked
-public enum AuthorKey: String, Codable {
-    case id
-    case type
-    case castcleId
-    case displayName
-    case avatar
-    case verified
-    case followed
+// MARK: - Circle
+public enum VerifiedKey: String, Codable {
+    case email
+    case mobile
+    case official
 }
 
-public enum AuthorType: String, Codable {
-    case people
-    case page
-}
-
-public class Author: NSObject {
-    public let type: AuthorType
-    public let id: String
-    public let castcleId: String
-    public let displayName: String
-    public let avatar: String
-    public let verified: Verified
-    public let followed: Bool
+public class Verified: NSObject {
+    public var email: Bool = false
+    public var mobile: Bool = false
+    public var official: Bool = false
+    
+    public override init() {
+        // MARK: - Init
+    }
     
     public init(json: JSON) {
-        self.id = json[AuthorKey.id.rawValue].stringValue
-        self.type = AuthorType(rawValue: json[AuthorKey.type.rawValue].stringValue) ?? .people
-        self.castcleId = json[AuthorKey.castcleId.rawValue].stringValue
-        self.displayName = json[AuthorKey.displayName.rawValue].stringValue
-        self.avatar = json[AuthorKey.avatar.rawValue].stringValue
-        self.followed = json[AuthorKey.followed.rawValue].boolValue
-        
-        // MARK: - Object
-        self.verified = Verified(json: JSON(json[AuthorKey.verified.rawValue].dictionaryObject ?? [:]))
+        self.email = json[VerifiedKey.email.rawValue].boolValue
+        self.mobile = json[VerifiedKey.mobile.rawValue].boolValue
+        self.official = json[VerifiedKey.official.rawValue].boolValue
     }
 }
