@@ -30,7 +30,7 @@ import Moya
 import SwiftyJSON
 
 public protocol EngagementRepository {
-    func engagement(engagementRequest: EngagementRequest, _ completion: @escaping complate)
+    func engagement(engagementRequest: EngagementRequest)
 }
 
 public final class EngagementRepositoryImpl: EngagementRepository {
@@ -40,29 +40,13 @@ public final class EngagementRepositoryImpl: EngagementRepository {
         // MARK: - Init
     }
     
-    public func engagement(engagementRequest: EngagementRequest, _ completion: @escaping complate) {
+    public func engagement(engagementRequest: EngagementRequest) {
         self.engagementProvider.request(.engagement(engagementRequest)) { result in
             switch result {
-            case .success(let response):
-                if response.statusCode < 300 {
-                    completion(true, response, false)
-                } else {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        if code == errorRefreshToken {
-                            completion(false, response, true)
-                        } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                            completion(false, response, false)
-                        }
-                    } catch {
-                        completion(false, response, false)
-                    }
-                }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .success:
+                print("Send Engagement Success")
+            case .failure:
+                print("Send Engagement Failure")
             }
         }
     }

@@ -93,10 +93,14 @@ public class Content {
                 } else {
                     return .postImageXMore
                 }
-            } else if self.contentPayload.link.isEmpty {
+            } else if !self.contentPayload.link.isEmpty {
                 return .postLink
             } else {
-                return .postText
+                if self.contentPayload.message.detectedFirstLink != nil {
+                    return .postLink
+                } else {
+                    return .postText
+                }
             }
         } else if self.type == .image {
             if self.contentPayload.photo.isEmpty {
