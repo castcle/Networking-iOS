@@ -30,7 +30,7 @@ import SwiftyJSON
 
 public protocol FeedRepository {
     func getHashtags(_ completion: @escaping (Bool, HashtagShelf) -> ())
-    func getFeeds(featureSlug: String, circleSlug: String, _ completion: @escaping complate)
+    func getFeeds(featureSlug: String, circleSlug: String, feedRequest: FeedRequest, _ completion: @escaping complate)
     func getFeedsMock(featureSlug: String, circleSlug: String, _ completion: @escaping (Bool, FeedShelf) -> ())
 }
 
@@ -60,8 +60,8 @@ public final class FeedRepositoryImpl: FeedRepository {
         }
     }
     
-    public func getFeeds(featureSlug: String, circleSlug: String, _ completion: @escaping complate) {
-        self.feedProvider.request(.getFeeds(featureSlug, circleSlug)) { result in
+    public func getFeeds(featureSlug: String, circleSlug: String, feedRequest: FeedRequest, _ completion: @escaping complate) {
+        self.feedProvider.request(.getFeeds(featureSlug, circleSlug, feedRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -74,7 +74,7 @@ public final class FeedRepositoryImpl: FeedRepository {
     }
     
     public func getFeedsMock(featureSlug: String, circleSlug: String, _ completion: @escaping (Bool, FeedShelf) -> ()) {
-        self.feedProviderMock.request(.getFeeds(featureSlug, circleSlug)) { result in
+        self.feedProviderMock.request(.getFeeds(featureSlug, circleSlug, FeedRequest())) { result in
             switch result {
             case .success(let response):
                 do {

@@ -31,6 +31,9 @@ import SwiftyJSON
 
 public protocol PageRepository {
     func createPage(pageRequest: PageRequest, _ completion: @escaping complate)
+    func updatePageInfo(pageId: String, pageRequest: PageRequest, _ completion: @escaping complate)
+    func updatePageAvatar(pageId: String, pageRequest: PageRequest, _ completion: @escaping complate)
+    func updatePageCover(pageId: String, pageRequest: PageRequest, _ completion: @escaping complate)
 }
 
 public final class PageRepositoryImpl: PageRepository {
@@ -43,6 +46,45 @@ public final class PageRepositoryImpl: PageRepository {
     
     public func createPage(pageRequest: PageRequest, _ completion: @escaping complate) {
         self.pageProvider.request(.createPage(pageRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func updatePageInfo(pageId: String, pageRequest: PageRequest, _ completion: @escaping complate) {
+        self.pageProvider.request(.updatePageInfo(pageId, pageRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func updatePageAvatar(pageId: String, pageRequest: PageRequest, _ completion: @escaping complate) {
+        self.pageProvider.request(.updatePageAvatar(pageId, pageRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func updatePageCover(pageId: String, pageRequest: PageRequest, _ completion: @escaping complate) {
+        self.pageProvider.request(.updatePageCover(pageId, pageRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

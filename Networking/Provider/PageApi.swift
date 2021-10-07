@@ -30,6 +30,9 @@ import Moya
 
 enum PageApi {
     case createPage(PageRequest)
+    case updatePageInfo(String, PageRequest)
+    case updatePageAvatar(String, PageRequest)
+    case updatePageCover(String, PageRequest)
 }
 
 extension PageApi: TargetType {
@@ -41,11 +44,18 @@ extension PageApi: TargetType {
         switch self {
         case .createPage:
             return "/pages"
+        case .updatePageInfo(let pageId, _), .updatePageAvatar(let pageId, _), .updatePageCover(let pageId, _):
+            return "/pages/\(pageId)"
         }
     }
     
     var method: Moya.Method {
-        return .post
+        switch self {
+        case .createPage:
+            return .post
+        case .updatePageInfo, .updatePageAvatar, .updatePageCover:
+            return .put
+        }
     }
     
     var sampleData: Data {
@@ -56,6 +66,12 @@ extension PageApi: TargetType {
         switch self {
         case .createPage(let pageRequest):
             return .requestParameters(parameters: pageRequest.paramCreatePage, encoding: JSONEncoding.default)
+        case .updatePageInfo(_, let pageRequest):
+            return .requestParameters(parameters: pageRequest.paramUpdatePage, encoding: JSONEncoding.default)
+        case .updatePageAvatar(_, let pageRequest):
+            return .requestParameters(parameters: pageRequest.paramUpdatePageAvatar, encoding: JSONEncoding.default)
+        case .updatePageCover(_, let pageRequest):
+            return .requestParameters(parameters: pageRequest.paramUpdatePageCover, encoding: JSONEncoding.default)
         }
     }
     
