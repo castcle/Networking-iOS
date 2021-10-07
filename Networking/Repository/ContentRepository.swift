@@ -32,8 +32,8 @@ import SwiftyJSON
 public protocol ContentRepository {
     func getMeContents(contentRequest: ContentRequest, _ completion: @escaping complate)
     func createContent(featureSlug: String, contentRequest: ContentRequest, _ completion: @escaping complate)
-    func likeContent(contentId: String, _ completion: @escaping complate)
-    func unlikeContent(contentId: String, _ completion: @escaping complate)
+    func likeContent(contentId: String, contentRequest: ContentRequest, _ completion: @escaping complate)
+    func unlikeContent(contentId: String, contentRequest: ContentRequest, _ completion: @escaping complate)
     func deleteContent(contentId: String, _ completion: @escaping complate)
     func recastContent(contentId: String, contentRequest: ContentRequest, _ completion: @escaping complate)
     func unrecastContent(contentId: String, contentRequest: ContentRequest, _ completion: @escaping complate)
@@ -74,8 +74,8 @@ public final class ContentRepositoryImpl: ContentRepository {
         }
     }
     
-    public func likeContent(contentId: String, _ completion: @escaping complate) {
-        self.contentProvider.request(.likeContent(contentId)) { result in
+    public func likeContent(contentId: String, contentRequest: ContentRequest, _ completion: @escaping complate) {
+        self.contentProvider.request(.likeContent(contentId, contentRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -87,8 +87,8 @@ public final class ContentRepositoryImpl: ContentRepository {
         }
     }
     
-    public func unlikeContent(contentId: String, _ completion: @escaping complate) {
-        self.contentProvider.request(.unlikeContent(contentId)) { result in
+    public func unlikeContent(contentId: String, contentRequest: ContentRequest, _ completion: @escaping complate) {
+        self.contentProvider.request(.unlikeContent(contentId, contentRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

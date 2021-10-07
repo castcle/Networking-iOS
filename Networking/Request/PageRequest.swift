@@ -45,11 +45,8 @@ public struct PageRequest {
     
     public var paramCreatePage: [String: Any] {
         return [
-            PageKey.payload.rawValue: [
-                PageKey.castcleId.rawValue: self.castcleId,
-                PageKey.displayName.rawValue: self.displayName,
-                PageKey.avatar.rawValue: self.avatar
-            ]
+            PageKey.castcleId.rawValue: self.castcleId,
+            PageKey.displayName.rawValue: self.displayName
         ]
     }
 }

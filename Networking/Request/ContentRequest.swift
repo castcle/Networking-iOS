@@ -84,6 +84,20 @@ public struct ContentRequest {
             ContentKey.castcleId.rawValue: self.castcleId
         ]
     }
+    
+    public var paramLikeContent: [String: Any] {
+        return [
+            ContentKey.feedItemId.rawValue: self.feedItemId,
+            ContentKey.castcleId.rawValue: self.castcleId
+        ]
+    }
+    
+    public var paramUnlikeContent: [String: Any] {
+        return [
+            ContentKey.feedItemId.rawValue: self.feedItemId,
+            ContentKey.castcleId.rawValue: self.castcleId
+        ]
+    }
 }
 
 public struct ContentPayloadRequest {
@@ -91,9 +105,11 @@ public struct ContentPayloadRequest {
         case message
         case photo
         case contents
+        case url
     }
     
     public var message: String = ""
+    public var image: [String] = []
     
     public init() {
         // Init ContentPayloadRequest
@@ -102,6 +118,17 @@ public struct ContentPayloadRequest {
     public var paramCreateShotContent: [String: Any] {
         return [
             ContentPayloadKey.message.rawValue: self.message,
+            ContentPayloadKey.photo.rawValue: [
+                ContentPayloadKey.contents.rawValue: self.photoParam
+            ]
         ]
+    }
+    
+    private var photoParam: [[String: String]] {
+        var temp: [[String: String]] = []
+        self.image.forEach { imageBase64 in
+            temp.append([ContentPayloadKey.url.rawValue: imageBase64])
+        }
+        return temp
     }
 }

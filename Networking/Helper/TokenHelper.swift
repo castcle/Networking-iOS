@@ -35,7 +35,7 @@ public protocol TokenHelperDelegate {
 public class TokenHelper {
     
     public var delegate: TokenHelperDelegate?
-    public var authenticationRepository: AuthenticationRepository
+    public var authenticationRepository: AuthenticationRepository = AuthenticationRepositoryImpl()
 
     public func refreshToken() {
         self.authenticationRepository.refreshToken() { (success, refreshTokenExpired) in
@@ -51,8 +51,8 @@ public class TokenHelper {
         }
     }
     
-    public init(authenticationRepository: AuthenticationRepository = AuthenticationRepositoryImpl()) {
-        self.authenticationRepository = authenticationRepository
+    public init() {
+        // Init helper
     }
     
     private func guestLogin() {

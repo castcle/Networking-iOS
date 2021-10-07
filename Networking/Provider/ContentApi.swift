@@ -31,8 +31,8 @@ import Moya
 enum ContentApi {
     case getMeContents(ContentRequest)
     case createContent(String, ContentRequest)
-    case likeContent(String)
-    case unlikeContent(String)
+    case likeContent(String, ContentRequest)
+    case unlikeContent(String, ContentRequest)
     case deleteContent(String)
     case recastContent(String, ContentRequest)
     case unrecastContent(String, ContentRequest)
@@ -50,9 +50,9 @@ extension ContentApi: TargetType {
             return "/users/me/contents"
         case .createContent(let feature, _):
             return "/contents/\(feature)"
-        case .likeContent(let contentId):
+        case .likeContent(let contentId, _):
             return "/contents/\(contentId)/liked"
-        case .unlikeContent(let contentId):
+        case .unlikeContent(let contentId, _):
             return "/contents/\(contentId)/unliked"
         case .deleteContent(let contentId):
             return "/contents/\(contentId)"
@@ -94,6 +94,10 @@ extension ContentApi: TargetType {
             return .requestParameters(parameters: contentRequest.paramUnrecastContent, encoding: JSONEncoding.default)
         case .quotecastContent(_, let contentRequest):
             return .requestParameters(parameters: contentRequest.paramQuotecastContent, encoding: JSONEncoding.default)
+        case .likeContent(_, let contentRequest):
+            return .requestParameters(parameters: contentRequest.paramLikeContent, encoding: JSONEncoding.default)
+        case .unlikeContent(_, let contentRequest):
+            return .requestParameters(parameters: contentRequest.paramUnlikeContent, encoding: JSONEncoding.default)
         default:
             return.requestPlain
         }

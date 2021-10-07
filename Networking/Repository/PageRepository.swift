@@ -45,7 +45,6 @@ public final class PageRepositoryImpl: PageRepository {
         self.pageProvider.request(.createPage(pageRequest)) { result in
             switch result {
             case .success(let response):
-                print(response)
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
