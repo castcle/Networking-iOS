@@ -19,38 +19,46 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Hashtag.swift
+//  Follow.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 13/7/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 12/10/2564 BE.
 //
 
 import SwiftyJSON
 
-// MARK: - Hashtag
-public enum HashtagKey: String, Codable {
+// MARK: - Follow
+public enum FollowKey: String, Codable {
     case id
-    case slug
-    case name
-    case key
-    case created
-    case updated
+    case castcleId
+    case displayName
+    case avatar
+    case overview
+    case verified
+    case type
+    case count
 }
 
-public class Hashtag: NSObject {
+public class Follow: NSObject {
     public let id: String
-    public let slug: String
-    public let name: String
-    public let key: String
-    public let created: String
-    public let updated: String
+    public let castcleId: String
+    public let displayName: String
+    public let avatar: String
+    public let overview: String
+    public let verified: Verified
+    public let type: AuthorType
+    public let count: Int
     
     public init(json: JSON) {
-        self.id = json[HashtagKey.id.rawValue].stringValue
-        self.slug = json[HashtagKey.slug.rawValue].stringValue
-        self.name = json[HashtagKey.name.rawValue].stringValue
-        self.key = json[HashtagKey.key.rawValue].stringValue
-        self.created = json[HashtagKey.created.rawValue].stringValue
-        self.updated = json[HashtagKey.updated.rawValue].stringValue
+        self.id = json[FollowKey.id.rawValue].stringValue
+        self.castcleId = json[FollowKey.castcleId.rawValue].stringValue
+        self.displayName = json[FollowKey.displayName.rawValue].stringValue
+        self.avatar = json[FollowKey.avatar.rawValue].stringValue
+        self.overview = json[FollowKey.overview.rawValue].stringValue
+        self.type = AuthorType(rawValue: json[FollowKey.type.rawValue].stringValue) ?? .people
+        self.count = json[FollowKey.count.rawValue].intValue
+        
+        // MARK: - Object
+        self.verified = Verified(json: JSON(json[FollowKey.verified.rawValue].dictionaryObject ?? [:]))
     }
 }

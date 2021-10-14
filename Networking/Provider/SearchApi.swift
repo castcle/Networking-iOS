@@ -19,34 +19,50 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Link.swift
+//  SearchApi.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 14/7/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 12/10/2564 BE.
 //
 
-import SwiftyJSON
+import Core
+import Moya
 
-// MARK: - Link
-public enum LinkKey: String, Codable {
-    case type
-    case url
-    case imagePreview
+enum SearchApi {
+    case getTopTrends(SearchRequest)
 }
 
-public enum LinkType: String, Codable {
-    case youtube
-    case other
-}
-
-public class Link: NSObject {
-    public let type: LinkType
-    public let url: String
-    public let imagePreview: String
+extension SearchApi: TargetType {
+    var baseURL: URL {
+        return URL(string: Environment.baseUrl)!
+    }
     
-    public init(json: JSON) {
-        self.type = LinkType(rawValue: json[LinkKey.type.rawValue].stringValue) ?? .other
-        self.url = json[LinkKey.url.rawValue].stringValue
-        self.imagePreview = json[LinkKey.imagePreview.rawValue].stringValue
+    var path: String {
+        switch self {
+        case .getTopTrends:
+            return "/searches/topTrends"
+        }
+    }
+    
+    var method: Moya.Method {
+        switch self {
+        case .getTopTrends:
+            return .get
+        }
+    }
+    
+    var sampleData: Data {
+        return Data()
+    }
+    
+    var task: Task {
+        switch self {
+        case .getTopTrends(let searchRequest):
+            return .requestParameters(parameters: searchRequest.paramGetTopTrends, encoding: URLEncoding.queryString)
+        }
+    }
+    
+    var headers: [String : String]? {
+        return ApiHelper.header
     }
 }

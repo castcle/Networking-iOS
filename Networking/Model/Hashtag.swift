@@ -19,34 +19,47 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Link.swift
+//  Hashtag.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 14/7/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 13/7/2564 BE.
 //
 
 import SwiftyJSON
 
-// MARK: - Link
-public enum LinkKey: String, Codable {
-    case type
-    case url
-    case imagePreview
+// MARK: - Hashtag
+public enum HashtagKey: String, Codable {
+    case id
+    case slug
+    case name
+    case key
+    case rank
+    case trends
+    case count
+    case created
+    case updated
 }
 
-public enum LinkType: String, Codable {
-    case youtube
-    case other
-}
-
-public class Link: NSObject {
-    public let type: LinkType
-    public let url: String
-    public let imagePreview: String
+public class Hashtag: NSObject {
+    public let id: String
+    public let slug: String
+    public let name: String
+    public let key: String
+    public let rank: Int
+    public let trends: String
+    public let count: Int
+    public let created: String
+    public let updated: String
     
     public init(json: JSON) {
-        self.type = LinkType(rawValue: json[LinkKey.type.rawValue].stringValue) ?? .other
-        self.url = json[LinkKey.url.rawValue].stringValue
-        self.imagePreview = json[LinkKey.imagePreview.rawValue].stringValue
+        self.id = json[HashtagKey.id.rawValue].stringValue
+        self.slug = json[HashtagKey.slug.rawValue].stringValue
+        self.name = json[HashtagKey.name.rawValue].stringValue
+        self.key = json[HashtagKey.key.rawValue].stringValue
+        self.rank = json[HashtagKey.rank.rawValue].intValue
+        self.trends = json[HashtagKey.trends.rawValue].stringValue
+        self.count = json[HashtagKey.count.rawValue].intValue
+        self.created = json[HashtagKey.created.rawValue].stringValue
+        self.updated = json[HashtagKey.updated.rawValue].stringValue
     }
 }

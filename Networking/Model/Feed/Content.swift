@@ -56,6 +56,7 @@ public enum ContentType: String, Codable {
 public enum FeedDisplayType {
     case postText
     case postLink
+    case postLinkPreview
     case postImageX1
     case postImageX2
     case postImageX3
@@ -94,7 +95,15 @@ public class Content {
                     return .postImageXMore
                 }
             } else if !self.contentPayload.link.isEmpty {
-                return .postLink
+                if let link = self.contentPayload.link.first {
+                    if link.imagePreview.isEmpty {
+                        return .postLink
+                    } else {
+                        return .postLinkPreview
+                    }
+                } else {
+                    return .postLink
+                }
             } else {
                 if self.contentPayload.message.detectedFirstLink != nil {
                     return .postLink

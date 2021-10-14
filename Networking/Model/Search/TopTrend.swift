@@ -19,34 +19,33 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Link.swift
+//  TopTrend.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 14/7/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 12/10/2564 BE.
 //
 
+import Core
 import SwiftyJSON
 
-// MARK: - Link
-public enum LinkKey: String, Codable {
-    case type
-    case url
-    case imagePreview
+// MARK: - Comment Payload
+public enum TopTrendKey: String, Codable {
+    case hashtags
+    case topics
+    case follows
 }
 
-public enum LinkType: String, Codable {
-    case youtube
-    case other
-}
-
-public class Link: NSObject {
-    public let type: LinkType
-    public let url: String
-    public let imagePreview: String
+public class TopTrend: NSObject {
+    public var hashtags: [Hashtag] = []
+//    public var topics: [Topics] = []
+    public var follows: [Follow] = []
+    
+    public override init() {
+        // Init TopTrend
+    }
     
     public init(json: JSON) {
-        self.type = LinkType(rawValue: json[LinkKey.type.rawValue].stringValue) ?? .other
-        self.url = json[LinkKey.url.rawValue].stringValue
-        self.imagePreview = json[LinkKey.imagePreview.rawValue].stringValue
+        self.hashtags = (json[TopTrendKey.hashtags.rawValue].arrayValue).map { Hashtag(json: $0) }
+        self.follows = (json[TopTrendKey.follows.rawValue].arrayValue).map { Follow(json: $0) }
     }
 }

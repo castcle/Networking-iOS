@@ -19,34 +19,38 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Link.swift
+//  SearchRepository.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 14/7/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 12/10/2564 BE.
 //
 
+import Core
+import Moya
 import SwiftyJSON
 
-// MARK: - Link
-public enum LinkKey: String, Codable {
-    case type
-    case url
-    case imagePreview
+public protocol SearchRepository {
+    func getTopTrends(searchRequest: SearchRequest, _ completion: @escaping complate)
 }
 
-public enum LinkType: String, Codable {
-    case youtube
-    case other
-}
-
-public class Link: NSObject {
-    public let type: LinkType
-    public let url: String
-    public let imagePreview: String
+public final class SearchRepositoryImpl: SearchRepository {
+    private let searchProvider = MoyaProvider<SearchApi>()
+    private let completionHelper: CompletionHelper = CompletionHelper()
     
-    public init(json: JSON) {
-        self.type = LinkType(rawValue: json[LinkKey.type.rawValue].stringValue) ?? .other
-        self.url = json[LinkKey.url.rawValue].stringValue
-        self.imagePreview = json[LinkKey.imagePreview.rawValue].stringValue
+    public init() {
+        // MARK: - Init
+    }
+    
+    public func getTopTrends(searchRequest: SearchRequest, _ completion: @escaping complate) {
+        self.searchProvider.request(.getTopTrends(searchRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
     }
 }
