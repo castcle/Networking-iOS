@@ -19,37 +19,26 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  SearchRequest.swift
+//  Keyword.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 12/10/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 15/10/2564 BE.
 //
 
-public struct SearchRequest {
-    enum ContentKey: String {
-        case page
-        case limit
-        case keyword
-    }
+import SwiftyJSON
 
-    public var page: Int = 1
-    public var limit: Int = 10
-    public var keyword: String = ""
+// MARK: - Follow
+public enum KeywordKey: String, Codable {
+    case text
+    case isTrending
+}
+
+public class Keyword: NSObject {
+    public let text: String
+    public let isTrending: Bool
     
-    public init() {
-        // Init SearchRequest
-    }
-    
-    public var paramGetTopTrends: [String: Any] {
-        return [
-            ContentKey.page.rawValue: self.page,
-            ContentKey.limit.rawValue: self.limit
-        ]
-    }
-    
-    public var paramSearchs: [String: Any] {
-        return [
-            ContentKey.keyword.rawValue: self.keyword
-        ]
+    public init(json: JSON) {
+        self.text = json[KeywordKey.text.rawValue].stringValue
+        self.isTrending = json[KeywordKey.isTrending.rawValue].boolValue
     }
 }

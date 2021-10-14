@@ -19,37 +19,36 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  SearchRequest.swift
+//  Suggestion.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 12/10/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 14/10/2564 BE.
 //
 
-public struct SearchRequest {
-    enum ContentKey: String {
-        case page
-        case limit
-        case keyword
-    }
+import Core
+import SwiftyJSON
 
-    public var page: Int = 1
-    public var limit: Int = 10
-    public var keyword: String = ""
+// MARK: - Comment Payload
+public enum SuggestionKey: String, Codable {
+    case keyword
+    case hashtags
+    case topics
+    case follows
+}
+
+public class Suggestion: NSObject {
+    public var keyword: [Keyword] = []
+    public var hashtags: [Hashtag] = []
+//    public var topics: [Topics] = []
+    public var follows: [Follow] = []
     
-    public init() {
-        // Init SearchRequest
+    public override init() {
+        // Init TopTrend
     }
     
-    public var paramGetTopTrends: [String: Any] {
-        return [
-            ContentKey.page.rawValue: self.page,
-            ContentKey.limit.rawValue: self.limit
-        ]
-    }
-    
-    public var paramSearchs: [String: Any] {
-        return [
-            ContentKey.keyword.rawValue: self.keyword
-        ]
+    public init(json: JSON) {
+        self.keyword = (json[SuggestionKey.keyword.rawValue].arrayValue).map { Keyword(json: $0) }
+        self.hashtags = (json[SuggestionKey.hashtags.rawValue].arrayValue).map { Hashtag(json: $0) }
+        self.follows = (json[SuggestionKey.follows.rawValue].arrayValue).map { Follow(json: $0) }
     }
 }
