@@ -33,8 +33,9 @@ public enum PageInfoKey: String, Codable {
     case castcleId
     case displayName
     case overview
-    case avatar
-    case cover
+    case image
+    case following
+    case followers
     case links
 }
 
@@ -43,8 +44,9 @@ public class PageInfo: NSObject {
     public var castcleId: String = ""
     public var displayName: String = ""
     public var overview: String = ""
-    public var avatar: String = ""
-    public var cover: String = ""
+    public var image: ProfileImage = ProfileImage()
+    public var following: Following = Following()
+    public var followers: Followers = Followers()
     public var links: Social = Social()
     
     public override init() {
@@ -56,13 +58,68 @@ public class PageInfo: NSObject {
         self.castcleId = json[PageInfoKey.castcleId.rawValue].stringValue
         self.displayName = json[PageInfoKey.displayName.rawValue].stringValue
         self.overview = json[PageInfoKey.overview.rawValue].stringValue
-        self.avatar = json[PageInfoKey.avatar.rawValue].stringValue
-        self.cover = json[PageInfoKey.cover.rawValue].stringValue
+        self.image = ProfileImage(json: JSON(json[PageInfoKey.image.rawValue].dictionaryValue))
+        self.following = Following(json: JSON(json[PageInfoKey.following.rawValue].dictionaryValue))
+        self.followers = Followers(json: JSON(json[PageInfoKey.followers.rawValue].dictionaryValue))
         self.links = Social(json: JSON(json[PageInfoKey.links.rawValue].dictionaryValue))
     }
 }
 
-// MARK: - Social Link
+// MARK: - Profile Image
+public enum ProfileImageKey: String, Codable {
+    case avatar
+    case cover
+}
+
+public class ProfileImage: NSObject {
+    public var avatar: String = ""
+    public var cover: String = ""
+    
+    public override init() {
+        // Init Profile Image
+    }
+    
+    public init(json: JSON) {
+        self.avatar = json[ProfileImageKey.avatar.rawValue].stringValue
+        self.cover = json[ProfileImageKey.cover.rawValue].stringValue
+    }
+}
+
+// MARK: - Followers
+public enum FollowersKey: String, Codable {
+    case count
+}
+
+public class Followers: NSObject {
+    public var count: Int = 0
+    
+    public override init() {
+        // Init Followers
+    }
+    
+    public init(json: JSON) {
+        self.count = json[FollowersKey.count.rawValue].intValue
+    }
+}
+
+// MARK: - Following
+public enum FollowingKey: String, Codable {
+    case count
+}
+
+public class Following: NSObject {
+    public var count: Int = 0
+    
+    public override init() {
+        // Init Following
+    }
+    
+    public init(json: JSON) {
+        self.count = json[FollowingKey.count.rawValue].intValue
+    }
+}
+
+// MARK: - Social
 public enum SocialKey: String, Codable {
     case facebook
     case twitter

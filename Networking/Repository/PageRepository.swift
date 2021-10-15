@@ -35,6 +35,7 @@ public protocol PageRepository {
     func updatePageAvatar(pageId: String, pageRequest: PageRequest, _ completion: @escaping complate)
     func updatePageCover(pageId: String, pageRequest: PageRequest, _ completion: @escaping complate)
     func getPageInfo(pageId: String, _ completion: @escaping complate)
+    func getPageContent(pageId: String, contentRequest: ContentRequest, _ completion: @escaping complate)
 }
 
 public final class PageRepositoryImpl: PageRepository {
@@ -99,6 +100,19 @@ public final class PageRepositoryImpl: PageRepository {
     
     public func getPageInfo(pageId: String, _ completion: @escaping complate) {
         self.pageProvider.request(.getPageInfo(pageId)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func getPageContent(pageId: String, contentRequest: ContentRequest, _ completion: @escaping complate) {
+        self.pageProvider.request(.getPageContent(pageId, contentRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
