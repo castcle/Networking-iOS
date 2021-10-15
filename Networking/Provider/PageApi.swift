@@ -33,6 +33,7 @@ enum PageApi {
     case updatePageInfo(String, PageRequest)
     case updatePageAvatar(String, PageRequest)
     case updatePageCover(String, PageRequest)
+    case getPageInfo(String)
 }
 
 extension PageApi: TargetType {
@@ -46,6 +47,8 @@ extension PageApi: TargetType {
             return "/pages"
         case .updatePageInfo(let pageId, _), .updatePageAvatar(let pageId, _), .updatePageCover(let pageId, _):
             return "/pages/\(pageId)"
+        case .getPageInfo(let pageId):
+            return "/pages/\(pageId)"
         }
     }
     
@@ -55,6 +58,8 @@ extension PageApi: TargetType {
             return .post
         case .updatePageInfo, .updatePageAvatar, .updatePageCover:
             return .put
+        case .getPageInfo:
+            return .get
         }
     }
     
@@ -72,6 +77,8 @@ extension PageApi: TargetType {
             return .requestParameters(parameters: pageRequest.paramUpdatePageAvatar, encoding: JSONEncoding.default)
         case .updatePageCover(_, let pageRequest):
             return .requestParameters(parameters: pageRequest.paramUpdatePageCover, encoding: JSONEncoding.default)
+        default:
+            return .requestPlain
         }
     }
     

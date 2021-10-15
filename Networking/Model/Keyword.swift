@@ -27,7 +27,7 @@
 
 import SwiftyJSON
 
-// MARK: - Follow
+// MARK: - Keyword
 public enum KeywordKey: String, Codable {
     case text
     case isTrending

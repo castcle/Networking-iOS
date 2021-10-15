@@ -31,7 +31,7 @@ import SwiftyJSON
 
 public protocol SearchRepository {
     func getTopTrends(searchRequest: SearchRequest, _ completion: @escaping complate)
-    func searchs(searchRequest: SearchRequest, _ completion: @escaping complate)
+    func getSuggestion(searchRequest: SearchRequest, _ completion: @escaping complate)
 }
 
 public final class SearchRepositoryImpl: SearchRepository {
@@ -55,8 +55,8 @@ public final class SearchRepositoryImpl: SearchRepository {
         }
     }
     
-    public func searchs(searchRequest: SearchRequest, _ completion: @escaping complate) {
-        self.searchProvider.request(.getTopTrends(searchRequest)) { result in
+    public func getSuggestion(searchRequest: SearchRequest, _ completion: @escaping complate) {
+        self.searchProvider.request(.getSuggestion(searchRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

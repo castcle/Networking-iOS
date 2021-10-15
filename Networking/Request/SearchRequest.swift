@@ -47,7 +47,7 @@ public struct SearchRequest {
         ]
     }
     
-    public var paramSearchs: [String: Any] {
+    public var paramSuggestion: [String: Any] {
         return [
             ContentKey.keyword.rawValue: self.keyword
         ]
