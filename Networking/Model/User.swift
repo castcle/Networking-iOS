@@ -83,12 +83,42 @@ public enum UserImageKey: String, Codable {
 }
 
 public class UserImage: NSObject {
-    public let cover: String
-    public let avatar: String
+    public var cover: ImageInfo = ImageInfo()
+    public var avatar: ImageInfo = ImageInfo()
+    
+    public override init() {
+        // Init User Image
+    }
     
     public init(json: JSON) {
-        self.cover = json[UserImageKey.cover.rawValue].stringValue
-        self.avatar = json[UserImageKey.avatar.rawValue].stringValue
+        self.cover = ImageInfo(json: JSON(json[UserImageKey.cover.rawValue].dictionaryObject ?? [:]))
+        self.avatar = ImageInfo(json: JSON(json[UserImageKey.avatar.rawValue].dictionaryObject ?? [:]))
+    }
+}
+
+// MARK: - Image Info
+public enum ImageInfoKey: String, Codable {
+    case original
+    case thumbnail
+    case fullHd
+    case large
+}
+
+public class ImageInfo: NSObject {
+    public var original: String = ""
+    public var thumbnail: String = ""
+    public var fullHd: String = ""
+    public var large: String = ""
+    
+    public override init() {
+        // Init Profile Image
+    }
+    
+    public init(json: JSON) {
+        self.original = json[ImageInfoKey.original.rawValue].stringValue
+        self.thumbnail = json[ImageInfoKey.thumbnail.rawValue].stringValue
+        self.fullHd = json[ImageInfoKey.fullHd.rawValue].stringValue
+        self.large = json[ImageInfoKey.large.rawValue].stringValue
     }
 }
 

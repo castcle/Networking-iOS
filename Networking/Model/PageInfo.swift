@@ -44,7 +44,7 @@ public class PageInfo: NSObject {
     public var castcleId: String = ""
     public var displayName: String = ""
     public var overview: String = ""
-    public var image: ProfileImage = ProfileImage()
+    public var image: UserImage = UserImage()
     public var following: Following = Following()
     public var followers: Followers = Followers()
     public var links: Social = Social()
@@ -58,30 +58,16 @@ public class PageInfo: NSObject {
         self.castcleId = json[PageInfoKey.castcleId.rawValue].stringValue
         self.displayName = json[PageInfoKey.displayName.rawValue].stringValue
         self.overview = json[PageInfoKey.overview.rawValue].stringValue
-        self.image = ProfileImage(json: JSON(json[PageInfoKey.image.rawValue].dictionaryValue))
+        self.image = UserImage(json: JSON(json[PageInfoKey.image.rawValue].dictionaryValue))
         self.following = Following(json: JSON(json[PageInfoKey.following.rawValue].dictionaryValue))
         self.followers = Followers(json: JSON(json[PageInfoKey.followers.rawValue].dictionaryValue))
         self.links = Social(json: JSON(json[PageInfoKey.links.rawValue].dictionaryValue))
     }
-}
-
-// MARK: - Profile Image
-public enum ProfileImageKey: String, Codable {
-    case avatar
-    case cover
-}
-
-public class ProfileImage: NSObject {
-    public var avatar: String = ""
-    public var cover: String = ""
     
-    public override init() {
-        // Init Profile Image
-    }
-    
-    public init(json: JSON) {
-        self.avatar = json[ProfileImageKey.avatar.rawValue].stringValue
-        self.cover = json[ProfileImageKey.cover.rawValue].stringValue
+    public init(displayName: String, avatar: String, castcleId: String) {
+        self.castcleId = castcleId
+        self.displayName = displayName
+        self.image.avatar.fullHd = avatar
     }
 }
 

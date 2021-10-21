@@ -37,8 +37,8 @@ public class UserHelper {
         Defaults[.userId] = user.id
         Defaults[.castcleId] = user.castcleId
         Defaults[.displayName] = user.displayName
-        Defaults[.cover] = user.images.cover
-        Defaults[.avatar] = user.images.avatar
+        Defaults[.cover] = user.images.cover.fullHd
+        Defaults[.avatar] = user.images.avatar.fullHd
         Defaults[.overview] = user.overview
         Defaults[.verified] = user.verified
         Defaults[.email] = user.email

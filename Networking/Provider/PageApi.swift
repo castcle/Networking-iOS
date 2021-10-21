@@ -35,6 +35,7 @@ enum PageApi {
     case updatePageCover(String, PageRequest)
     case getPageInfo(String)
     case getPageContent(String, ContentRequest)
+    case getMyPage
 }
 
 extension PageApi: TargetType {
@@ -52,6 +53,8 @@ extension PageApi: TargetType {
             return "/pages/\(pageId)"
         case .getPageContent(let pageId, _):
             return "/pages/\(pageId)/contents"
+        case .getMyPage:
+            return "/users/me/pages"
         }
     }
     
@@ -61,7 +64,7 @@ extension PageApi: TargetType {
             return .post
         case .updatePageInfo, .updatePageAvatar, .updatePageCover:
             return .put
-        case .getPageInfo, .getPageContent:
+        case .getPageInfo, .getPageContent, .getMyPage:
             return .get
         }
     }
