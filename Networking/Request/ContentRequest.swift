@@ -22,7 +22,7 @@
 //  ContentRequest.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 28/9/2564 BE.
+//  Created by Castcle Co., Ltd. on 28/9/2564 BE.
 //
 
 public struct ContentRequest {

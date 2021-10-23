@@ -22,7 +22,7 @@
 //  LoginRequest.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 12/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 12/8/2564 BE.
 //
 
 public struct LoginRequest {

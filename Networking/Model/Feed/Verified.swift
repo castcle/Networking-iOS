@@ -22,7 +22,7 @@
 //  Verified.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 4/10/2564 BE.
+//  Created by Castcle Co., Ltd. on 4/10/2564 BE.
 //
 
 import SwiftyJSON

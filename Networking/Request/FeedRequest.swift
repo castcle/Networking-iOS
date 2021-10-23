@@ -22,7 +22,7 @@
 //  FeedRequest.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 7/10/2564 BE.
+//  Created by Castcle Co., Ltd. on 7/10/2564 BE.
 //
 
 public struct FeedRequest {

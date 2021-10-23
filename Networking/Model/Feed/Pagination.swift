@@ -22,7 +22,7 @@
 //  Pagination.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 29/9/2564 BE.
+//  Created by Castcle Co., Ltd. on 29/9/2564 BE.
 //
 
 import SwiftyJSON

@@ -22,7 +22,7 @@
 //  UserRequest.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 31/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 31/8/2564 BE.
 //
 
 public enum UserChannelKey: String {

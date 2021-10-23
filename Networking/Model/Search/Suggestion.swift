@@ -22,7 +22,7 @@
 //  Suggestion.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 14/10/2564 BE.
+//  Created by Castcle Co., Ltd. on 14/10/2564 BE.
 //
 
 import Core

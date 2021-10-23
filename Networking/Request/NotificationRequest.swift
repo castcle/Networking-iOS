@@ -22,7 +22,7 @@
 //  NotificationRequest.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 23/9/2564 BE.
+//  Created by Castcle Co., Ltd. on 23/9/2564 BE.
 //
 
 public struct NotificationRequest {

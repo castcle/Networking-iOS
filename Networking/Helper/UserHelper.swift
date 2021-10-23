@@ -22,7 +22,7 @@
 //  UserHelper.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 14/9/2564 BE.
+//  Created by Castcle Co., Ltd. on 14/9/2564 BE.
 //
 
 import Core
@@ -37,7 +37,7 @@ public class UserHelper {
         Defaults[.userId] = user.id
         Defaults[.castcleId] = user.castcleId
         Defaults[.displayName] = user.displayName
-        Defaults[.cover] = user.images.cover.fullHd
+        Defaults[.cover] = user.images.cover.original
         Defaults[.avatar] = user.images.avatar.fullHd
         Defaults[.overview] = user.overview
         Defaults[.verified] = user.verified

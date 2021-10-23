@@ -22,7 +22,7 @@
 //  Content.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 21/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 21/7/2564 BE.
 //
 
 import Core
