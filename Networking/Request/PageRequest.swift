@@ -34,6 +34,7 @@ public struct PageRequest {
         case cover
         case overview
         case links
+        case password
     }
     
     public var castcleId: String = ""
@@ -42,6 +43,7 @@ public struct PageRequest {
     public var cover: String = ""
     public var overview: String = ""
     public var links: PageLinkRequest = PageLinkRequest()
+    public var password: String = ""
     
     public init() {
         // Init PageRequest
@@ -70,6 +72,12 @@ public struct PageRequest {
         return [
             PageKey.overview.rawValue: self.overview,
             PageKey.links.rawValue: self.links.paramEditPageLink
+        ]
+    }
+    
+    public var paramDeletePage: [String: Any] {
+        return [
+            PageKey.password.rawValue: self.password
         ]
     }
 }

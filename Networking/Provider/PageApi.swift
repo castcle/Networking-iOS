@@ -36,6 +36,7 @@ enum PageApi {
     case getPageInfo(String)
     case getPageContent(String, ContentRequest)
     case getMyPage
+    case deletePage(String, PageRequest)
 }
 
 extension PageApi: TargetType {
@@ -55,6 +56,8 @@ extension PageApi: TargetType {
             return "/pages/\(pageId)/contents"
         case .getMyPage:
             return "/users/me/pages"
+        case .deletePage(let pageId, _):
+            return "/pages/\(pageId)"
         }
     }
     
@@ -66,6 +69,8 @@ extension PageApi: TargetType {
             return .put
         case .getPageInfo, .getPageContent, .getMyPage:
             return .get
+        case .deletePage:
+            return .delete
         }
     }
     
@@ -85,6 +90,8 @@ extension PageApi: TargetType {
             return .requestParameters(parameters: pageRequest.paramUpdatePageCover, encoding: JSONEncoding.default)
         case .getPageContent(_, let contentRequest):
             return .requestParameters(parameters: contentRequest.paramGetContent, encoding: URLEncoding.queryString)
+        case .deletePage(_, let pageRequest):
+            return .requestParameters(parameters: pageRequest.paramDeletePage, encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }
