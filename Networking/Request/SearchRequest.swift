@@ -42,7 +42,6 @@ public struct SearchRequest {
     
     public var paramGetTopTrends: [String: Any] {
         return [
-            ContentKey.page.rawValue: self.page,
             ContentKey.limit.rawValue: self.limit
         ]
     }
