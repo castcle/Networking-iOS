@@ -46,6 +46,9 @@ public class CompletionHelper {
                 if code == errorRefreshToken {
                     completion(false, response, true)
                 } else {
+                    print("########## ERROR ##########")
+                    print("\(response.request!)")
+                    print("###########################")
                     ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
                     completion(false, response, false)
                 }
