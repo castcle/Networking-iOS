@@ -52,6 +52,8 @@ public enum AuthenticationApiKey: String {
     case suggestCastcleId
     case payload
     case refCode
+    case profile
+    case pages
 }
 
 public final class AuthenticationRepositoryImpl: AuthenticationRepository {

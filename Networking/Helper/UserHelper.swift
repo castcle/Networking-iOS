@@ -40,7 +40,10 @@ public class UserHelper {
         Defaults[.cover] = user.images.cover.original
         Defaults[.avatar] = user.images.avatar.fullHd
         Defaults[.overview] = user.overview
-        Defaults[.verified] = user.verified
+        Defaults[.verifiedEmail] = user.verified.email
+        Defaults[.verifiedSocial] = user.verified.social
+        Defaults[.verifiedOfficial] = user.verified.official
+        Defaults[.verifiedMobile] = user.verified.mobile
         Defaults[.email] = user.email
         Defaults[.dob] = user.dob
         Defaults[.followers] = user.followers.count
@@ -59,7 +62,10 @@ public class UserHelper {
         Defaults[.cover] = ""
         Defaults[.avatar] = ""
         Defaults[.overview] = ""
-        Defaults[.verified] = false
+        Defaults[.verifiedEmail] = false
+        Defaults[.verifiedSocial] = false
+        Defaults[.verifiedOfficial] = false
+        Defaults[.verifiedMobile] = false
         Defaults[.email] = ""
         Defaults[.dob] = ""
         Defaults[.followers] = 0

@@ -32,12 +32,14 @@ public enum VerifiedKey: String, Codable {
     case email
     case mobile
     case official
+    case social
 }
 
 public class Verified: NSObject {
     public var email: Bool = false
     public var mobile: Bool = false
     public var official: Bool = false
+    public var social: Bool = false
     
     public override init() {
         // MARK: - Init
@@ -47,5 +49,6 @@ public class Verified: NSObject {
         self.email = json[VerifiedKey.email.rawValue].boolValue
         self.mobile = json[VerifiedKey.mobile.rawValue].boolValue
         self.official = json[VerifiedKey.official.rawValue].boolValue
+        self.social = json[VerifiedKey.social.rawValue].boolValue
     }
 }

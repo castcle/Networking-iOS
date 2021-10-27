@@ -54,7 +54,7 @@ public class User: NSObject {
     public let links: UserLink
     public let following: UserFollowing
     public let followers: UserFollowers
-    public let verified: Bool
+    public let verified: Verified
     public let followed: Bool
     
     public init(json: JSON) {
@@ -65,7 +65,6 @@ public class User: NSObject {
         self.email = json[UserKey.email.rawValue].stringValue
         self.overview = json[UserKey.overview.rawValue].stringValue
         self.dob = json[UserKey.dob.rawValue].stringValue
-        self.verified = json[UserKey.verified.rawValue].boolValue
         self.followed = json[UserKey.followed.rawValue].boolValue
         
         // MARK: - Object
@@ -73,6 +72,7 @@ public class User: NSObject {
         self.links = UserLink(json: JSON(json[UserKey.links.rawValue].dictionaryObject ?? [:]))
         self.following = UserFollowing(json: JSON(json[UserKey.following.rawValue].dictionaryObject ?? [:]))
         self.followers = UserFollowers(json: JSON(json[UserKey.followers.rawValue].dictionaryObject ?? [:]))
+        self.verified = Verified(json: JSON(json[UserKey.verified.rawValue].dictionaryObject ?? [:]))
     }
 }
 
