@@ -29,6 +29,7 @@ import Core
 import Moya
 import SwiftyJSON
 import Defaults
+import RealmSwift
 
 public protocol AuthenticationRepository {
     func guestLogin(uuid: String, _ completion: @escaping (Bool) -> ())
@@ -59,6 +60,7 @@ public enum AuthenticationApiKey: String {
 public final class AuthenticationRepositoryImpl: AuthenticationRepository {
     private let authenticationProvider = MoyaProvider<AuthenticationApi>()
     private let completionHelper: CompletionHelper = CompletionHelper()
+    private let realm = try! Realm()
     
     public init() {
         // MARK: - Init
@@ -223,6 +225,30 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                     let json = JSON(rawJson)
                     if response.statusCode < 300 {
                         let accessToken = json[AuthenticationApiKey.accessToken.rawValue].stringValue
+                        let profile = JSON(json[AuthenticationApiKey.profile.rawValue].dictionaryValue)
+                        let pageList = json[AuthenticationApiKey.pages.rawValue].arrayValue
+                        
+                        let userHelper = UserHelper()
+                        userHelper.updateLocalProfile(user: User(json: profile))
+                        
+                        let pageLocal = self.realm.objects(PageLocal.self)
+                        try! self.realm.write {
+                            self.realm.delete(pageLocal)
+                        }
+                        
+                        pageList.forEach { page in
+                            let pageInfo = PageInfo(json: page)
+                            try! self.realm.write {
+                                let pageLocal = PageLocal()
+                                pageLocal.id = pageInfo.id
+                                pageLocal.castcleId = pageInfo.castcleId
+                                pageLocal.displayName = pageInfo.displayName
+                                pageLocal.image = pageInfo.image.avatar.fullHd
+                                self.realm.add(pageLocal, update: .modified)
+                            }
+                            
+                        }
+                        
                         Defaults[.accessToken] = accessToken
                         completion(true, false)
                     } else {
