@@ -44,7 +44,7 @@ public enum ContentPayloadKey: String, Codable {
 public class ContentPayload: NSObject {
     public let header: String
     public let message: String
-    public let cover: String
+    public let cover: ImageInfo
     public let photo: [ImageInfo]
     public let link: [Link]
     
@@ -58,7 +58,7 @@ public class ContentPayload: NSObject {
         
         // MARK: - Cover
         let photoCoverJson = JSON(photoJson[ContentPayloadKey.cover.rawValue].dictionaryValue)
-        self.cover = photoCoverJson[ContentPayloadKey.url.rawValue].stringValue
+        self.cover = ImageInfo(json: photoCoverJson)
         
         // MARK: - Link
         self.link = (json[ContentPayloadKey.link.rawValue].arrayValue).map { Link(json: $0) }

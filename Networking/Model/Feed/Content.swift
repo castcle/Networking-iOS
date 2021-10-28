@@ -126,7 +126,7 @@ public class Content {
                 }
             }
         } else if self.type == .blog {
-            if self.contentPayload.cover.isEmpty {
+            if self.contentPayload.cover.fullHd.isEmpty {
                 return .blogNoImage
             } else {
                 return .blogImage
