@@ -36,8 +36,8 @@ public enum FeedKey: String, Codable {
     case aggregator
     case type
     case payload
-    case created
-    case updated
+    case createAt
+    case updateAt
 }
 
 public enum FeedType: String, Codable {
@@ -54,14 +54,14 @@ public class Feed: NSObject {
     public let aggregator: Aggregator
     public let type: FeedType
     public let feedPayload: Content
-    public let created: String
-    public let updated: String
+    public let createAt: String
+    public let updateAt: String
     
     public init(json: JSON) {
         self.id = json[FeedKey.id.rawValue].stringValue
         self.type = FeedType(rawValue: json[FeedKey.type.rawValue].stringValue) ?? .content
-        self.created = json[FeedKey.created.rawValue].stringValue
-        self.updated = json[FeedKey.updated.rawValue].stringValue
+        self.createAt = json[FeedKey.createAt.rawValue].stringValue
+        self.updateAt = json[FeedKey.updateAt.rawValue].stringValue
         
         // MARK: - Object
         self.feature = Feature(json: JSON(json[FeedKey.feature.rawValue].dictionaryObject ?? [:]))

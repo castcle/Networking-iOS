@@ -39,8 +39,8 @@ public enum ContentKey: String, Codable {
     case recasted
     case quoteCast
     case author
-    case created
-    case updated
+    case createAt
+    case updateAt
 }
 
 public enum ContentType: String, Codable {
@@ -75,11 +75,11 @@ public class Content {
     public let recasted: Recasted
 //    let quoteCast
     public let author: Author
-    public let created: String
-    public let updated: String
+    public let createAt: String
+    public let updateAt: String
     
     public var postDate: Date {
-        return Date.stringToDate(str: self.created)
+        return Date.stringToDate(str: self.createAt)
     }
     
     public var feedDisplayType: FeedDisplayType {
@@ -139,8 +139,8 @@ public class Content {
     public init(json: JSON) {
         self.id = json[ContentKey.id.rawValue].stringValue
         self.type = ContentType(rawValue: json[ContentKey.type.rawValue].stringValue) ?? .short
-        self.created = json[ContentKey.created.rawValue].stringValue
-        self.updated = json[ContentKey.updated.rawValue].stringValue
+        self.createAt = json[ContentKey.createAt.rawValue].stringValue
+        self.updateAt = json[ContentKey.updateAt.rawValue].stringValue
         
         // MARK: - Object
         self.contentPayload = ContentPayload(json: JSON(json[ContentKey.payload.rawValue].dictionaryObject ?? [:]))

@@ -105,7 +105,7 @@ public struct ContentPayloadRequest {
         case message
         case photo
         case contents
-        case url
+        case image
     }
     
     public var message: String = ""
@@ -127,7 +127,7 @@ public struct ContentPayloadRequest {
     private var photoParam: [[String: String]] {
         var temp: [[String: String]] = []
         self.image.forEach { imageBase64 in
-            temp.append([ContentPayloadKey.url.rawValue: imageBase64])
+            temp.append([ContentPayloadKey.image.rawValue: imageBase64])
         }
         return temp
     }

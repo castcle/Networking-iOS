@@ -64,8 +64,8 @@ public enum CommentKey: String, Codable {
     case like
     case author
     case reply
-    case created
-    case updated
+    case createAt
+    case updateAt
 }
 
 public class Comment: NSObject {
@@ -74,15 +74,15 @@ public class Comment: NSObject {
     public let like: Liked
     public let author: Author
     public let reply: [ReplyComment]
-    public let created: String
-    public let updated: String
+    public let createAt: String
+    public let updateAt: String
     public var isFirst: Bool
     public var isLast: Bool
     
     public init(json: JSON, isFirst: Bool = false, isLast: Bool = false) {
         self.id = json[CommentKey.id.rawValue].stringValue
-        self.created = json[CommentKey.created.rawValue].stringValue
-        self.updated = json[CommentKey.updated.rawValue].stringValue
+        self.createAt = json[CommentKey.createAt.rawValue].stringValue
+        self.updateAt = json[CommentKey.updateAt.rawValue].stringValue
         self.isFirst = isFirst
         self.isLast = isLast
         
@@ -101,20 +101,20 @@ public class Comment: NSObject {
 // MARK: - Message Comment
 public enum MessageKey: String, Codable {
     case message
-    case created
+    case createAt
 }
 
 public class Message: NSObject {
     public let message: String
-    public let created: String
+    public let createAt: String
     
     public init(json: JSON) {
         self.message = json[MessageKey.message.rawValue].stringValue
-        self.created = json[MessageKey.created.rawValue].stringValue
+        self.createAt = json[MessageKey.createAt.rawValue].stringValue
     }
     
     public var commentDate: Date {
-        return Date.stringToDate(str: self.created)
+        return Date.stringToDate(str: self.createAt)
     }
 }
 
@@ -124,8 +124,8 @@ public enum ReplyCommentKey: String, Codable {
     case comments
     case like
     case author
-    case created
-    case updated
+    case createAt
+    case updateAt
 }
 
 public class ReplyComment: NSObject {
@@ -133,13 +133,13 @@ public class ReplyComment: NSObject {
     public let comments: [Message]
     public let like: Liked
     public let author: Author
-    public let created: String
-    public let updated: String
+    public let createAt: String
+    public let updateAt: String
     
     public init(json: JSON) {
         self.id = json[ReplyCommentKey.id.rawValue].stringValue
-        self.created = json[ReplyCommentKey.created.rawValue].stringValue
-        self.updated = json[ReplyCommentKey.updated.rawValue].stringValue
+        self.createAt = json[ReplyCommentKey.createAt.rawValue].stringValue
+        self.updateAt = json[ReplyCommentKey.updateAt.rawValue].stringValue
         
         // MARK: - Object
         self.like = Liked(json: JSON(json[ReplyCommentKey.like.rawValue].dictionaryObject ?? [:]))

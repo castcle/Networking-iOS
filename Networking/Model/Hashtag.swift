@@ -36,8 +36,8 @@ public enum HashtagKey: String, Codable {
     case rank
     case trends
     case count
-    case created
-    case updated
+    case createAt
+    case updateAt
 }
 
 public class Hashtag: NSObject {
@@ -48,8 +48,8 @@ public class Hashtag: NSObject {
     public let rank: Int
     public let trends: String
     public let count: Int
-    public let created: String
-    public let updated: String
+    public let createAt: String
+    public let updateAt: String
     
     public init(json: JSON) {
         self.id = json[HashtagKey.id.rawValue].stringValue
@@ -59,7 +59,7 @@ public class Hashtag: NSObject {
         self.rank = json[HashtagKey.rank.rawValue].intValue
         self.trends = json[HashtagKey.trends.rawValue].stringValue
         self.count = json[HashtagKey.count.rawValue].intValue
-        self.created = json[HashtagKey.created.rawValue].stringValue
-        self.updated = json[HashtagKey.updated.rawValue].stringValue
+        self.createAt = json[HashtagKey.createAt.rawValue].stringValue
+        self.updateAt = json[HashtagKey.updateAt.rawValue].stringValue
     }
 }
