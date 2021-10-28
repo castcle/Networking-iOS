@@ -48,7 +48,7 @@ public class Author: NSObject {
     public let id: String
     public let castcleId: String
     public let displayName: String
-    public let avatar: String
+    public let avatar: ImageInfo
     public let verified: Verified
     public let followed: Bool
     
@@ -57,10 +57,10 @@ public class Author: NSObject {
         self.type = AuthorType(rawValue: json[AuthorKey.type.rawValue].stringValue) ?? .people
         self.castcleId = json[AuthorKey.castcleId.rawValue].stringValue
         self.displayName = json[AuthorKey.displayName.rawValue].stringValue
-        self.avatar = json[AuthorKey.avatar.rawValue].stringValue
         self.followed = json[AuthorKey.followed.rawValue].boolValue
         
         // MARK: - Object
         self.verified = Verified(json: JSON(json[AuthorKey.verified.rawValue].dictionaryObject ?? [:]))
+        self.avatar = ImageInfo(json: JSON(json[AuthorKey.avatar.rawValue].dictionaryObject ?? [:]))
     }
 }

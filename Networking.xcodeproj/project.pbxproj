@@ -31,7 +31,6 @@
 		B7684A5C26C5061C00C438C5 /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A3C26C5061B00C438C5 /* Link.swift */; };
 		B7684A5D26C5061C00C438C5 /* Hashtag.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A3D26C5061B00C438C5 /* Hashtag.swift */; };
 		B7684A5E26C5061C00C438C5 /* Author.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A3E26C5061B00C438C5 /* Author.swift */; };
-		B7684A5F26C5061C00C438C5 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A3F26C5061B00C438C5 /* Photo.swift */; };
 		B7684A6026C5061C00C438C5 /* Liked.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A4026C5061B00C438C5 /* Liked.swift */; };
 		B7684A6126C5061C00C438C5 /* Recasted.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A4126C5061B00C438C5 /* Recasted.swift */; };
 		B7684A6226C5061C00C438C5 /* Commented.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A4226C5061B00C438C5 /* Commented.swift */; };
@@ -107,7 +106,6 @@
 		B7684A3C26C5061B00C438C5 /* Link.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
 		B7684A3D26C5061B00C438C5 /* Hashtag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hashtag.swift; sourceTree = "<group>"; };
 		B7684A3E26C5061B00C438C5 /* Author.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Author.swift; sourceTree = "<group>"; };
-		B7684A3F26C5061B00C438C5 /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		B7684A4026C5061B00C438C5 /* Liked.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Liked.swift; sourceTree = "<group>"; };
 		B7684A4126C5061B00C438C5 /* Recasted.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Recasted.swift; sourceTree = "<group>"; };
 		B7684A4226C5061B00C438C5 /* Commented.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Commented.swift; sourceTree = "<group>"; };
@@ -276,7 +274,6 @@
 				B7684A3B26C5061B00C438C5 /* Feature.swift */,
 				B7684A3C26C5061B00C438C5 /* Link.swift */,
 				B7684A3E26C5061B00C438C5 /* Author.swift */,
-				B7684A3F26C5061B00C438C5 /* Photo.swift */,
 				B7684A4026C5061B00C438C5 /* Liked.swift */,
 				B7684A4126C5061B00C438C5 /* Recasted.swift */,
 				B7684A4226C5061B00C438C5 /* Commented.swift */,
@@ -489,7 +486,6 @@
 				B79DF1AA270AB34300A40502 /* Verified.swift in Sources */,
 				B7684A5E26C5061C00C438C5 /* Author.swift in Sources */,
 				B7684A7226C5061C00C438C5 /* AuthenRequest.swift in Sources */,
-				B7684A5F26C5061C00C438C5 /* Photo.swift in Sources */,
 				B7A71D77270308910092F318 /* ContentRepository.swift in Sources */,
 				B7AC1E3627158B27002FC176 /* SearchApi.swift in Sources */,
 				B7AC1E3827158BAE002FC176 /* SearchRequest.swift in Sources */,

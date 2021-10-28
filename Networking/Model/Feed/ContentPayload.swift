@@ -45,7 +45,7 @@ public class ContentPayload: NSObject {
     public let header: String
     public let message: String
     public let cover: String
-    public let photo: [Photo]
+    public let photo: [ImageInfo]
     public let link: [Link]
     
     public init(json: JSON) {
@@ -54,7 +54,7 @@ public class ContentPayload: NSObject {
         
         // MARK: - Photo
         let photoJson = JSON(json[ContentPayloadKey.photo.rawValue].dictionaryValue)
-        self.photo = (photoJson[ContentPayloadKey.contents.rawValue].arrayValue).map { Photo(json: $0) }
+        self.photo = (photoJson[ContentPayloadKey.contents.rawValue].arrayValue).map { ImageInfo(json: $0) }
         
         // MARK: - Cover
         let photoCoverJson = JSON(photoJson[ContentPayloadKey.cover.rawValue].dictionaryValue)
