@@ -57,9 +57,9 @@ extension ContentApi: TargetType {
         case .deleteContent(let contentId):
             return "/contents/\(contentId)"
         case .recastContent(let contentId, _):
-            return "/contents/\(contentId)/recast"
+            return "/contents/\(contentId)/recasted"
         case .unrecastContent(let contentId, _):
-            return "/contents/\(contentId)/unrecast"
+            return "/contents/\(contentId)/unrecasted"
         case .quotecastContent(let contentId, _):
             return "/contents/\(contentId)/quotecast"
         }
