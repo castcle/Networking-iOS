@@ -227,7 +227,6 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                         let accessToken = json[AuthenticationApiKey.accessToken.rawValue].stringValue
                         let profile = JSON(json[AuthenticationApiKey.profile.rawValue].dictionaryValue)
                         let pageList = json[AuthenticationApiKey.pages.rawValue].arrayValue
-                        
                         let userHelper = UserHelper()
                         userHelper.updateLocalProfile(user: User(json: profile))
                         
@@ -240,7 +239,6 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                             let pageInfo = PageInfo(json: page)
                             try! self.realm.write {
                                 let pageLocal = PageLocal()
-                                pageLocal.id = pageInfo.id
                                 pageLocal.castcleId = pageInfo.castcleId
                                 pageLocal.displayName = pageInfo.displayName
                                 pageLocal.image = pageInfo.image.avatar.fullHd
