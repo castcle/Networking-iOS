@@ -105,7 +105,7 @@ public class Content {
                     return .postLink
                 }
             } else {
-                if self.contentPayload.message.detectedFirstLink != nil {
+                if self.contentPayload.message.extractURLs().first != nil {
                     return .postLink
                 } else {
                     return .postText

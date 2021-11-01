@@ -25,6 +25,8 @@
 //  Created by Castcle Co., Ltd. on 14/7/2564 BE.
 //
 
+import UIKit
+import Core
 import SwiftyJSON
 
 // MARK: - Link
@@ -35,8 +37,32 @@ public enum LinkKey: String, Codable {
 }
 
 public enum LinkType: String, Codable {
+    case twitter
     case youtube
+    case rssfeed
+    case medium
+    case facebook
+    case reddit
     case other
+    
+    public var image: UIImage {
+        switch self {
+        case .twitter:
+            return UIImage.Asset.twitter
+        case .youtube:
+            return UIImage.Asset.youtube
+        case .rssfeed:
+            return UIImage.Asset.rssfeed
+        case .medium:
+            return UIImage.Asset.medium
+        case .facebook:
+            return UIImage.Asset.facebook
+        case .reddit:
+            return UIImage.Asset.reddit
+        default:
+            return UIImage()
+        }
+    }
 }
 
 public class Link: NSObject {
