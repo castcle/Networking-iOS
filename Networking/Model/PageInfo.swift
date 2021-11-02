@@ -67,7 +67,7 @@ public class PageInfo: NSObject {
     public init(displayName: String, avatar: String, castcleId: String) {
         self.castcleId = castcleId
         self.displayName = displayName
-        self.image.avatar.fullHd = avatar
+        self.image.avatar.thumbnail = avatar
     }
 }
 

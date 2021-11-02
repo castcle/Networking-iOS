@@ -43,7 +43,7 @@ public class Follow: NSObject {
     public let id: String
     public let castcleId: String
     public let displayName: String
-    public let avatar: String
+    public let avatar: ImageInfo
     public let overview: String
     public let verified: Verified
     public let type: AuthorType
@@ -53,12 +53,12 @@ public class Follow: NSObject {
         self.id = json[FollowKey.id.rawValue].stringValue
         self.castcleId = json[FollowKey.castcleId.rawValue].stringValue
         self.displayName = json[FollowKey.displayName.rawValue].stringValue
-        self.avatar = json[FollowKey.avatar.rawValue].stringValue
         self.overview = json[FollowKey.overview.rawValue].stringValue
         self.type = AuthorType(rawValue: json[FollowKey.type.rawValue].stringValue) ?? .people
         self.count = json[FollowKey.count.rawValue].intValue
         
         // MARK: - Object
         self.verified = Verified(json: JSON(json[FollowKey.verified.rawValue].dictionaryObject ?? [:]))
+        self.avatar = ImageInfo(json: JSON(json[FollowKey.avatar.rawValue].dictionaryObject ?? [:]))
     }
 }
