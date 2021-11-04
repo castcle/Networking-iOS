@@ -38,7 +38,7 @@ enum UserApi {
     case delateUser(UserRequest)
     
     case getUser(String)
-    case getUserContents(String)
+    case getUserContents(String, ContentRequest)
     
     case getUserFollower(String)
     case getUserFollowing(String)
@@ -57,8 +57,8 @@ extension UserApi: TargetType {
         case .getAllUser:
             return "/users"
         case .getUser(let userId):
-            return "/users\(userId)"
-        case .getUserContents(let userId):
+            return "/users/\(userId)"
+        case .getUserContents(let userId, _):
             return "/users/\(userId)/contents"
         case .getUserFollower(let userId):
             return "/users/\(userId)/follower"
@@ -98,6 +98,8 @@ extension UserApi: TargetType {
             return .requestParameters(parameters: userRequest.payload.paramEditUserCover, encoding: JSONEncoding.default)
         case .delateUser(let userRequest):
             return .requestParameters(parameters: userRequest.paramDeleteUser, encoding: JSONEncoding.default)
+        case .getUserContents(_, let contentRequest):
+            return .requestParameters(parameters: contentRequest.paramGetContent, encoding: URLEncoding.queryString)
         default:
             return .requestPlain
         }

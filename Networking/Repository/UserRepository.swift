@@ -37,7 +37,7 @@ public protocol UserRepository {
     func updateMeCover(userRequest: UserRequest, _ completion: @escaping complate)
     func delateUser(userRequest: UserRequest, _ completion: @escaping complate)
     func getUser(userId: String, _ completion: @escaping complate)
-    func getUserContents(userId: String, _ completion: @escaping complate)
+    func getUserContents(userId: String, contentRequest: ContentRequest, _ completion: @escaping complate)
     func getUserFollower(userId: String, _ completion: @escaping complate)
     func getUserFollowing(userId: String, _ completion: @escaping complate)
     func follow(userId: String, _ completion: @escaping complate)
@@ -240,8 +240,8 @@ public final class UserRepositoryImpl: UserRepository {
         }
     }
     
-    public func getUserContents(userId: String, _ completion: @escaping complate) {
-        self.userProvider.request(.getUserContents(userId)) { result in
+    public func getUserContents(userId: String, contentRequest: ContentRequest, _ completion: @escaping complate) {
+        self.userProvider.request(.getUserContents(userId, contentRequest)) { result in
             switch result {
             case .success(let response):
                 if response.statusCode < 300 {
