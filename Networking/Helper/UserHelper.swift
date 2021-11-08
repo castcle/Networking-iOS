@@ -37,8 +37,6 @@ public class UserHelper {
         Defaults[.userId] = user.id
         Defaults[.castcleId] = user.castcleId
         Defaults[.displayName] = user.displayName
-        Defaults[.cover] = user.images.cover.original
-        Defaults[.avatar] = user.images.avatar.thumbnail
         Defaults[.overview] = user.overview
         Defaults[.verifiedEmail] = user.verified.email
         Defaults[.verifiedSocial] = user.verified.social
@@ -53,14 +51,15 @@ public class UserHelper {
         Defaults[.youtubeLink] = user.links.youtube
         Defaults[.mediumLink] = user.links.medium
         Defaults[.websiteLink] = user.links.website
+        
+        ImageHelper.shared.downloadImage(from: user.images.avatar.thumbnail, iamgeName: user.castcleId, type: .avatar)
+        ImageHelper.shared.downloadImage(from: user.images.cover.fullHd, iamgeName: user.castcleId, type: .cover)
     }
     
     public func clearUserData() {
         Defaults[.userId] = ""
         Defaults[.castcleId] = ""
         Defaults[.displayName] = ""
-        Defaults[.cover] = ""
-        Defaults[.avatar] = ""
         Defaults[.overview] = ""
         Defaults[.verifiedEmail] = false
         Defaults[.verifiedSocial] = false
