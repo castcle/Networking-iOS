@@ -82,11 +82,11 @@ public enum UserImageKey: String, Codable {
     case avatar
 }
 
-public class UserImage: NSObject {
+public class UserImage {
     public var cover: ImageInfo = ImageInfo()
     public var avatar: ImageInfo = ImageInfo()
     
-    public override init() {
+    public init() {
         // Init User Image
     }
     
@@ -104,13 +104,13 @@ public enum ImageInfoKey: String, Codable {
     case large
 }
 
-public class ImageInfo: NSObject {
+public class ImageInfo {
     public var original: String = ""
     public var thumbnail: String = ""
     public var fullHd: String = ""
     public var large: String = ""
     
-    public override init() {
+    public init() {
         // Init Profile Image
     }
     

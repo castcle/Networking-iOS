@@ -229,7 +229,6 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                         let pages = json[AuthenticationApiKey.pages.rawValue].arrayValue
                         let userHelper = UserHelper()
                         userHelper.updateLocalProfile(user: User(json: profile))
-                        
                         let pageRealm = self.realm.objects(Page.self)
                         try! self.realm.write {
                             self.realm.delete(pageRealm)
@@ -241,7 +240,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                                 let pageTemp = Page()
                                 pageTemp.castcleId = pageInfo.castcleId
                                 pageTemp.displayName = pageInfo.displayName
-                                ImageHelper.shared.downloadImage(from: pageInfo.image.avatar.thumbnail, iamgeName: pageInfo.castcleId, type: .avatar)
+                                ImageHelper.shared.downloadImage(from: pageInfo.images.avatar.thumbnail, iamgeName: pageInfo.castcleId, type: .avatar)
+                                ImageHelper.shared.downloadImage(from: pageInfo.images.cover.fullHd, iamgeName: pageInfo.castcleId, type: .cover)
                                 self.realm.add(pageTemp, update: .modified)
                             }
                             
