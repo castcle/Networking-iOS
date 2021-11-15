@@ -40,6 +40,8 @@ enum AuthenticationApi {
     case refreshToken
     case verificationPassword(AuthenRequest)
     case changePasswordSubmit(AuthenRequest)
+    case requestOtp(AuthenRequest)
+    case verificationOtp(AuthenRequest)
 }
 
 extension AuthenticationApi: TargetType {
@@ -71,6 +73,10 @@ extension AuthenticationApi: TargetType {
             return "/authentications/verificationPassword"
         case .changePasswordSubmit:
             return "/authentications/changePasswordSubmit"
+        case .requestOtp:
+            return "/authentications/requestOTP"
+        case .verificationOtp:
+            return "/authentications/verificationOTP"
         }
     }
     
@@ -100,6 +106,10 @@ extension AuthenticationApi: TargetType {
             return .requestParameters(parameters: authenRequest.payload.paramVerificationPassword, encoding: JSONEncoding.default)
         case .changePasswordSubmit(let authenRequest):
             return .requestParameters(parameters: authenRequest.payload.paramChangePasswordSubmit, encoding: JSONEncoding.default)
+        case .requestOtp(let authenRequest):
+            return .requestParameters(parameters: authenRequest.paramRequestOtp, encoding: JSONEncoding.default)
+        case .verificationOtp(let authenRequest):
+            return .requestParameters(parameters: authenRequest.paramVerifyOtp, encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }

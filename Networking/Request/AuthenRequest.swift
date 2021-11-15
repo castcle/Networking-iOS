@@ -30,16 +30,27 @@ public enum AuthenChannelKey: String {
     case email
 }
 
+public enum AuthenObjective: String {
+    case forgotPassword = "forgot_password"
+    case changePassword = "change_password"
+    case none
+}
+
 public struct AuthenRequest {
     enum AuthenRequestKey: String {
+        case objective
         case channel
         case payload
+        case refCode
+        case otp
     }
     
+    public var objective: AuthenObjective
     public var channel: AuthenChannelKey
     public var payload: AuthenPayloadRequest
     
     public init() {
+        self.objective = .none
         self.channel = .email
         self.payload = AuthenPayloadRequest()
     }
@@ -50,10 +61,29 @@ public struct AuthenRequest {
             AuthenRequestKey.payload.rawValue: self.payload.param
         ]
     }
+    
+    public var paramRequestOtp: [String: Any] {
+        return [
+            AuthenRequestKey.objective.rawValue: self.objective.rawValue,
+            AuthenRequestKey.channel.rawValue: self.channel.rawValue,
+            AuthenRequestKey.payload.rawValue: self.payload.paramRequestOtpForgotPassword
+        ]
+    }
+    
+    public var paramVerifyOtp: [String: Any] {
+        return [
+            AuthenRequestKey.objective.rawValue: self.objective.rawValue,
+            AuthenRequestKey.channel.rawValue: self.channel.rawValue,
+            AuthenRequestKey.payload.rawValue: self.payload.paramRequestOtpForgotPassword,
+            AuthenRequestKey.refCode.rawValue: self.payload.refCode,
+            AuthenRequestKey.otp.rawValue: self.payload.otp
+        ]
+    }
 }
 
 public struct AuthenPayloadRequest {
     enum AuthenPayloadKey: String {
+        case objective
         case email
         case password
         case countryCode
@@ -62,8 +92,10 @@ public struct AuthenPayloadRequest {
         case castcleId
         case refCode
         case newPassword
+        case otp
     }
     
+    public var objective: AuthenObjective
     public var email: String
     public var password: String
     public var newPassword: String
@@ -72,8 +104,10 @@ public struct AuthenPayloadRequest {
     public var displayName: String
     public var castcleId: String
     public var refCode: String
+    public var otp: String
     
     public init() {
+        self.objective = .none
         self.email = ""
         self.password = ""
         self.newPassword = ""
@@ -82,6 +116,7 @@ public struct AuthenPayloadRequest {
         self.displayName = ""
         self.castcleId = ""
         self.refCode = ""
+        self.otp = ""
     }
     
     public var paramCheckEmailExists: [String: Any] {
@@ -121,8 +156,15 @@ public struct AuthenPayloadRequest {
     
     public var paramChangePasswordSubmit: [String: Any] {
         return [
+            AuthenPayloadKey.objective.rawValue: self.objective.rawValue,
             AuthenPayloadKey.refCode.rawValue: self.refCode,
             AuthenPayloadKey.newPassword.rawValue: self.newPassword
+        ]
+    }
+    
+    public var paramRequestOtpForgotPassword: [String: Any] {
+        return [
+            AuthenPayloadKey.email.rawValue: self.email,
         ]
     }
 }
