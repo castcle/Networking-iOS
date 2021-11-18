@@ -30,6 +30,10 @@ import Moya
 
 enum CommentApi {
     case getComments(String)
+    case createComment(String, CommentRequest)
+    case replyComment(String, String, CommentRequest)
+    case likedComment(String, String, CommentRequest)
+    case unlikedComment(String, String, CommentRequest)
 }
 
 extension CommentApi: TargetType {
@@ -39,36 +43,48 @@ extension CommentApi: TargetType {
     
     var path: String {
         switch self {
-        case .getComments(let contentId):
+        case .getComments(let contentId), .createComment(let contentId, _):
             return "/contents/\(contentId)/comments"
+        case .replyComment(let contentId, let commentId, _):
+            return "/contents/\(contentId)/comments/\(commentId)/reply"
+        case .likedComment(let contentId, let commentId, _):
+            return "/contents/\(contentId)/comments/\(commentId)/liked"
+        case .unlikedComment(let contentId, let commentId, _):
+            return "/contents/\(contentId)/comments/\(commentId)/unliked"
         }
     }
     
     var method: Moya.Method {
-        return .get
-    }
-    
-    var sampleData: Data {
         switch self {
         case .getComments:
-            if let path = ConfigBundle.network.path(forResource: "Comments", ofType: "json") {
-                do {
-                    let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-                    return data
-                } catch {
-                    return Data()
-                }
-            } else {
-                return Data()
-            }
+            return .get
+        case .createComment, .replyComment:
+            return .post
+        case .likedComment, .unlikedComment:
+            return .put
         }
     }
     
+    var sampleData: Data {
+        return Data()
+    }
+    
     var task: Task {
-        return .requestPlain
+        switch self {
+        case .createComment(_ , let commentRequest):
+            return .requestParameters(parameters: commentRequest.paramCreateComment, encoding: JSONEncoding.default)
+        case .replyComment(_, _, let commentRequest):
+            return .requestParameters(parameters: commentRequest.paramReplyComment, encoding: JSONEncoding.default)
+        case .likedComment(_, _, let commentRequest):
+            return .requestParameters(parameters: commentRequest.paramLikedComment, encoding: JSONEncoding.default)
+        case .unlikedComment(_, _, let commentRequest):
+            return .requestParameters(parameters: commentRequest.paramUnlikedComment, encoding: JSONEncoding.default)
+        default:
+            return .requestPlain
+        }
     }
     
     var headers: [String : String]? {
-        return nil
+        return ApiHelper.header
     }
 }

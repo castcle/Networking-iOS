@@ -30,23 +30,24 @@ import SwiftyJSON
 
 // MARK: - Comment Payload
 public enum CommentPayloadKey: String, Codable {
-    case message
     case payload
 }
 
 public class CommentPayload: NSObject {
-    public let message: String
     public let payload: [Comment]
     
     public init(json: JSON) {
-        self.message = json[CommentPayloadKey.message.rawValue].stringValue
         
         // MARK: - Comment
         let commentJsonArr = json[CommentPayloadKey.payload.rawValue].arrayValue
         var commentArr: [Comment] = []
         for index in (0..<commentJsonArr.count) {
             if index == 0 {
-                commentArr.append(Comment(json: commentJsonArr[index], isFirst: true))
+                if commentJsonArr.count == 1 {
+                    commentArr.append(Comment(json: commentJsonArr[index], isLast: true))
+                } else {
+                    commentArr.append(Comment(json: commentJsonArr[index], isFirst: true))
+                }
             } else if index == (commentJsonArr.count - 1) {
                 commentArr.append(Comment(json: commentJsonArr[index], isLast: true))
             } else {
@@ -60,7 +61,7 @@ public class CommentPayload: NSObject {
 // MARK: - Comment
 public enum CommentKey: String, Codable {
     case id
-    case comments
+    case message
     case like
     case author
     case reply
@@ -70,7 +71,7 @@ public enum CommentKey: String, Codable {
 
 public class Comment: NSObject {
     public let id: String
-    public let comments: [Message]
+    public let message: String
     public let like: Liked
     public let author: Author
     public let reply: [ReplyComment]
@@ -81,6 +82,7 @@ public class Comment: NSObject {
     
     public init(json: JSON, isFirst: Bool = false, isLast: Bool = false) {
         self.id = json[CommentKey.id.rawValue].stringValue
+        self.message = json[CommentKey.message.rawValue].stringValue
         self.createAt = json[CommentKey.createAt.rawValue].stringValue
         self.updateAt = json[CommentKey.updateAt.rawValue].stringValue
         self.isFirst = isFirst
@@ -90,27 +92,8 @@ public class Comment: NSObject {
         self.like = Liked(json: JSON(json[CommentKey.like.rawValue].dictionaryObject ?? [:]))
         self.author = Author(json: JSON(json[CommentKey.author.rawValue].dictionaryObject ?? [:]))
         
-        // MARK: - Message
-        self.comments = (json[CommentKey.comments.rawValue].arrayValue).map { Message(json: $0) }
-        
         // MARK: - Reply
         self.reply = (json[CommentKey.reply.rawValue].arrayValue).map { ReplyComment(json: $0) }
-    }
-}
-
-// MARK: - Message Comment
-public enum MessageKey: String, Codable {
-    case message
-    case createAt
-}
-
-public class Message: NSObject {
-    public let message: String
-    public let createAt: String
-    
-    public init(json: JSON) {
-        self.message = json[MessageKey.message.rawValue].stringValue
-        self.createAt = json[MessageKey.createAt.rawValue].stringValue
     }
     
     public var commentDate: Date {
@@ -121,7 +104,7 @@ public class Message: NSObject {
 // MARK: - Reply Comment
 public enum ReplyCommentKey: String, Codable {
     case id
-    case comments
+    case message
     case like
     case author
     case createAt
@@ -130,7 +113,7 @@ public enum ReplyCommentKey: String, Codable {
 
 public class ReplyComment: NSObject {
     public let id: String
-    public let comments: [Message]
+    public let message: String
     public let like: Liked
     public let author: Author
     public let createAt: String
@@ -138,14 +121,16 @@ public class ReplyComment: NSObject {
     
     public init(json: JSON) {
         self.id = json[ReplyCommentKey.id.rawValue].stringValue
+        self.message = json[ReplyCommentKey.message.rawValue].stringValue
         self.createAt = json[ReplyCommentKey.createAt.rawValue].stringValue
         self.updateAt = json[ReplyCommentKey.updateAt.rawValue].stringValue
         
         // MARK: - Object
         self.like = Liked(json: JSON(json[ReplyCommentKey.like.rawValue].dictionaryObject ?? [:]))
         self.author = Author(json: JSON(json[ReplyCommentKey.author.rawValue].dictionaryObject ?? [:]))
-        
-        // MARK: - Message
-        self.comments = (json[ReplyCommentKey.comments.rawValue].arrayValue).map { Message(json: $0) }
+    }
+    
+    public var replyDate: Date {
+        return Date.stringToDate(str: self.createAt)
     }
 }
