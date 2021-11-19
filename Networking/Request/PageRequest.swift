@@ -30,6 +30,7 @@ public struct PageRequest {
         case payload
         case castcleId
         case displayName
+        case images
         case avatar
         case cover
         case overview
@@ -58,13 +59,17 @@ public struct PageRequest {
     
     public var paramUpdatePageAvatar: [String: Any] {
         return [
-            PageKey.avatar.rawValue: self.avatar
+            PageKey.images.rawValue: [
+                PageKey.avatar.rawValue: self.avatar
+            ]
         ]
     }
     
     public var paramUpdatePageCover: [String: Any] {
         return [
-            PageKey.cover.rawValue: self.cover
+            PageKey.images.rawValue: [
+                PageKey.cover.rawValue: self.cover
+            ]
         ]
     }
     
