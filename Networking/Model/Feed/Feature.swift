@@ -36,10 +36,14 @@ public enum FeatureKey: String, Codable {
 }
 
 public class Feature: NSObject {
-    public let id: String
-    public let slug: String
-    public let name: String
-    public let key: String
+    public var id: String = ""
+    public var slug: String = ""
+    public var name: String = ""
+    public var key: String = ""
+    
+    public override init() {
+        // Init
+    }
     
     public init(json: JSON) {
         self.id = json[FeatureKey.id.rawValue].stringValue

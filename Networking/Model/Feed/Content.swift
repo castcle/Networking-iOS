@@ -33,14 +33,16 @@ public enum ContentKey: String, Codable {
     case id
     case type
     case payload
+    case originalPost
     case feature
     case liked
     case commented
     case recasted
     case quoteCast
     case author
-    case createAt
-    case updateAt
+    case isRecast
+    case createdAt
+    case updatedAt
 }
 
 public enum ContentType: String, Codable {
@@ -66,20 +68,22 @@ public enum FeedDisplayType {
 }
 
 public class Content {
-    public let id: String
-    public let type: ContentType
-    public let contentPayload: ContentPayload
-    public let feature: Feature
-    public let liked: Liked
-    public let commented: Commented
-    public let recasted: Recasted
-//    let quoteCast
-    public let author: Author
-    public let createAt: String
-    public let updateAt: String
+    public var id: String = ""
+    public var type: ContentType = .short
+    public var contentPayload: ContentPayload = ContentPayload()
+    public var originalPost: OriginalPost = OriginalPost()
+    public var feature: Feature = Feature()
+    public var liked: Liked = Liked()
+    public var commented: Commented = Commented()
+    public var recasted: Recasted = Recasted()
+    public var quoteCast: QuoteCast = QuoteCast()
+    public var author: Author = Author()
+    public var createdAt: String = "2021-11-19T06:41:33.179Z"
+    public var updatedAt: String = "2021-11-19T06:41:33.179Z"
+    public var isRecast: Bool = false
     
     public var postDate: Date {
-        return Date.stringToDate(str: self.createAt)
+        return Date.stringToDate(str: self.createdAt)
     }
     
     public var feedDisplayType: FeedDisplayType {
@@ -136,18 +140,129 @@ public class Content {
         }
     }
     
+    public init() {
+        // Init
+    }
+    
     public init(json: JSON) {
         self.id = json[ContentKey.id.rawValue].stringValue
         self.type = ContentType(rawValue: json[ContentKey.type.rawValue].stringValue) ?? .short
-        self.createAt = json[ContentKey.createAt.rawValue].stringValue
-        self.updateAt = json[ContentKey.updateAt.rawValue].stringValue
+        self.createdAt = json[ContentKey.createdAt.rawValue].stringValue
+        self.updatedAt = json[ContentKey.updatedAt.rawValue].stringValue
+        self.isRecast = json[ContentKey.isRecast.rawValue].boolValue
         
         // MARK: - Object
         self.contentPayload = ContentPayload(json: JSON(json[ContentKey.payload.rawValue].dictionaryObject ?? [:]))
+        self.originalPost = OriginalPost(json: JSON(json[ContentKey.originalPost.rawValue].dictionaryObject ?? [:]))
         self.feature = Feature(json: JSON(json[ContentKey.feature.rawValue].dictionaryObject ?? [:]))
         self.liked = Liked(json: JSON(json[ContentKey.liked.rawValue].dictionaryObject ?? [:]))
         self.commented = Commented(json: JSON(json[ContentKey.commented.rawValue].dictionaryObject ?? [:]))
         self.recasted = Recasted(json: JSON(json[ContentKey.recasted.rawValue].dictionaryObject ?? [:]))
+        self.quoteCast = QuoteCast(json: JSON(json[ContentKey.quoteCast.rawValue].dictionaryObject ?? [:]))
         self.author = Author(json: JSON(json[ContentKey.author.rawValue].dictionaryObject ?? [:]))
+    }
+}
+
+// MARK: - Original Post
+public enum OriginalPostKey: String, Codable {
+    case id = "_id"
+    case type
+    case payload
+    case liked
+    case commented
+    case recasted
+    case quoteCast
+    case author
+    case createdAt
+    case updatedAt
+}
+
+public class OriginalPost {
+    public var id: String = ""
+    public var type: ContentType = .short
+    public var contentPayload: ContentPayload = ContentPayload()
+    public var liked: Liked = Liked()
+    public var commented: Commented = Commented()
+    public var recasted: Recasted = Recasted()
+    public var quoteCast: QuoteCast = QuoteCast()
+    public var author: Author = Author()
+    public var createdAt: String = "2021-11-19T06:41:33.179Z"
+    public var updatedAt: String = "2021-11-19T06:41:33.179Z"
+    
+    public var postDate: Date {
+        return Date.stringToDate(str: self.createdAt)
+    }
+    
+    public var feedDisplayType: FeedDisplayType {
+        if self.type == .short {
+            if !self.contentPayload.photo.isEmpty {
+                if self.contentPayload.photo.count == 1 {
+                    return .postImageX1
+                } else if self.contentPayload.photo.count == 2 {
+                    return .postImageX2
+                } else if self.contentPayload.photo.count == 3 {
+                    return .postImageX3
+                } else {
+                    return .postImageXMore
+                }
+            } else if !self.contentPayload.link.isEmpty {
+                if let link = self.contentPayload.link.first {
+                    if link.imagePreview.isEmpty {
+                        return .postLink
+                    } else {
+                        return .postLinkPreview
+                    }
+                } else {
+                    return .postLink
+                }
+            } else {
+                if self.contentPayload.message.extractURLs().first != nil {
+                    return .postLink
+                } else {
+                    return .postText
+                }
+            }
+        } else if self.type == .image {
+            if self.contentPayload.photo.isEmpty {
+                return .postText
+            } else {
+                if self.contentPayload.photo.count == 1 {
+                    return .postImageX1
+                } else if self.contentPayload.photo.count == 2 {
+                    return .postImageX2
+                } else if self.contentPayload.photo.count == 3 {
+                    return .postImageX3
+                } else {
+                    return .postImageXMore
+                }
+            }
+        } else if self.type == .blog {
+            if self.contentPayload.cover.large.isEmpty {
+                return .blogNoImage
+            } else {
+                return .blogImage
+            }
+        } else {
+            return .postText
+        }
+    }
+    
+    public init() {
+        // Init
+    }
+    
+    public init(json: JSON) {
+        self.id = json[OriginalPostKey.id.rawValue].stringValue
+        self.type = ContentType(rawValue: json[OriginalPostKey.type.rawValue].stringValue) ?? .short
+        self.createdAt = json[OriginalPostKey.createdAt.rawValue].stringValue
+        self.updatedAt = json[OriginalPostKey.updatedAt.rawValue].stringValue
+        
+        // MARK: - Object
+        self.contentPayload = ContentPayload(json: JSON(json[OriginalPostKey.payload.rawValue].dictionaryObject ?? [:]))
+        self.liked = Liked(json: JSON(json[OriginalPostKey.liked.rawValue].dictionaryObject ?? [:]))
+        self.commented = Commented(json: JSON(json[OriginalPostKey.commented.rawValue].dictionaryObject ?? [:]))
+        self.recasted = Recasted(json: JSON(json[OriginalPostKey.recasted.rawValue].dictionaryObject ?? [:]))
+        self.quoteCast = QuoteCast(json: JSON(json[OriginalPostKey.quoteCast.rawValue].dictionaryObject ?? [:]))
+        self.author = Author(json: JSON(json[OriginalPostKey.author.rawValue].dictionaryObject ?? [:]))
     }
 }

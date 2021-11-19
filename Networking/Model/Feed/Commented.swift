@@ -35,9 +35,13 @@ public enum CommentedKey: String, Codable {
 }
 
 public class Commented: NSObject {
-    public var count: Int
-    public var isComment: Bool
-    public let participant: [Participant]
+    public var count: Int = 0
+    public var isComment: Bool = false
+    public var participant: [Participant] = []
+    
+    public override init() {
+        // Init
+    }
     
     public init(json: JSON) {
         self.count = json[CommentedKey.count.rawValue].intValue

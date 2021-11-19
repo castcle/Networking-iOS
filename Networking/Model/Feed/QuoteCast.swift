@@ -19,52 +19,35 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  ContentPayload.swift
+//  QuoteCast.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 21/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 19/11/2564 BE.
 //
 
-import Core
 import SwiftyJSON
 
-// MARK: - ContentPayload
-public enum ContentPayloadKey: String, Codable {
-    case header
-    case message
-    case photo
-    case link
-    
-    // Blog
-    case contents
-    case cover
-    case url
+// MARK: - QuoteCast
+public enum QuoteCastKey: String, Codable {
+    case count
+    case isQuoteCast = "quoteCast"
+    case participant
 }
 
-public class ContentPayload: NSObject {
-    public var header: String = ""
-    public var message: String = ""
-    public var cover: ImageInfo = ImageInfo()
-    public var photo: [ImageInfo] = []
-    public var link: [Link] = []
+public class QuoteCast: NSObject {
+    public var count: Int = 0
+    public var isQuoteCast: Bool = false
+    public var participant: [Participant] = []
     
     public override init() {
         // Init
     }
     
     public init(json: JSON) {
-        self.header = json[ContentPayloadKey.header.rawValue].stringValue
-        self.message = json[ContentPayloadKey.message.rawValue].stringValue
+        self.count = json[QuoteCastKey.count.rawValue].intValue
+        self.isQuoteCast = json[QuoteCastKey.isQuoteCast.rawValue].boolValue
         
-        // MARK: - Photo
-        let photoJson = JSON(json[ContentPayloadKey.photo.rawValue].dictionaryValue)
-        self.photo = (photoJson[ContentPayloadKey.contents.rawValue].arrayValue).map { ImageInfo(json: $0) }
-        
-        // MARK: - Cover
-        let photoCoverJson = JSON(photoJson[ContentPayloadKey.cover.rawValue].dictionaryValue)
-        self.cover = ImageInfo(json: photoCoverJson)
-        
-        // MARK: - Link
-        self.link = (json[ContentPayloadKey.link.rawValue].arrayValue).map { Link(json: $0) }
+        // MARK: - Participant
+        self.participant = (json[QuoteCastKey.participant.rawValue].arrayValue).map { Participant(json: $0) }
     }
 }

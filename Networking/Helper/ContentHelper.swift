@@ -19,35 +19,31 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Recasted.swift
+//  ContentHelper.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 14/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 19/11/2564 BE.
 //
 
-import SwiftyJSON
+import Core
 
-// MARK: - Liked
-public enum RecastedKey: String, Codable {
-    case count
-    case isRecast = "recasted"
-    case participant
-}
-
-public class Recasted: NSObject {
-    public var count: Int = 0
-    public var isRecast: Bool = false
-    public var participant: [Participant] = []
-    
-    public override init() {
-        // Init
+public class ContentHelper {
+    public init() {
+        // Init UserHelper
     }
     
-    public init(json: JSON) {
-        self.count = json[RecastedKey.count.rawValue].intValue
-        self.isRecast = json[RecastedKey.isRecast.rawValue].boolValue
-        
-        // MARK: - Participant
-        self.participant = (json[RecastedKey.participant.rawValue].arrayValue).map { Participant(json: $0) }
+    public func originalPostToContent(originalPost: OriginalPost) -> Content {
+        let content: Content = Content()
+        content.id = originalPost.id
+        content.type = originalPost.type
+        content.contentPayload = originalPost.contentPayload
+        content.liked = originalPost.liked
+        content.commented = originalPost.commented
+        content.recasted = originalPost.recasted
+        content.quoteCast = originalPost.quoteCast
+        content.author = originalPost.author
+        content.createdAt = originalPost.createdAt
+        content.updatedAt = originalPost.updatedAt
+        return content
     }
 }

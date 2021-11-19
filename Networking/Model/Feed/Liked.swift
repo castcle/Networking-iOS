@@ -35,9 +35,13 @@ public enum LikedKey: String, Codable {
 }
 
 public class Liked: NSObject {
-    public var count: Int
-    public var isLike: Bool
-    public let participant: [Participant]
+    public var count: Int = 0
+    public var isLike: Bool = false
+    public var participant: [Participant] = []
+    
+    public override init() {
+        // Init
+    }
     
     public init(json: JSON) {
         self.count = json[LikedKey.count.rawValue].intValue

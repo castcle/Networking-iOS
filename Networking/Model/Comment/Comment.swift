@@ -65,8 +65,8 @@ public enum CommentKey: String, Codable {
     case like
     case author
     case reply
-    case createAt
-    case updateAt
+    case createdAt
+    case updatedAt
 }
 
 public class Comment: NSObject {
@@ -75,16 +75,16 @@ public class Comment: NSObject {
     public let like: Liked
     public let author: Author
     public let reply: [ReplyComment]
-    public let createAt: String
-    public let updateAt: String
+    public let createdAt: String
+    public let updatedAt: String
     public var isFirst: Bool
     public var isLast: Bool
     
     public init(json: JSON, isFirst: Bool = false, isLast: Bool = false) {
         self.id = json[CommentKey.id.rawValue].stringValue
         self.message = json[CommentKey.message.rawValue].stringValue
-        self.createAt = json[CommentKey.createAt.rawValue].stringValue
-        self.updateAt = json[CommentKey.updateAt.rawValue].stringValue
+        self.createdAt = json[CommentKey.createdAt.rawValue].stringValue
+        self.updatedAt = json[CommentKey.updatedAt.rawValue].stringValue
         self.isFirst = isFirst
         self.isLast = isLast
         
@@ -97,7 +97,7 @@ public class Comment: NSObject {
     }
     
     public var commentDate: Date {
-        return Date.stringToDate(str: self.createAt)
+        return Date.stringToDate(str: self.createdAt)
     }
 }
 
@@ -107,8 +107,8 @@ public enum ReplyCommentKey: String, Codable {
     case message
     case like
     case author
-    case createAt
-    case updateAt
+    case createdAt
+    case updatedAt
 }
 
 public class ReplyComment: NSObject {
@@ -116,14 +116,14 @@ public class ReplyComment: NSObject {
     public let message: String
     public let like: Liked
     public let author: Author
-    public let createAt: String
-    public let updateAt: String
+    public let createdAt: String
+    public let updatedAt: String
     
     public init(json: JSON) {
         self.id = json[ReplyCommentKey.id.rawValue].stringValue
         self.message = json[ReplyCommentKey.message.rawValue].stringValue
-        self.createAt = json[ReplyCommentKey.createAt.rawValue].stringValue
-        self.updateAt = json[ReplyCommentKey.updateAt.rawValue].stringValue
+        self.createdAt = json[ReplyCommentKey.createdAt.rawValue].stringValue
+        self.updatedAt = json[ReplyCommentKey.updatedAt.rawValue].stringValue
         
         // MARK: - Object
         self.like = Liked(json: JSON(json[ReplyCommentKey.like.rawValue].dictionaryObject ?? [:]))
@@ -131,6 +131,6 @@ public class ReplyComment: NSObject {
     }
     
     public var replyDate: Date {
-        return Date.stringToDate(str: self.createAt)
+        return Date.stringToDate(str: self.createdAt)
     }
 }

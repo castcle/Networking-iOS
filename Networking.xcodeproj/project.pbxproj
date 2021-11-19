@@ -49,6 +49,8 @@
 		B7684A7026C5061C00C438C5 /* Feeds.json in Resources */ = {isa = PBXBuildFile; fileRef = B7684A5326C5061C00C438C5 /* Feeds.json */; };
 		B7684A7126C5061C00C438C5 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A5526C5061C00C438C5 /* LoginRequest.swift */; };
 		B7684A7226C5061C00C438C5 /* AuthenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A5626C5061C00C438C5 /* AuthenRequest.swift */; };
+		B78663382747848E00B13EEF /* QuoteCast.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78663372747848E00B13EEF /* QuoteCast.swift */; };
+		B786633A27478B7000B13EEF /* ContentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B786633927478B7000B13EEF /* ContentHelper.swift */; };
 		B78795B326C5512400FECC21 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = B78795B226C5512400FECC21 /* Moya */; };
 		B79DF1AA270AB34300A40502 /* Verified.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79DF1A9270AB34300A40502 /* Verified.swift */; };
 		B79DF1B0270EF30C00A40502 /* FeedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79DF1AF270EF30C00A40502 /* FeedRequest.swift */; };
@@ -125,6 +127,8 @@
 		B7684A5326C5061C00C438C5 /* Feeds.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Feeds.json; sourceTree = "<group>"; };
 		B7684A5526C5061C00C438C5 /* LoginRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
 		B7684A5626C5061C00C438C5 /* AuthenRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenRequest.swift; sourceTree = "<group>"; };
+		B78663372747848E00B13EEF /* QuoteCast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteCast.swift; sourceTree = "<group>"; };
+		B786633927478B7000B13EEF /* ContentHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentHelper.swift; sourceTree = "<group>"; };
 		B79DF1A9270AB34300A40502 /* Verified.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Verified.swift; sourceTree = "<group>"; };
 		B79DF1AF270EF30C00A40502 /* FeedRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedRequest.swift; sourceTree = "<group>"; };
 		B7A71D0226FC5B860092F318 /* NotificationApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationApi.swift; sourceTree = "<group>"; };
@@ -192,6 +196,7 @@
 				B7189ACB26EDCADF00CB9719 /* TokenHelper.swift */,
 				B7189ADD26EF489100CB9719 /* EngagementHelper.swift */,
 				B7AF660426F06EE400BDE9C4 /* UserHelper.swift */,
+				B786633927478B7000B13EEF /* ContentHelper.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -278,6 +283,7 @@
 				B7684A3E26C5061B00C438C5 /* Author.swift */,
 				B7684A4026C5061B00C438C5 /* Liked.swift */,
 				B7684A4126C5061B00C438C5 /* Recasted.swift */,
+				B78663372747848E00B13EEF /* QuoteCast.swift */,
 				B7684A4226C5061B00C438C5 /* Commented.swift */,
 				B7684A4326C5061B00C438C5 /* Content.swift */,
 				B7684A4426C5061B00C438C5 /* Participant.swift */,
@@ -484,6 +490,7 @@
 				B743387C26DCBEDE004BBC05 /* UserApi.swift in Sources */,
 				B7189AD526EF2E1F00CB9719 /* EngagementRepository.swift in Sources */,
 				B7189ADE26EF489100CB9719 /* EngagementHelper.swift in Sources */,
+				B786633A27478B7000B13EEF /* ContentHelper.swift in Sources */,
 				B754A12127463DED00147210 /* CommentRequest.swift in Sources */,
 				B7189AD326EF260100CB9719 /* EngagementRequest.swift in Sources */,
 				B7684A6426C5061C00C438C5 /* Participant.swift in Sources */,
@@ -513,6 +520,7 @@
 				B79DF1B0270EF30C00A40502 /* FeedRequest.swift in Sources */,
 				B7A71D0726FC64700092F318 /* NotificationRepository.swift in Sources */,
 				B7642C5E26E10F8000CDCE95 /* CommentApi.swift in Sources */,
+				B78663382747848E00B13EEF /* QuoteCast.swift in Sources */,
 				B710693727189D8A00D53527 /* Keyword.swift in Sources */,
 				B7684A6D26C5061C00C438C5 /* FeedApi.swift in Sources */,
 				B7A71D73270304060092F318 /* ContentApi.swift in Sources */,

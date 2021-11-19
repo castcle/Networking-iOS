@@ -44,13 +44,17 @@ public enum AuthorType: String, Codable {
 }
 
 public class Author: NSObject {
-    public let type: AuthorType
-    public let id: String
-    public let castcleId: String
-    public let displayName: String
-    public let avatar: ImageInfo
-    public let verified: Verified
-    public let followed: Bool
+    public var type: AuthorType = .people
+    public var id: String = ""
+    public var castcleId: String = ""
+    public var displayName: String = ""
+    public var avatar: ImageInfo = ImageInfo()
+    public var verified: Verified = Verified()
+    public var followed: Bool = false
+    
+    public override init() {
+        // Init
+    }
     
     public init(json: JSON) {
         self.id = json[AuthorKey.id.rawValue].stringValue
