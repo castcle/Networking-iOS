@@ -41,6 +41,7 @@ public enum ContentKey: String, Codable {
     case quoteCast
     case author
     case isRecast
+    case isQuote
     case createdAt
     case updatedAt
 }
@@ -81,6 +82,7 @@ public class Content {
     public var createdAt: String = "2021-11-19T06:41:33.179Z"
     public var updatedAt: String = "2021-11-19T06:41:33.179Z"
     public var isRecast: Bool = false
+    public var isQuote: Bool = false
     
     public var postDate: Date {
         return Date.stringToDate(str: self.createdAt)
@@ -150,6 +152,7 @@ public class Content {
         self.createdAt = json[ContentKey.createdAt.rawValue].stringValue
         self.updatedAt = json[ContentKey.updatedAt.rawValue].stringValue
         self.isRecast = json[ContentKey.isRecast.rawValue].boolValue
+        self.isQuote = json[ContentKey.isQuote.rawValue].boolValue
         
         // MARK: - Object
         self.contentPayload = ContentPayload(json: JSON(json[ContentKey.payload.rawValue].dictionaryObject ?? [:]))
