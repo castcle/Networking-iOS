@@ -40,8 +40,8 @@ public protocol UserRepository {
     func getUserContents(userId: String, contentRequest: ContentRequest, _ completion: @escaping complate)
     func getUserFollower(userId: String, _ completion: @escaping complate)
     func getUserFollowing(userId: String, _ completion: @escaping complate)
-    func follow(userId: String, _ completion: @escaping complate)
-    func unfollow(userId: String, _ completion: @escaping complate)
+    func follow(userId: String, userRequest: UserRequest, _ completion: @escaping complate)
+    func unfollow(userId: String, userRequest: UserRequest, _ completion: @escaping complate)
 }
 
 public final class UserRepositoryImpl: UserRepository {
@@ -321,8 +321,8 @@ public final class UserRepositoryImpl: UserRepository {
         }
     }
 
-    public func follow(userId: String, _ completion: @escaping complate) {
-        self.userProvider.request(.follow(userId)) { result in
+    public func follow(userId: String, userRequest: UserRequest, _ completion: @escaping complate) {
+        self.userProvider.request(.follow(userId, userRequest)) { result in
             switch result {
             case .success(let response):
                 if response.statusCode < 300 {
@@ -348,8 +348,8 @@ public final class UserRepositoryImpl: UserRepository {
         }
     }
 
-    public func unfollow(userId: String, _ completion: @escaping complate) {
-        self.userProvider.request(.unfollow(userId)) { result in
+    public func unfollow(userId: String, userRequest: UserRequest, _ completion: @escaping complate) {
+        self.userProvider.request(.unfollow(userId, userRequest)) { result in
             switch result {
             case .success(let response):
                 if response.statusCode < 300 {

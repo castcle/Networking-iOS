@@ -43,8 +43,8 @@ enum UserApi {
     case getUserFollower(String)
     case getUserFollowing(String)
     
-    case follow(String)
-    case unfollow(String)
+    case follow(String, UserRequest)
+    case unfollow(String, UserRequest)
 }
 
 extension UserApi: TargetType {
@@ -64,9 +64,9 @@ extension UserApi: TargetType {
             return "/users/\(userId)/follower"
         case .getUserFollowing(let userId):
             return "/users/\(userId)/following"
-        case .follow(let userId):
+        case .follow(let userId, _):
             return "/users/\(userId)/follow"
-        case .unfollow(let userId):
+        case .unfollow(let userId, _):
             return "/users/\(userId)/unfollow"
         default:
             return "/users/me"
@@ -100,6 +100,10 @@ extension UserApi: TargetType {
             return .requestParameters(parameters: userRequest.paramDeleteUser, encoding: JSONEncoding.default)
         case .getUserContents(_, let contentRequest):
             return .requestParameters(parameters: contentRequest.paramGetContent, encoding: URLEncoding.queryString)
+        case .follow(_, let userRequest):
+            return .requestParameters(parameters: userRequest.paramFollowUser, encoding: JSONEncoding.default)
+        case .unfollow(_, let userRequest):
+            return .requestParameters(parameters: userRequest.paramUnfollowUser, encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }
