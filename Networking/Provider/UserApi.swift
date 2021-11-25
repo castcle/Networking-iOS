@@ -65,7 +65,7 @@ extension UserApi: TargetType {
         case .getUserFollowing(let userId):
             return "/users/\(userId)/following"
         case .follow(let userId, _):
-            return "/users/\(userId)/follow"
+            return "/users/\(userId)/following"
         case .unfollow(let userId, _):
             return "/users/\(userId)/unfollow"
         default:
