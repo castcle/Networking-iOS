@@ -29,19 +29,33 @@ public struct FeedRequest {
     enum ContentKey: String {
         case page
         case limit
+        case hashtag
+        case type
     }
 
     public var page: Int = 1
     public var limit: Int = 50
+    public var hashtag: String = ""
+    public var type: ContentType = .unknow
     
     public init() {
-        // Init ContentRequest
+        // Init FeedRequest
     }
     
     public var paramGetFeed: [String: Any] {
-        return [
+        var param: [String: Any] = [
             ContentKey.page.rawValue: self.page,
             ContentKey.limit.rawValue: self.limit
         ]
+        
+        if !self.hashtag.isEmpty {
+            param[ContentKey.hashtag.rawValue] = self.hashtag
+        }
+        
+        if self.type != .unknow {
+            param[ContentKey.type.rawValue] = self.type.rawValue
+        }
+        
+        return param
     }
 }
