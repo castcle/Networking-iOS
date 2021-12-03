@@ -19,16 +19,36 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  ContentHelper.swift
+//  ReferencedCast.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 19/11/2564 BE.
+//  Created by Castcle Co., Ltd. on 3/12/2564 BE.
 //
 
-import Core
+import SwiftyJSON
 
-public class ContentHelper {
-    public init() {
-        // Init UserHelper
+// MARK: - Circle
+public enum ReferencedCastKey: String, Codable {
+    case type
+    case id
+}
+
+public enum ReferencedCastType: String, Codable {
+    case quoted
+    case recasted
+    case unknown
+}
+
+public class ReferencedCast: NSObject {
+    public var type: ReferencedCastType = .unknown
+    public var id: String = ""
+    
+    public override init() {
+        // MARK: - Init
+    }
+    
+    public init(json: JSON) {
+        self.type = ReferencedCastType(rawValue: json[ReferencedCastKey.type.rawValue].stringValue) ?? .unknown
+        self.id = json[ReferencedCastKey.id.rawValue].stringValue
     }
 }

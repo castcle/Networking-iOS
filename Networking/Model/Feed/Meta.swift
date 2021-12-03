@@ -19,16 +19,33 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  ContentHelper.swift
+//  Meta.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 19/11/2564 BE.
+//  Created by Castcle Co., Ltd. on 3/12/2564 BE.
 //
 
-import Core
+import SwiftyJSON
 
-public class ContentHelper {
-    public init() {
-        // Init UserHelper
+// MARK: - Circle
+public enum MetaKey: String, Codable {
+    case oldestId
+    case newestId
+    case resultCount
+}
+
+public class Meta: NSObject {
+    public var oldestId: String = ""
+    public var newestId: String = ""
+    public var resultCount: Int = 100
+    
+    public override init() {
+        // MARK: - Init
+    }
+    
+    public init(json: JSON) {
+        self.oldestId = json[MetaKey.oldestId.rawValue].stringValue
+        self.newestId = json[MetaKey.newestId.rawValue].stringValue
+        self.resultCount = json[MetaKey.resultCount.rawValue].intValue
     }
 }

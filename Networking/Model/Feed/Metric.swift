@@ -19,16 +19,36 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  ContentHelper.swift
+//  Metric.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 19/11/2564 BE.
+//  Created by Castcle Co., Ltd. on 3/12/2564 BE.
 //
 
-import Core
+import SwiftyJSON
 
-public class ContentHelper {
-    public init() {
-        // Init UserHelper
+// MARK: - Circle
+public enum MetricKey: String, Codable {
+    case likeCount
+    case commentCount
+    case quoteCount
+    case recastCount
+}
+
+public class Metric: NSObject {
+    public var likeCount: Int = 0
+    public var commentCount: Int = 0
+    public var quoteCount: Int = 0
+    public var recastCount: Int = 0
+    
+    public override init() {
+        // MARK: - Init
+    }
+    
+    public init(json: JSON) {
+        self.likeCount = json[MetricKey.likeCount.rawValue].intValue
+        self.commentCount = json[MetricKey.commentCount.rawValue].intValue
+        self.quoteCount = json[MetricKey.quoteCount.rawValue].intValue
+        self.recastCount = json[MetricKey.recastCount.rawValue].intValue
     }
 }

@@ -31,19 +31,17 @@ import SwiftyJSON
 // MARK: - Content
 public enum ContentKey: String, Codable {
     case id
+    case authorId
     case type
-    case payload
-    case originalPost
-    case feature
-    case liked
-    case commented
-    case recasted
-    case quoteCast
-    case author
-    case isRecast
-    case isQuote
+    case message
+    case photo
+    case link
+    case referencedCasts
+    case metrics
+    case participate
     case createdAt
     case updatedAt
+    case contents
 }
 
 public enum ContentType: String, Codable {
@@ -70,19 +68,16 @@ public enum FeedDisplayType {
 
 public class Content {
     public var id: String = ""
+    public var authorId: String = ""
     public var type: ContentType = .short
-    public var contentPayload: ContentPayload = ContentPayload()
-    public var originalPost: OriginalPost = OriginalPost()
-    public var feature: Feature = Feature()
-    public var liked: Liked = Liked()
-    public var commented: Commented = Commented()
-    public var recasted: Recasted = Recasted()
-    public var quoteCast: QuoteCast = QuoteCast()
-    public var author: Author = Author()
+    public var message: String = ""
+    public var photo: [ImageInfo] = []
+    public var link: [Link] = []
+    public var referencedCasts: ReferencedCast = ReferencedCast()
+    public var metrics: Metric = Metric()
+    public var participate: Participate = Participate()
     public var createdAt: String = "2021-11-19T06:41:33.179Z"
     public var updatedAt: String = "2021-11-19T06:41:33.179Z"
-    public var isRecast: Bool = false
-    public var isQuote: Bool = false
     
     public var postDate: Date {
         return Date.stringToDate(str: self.createdAt)
@@ -90,18 +85,18 @@ public class Content {
     
     public var feedDisplayType: FeedDisplayType {
         if self.type == .short {
-            if !self.contentPayload.photo.isEmpty {
-                if self.contentPayload.photo.count == 1 {
+            if !self.photo.isEmpty {
+                if self.photo.count == 1 {
                     return .postImageX1
-                } else if self.contentPayload.photo.count == 2 {
+                } else if self.photo.count == 2 {
                     return .postImageX2
-                } else if self.contentPayload.photo.count == 3 {
+                } else if self.photo.count == 3 {
                     return .postImageX3
                 } else {
                     return .postImageXMore
                 }
-            } else if !self.contentPayload.link.isEmpty {
-                if let link = self.contentPayload.link.first {
+            } else if !self.link.isEmpty {
+                if let link = self.link.first {
                     if link.imagePreview.isEmpty {
                         return .postLink
                     } else {
@@ -111,32 +106,32 @@ public class Content {
                     return .postLink
                 }
             } else {
-                if self.contentPayload.message.extractURLs().first != nil {
+                if self.message.extractURLs().first != nil {
                     return .postLink
                 } else {
                     return .postText
                 }
             }
         } else if self.type == .image {
-            if self.contentPayload.photo.isEmpty {
+            if self.photo.isEmpty {
                 return .postText
             } else {
-                if self.contentPayload.photo.count == 1 {
+                if self.photo.count == 1 {
                     return .postImageX1
-                } else if self.contentPayload.photo.count == 2 {
+                } else if self.photo.count == 2 {
                     return .postImageX2
-                } else if self.contentPayload.photo.count == 3 {
+                } else if self.photo.count == 3 {
                     return .postImageX3
                 } else {
                     return .postImageXMore
                 }
             }
-        } else if self.type == .blog {
-            if self.contentPayload.cover.large.isEmpty {
-                return .blogNoImage
-            } else {
-                return .blogImage
-            }
+//        } else if self.type == .blog {
+//            if self.contentPayload.cover.large.isEmpty {
+//                return .blogNoImage
+//            } else {
+//                return .blogImage
+//            }
         } else {
             return .postText
         }
@@ -148,124 +143,22 @@ public class Content {
     
     public init(json: JSON) {
         self.id = json[ContentKey.id.rawValue].stringValue
+        self.authorId = json[ContentKey.authorId.rawValue].stringValue
         self.type = ContentType(rawValue: json[ContentKey.type.rawValue].stringValue) ?? .short
+        self.message = json[ContentKey.message.rawValue].stringValue
         self.createdAt = json[ContentKey.createdAt.rawValue].stringValue
         self.updatedAt = json[ContentKey.updatedAt.rawValue].stringValue
-        self.isRecast = json[ContentKey.isRecast.rawValue].boolValue
-        self.isQuote = json[ContentKey.isQuote.rawValue].boolValue
         
         // MARK: - Object
-        self.contentPayload = ContentPayload(json: JSON(json[ContentKey.payload.rawValue].dictionaryObject ?? [:]))
-        self.originalPost = OriginalPost(json: JSON(json[ContentKey.originalPost.rawValue].dictionaryObject ?? [:]))
-        self.feature = Feature(json: JSON(json[ContentKey.feature.rawValue].dictionaryObject ?? [:]))
-        self.liked = Liked(json: JSON(json[ContentKey.liked.rawValue].dictionaryObject ?? [:]))
-        self.commented = Commented(json: JSON(json[ContentKey.commented.rawValue].dictionaryObject ?? [:]))
-        self.recasted = Recasted(json: JSON(json[ContentKey.recasted.rawValue].dictionaryObject ?? [:]))
-        self.quoteCast = QuoteCast(json: JSON(json[ContentKey.quoteCast.rawValue].dictionaryObject ?? [:]))
-        self.author = Author(json: JSON(json[ContentKey.author.rawValue].dictionaryObject ?? [:]))
-    }
-}
-
-// MARK: - Original Post
-public enum OriginalPostKey: String, Codable {
-    case id = "_id"
-    case type
-    case payload
-    case liked
-    case commented
-    case recasted
-    case quoteCast
-    case author
-    case createdAt
-    case updatedAt
-}
-
-public class OriginalPost {
-    public var id: String = ""
-    public var type: ContentType = .short
-    public var contentPayload: ContentPayload = ContentPayload()
-    public var liked: Liked = Liked()
-    public var commented: Commented = Commented()
-    public var recasted: Recasted = Recasted()
-    public var quoteCast: QuoteCast = QuoteCast()
-    public var author: Author = Author()
-    public var createdAt: String = "2021-11-19T06:41:33.179Z"
-    public var updatedAt: String = "2021-11-19T06:41:33.179Z"
-    
-    public var postDate: Date {
-        return Date.stringToDate(str: self.createdAt)
-    }
-    
-    public var feedDisplayType: FeedDisplayType {
-        if self.type == .short {
-            if !self.contentPayload.photo.isEmpty {
-                if self.contentPayload.photo.count == 1 {
-                    return .postImageX1
-                } else if self.contentPayload.photo.count == 2 {
-                    return .postImageX2
-                } else if self.contentPayload.photo.count == 3 {
-                    return .postImageX3
-                } else {
-                    return .postImageXMore
-                }
-            } else if !self.contentPayload.link.isEmpty {
-                if let link = self.contentPayload.link.first {
-                    if link.imagePreview.isEmpty {
-                        return .postLink
-                    } else {
-                        return .postLinkPreview
-                    }
-                } else {
-                    return .postLink
-                }
-            } else {
-                if self.contentPayload.message.extractURLs().first != nil {
-                    return .postLink
-                } else {
-                    return .postText
-                }
-            }
-        } else if self.type == .image {
-            if self.contentPayload.photo.isEmpty {
-                return .postText
-            } else {
-                if self.contentPayload.photo.count == 1 {
-                    return .postImageX1
-                } else if self.contentPayload.photo.count == 2 {
-                    return .postImageX2
-                } else if self.contentPayload.photo.count == 3 {
-                    return .postImageX3
-                } else {
-                    return .postImageXMore
-                }
-            }
-        } else if self.type == .blog {
-            if self.contentPayload.cover.large.isEmpty {
-                return .blogNoImage
-            } else {
-                return .blogImage
-            }
-        } else {
-            return .postText
-        }
-    }
-    
-    public init() {
-        // Init
-    }
-    
-    public init(json: JSON) {
-        self.id = json[OriginalPostKey.id.rawValue].stringValue
-        self.type = ContentType(rawValue: json[OriginalPostKey.type.rawValue].stringValue) ?? .short
-        self.createdAt = json[OriginalPostKey.createdAt.rawValue].stringValue
-        self.updatedAt = json[OriginalPostKey.updatedAt.rawValue].stringValue
+        self.referencedCasts = ReferencedCast(json: JSON(json[ContentKey.referencedCasts.rawValue].dictionaryObject ?? [:]))
+        self.metrics = Metric(json: JSON(json[ContentKey.metrics.rawValue].dictionaryObject ?? [:]))
+        self.participate = Participate(json: JSON(json[ContentKey.participate.rawValue].dictionaryObject ?? [:]))
         
-        // MARK: - Object
-        self.contentPayload = ContentPayload(json: JSON(json[OriginalPostKey.payload.rawValue].dictionaryObject ?? [:]))
-        self.liked = Liked(json: JSON(json[OriginalPostKey.liked.rawValue].dictionaryObject ?? [:]))
-        self.commented = Commented(json: JSON(json[OriginalPostKey.commented.rawValue].dictionaryObject ?? [:]))
-        self.recasted = Recasted(json: JSON(json[OriginalPostKey.recasted.rawValue].dictionaryObject ?? [:]))
-        self.quoteCast = QuoteCast(json: JSON(json[OriginalPostKey.quoteCast.rawValue].dictionaryObject ?? [:]))
-        self.author = Author(json: JSON(json[OriginalPostKey.author.rawValue].dictionaryObject ?? [:]))
+        // MARK: - Photo
+        let photoJson = JSON(json[ContentKey.photo.rawValue].dictionaryValue)
+        self.photo = (photoJson[ContentKey.contents.rawValue].arrayValue).map { ImageInfo(json: $0) }
+
+        // MARK: - Link
+        self.link = (json[ContentPayloadKey.link.rawValue].arrayValue).map { Link(json: $0) }
     }
 }

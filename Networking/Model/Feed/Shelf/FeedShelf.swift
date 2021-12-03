@@ -29,14 +29,14 @@ import SwiftyJSON
 
 // MARK: - Hashtag List
 public enum FeedShelfKey: String, Codable {
-    case message
     case payload
-    case pagination
+    case includes
+    case meta
 }
 
 public class FeedShelf: NSObject {
     public var feeds: [Feed] = []
-    public var pagination: Pagination = Pagination()
+    public var meta: Meta = Meta()
     
     public override init() {
         // MARK: - Init
@@ -44,6 +44,6 @@ public class FeedShelf: NSObject {
     
     public init(json: JSON) {
         self.feeds = (json[FeedShelfKey.payload.rawValue].arrayValue).map { Feed(json: $0) }
-        self.pagination = Pagination(json: JSON(json[FeedShelfKey.pagination.rawValue].dictionaryValue))
+        self.meta = Meta(json: JSON(json[FeedShelfKey.meta.rawValue].dictionaryValue))
     }
 }
