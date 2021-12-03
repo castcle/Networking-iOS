@@ -30,6 +30,7 @@ import Moya
 
 enum FeedApi {
     case getHashtags
+    case getFeedsGuests(FeedRequest)
     case getFeeds(String, String, FeedRequest)
 }
 
@@ -42,6 +43,8 @@ extension FeedApi: TargetType {
         switch self {
         case .getHashtags:
             return "/hashtags"
+        case .getFeedsGuests:
+            return "/feeds/guests"
         case .getFeeds(let featureSlug, let circleSlug, _):
             return "/feeds/\(featureSlug)/\(circleSlug)"
         }
@@ -75,11 +78,15 @@ extension FeedApi: TargetType {
             } else {
                 return Data()
             }
+        default:
+            return Data()
         }
     }
     
     var task: Task {
         switch self {
+        case .getFeedsGuests(let feedRequest):
+            return .requestParameters(parameters: feedRequest.paramGetFeed, encoding: URLEncoding.queryString)
         case .getFeeds(_, _, let feedRequest):
             return .requestParameters(parameters: feedRequest.paramGetFeed, encoding: URLEncoding.queryString)
         default:

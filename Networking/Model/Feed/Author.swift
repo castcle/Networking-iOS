@@ -25,6 +25,7 @@
 //  Created by Castcle Co., Ltd. on 14/7/2564 BE.
 //
 
+import Core
 import SwiftyJSON
 
 // MARK: - Liked
@@ -54,6 +55,18 @@ public class Author: NSObject {
     
     public override init() {
         // Init
+    }
+    
+    public init(authorRef: AuthorRef) {
+        self.id = authorRef.id
+        self.type = AuthorType(rawValue: authorRef.type) ?? .people
+        self.castcleId = authorRef.castcleId
+        self.displayName = authorRef.displayName
+        self.followed = authorRef.followed
+        
+        // MARK: - Object
+        self.verified.official = authorRef.official
+        self.avatar.thumbnail = authorRef.avatar
     }
     
     public init(json: JSON) {

@@ -73,6 +73,7 @@
 		B7AF661A26F2FAD500BDE9C4 /* PageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF661926F2FAD500BDE9C4 /* PageRequest.swift */; };
 		B7AF661C26F2FD4700BDE9C4 /* PageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF661B26F2FD4700BDE9C4 /* PageRepository.swift */; };
 		B7C2530E26D5409A00ACBB84 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2530D26D5409A00ACBB84 /* Language.swift */; };
+		B7E4666B2759EEDA006E0B89 /* Liked.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E4666A2759EEDA006E0B89 /* Liked.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -149,6 +150,7 @@
 		B7AF661926F2FAD500BDE9C4 /* PageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageRequest.swift; sourceTree = "<group>"; };
 		B7AF661B26F2FD4700BDE9C4 /* PageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageRepository.swift; sourceTree = "<group>"; };
 		B7C2530D26D5409A00ACBB84 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
+		B7E4666A2759EEDA006E0B89 /* Liked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Liked.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,6 +270,7 @@
 				B7AC1E40271597EF002FC176 /* Follow.swift */,
 				B710693627189D8A00D53527 /* Keyword.swift */,
 				B7AC87F7271934FF00500F81 /* PageInfo.swift */,
+				B7E4666A2759EEDA006E0B89 /* Liked.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -513,6 +516,7 @@
 				B7189AD026EF24A000CB9719 /* EngagementApi.swift in Sources */,
 				B7AC87F8271934FF00500F81 /* PageInfo.swift in Sources */,
 				B79DF1B0270EF30C00A40502 /* FeedRequest.swift in Sources */,
+				B7E4666B2759EEDA006E0B89 /* Liked.swift in Sources */,
 				B7A71D0726FC64700092F318 /* NotificationRepository.swift in Sources */,
 				B7642C5E26E10F8000CDCE95 /* CommentApi.swift in Sources */,
 				B710693727189D8A00D53527 /* Keyword.swift in Sources */,

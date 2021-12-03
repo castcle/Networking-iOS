@@ -30,8 +30,8 @@ import SwiftyJSON
 
 public protocol FeedRepository {
     func getHashtags(_ completion: @escaping (Bool, HashtagShelf) -> ())
+    func getFeedsGuests(feedRequest: FeedRequest, _ completion: @escaping complate)
     func getFeeds(featureSlug: String, circleSlug: String, feedRequest: FeedRequest, _ completion: @escaping complate)
-    func getFeedsMock(featureSlug: String, circleSlug: String, _ completion: @escaping (Bool, FeedShelf) -> ())
 }
 
 public final class FeedRepositoryImpl: FeedRepository {
@@ -60,8 +60,8 @@ public final class FeedRepositoryImpl: FeedRepository {
         }
     }
     
-    public func getFeeds(featureSlug: String, circleSlug: String, feedRequest: FeedRequest, _ completion: @escaping complate) {
-        self.feedProvider.request(.getFeeds(featureSlug, circleSlug, feedRequest)) { result in
+    public func getFeedsGuests(feedRequest: FeedRequest, _ completion: @escaping complate) {
+        self.feedProvider.request(.getFeedsGuests(feedRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -73,19 +73,15 @@ public final class FeedRepositoryImpl: FeedRepository {
         }
     }
     
-    public func getFeedsMock(featureSlug: String, circleSlug: String, _ completion: @escaping (Bool, FeedShelf) -> ()) {
-        self.feedProviderMock.request(.getFeeds(featureSlug, circleSlug, FeedRequest())) { result in
+    public func getFeeds(featureSlug: String, circleSlug: String, feedRequest: FeedRequest, _ completion: @escaping complate) {
+        self.feedProvider.request(.getFeeds(featureSlug, circleSlug, feedRequest)) { result in
             switch result {
             case .success(let response):
-                do {
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    completion(true, FeedShelf(json: json))
-                } catch {
-                    completion(false, FeedShelf())
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
-            case .failure:
-                completion(false, FeedShelf())
+            case .failure(let error):
+                completion(false, error as! Response, false)
             }
         }
     }

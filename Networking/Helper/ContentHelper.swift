@@ -26,9 +26,30 @@
 //
 
 import Core
+import RealmSwift
 
 public class ContentHelper {
-    public init() {
-        // Init UserHelper
+    public static let shared = ContentHelper()
+    
+    public func getAuthorRef(id: String) -> AuthorRef? {
+        if id.isEmpty {
+            return nil
+        } else {
+            let realm = try! Realm()
+            return realm.objects(AuthorRef.self).filter("id = '\(id)'").first
+        }
+    }
+    
+    public func isMyAccount(id: String) -> Bool {
+        if id == UserManager.shared.id {
+            return true
+        } else {
+            let realm = try! Realm()
+            if realm.objects(Page.self).filter("id = '\(id)'").first != nil {
+                return true
+            } else {
+                return false
+            }
+        }
     }
 }

@@ -25,12 +25,16 @@
 //  Created by Castcle Co., Ltd. on 14/7/2564 BE.
 //
 
+import Core
 import SwiftyJSON
+import RealmSwift
 
 // MARK: - Hashtag List
 public enum FeedShelfKey: String, Codable {
     case payload
     case includes
+    case users
+    case casts
     case meta
 }
 
@@ -45,5 +49,16 @@ public class FeedShelf: NSObject {
     public init(json: JSON) {
         self.feeds = (json[FeedShelfKey.payload.rawValue].arrayValue).map { Feed(json: $0) }
         self.meta = Meta(json: JSON(json[FeedShelfKey.meta.rawValue].dictionaryValue))
+        
+        let includes = JSON(json[FeedShelfKey.includes.rawValue].dictionaryValue)
+        let users = includes[FeedShelfKey.users.rawValue].arrayValue
+        
+        let realm = try! Realm()
+        users.forEach { user in
+            try! realm.write {
+                let authorRef = AuthorRef().initCustom(json: user)
+                realm.add(authorRef, update: .modified)
+            }
+        }
     }
 }

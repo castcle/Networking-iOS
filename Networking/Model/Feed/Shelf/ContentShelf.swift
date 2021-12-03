@@ -42,7 +42,7 @@ public class ContentShelf: NSObject {
     }
     
     public init(json: JSON) {
-        self.contents = (json[FeedShelfKey.payload.rawValue].arrayValue).map { Content(json: $0) }
-        self.pagination = Pagination(json: JSON(json[FeedShelfKey.pagination.rawValue].dictionaryValue))
+        self.contents = (json[ContentShelfKey.payload.rawValue].arrayValue).map { Content(json: $0) }
+        self.pagination = Pagination(json: JSON(json[ContentShelfKey.pagination.rawValue].dictionaryValue))
     }
 }
