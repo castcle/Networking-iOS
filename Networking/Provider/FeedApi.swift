@@ -31,7 +31,7 @@ import Moya
 enum FeedApi {
     case getHashtags
     case getFeedsGuests(FeedRequest)
-    case getFeeds(String, String, FeedRequest)
+    case getFeedsMembers(String, String, FeedRequest)
 }
 
 extension FeedApi: TargetType {
@@ -45,8 +45,8 @@ extension FeedApi: TargetType {
             return "/hashtags"
         case .getFeedsGuests:
             return "/feeds/guests"
-        case .getFeeds(let featureSlug, let circleSlug, _):
-            return "/feeds/\(featureSlug)/\(circleSlug)"
+        case .getFeedsMembers(let featureSlug, let circleSlug, _):
+            return "/feeds/members/\(featureSlug)/\(circleSlug)"
         }
     }
     
@@ -67,17 +67,6 @@ extension FeedApi: TargetType {
             } else {
                 return Data()
             }
-        case .getFeeds:
-            if let path = ConfigBundle.network.path(forResource: "Feeds", ofType: "json") {
-                do {
-                    let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-                    return data
-                } catch {
-                    return Data()
-                }
-            } else {
-                return Data()
-            }
         default:
             return Data()
         }
@@ -87,7 +76,7 @@ extension FeedApi: TargetType {
         switch self {
         case .getFeedsGuests(let feedRequest):
             return .requestParameters(parameters: feedRequest.paramGetFeed, encoding: URLEncoding.queryString)
-        case .getFeeds(_, _, let feedRequest):
+        case .getFeedsMembers(_, _, let feedRequest):
             return .requestParameters(parameters: feedRequest.paramGetFeed, encoding: URLEncoding.queryString)
         default:
             return .requestPlain

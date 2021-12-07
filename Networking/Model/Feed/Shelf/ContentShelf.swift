@@ -25,17 +25,22 @@
 //  Created by Castcle Co., Ltd. on 29/9/2564 BE.
 //
 
+import Core
 import SwiftyJSON
+import RealmSwift
 
 // MARK: - Hashtag List
 public enum ContentShelfKey: String, Codable {
     case payload
-    case pagination
+    case includes
+    case users
+    case casts
+    case meta
 }
 
 public class ContentShelf: NSObject {
     public var contents: [Content] = []
-    public var pagination: Pagination = Pagination()
+    public var meta: Meta = Meta()
     
     public override init() {
         // MARK: - Init
@@ -43,6 +48,17 @@ public class ContentShelf: NSObject {
     
     public init(json: JSON) {
         self.contents = (json[ContentShelfKey.payload.rawValue].arrayValue).map { Content(json: $0) }
-        self.pagination = Pagination(json: JSON(json[ContentShelfKey.pagination.rawValue].dictionaryValue))
+        self.meta = Meta(json: JSON(json[ContentShelfKey.meta.rawValue].dictionaryValue))
+        
+        let includes = JSON(json[ContentShelfKey.includes.rawValue].dictionaryValue)
+        let users = includes[ContentShelfKey.users.rawValue].arrayValue
+        
+        let realm = try! Realm()
+        users.forEach { user in
+            try! realm.write {
+                let authorRef = AuthorRef().initCustom(json: user)
+                realm.add(authorRef, update: .modified)
+            }
+        }
     }
 }
