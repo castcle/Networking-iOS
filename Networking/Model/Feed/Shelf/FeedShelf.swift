@@ -25,25 +25,40 @@
 //  Created by Castcle Co., Ltd. on 14/7/2564 BE.
 //
 
+import Core
 import SwiftyJSON
+import RealmSwift
 
 // MARK: - Hashtag List
 public enum FeedShelfKey: String, Codable {
-    case message
     case payload
-    case pagination
+    case includes
+    case users
+    case casts
+    case meta
 }
 
 public class FeedShelf: NSObject {
     public var feeds: [Feed] = []
-    public var pagination: Pagination = Pagination()
+    public var meta: Meta = Meta()
     
     public override init() {
         // MARK: - Init
     }
     
     public init(json: JSON) {
-        self.feeds = (json[FeedShelfKey.payload.rawValue].arrayValue).map { Feed(json: $0) }
-        self.pagination = Pagination(json: JSON(json[FeedShelfKey.pagination.rawValue].dictionaryValue))
+        self.feeds = (json[FeedShelfKey.payload.rawValue].arrayValue).map { Feed(json: $0) }.filter { $0.payload.participate.reported == false }
+        self.meta = Meta(json: JSON(json[FeedShelfKey.meta.rawValue].dictionaryValue))
+        
+        let includes = JSON(json[FeedShelfKey.includes.rawValue].dictionaryValue)
+        let users = includes[FeedShelfKey.users.rawValue].arrayValue
+        
+        let realm = try! Realm()
+        users.forEach { user in
+            try! realm.write {
+                let authorRef = AuthorRef().initCustom(json: user)
+                realm.add(authorRef, update: .modified)
+            }
+        }
     }
 }

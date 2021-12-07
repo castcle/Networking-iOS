@@ -19,49 +19,48 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  FeedRepository.swift
+//  ReportRepository.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 13/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 7/12/2564 BE.
 //
 
+import Core
 import Moya
 import SwiftyJSON
 
-public protocol FeedRepository {
-    func getHashtags(_ completion: @escaping (Bool, HashtagShelf) -> ())
-    func getFeedsGuests(feedRequest: FeedRequest, _ completion: @escaping complate)
-    func getFeedsMembers(featureSlug: String, circleSlug: String, feedRequest: FeedRequest, _ completion: @escaping complate)
+public protocol ReportRepository {
+    func reportUser(userId: String, _ completion: @escaping complate)
+    func reportContent(contentId: String, _ completion: @escaping complate)
+    func blockUser(userId: String, _ completion: @escaping complate)
+    func unblockUser(userId: String, _ completion: @escaping complate)
 }
 
-public final class FeedRepositoryImpl: FeedRepository {
-    private let feedProviderMock = MoyaProvider<FeedApi>(stubClosure: MoyaProvider.delayedStub(1.0))
-    private let feedProvider = MoyaProvider<FeedApi>()
+public final class ReportRepositoryImpl: ReportRepository {
+    private let reportProvider = MoyaProvider<ReportApi>()
     private let completionHelper: CompletionHelper = CompletionHelper()
     
     public init() {
         // MARK: - Init
     }
     
-    public func getHashtags(_ completion: @escaping (Bool, HashtagShelf) -> ()) {
-        self.feedProviderMock.request(.getHashtags) { result in
+    public func reportUser(userId: String, _ completion: @escaping complate) {
+        self.reportProvider.request(.reportUser(userId)) { result in
             switch result {
             case .success(let response):
-                do {
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    completion(true, HashtagShelf(json: json))
-                } catch {
-                    completion(false, HashtagShelf())
-                }
-            case .failure:
-                completion(false, HashtagShelf())
+                completion(true, response, false)
+//                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+//                    completion(success, response, isRefreshToken)
+//                }
+            case .failure(let error):
+                completion(true, error as! Response, false)
+//                completion(false, error as! Response, false)
             }
         }
     }
     
-    public func getFeedsGuests(feedRequest: FeedRequest, _ completion: @escaping complate) {
-        self.feedProvider.request(.getFeedsGuests(feedRequest)) { result in
+    public func reportContent(contentId: String, _ completion: @escaping complate) {
+        self.reportProvider.request(.reportContent(contentId)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -73,8 +72,21 @@ public final class FeedRepositoryImpl: FeedRepository {
         }
     }
     
-    public func getFeedsMembers(featureSlug: String, circleSlug: String, feedRequest: FeedRequest, _ completion: @escaping complate) {
-        self.feedProvider.request(.getFeedsMembers(featureSlug, circleSlug, feedRequest)) { result in
+    public func blockUser(userId: String, _ completion: @escaping complate) {
+        self.reportProvider.request(.blockUser(userId)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func unblockUser(userId: String, _ completion: @escaping complate) {
+        self.reportProvider.request(.unblockUser(userId)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

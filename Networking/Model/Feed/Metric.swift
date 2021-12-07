@@ -19,38 +19,36 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Participant.swift
+//  Metric.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 14/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 3/12/2564 BE.
 //
 
 import SwiftyJSON
 
-// MARK: - Participant
-public enum ParticipantKey: String, Codable {
-    case type
-    case id
-    case name
-    case avatar
+// MARK: - Circle
+public enum MetricKey: String, Codable {
+    case likeCount
+    case commentCount
+    case quoteCount
+    case recastCount
 }
 
-public enum ParticipantType: String, Codable {
-    case people
-    case page
-    case unknown
-}
-
-public class Participant: NSObject {
-    public let type: ParticipantType
-    public let id: String
-    public let name: String
-    public let avatar: String
+public class Metric: NSObject {
+    public var likeCount: Int = 0
+    public var commentCount: Int = 0
+    public var quoteCount: Int = 0
+    public var recastCount: Int = 0
+    
+    public override init() {
+        // MARK: - Init
+    }
     
     public init(json: JSON) {
-        self.type = ParticipantType(rawValue: json[ParticipantKey.type.rawValue].stringValue) ?? .unknown
-        self.id = json[ParticipantKey.id.rawValue].stringValue
-        self.name = json[ParticipantKey.name.rawValue].stringValue
-        self.avatar = json[ParticipantKey.avatar.rawValue].stringValue
+        self.likeCount = json[MetricKey.likeCount.rawValue].intValue
+        self.commentCount = json[MetricKey.commentCount.rawValue].intValue
+        self.quoteCount = json[MetricKey.quoteCount.rawValue].intValue
+        self.recastCount = json[MetricKey.recastCount.rawValue].intValue
     }
 }

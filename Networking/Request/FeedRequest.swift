@@ -28,13 +28,14 @@
 public struct FeedRequest {
     enum ContentKey: String {
         case page
-        case limit
+        case maxResults
+        case untilId
         case hashtag
         case type
     }
 
-    public var page: Int = 1
-    public var limit: Int = 50
+    public var untilId: String = ""
+    public var maxResults: Int = 100
     public var hashtag: String = ""
     public var type: ContentType = .unknow
     
@@ -44,9 +45,12 @@ public struct FeedRequest {
     
     public var paramGetFeed: [String: Any] {
         var param: [String: Any] = [
-            ContentKey.page.rawValue: self.page,
-            ContentKey.limit.rawValue: self.limit
+            ContentKey.maxResults.rawValue: self.maxResults
         ]
+        
+        if !self.untilId.isEmpty {
+            param[ContentKey.untilId.rawValue] = self.untilId
+        }
         
         if !self.hashtag.isEmpty {
             param[ContentKey.hashtag.rawValue] = self.hashtag

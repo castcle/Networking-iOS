@@ -19,35 +19,36 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Liked.swift
+//  ReferencedCast.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 14/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 3/12/2564 BE.
 //
 
 import SwiftyJSON
 
-// MARK: - Liked
-public enum LikedKey: String, Codable {
-    case count
-    case isLike = "liked"
-    case participant
+// MARK: - Circle
+public enum ReferencedCastKey: String, Codable {
+    case type
+    case id
 }
 
-public class Liked: NSObject {
-    public var count: Int = 0
-    public var isLike: Bool = false
-    public var participant: [Participant] = []
+public enum ReferencedCastType: String, Codable {
+    case quoted
+    case recasted
+    case unknown
+}
+
+public class ReferencedCast: NSObject {
+    public var type: ReferencedCastType = .unknown
+    public var id: String = ""
     
     public override init() {
-        // Init
+        // MARK: - Init
     }
     
     public init(json: JSON) {
-        self.count = json[LikedKey.count.rawValue].intValue
-        self.isLike = json[LikedKey.isLike.rawValue].boolValue
-        
-        // MARK: - Participant
-        self.participant = (json[LikedKey.participant.rawValue].arrayValue).map { Participant(json: $0) }
+        self.type = ReferencedCastType(rawValue: json[ReferencedCastKey.type.rawValue].stringValue) ?? .unknown
+        self.id = json[ReferencedCastKey.id.rawValue].stringValue
     }
 }

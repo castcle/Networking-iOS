@@ -19,65 +19,52 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  FeedApi.swift
+//  ReportApi.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 12/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 7/12/2564 BE.
 //
 
 import Core
 import Moya
 
-enum FeedApi {
-    case getHashtags
-    case getFeedsGuests(FeedRequest)
-    case getFeedsMembers(String, String, FeedRequest)
+enum ReportApi {
+    case reportUser(String)
+    case reportContent(String)
+    case blockUser(String)
+    case unblockUser(String)
 }
 
-extension FeedApi: TargetType {
+extension ReportApi: TargetType {
     var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }
     
     var path: String {
         switch self {
-        case .getHashtags:
-            return "/hashtags"
-        case .getFeedsGuests:
-            return "/feeds/guests"
-        case .getFeedsMembers(let featureSlug, let circleSlug, _):
-            return "/feeds/members/\(featureSlug)/\(circleSlug)"
+        case .reportUser(let userId):
+            return "/users/\(userId)/reporting"
+        case .reportContent(let contentId):
+            return "/contents/\(contentId)/reporting"
+        case .blockUser(let userId):
+            return "/users/\(userId)/blocking"
+        case .unblockUser(let userId):
+            return "/users/\(userId)/unblocking"
         }
     }
     
     var method: Moya.Method {
-        return .get
+        return .post
     }
     
     var sampleData: Data {
-        switch self {
-        case .getHashtags:
-            if let path = ConfigBundle.network.path(forResource: "Hashtag", ofType: "json") {
-                do {
-                    let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-                    return data
-                } catch {
-                    return Data()
-                }
-            } else {
-                return Data()
-            }
-        default:
-            return Data()
-        }
+        return Data()
     }
     
     var task: Task {
         switch self {
-        case .getFeedsGuests(let feedRequest):
-            return .requestParameters(parameters: feedRequest.paramGetFeed, encoding: URLEncoding.queryString)
-        case .getFeedsMembers(_, _, let feedRequest):
-            return .requestParameters(parameters: feedRequest.paramGetFeed, encoding: URLEncoding.queryString)
+        case .reportUser, .reportContent:
+            return .requestParameters(parameters: ["message": ""], encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }

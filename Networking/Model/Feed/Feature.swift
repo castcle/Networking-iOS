@@ -29,14 +29,12 @@ import SwiftyJSON
 
 // MARK: - Feature
 public enum FeatureKey: String, Codable {
-    case id
     case slug
     case name
     case key
 }
 
 public class Feature: NSObject {
-    public var id: String = ""
     public var slug: String = ""
     public var name: String = ""
     public var key: String = ""
@@ -46,7 +44,6 @@ public class Feature: NSObject {
     }
     
     public init(json: JSON) {
-        self.id = json[FeatureKey.id.rawValue].stringValue
         self.slug = json[FeatureKey.slug.rawValue].stringValue
         self.name = json[FeatureKey.name.rawValue].stringValue
         self.key = json[FeatureKey.key.rawValue].stringValue

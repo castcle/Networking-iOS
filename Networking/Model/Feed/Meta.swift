@@ -19,35 +19,33 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  QuoteCast.swift
+//  Meta.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 19/11/2564 BE.
+//  Created by Castcle Co., Ltd. on 3/12/2564 BE.
 //
 
 import SwiftyJSON
 
-// MARK: - QuoteCast
-public enum QuoteCastKey: String, Codable {
-    case count
-    case isQuoteCast = "quoteCast"
-    case participant
+// MARK: - Circle
+public enum MetaKey: String, Codable {
+    case oldestId
+    case newestId
+    case resultCount
 }
 
-public class QuoteCast: NSObject {
-    public var count: Int = 0
-    public var isQuoteCast: Bool = false
-    public var participant: [Participant] = []
+public class Meta: NSObject {
+    public var oldestId: String = ""
+    public var newestId: String = ""
+    public var resultCount: Int = 100
     
     public override init() {
-        // Init
+        // MARK: - Init
     }
     
     public init(json: JSON) {
-        self.count = json[QuoteCastKey.count.rawValue].intValue
-        self.isQuoteCast = json[QuoteCastKey.isQuoteCast.rawValue].boolValue
-        
-        // MARK: - Participant
-        self.participant = (json[QuoteCastKey.participant.rawValue].arrayValue).map { Participant(json: $0) }
+        self.oldestId = json[MetaKey.oldestId.rawValue].stringValue
+        self.newestId = json[MetaKey.newestId.rawValue].stringValue
+        self.resultCount = json[MetaKey.resultCount.rawValue].intValue
     }
 }

@@ -28,16 +28,16 @@
 public struct ContentRequest {
     enum ContentKey: String {
         case type
-        case page
-        case limit
         case payload
         case castcleId
         case feedItemId
         case message
+        case maxResults
+        case untilId
     }
     public var type: ContentType = .unknow
-    public var page: Int = 1
-    public var limit: Int = 25
+    public var untilId: String = ""
+    public var maxResults: Int = 100
     public var payload: ContentPayloadRequest = ContentPayloadRequest()
     public var castcleId: String = ""
     public var feedItemId: String = ""
@@ -48,11 +48,16 @@ public struct ContentRequest {
     }
     
     public var paramGetContent: [String: Any] {
-        return [
+        var param: [String: Any] = [
             ContentKey.type.rawValue: self.type.rawValue,
-            ContentKey.page.rawValue: self.page,
-            ContentKey.limit.rawValue: self.limit
+            ContentKey.maxResults.rawValue: self.maxResults
         ]
+        
+        if !self.untilId.isEmpty {
+            param[ContentKey.untilId.rawValue] = self.untilId
+        }
+        
+        return param
     }
     
     public var paramCreateContent: [String: Any] {

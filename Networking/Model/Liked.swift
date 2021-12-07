@@ -19,35 +19,30 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Commented.swift
+//  Liked.swift
 //  Networking
 //
 //  Created by Castcle Co., Ltd. on 14/7/2564 BE.
 //
-
 import SwiftyJSON
 
 // MARK: - Liked
-public enum CommentedKey: String, Codable {
+public enum LikedKey: String, Codable {
     case count
-    case isComment = "commented"
+    case isLike = "liked"
     case participant
 }
 
-public class Commented: NSObject {
+public class Liked: NSObject {
     public var count: Int = 0
-    public var isComment: Bool = false
-    public var participant: [Participant] = []
+    public var isLike: Bool = false
     
     public override init() {
         // Init
     }
     
     public init(json: JSON) {
-        self.count = json[CommentedKey.count.rawValue].intValue
-        self.isComment = json[CommentedKey.isComment.rawValue].boolValue
-        
-        // MARK: - Participant
-        self.participant = (json[CommentedKey.participant.rawValue].arrayValue).map { Participant(json: $0) }
+        self.count = json[LikedKey.count.rawValue].intValue
+        self.isLike = json[LikedKey.isLike.rawValue].boolValue
     }
 }
