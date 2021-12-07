@@ -74,6 +74,8 @@
 		B7AF661C26F2FD4700BDE9C4 /* PageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF661B26F2FD4700BDE9C4 /* PageRepository.swift */; };
 		B7C2530E26D5409A00ACBB84 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2530D26D5409A00ACBB84 /* Language.swift */; };
 		B7E4666B2759EEDA006E0B89 /* Liked.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E4666A2759EEDA006E0B89 /* Liked.swift */; };
+		B7E64EC6275F578700FFD78E /* ReportApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E64EC5275F578700FFD78E /* ReportApi.swift */; };
+		B7E64EC8275F5A3B00FFD78E /* ReportRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E64EC7275F5A3B00FFD78E /* ReportRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -151,6 +153,8 @@
 		B7AF661B26F2FD4700BDE9C4 /* PageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageRepository.swift; sourceTree = "<group>"; };
 		B7C2530D26D5409A00ACBB84 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		B7E4666A2759EEDA006E0B89 /* Liked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Liked.swift; sourceTree = "<group>"; };
+		B7E64EC5275F578700FFD78E /* ReportApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportApi.swift; sourceTree = "<group>"; };
+		B7E64EC7275F5A3B00FFD78E /* ReportRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRepository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -254,6 +258,7 @@
 				B7A71D0626FC64700092F318 /* NotificationRepository.swift */,
 				B7A71D76270308910092F318 /* ContentRepository.swift */,
 				B7AC1E3927158D1A002FC176 /* SearchRepository.swift */,
+				B7E64EC7275F5A3B00FFD78E /* ReportRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -319,6 +324,7 @@
 				B7A71D0226FC5B860092F318 /* NotificationApi.swift */,
 				B7A71D72270304060092F318 /* ContentApi.swift */,
 				B7AC1E3527158B27002FC176 /* SearchApi.swift */,
+				B7E64EC5275F578700FFD78E /* ReportApi.swift */,
 				B7684A5126C5061C00C438C5 /* Mockup */,
 			);
 			path = Provider;
@@ -488,6 +494,7 @@
 				B7A71D7B27041F1F0092F318 /* ContentShelf.swift in Sources */,
 				B743387C26DCBEDE004BBC05 /* UserApi.swift in Sources */,
 				B77364802759C81500E8E74D /* Metric.swift in Sources */,
+				B7E64EC8275F5A3B00FFD78E /* ReportRepository.swift in Sources */,
 				B7189AD526EF2E1F00CB9719 /* EngagementRepository.swift in Sources */,
 				B7189ADE26EF489100CB9719 /* EngagementHelper.swift in Sources */,
 				B786633A27478B7000B13EEF /* ContentHelper.swift in Sources */,
@@ -519,6 +526,7 @@
 				B7E4666B2759EEDA006E0B89 /* Liked.swift in Sources */,
 				B7A71D0726FC64700092F318 /* NotificationRepository.swift in Sources */,
 				B7642C5E26E10F8000CDCE95 /* CommentApi.swift in Sources */,
+				B7E64EC6275F578700FFD78E /* ReportApi.swift in Sources */,
 				B710693727189D8A00D53527 /* Keyword.swift in Sources */,
 				B7684A6D26C5061C00C438C5 /* FeedApi.swift in Sources */,
 				B77364842759CD8D00E8E74D /* Meta.swift in Sources */,
