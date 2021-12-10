@@ -19,38 +19,36 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Participant.swift
+//  SearchRequest.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 14/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 12/10/2564 BE.
 //
 
-import SwiftyJSON
+public struct SearchRequest {
+    enum ContentKey: String {
+        case page
+        case limit
+        case keyword
+    }
 
-// MARK: - Participant
-public enum ParticipantKey: String, Codable {
-    case type
-    case id
-    case name
-    case avatar
-}
-
-public enum ParticipantType: String, Codable {
-    case people
-    case page
-    case unknown
-}
-
-public class Participant: NSObject {
-    public let type: ParticipantType
-    public let id: String
-    public let name: String
-    public let avatar: String
+    public var page: Int = 1
+    public var limit: Int = 10
+    public var keyword: String = ""
     
-    public init(json: JSON) {
-        self.type = ParticipantType(rawValue: json[ParticipantKey.type.rawValue].stringValue) ?? .unknown
-        self.id = json[ParticipantKey.id.rawValue].stringValue
-        self.name = json[ParticipantKey.name.rawValue].stringValue
-        self.avatar = json[ParticipantKey.avatar.rawValue].stringValue
+    public init() {
+        // Init SearchRequest
+    }
+    
+    public var paramGetTopTrends: [String: Any] {
+        return [
+            ContentKey.limit.rawValue: self.limit
+        ]
+    }
+    
+    public var paramSuggestion: [String: Any] {
+        return [
+            ContentKey.keyword.rawValue: self.keyword
+        ]
     }
 }

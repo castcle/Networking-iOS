@@ -22,7 +22,7 @@
 //  EngagementHelper.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 13/9/2564 BE.
+//  Created by Castcle Co., Ltd. on 13/9/2564 BE.
 //
 
 import SwiftyJSON
@@ -49,29 +49,13 @@ public enum ScreenId: String {
 public class EngagementHelper {
 
     private var engagementRepository: EngagementRepository = EngagementRepositoryImpl()
-    private let tokenHelper: TokenHelper = TokenHelper()
     private var engagementRequest: EngagementRequest
     
     public init(engagementRequest: EngagementRequest) {
         self.engagementRequest = engagementRequest
-        self.tokenHelper.delegate = self
     }
     
     public func sendEngagement() {
-        self.engagementRepository.engagement(engagementRequest: self.engagementRequest) { (success, response, isRefreshToken) in
-            if success {
-                return
-            } else {
-                if isRefreshToken {
-                    self.tokenHelper.refreshToken()
-                }
-            }
-        }
-    }
-}
-
-extension EngagementHelper: TokenHelperDelegate {
-    public func didRefreshTokenFinish() {
-        self.sendEngagement()
+        self.engagementRepository.engagement(engagementRequest: self.engagementRequest)
     }
 }

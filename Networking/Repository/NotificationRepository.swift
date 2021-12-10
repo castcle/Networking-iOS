@@ -19,47 +19,36 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Aggregator.swift
+//  NotificationRepository.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 14/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 23/9/2564 BE.
 //
 
+import Core
+import Moya
 import SwiftyJSON
 
-// MARK: - Aggregator
-public enum AggregatorKey: String, Codable {
-    case type
-    case id
-    case action
-    case message
+public protocol NotificationRepository {
+    func registerToken(notificationRequest: NotificationRequest, _ completion: @escaping complate)
 }
 
-public enum AggregatorType: String, Codable {
-    case friend
-    case following
-    case topic
-    case unknown
-}
-
-public enum ActionType: String, Codable {
-    case liked
-    case commented
-    case recasted
-    case suggestion
-    case unknown
-}
-
-public class Aggregator: NSObject {
-    public let type: AggregatorType
-    public let id: String
-    public let action: ActionType
-    public let message: String
+public final class NotificationRepositoryImpl: NotificationRepository {
+    private let notificationProvider = MoyaProvider<NotificationApi>()
+    private let completionHelper: CompletionHelper = CompletionHelper()
     
-    public init(json: JSON) {
-        self.type = AggregatorType(rawValue: json[AggregatorKey.type.rawValue].stringValue) ?? .unknown
-        self.id = json[AggregatorKey.id.rawValue].stringValue
-        self.action = ActionType(rawValue: json[AggregatorKey.action.rawValue].stringValue) ?? .unknown
-        self.message = json[AggregatorKey.message.rawValue].stringValue
+    public init() {
+        // MARK: - Init
+    }
+    
+    public func registerToken(notificationRequest: NotificationRequest, _ completion: @escaping complate) {
+        self.notificationProvider.request(.registerToken(notificationRequest)) { result in
+            switch result {
+            case .success(let response):
+                completion(true, response, false)
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
     }
 }

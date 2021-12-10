@@ -19,47 +19,37 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Aggregator.swift
+//  ContentHelper.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 14/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 19/11/2564 BE.
 //
 
-import SwiftyJSON
+import Core
+import RealmSwift
 
-// MARK: - Aggregator
-public enum AggregatorKey: String, Codable {
-    case type
-    case id
-    case action
-    case message
-}
-
-public enum AggregatorType: String, Codable {
-    case friend
-    case following
-    case topic
-    case unknown
-}
-
-public enum ActionType: String, Codable {
-    case liked
-    case commented
-    case recasted
-    case suggestion
-    case unknown
-}
-
-public class Aggregator: NSObject {
-    public let type: AggregatorType
-    public let id: String
-    public let action: ActionType
-    public let message: String
+public class ContentHelper {
+    public static let shared = ContentHelper()
     
-    public init(json: JSON) {
-        self.type = AggregatorType(rawValue: json[AggregatorKey.type.rawValue].stringValue) ?? .unknown
-        self.id = json[AggregatorKey.id.rawValue].stringValue
-        self.action = ActionType(rawValue: json[AggregatorKey.action.rawValue].stringValue) ?? .unknown
-        self.message = json[AggregatorKey.message.rawValue].stringValue
+    public func getAuthorRef(id: String) -> AuthorRef? {
+        if id.isEmpty {
+            return nil
+        } else {
+            let realm = try! Realm()
+            return realm.objects(AuthorRef.self).filter("id = '\(id)'").first
+        }
+    }
+    
+    public func isMyAccount(id: String) -> Bool {
+        if id == UserManager.shared.id {
+            return true
+        } else {
+            let realm = try! Realm()
+            if realm.objects(Page.self).filter("id = '\(id)'").first != nil {
+                return true
+            } else {
+                return false
+            }
+        }
     }
 }

@@ -19,46 +19,58 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  LikeRepository.swift
+//  ReportApi.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 23/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 7/12/2564 BE.
 //
 
+import Core
 import Moya
-import SwiftyJSON
 
-public protocol LikeRepository {
-    func liked(feedUuid: String, _ completion: @escaping (Bool) -> ())
-    func unliked(feedUuid: String, _ completion: @escaping (Bool) -> ())
+enum ReportApi {
+    case reportUser(String)
+    case reportContent(String)
+    case blockUser(String)
+    case unblockUser(String)
 }
 
-public final class LikeRepositoryImpl: LikeRepository {
-    private let likeProvider = MoyaProvider<LikeApi>(stubClosure: MoyaProvider.delayedStub(1.0))
-    
-    public init() {
-        // MARK: - Init
+extension ReportApi: TargetType {
+    var baseURL: URL {
+        return URL(string: Environment.baseUrl)!
     }
     
-    public func liked(feedUuid: String, _ completion: @escaping (Bool) -> ()) {
-        self.likeProvider.request(.liked(feedUuid)) { result in
-            switch result {
-            case .success:
-                print("Success")
-            case .failure:
-                print("Failure")
-            }
+    var path: String {
+        switch self {
+        case .reportUser(let userId):
+            return "/users/\(userId)/reporting"
+        case .reportContent(let contentId):
+            return "/contents/\(contentId)/reporting"
+        case .blockUser(let userId):
+            return "/users/\(userId)/blocking"
+        case .unblockUser(let userId):
+            return "/users/\(userId)/unblocking"
         }
     }
     
-    public func unliked(feedUuid: String, _ completion: @escaping (Bool) -> ()) {
-        self.likeProvider.request(.unliked(feedUuid)) { result in
-            switch result {
-            case .success:
-                print("Success")
-            case .failure:
-                print("Failure")
-            }
+    var method: Moya.Method {
+        return .post
+    }
+    
+    var sampleData: Data {
+        return Data()
+    }
+    
+    var task: Task {
+        switch self {
+        case .reportUser, .reportContent:
+            return .requestParameters(parameters: ["message": ""], encoding: JSONEncoding.default)
+        default:
+            return .requestPlain
         }
+    }
+    
+    var headers: [String : String]? {
+        return ApiHelper.header
     }
 }

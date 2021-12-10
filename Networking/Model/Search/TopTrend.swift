@@ -19,31 +19,33 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Commented.swift
+//  TopTrend.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 14/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 12/10/2564 BE.
 //
 
+import Core
 import SwiftyJSON
 
-// MARK: - Liked
-public enum CommentedKey: String, Codable {
-    case count
-    case isComment = "commented"
-    case participant
+// MARK: - Comment Payload
+public enum TopTrendKey: String, Codable {
+    case hashtags
+    case topics
+    case follows
 }
 
-public class Commented: NSObject {
-    public var count: Int
-    public var isComment: Bool
-    public let participant: [Participant]
+public class TopTrend: NSObject {
+    public var hashtags: [Hashtag] = []
+//    public var topics: [Topics] = []
+    public var follows: [Follow] = []
+    
+    public override init() {
+        // Init TopTrend
+    }
     
     public init(json: JSON) {
-        self.count = json[CommentedKey.count.rawValue].intValue
-        self.isComment = json[CommentedKey.isComment.rawValue].boolValue
-        
-        // MARK: - Participant
-        self.participant = (json[CommentedKey.participant.rawValue].arrayValue).map { Participant(json: $0) }
+        self.hashtags = (json[TopTrendKey.hashtags.rawValue].arrayValue).map { Hashtag(json: $0) }
+        self.follows = (json[TopTrendKey.follows.rawValue].arrayValue).map { Follow(json: $0) }
     }
 }

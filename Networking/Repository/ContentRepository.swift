@@ -19,37 +19,37 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  PageRepository.swift
+//  ContentRepository.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 16/9/2564 BE.
+//  Created by Castcle Co., Ltd. on 28/9/2564 BE.
 //
 
 import Core
 import Moya
 import SwiftyJSON
 
-public protocol PageRepository {
-    func createPage(pageRequest: PageRequest, _ completion: @escaping complate)
-    func updatePageInfo(pageId: String, pageRequest: PageRequest, _ completion: @escaping complate)
-    func updatePageAvatar(pageId: String, pageRequest: PageRequest, _ completion: @escaping complate)
-    func updatePageCover(pageId: String, pageRequest: PageRequest, _ completion: @escaping complate)
-    func getPageInfo(pageId: String, _ completion: @escaping complate)
-    func getPageContent(pageId: String, contentRequest: ContentRequest, _ completion: @escaping complate)
-    func getMyPage(_ completion: @escaping complate)
-    func deletePage(pageId: String, pageRequest: PageRequest, _ completion: @escaping complate)
+public protocol ContentRepository {
+    func getMeContents(contentRequest: ContentRequest, _ completion: @escaping complate)
+    func createContent(featureSlug: String, contentRequest: ContentRequest, _ completion: @escaping complate)
+    func likeContent(contentId: String, contentRequest: ContentRequest, _ completion: @escaping complate)
+    func unlikeContent(contentId: String, contentRequest: ContentRequest, _ completion: @escaping complate)
+    func deleteContent(contentId: String, _ completion: @escaping complate)
+    func recastContent(contentId: String, contentRequest: ContentRequest, _ completion: @escaping complate)
+    func unrecastContent(contentId: String, contentRequest: ContentRequest, _ completion: @escaping complate)
+    func quotecastContent(contentId: String, contentRequest: ContentRequest, _ completion: @escaping complate)
 }
 
-public final class PageRepositoryImpl: PageRepository {
-    private let pageProvider = MoyaProvider<PageApi>()
+public final class ContentRepositoryImpl: ContentRepository {
+    private let contentProvider = MoyaProvider<ContentApi>()
     private let completionHelper: CompletionHelper = CompletionHelper()
     
     public init() {
         // MARK: - Init
     }
     
-    public func createPage(pageRequest: PageRequest, _ completion: @escaping complate) {
-        self.pageProvider.request(.createPage(pageRequest)) { result in
+    public func getMeContents(contentRequest: ContentRequest, _ completion: @escaping complate) {
+        self.contentProvider.request(.getMeContents(contentRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -61,8 +61,8 @@ public final class PageRepositoryImpl: PageRepository {
         }
     }
     
-    public func updatePageInfo(pageId: String, pageRequest: PageRequest, _ completion: @escaping complate) {
-        self.pageProvider.request(.updatePageInfo(pageId, pageRequest)) { result in
+    public func createContent(featureSlug: String, contentRequest: ContentRequest, _ completion: @escaping complate) {
+        self.contentProvider.request(.createContent(featureSlug, contentRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -74,8 +74,8 @@ public final class PageRepositoryImpl: PageRepository {
         }
     }
     
-    public func updatePageAvatar(pageId: String, pageRequest: PageRequest, _ completion: @escaping complate) {
-        self.pageProvider.request(.updatePageAvatar(pageId, pageRequest)) { result in
+    public func likeContent(contentId: String, contentRequest: ContentRequest, _ completion: @escaping complate) {
+        self.contentProvider.request(.likeContent(contentId, contentRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -87,8 +87,8 @@ public final class PageRepositoryImpl: PageRepository {
         }
     }
     
-    public func updatePageCover(pageId: String, pageRequest: PageRequest, _ completion: @escaping complate) {
-        self.pageProvider.request(.updatePageCover(pageId, pageRequest)) { result in
+    public func unlikeContent(contentId: String, contentRequest: ContentRequest, _ completion: @escaping complate) {
+        self.contentProvider.request(.unlikeContent(contentId, contentRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -100,8 +100,8 @@ public final class PageRepositoryImpl: PageRepository {
         }
     }
     
-    public func getPageInfo(pageId: String, _ completion: @escaping complate) {
-        self.pageProvider.request(.getPageInfo(pageId)) { result in
+    public func deleteContent(contentId: String, _ completion: @escaping complate) {
+        self.contentProvider.request(.deleteContent(contentId)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -113,8 +113,8 @@ public final class PageRepositoryImpl: PageRepository {
         }
     }
     
-    public func getPageContent(pageId: String, contentRequest: ContentRequest, _ completion: @escaping complate) {
-        self.pageProvider.request(.getPageContent(pageId, contentRequest)) { result in
+    public func recastContent(contentId: String, contentRequest: ContentRequest, _ completion: @escaping complate) {
+        self.contentProvider.request(.recastContent(contentId, contentRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -126,8 +126,8 @@ public final class PageRepositoryImpl: PageRepository {
         }
     }
     
-    public func getMyPage(_ completion: @escaping complate) {
-        self.pageProvider.request(.getMyPage) { result in
+    public func unrecastContent(contentId: String, contentRequest: ContentRequest, _ completion: @escaping complate) {
+        self.contentProvider.request(.unrecastContent(contentId, contentRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -139,8 +139,8 @@ public final class PageRepositoryImpl: PageRepository {
         }
     }
     
-    public func deletePage(pageId: String, pageRequest: PageRequest, _ completion: @escaping complate) {
-        self.pageProvider.request(.deletePage(pageId, pageRequest)) { result in
+    public func quotecastContent(contentId: String, contentRequest: ContentRequest, _ completion: @escaping complate) {
+        self.contentProvider.request(.quotecastContent(contentId, contentRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

@@ -19,31 +19,26 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Recasted.swift
+//  Keyword.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 14/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 15/10/2564 BE.
 //
 
 import SwiftyJSON
 
-// MARK: - Liked
-public enum RecastedKey: String, Codable {
-    case count
-    case isRecast = "recasted"
-    case participant
+// MARK: - Keyword
+public enum KeywordKey: String, Codable {
+    case text
+    case isTrending
 }
 
-public class Recasted: NSObject {
-    public var count: Int
-    public var isRecast: Bool
-    public let participant: [Participant]
+public class Keyword: NSObject {
+    public let text: String
+    public let isTrending: Bool
     
     public init(json: JSON) {
-        self.count = json[RecastedKey.count.rawValue].intValue
-        self.isRecast = json[RecastedKey.isRecast.rawValue].boolValue
-        
-        // MARK: - Participant
-        self.participant = (json[RecastedKey.participant.rawValue].arrayValue).map { Participant(json: $0) }
+        self.text = json[KeywordKey.text.rawValue].stringValue
+        self.isTrending = json[KeywordKey.isTrending.rawValue].boolValue
     }
 }

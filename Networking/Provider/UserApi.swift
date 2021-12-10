@@ -22,7 +22,7 @@
 //  UserApi.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 30/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 30/8/2564 BE.
 //
 
 import Core
@@ -38,14 +38,13 @@ enum UserApi {
     case delateUser(UserRequest)
     
     case getUser(String)
-    case getMeContents
-    case getUserContents(String)
+    case getUserContents(String, ContentRequest)
     
     case getUserFollower(String)
     case getUserFollowing(String)
     
-    case follow(String)
-    case unfollow(String)
+    case follow(String, UserRequest)
+    case unfollow(String, UserRequest)
 }
 
 extension UserApi: TargetType {
@@ -58,18 +57,16 @@ extension UserApi: TargetType {
         case .getAllUser:
             return "/users"
         case .getUser(let userId):
-            return "/users\(userId)"
-        case .getMeContents:
-            return "/users/me/contents"
-        case .getUserContents(let userId):
+            return "/users/\(userId)"
+        case .getUserContents(let userId, _):
             return "/users/\(userId)/contents"
         case .getUserFollower(let userId):
             return "/users/\(userId)/follower"
         case .getUserFollowing(let userId):
             return "/users/\(userId)/following"
-        case .follow(let userId):
-            return "/users/\(userId)/follow"
-        case .unfollow(let userId):
+        case .follow(let userId, _):
+            return "/users/\(userId)/following"
+        case .unfollow(let userId, _):
             return "/users/\(userId)/unfollow"
         default:
             return "/users/me"
@@ -78,7 +75,7 @@ extension UserApi: TargetType {
     
     var method: Moya.Method {
         switch self {
-        case .getAllUser, .getMe, .getUser, .getMeContents, .getUserContents, .getUserFollower, .getUserFollowing:
+        case .getAllUser, .getMe, .getUser, .getUserContents, .getUserFollower, .getUserFollowing:
             return .get
         case .updateMe, .updateMeAvatar, .updateMeCover, .follow, .unfollow:
             return .put
@@ -101,6 +98,12 @@ extension UserApi: TargetType {
             return .requestParameters(parameters: userRequest.payload.paramEditUserCover, encoding: JSONEncoding.default)
         case .delateUser(let userRequest):
             return .requestParameters(parameters: userRequest.paramDeleteUser, encoding: JSONEncoding.default)
+        case .getUserContents(_, let contentRequest):
+            return .requestParameters(parameters: contentRequest.paramGetContent, encoding: URLEncoding.queryString)
+        case .follow(_, let userRequest):
+            return .requestParameters(parameters: userRequest.paramFollowUser, encoding: JSONEncoding.default)
+        case .unfollow(_, let userRequest):
+            return .requestParameters(parameters: userRequest.paramUnfollowUser, encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }

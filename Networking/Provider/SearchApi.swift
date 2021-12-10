@@ -19,47 +19,55 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  TokenHelper.swift
+//  SearchApi.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 12/9/2564 BE.
+//  Created by Castcle Co., Ltd. on 12/10/2564 BE.
 //
 
 import Core
-import Defaults
+import Moya
 
-public protocol TokenHelperDelegate {
-    func didRefreshTokenFinish()
+enum SearchApi {
+    case getTopTrends(SearchRequest)
+    case getSuggestion(SearchRequest)
 }
 
-public class TokenHelper {
+extension SearchApi: TargetType {
+    var baseURL: URL {
+        return URL(string: Environment.baseUrl)!
+    }
     
-    public var delegate: TokenHelperDelegate?
-    public var authenticationRepository: AuthenticationRepository = AuthenticationRepositoryImpl()
-
-    public func refreshToken() {
-        self.authenticationRepository.refreshToken() { (success, refreshTokenExpired) in
-            if success {
-                self.delegate?.didRefreshTokenFinish()
-            } else {
-                if refreshTokenExpired {
-                    if Defaults[.userRole] == "GUEST" {
-                        self.guestLogin()
-                    }
-                }
-            }
+    var path: String {
+        switch self {
+        case .getTopTrends:
+            return "/searches/topTrends"
+        case .getSuggestion:
+            return "/searches"
         }
     }
     
-    public init() {
-        // Init helper
+    var method: Moya.Method {
+        switch self {
+        case .getTopTrends, .getSuggestion:
+            return .get
+        }
     }
     
-    private func guestLogin() {
-        self.authenticationRepository.guestLogin(uuid: Defaults[.deviceUuid]) { (success) in
-            if success {
-                self.delegate?.didRefreshTokenFinish()
-            }
+    var sampleData: Data {
+        return Data()
+    }
+    
+    var task: Task {
+        switch self {
+        case .getTopTrends(let searchRequest):
+            return .requestParameters(parameters: searchRequest.paramGetTopTrends, encoding: URLEncoding.queryString)
+        case .getSuggestion(let searchRequest):
+            return .requestParameters(parameters: searchRequest.paramSuggestion, encoding: URLEncoding.queryString)
         }
+    }
+    
+    var headers: [String : String]? {
+        return ApiHelper.header
     }
 }

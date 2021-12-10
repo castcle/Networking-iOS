@@ -22,7 +22,7 @@
 //  Content.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 21/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 21/7/2564 BE.
 //
 
 import Core
@@ -31,16 +31,17 @@ import SwiftyJSON
 // MARK: - Content
 public enum ContentKey: String, Codable {
     case id
+    case authorId
     case type
-    case payload
-    case feature
-    case liked
-    case commented
-    case recasted
-    case quoteCast
-    case author
-    case created
-    case updated
+    case message
+    case photo
+    case link
+    case referencedCasts
+    case metrics
+    case participate
+    case createdAt
+    case updatedAt
+    case contents
 }
 
 public enum ContentType: String, Codable {
@@ -50,12 +51,13 @@ public enum ContentType: String, Codable {
     case shortClip
     case clip
     case live
+    case unknow = ""
 }
 
 public enum FeedDisplayType {
     case postText
     case postLink
-    case postYoutube
+    case postLinkPreview
     case postImageX1
     case postImageX2
     case postImageX3
@@ -64,71 +66,99 @@ public enum FeedDisplayType {
     case blogNoImage
 }
 
-public class Content: NSObject {
-    public let id: String
-    public let type: ContentType
-    public let contentPayload: ContentPayload
-    public let feature: Feature
-    public let liked: Liked
-    public let commented: Commented
-    public let recasted: Recasted
-//    let quoteCast
-    public let author: Author
-    public let created: String
-    public let updated: String
+public class Content {
+    public var id: String = ""
+    public var authorId: String = ""
+    public var type: ContentType = .short
+    public var message: String = ""
+    public var photo: [ImageInfo] = []
+    public var link: [Link] = []
+    public var referencedCasts: ReferencedCast = ReferencedCast()
+    public var metrics: Metric = Metric()
+    public var participate: Participate = Participate()
+    public var createdAt: String = "2021-11-19T06:41:33.179Z"
+    public var updatedAt: String = "2021-11-19T06:41:33.179Z"
     
     public var postDate: Date {
-        return Date.stringToDate(str: self.updated)
+        return Date.stringToDate(str: self.createdAt)
     }
     
     public var feedDisplayType: FeedDisplayType {
         if self.type == .short {
-            if let link = self.contentPayload.link.first {
-                if link.type == .youtube {
-                    return .postYoutube
+            if !self.photo.isEmpty {
+                if self.photo.count == 1 {
+                    return .postImageX1
+                } else if self.photo.count == 2 {
+                    return .postImageX2
+                } else if self.photo.count == 3 {
+                    return .postImageX3
+                } else {
+                    return .postImageXMore
+                }
+            } else if !self.link.isEmpty {
+                if let link = self.link.first {
+                    if link.imagePreview.isEmpty {
+                        return .postLink
+                    } else {
+                        return .postLinkPreview
+                    }
                 } else {
                     return .postLink
                 }
             } else {
-                return .postText
+                if self.message.extractURLs().first != nil {
+                    return .postLink
+                } else {
+                    return .postText
+                }
             }
         } else if self.type == .image {
-            if self.contentPayload.photo.isEmpty {
+            if self.photo.isEmpty {
                 return .postText
             } else {
-                if self.contentPayload.photo.count == 1 {
+                if self.photo.count == 1 {
                     return .postImageX1
-                } else if self.contentPayload.photo.count == 2 {
+                } else if self.photo.count == 2 {
                     return .postImageX2
-                } else if self.contentPayload.photo.count == 3 {
+                } else if self.photo.count == 3 {
                     return .postImageX3
                 } else {
                     return .postImageXMore
                 }
             }
-        } else if self.type == .blog {
-            if self.contentPayload.cover.isEmpty {
-                return .blogNoImage
-            } else {
-                return .blogImage
-            }
+//        } else if self.type == .blog {
+//            if self.contentPayload.cover.large.isEmpty {
+//                return .blogNoImage
+//            } else {
+//                return .blogImage
+//            }
         } else {
             return .postText
         }
     }
     
+    public init() {
+        // Init
+    }
+    
     public init(json: JSON) {
         self.id = json[ContentKey.id.rawValue].stringValue
+        self.authorId = json[ContentKey.authorId.rawValue].stringValue
         self.type = ContentType(rawValue: json[ContentKey.type.rawValue].stringValue) ?? .short
-        self.created = json[ContentKey.created.rawValue].stringValue
-        self.updated = json[ContentKey.updated.rawValue].stringValue
+        self.message = json[ContentKey.message.rawValue].stringValue
+        self.createdAt = json[ContentKey.createdAt.rawValue].stringValue
+        self.updatedAt = json[ContentKey.updatedAt.rawValue].stringValue
         
         // MARK: - Object
-        self.contentPayload = ContentPayload(json: JSON(json[ContentKey.payload.rawValue].dictionaryObject ?? [:]))
-        self.feature = Feature(json: JSON(json[ContentKey.feature.rawValue].dictionaryObject ?? [:]))
-        self.liked = Liked(json: JSON(json[ContentKey.liked.rawValue].dictionaryObject ?? [:]))
-        self.commented = Commented(json: JSON(json[ContentKey.commented.rawValue].dictionaryObject ?? [:]))
-        self.recasted = Recasted(json: JSON(json[ContentKey.recasted.rawValue].dictionaryObject ?? [:]))
-        self.author = Author(json: JSON(json[ContentKey.author.rawValue].dictionaryObject ?? [:]))
+        self.referencedCasts = ReferencedCast(json: JSON(json[ContentKey.referencedCasts.rawValue].dictionaryObject ?? [:]))
+        self.metrics = Metric(json: JSON(json[ContentKey.metrics.rawValue].dictionaryObject ?? [:]))
+        self.participate = Participate(json: JSON(json[ContentKey.participate.rawValue].dictionaryObject ?? [:]))
+        
+        // MARK: - Photo
+        let photoJson = JSON(json[ContentKey.photo.rawValue].dictionaryValue)
+        self.photo = (photoJson[ContentKey.contents.rawValue].arrayValue).map { ImageInfo(json: $0) }
+
+        // MARK: - Link
+        self.link = (json[ContentPayloadKey.link.rawValue].arrayValue).map { Link(json: $0) }
     }
 }

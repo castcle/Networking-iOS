@@ -19,47 +19,47 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Aggregator.swift
+//  Hashtag.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 14/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 13/7/2564 BE.
 //
 
 import SwiftyJSON
 
-// MARK: - Aggregator
-public enum AggregatorKey: String, Codable {
-    case type
+// MARK: - Hashtag
+public enum HashtagKey: String, Codable {
     case id
-    case action
-    case message
+    case slug
+    case name
+    case key
+    case rank
+    case trends
+    case count
+    case createdAt
+    case updatedAt
 }
 
-public enum AggregatorType: String, Codable {
-    case friend
-    case following
-    case topic
-    case unknown
-}
-
-public enum ActionType: String, Codable {
-    case liked
-    case commented
-    case recasted
-    case suggestion
-    case unknown
-}
-
-public class Aggregator: NSObject {
-    public let type: AggregatorType
+public class Hashtag: NSObject {
     public let id: String
-    public let action: ActionType
-    public let message: String
+    public let slug: String
+    public let name: String
+    public let key: String
+    public let rank: Int
+    public let trends: String
+    public let count: Int
+    public let createdAt: String
+    public let updatedAt: String
     
     public init(json: JSON) {
-        self.type = AggregatorType(rawValue: json[AggregatorKey.type.rawValue].stringValue) ?? .unknown
-        self.id = json[AggregatorKey.id.rawValue].stringValue
-        self.action = ActionType(rawValue: json[AggregatorKey.action.rawValue].stringValue) ?? .unknown
-        self.message = json[AggregatorKey.message.rawValue].stringValue
+        self.id = json[HashtagKey.id.rawValue].stringValue
+        self.slug = json[HashtagKey.slug.rawValue].stringValue
+        self.name = json[HashtagKey.name.rawValue].stringValue
+        self.key = json[HashtagKey.key.rawValue].stringValue
+        self.rank = json[HashtagKey.rank.rawValue].intValue
+        self.trends = json[HashtagKey.trends.rawValue].stringValue
+        self.count = json[HashtagKey.count.rawValue].intValue
+        self.createdAt = json[HashtagKey.createdAt.rawValue].stringValue
+        self.updatedAt = json[HashtagKey.updatedAt.rawValue].stringValue
     }
 }

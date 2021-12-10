@@ -22,7 +22,7 @@
 //  FeedApi.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 12/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 12/8/2564 BE.
 //
 
 import Core
@@ -30,7 +30,8 @@ import Moya
 
 enum FeedApi {
     case getHashtags
-    case getFeeds(String, String)
+    case getFeedsGuests(FeedRequest)
+    case getFeedsMembers(String, String, FeedRequest)
 }
 
 extension FeedApi: TargetType {
@@ -42,8 +43,10 @@ extension FeedApi: TargetType {
         switch self {
         case .getHashtags:
             return "/hashtags"
-        case .getFeeds(let featureSlug, let circleSlug):
-            return "/feeds/\(featureSlug)/\(circleSlug)"
+        case .getFeedsGuests:
+            return "/feeds/guests"
+        case .getFeedsMembers(let featureSlug, let circleSlug, _):
+            return "/feeds/members/\(featureSlug)/\(circleSlug)"
         }
     }
     
@@ -64,25 +67,23 @@ extension FeedApi: TargetType {
             } else {
                 return Data()
             }
-        case .getFeeds:
-            if let path = ConfigBundle.network.path(forResource: "Feeds", ofType: "json") {
-                do {
-                    let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-                    return data
-                } catch {
-                    return Data()
-                }
-            } else {
-                return Data()
-            }
+        default:
+            return Data()
         }
     }
     
     var task: Task {
-        return .requestPlain
+        switch self {
+        case .getFeedsGuests(let feedRequest):
+            return .requestParameters(parameters: feedRequest.paramGetFeed, encoding: URLEncoding.queryString)
+        case .getFeedsMembers(_, _, let feedRequest):
+            return .requestParameters(parameters: feedRequest.paramGetFeed, encoding: URLEncoding.queryString)
+        default:
+            return .requestPlain
+        }
     }
     
     var headers: [String : String]? {
-        return nil
+        return ApiHelper.header
     }
 }

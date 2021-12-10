@@ -22,7 +22,7 @@
 //  Completion.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 30/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 30/8/2564 BE.
 //
 
 import Core
@@ -46,6 +46,9 @@ public class CompletionHelper {
                 if code == errorRefreshToken {
                     completion(false, response, true)
                 } else {
+                    print("########## ERROR ##########")
+                    print("\(response.request!)")
+                    print("###########################")
                     ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
                     completion(false, response, false)
                 }

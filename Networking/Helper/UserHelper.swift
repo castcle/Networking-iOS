@@ -22,7 +22,7 @@
 //  UserHelper.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 14/9/2564 BE.
+//  Created by Castcle Co., Ltd. on 14/9/2564 BE.
 //
 
 import Core
@@ -32,14 +32,16 @@ public class UserHelper {
     public init() {
         // Init UserHelper
     }
+    
     public func updateLocalProfile(user: User) {
         Defaults[.userId] = user.id
         Defaults[.castcleId] = user.castcleId
         Defaults[.displayName] = user.displayName
-        Defaults[.cover] = user.images.cover
-        Defaults[.avatar] = user.images.avatar
         Defaults[.overview] = user.overview
-        Defaults[.verified] = user.verified
+        Defaults[.verifiedEmail] = user.verified.email
+        Defaults[.verifiedSocial] = user.verified.social
+        Defaults[.verifiedOfficial] = user.verified.official
+        Defaults[.verifiedMobile] = user.verified.mobile
         Defaults[.email] = user.email
         Defaults[.dob] = user.dob
         Defaults[.followers] = user.followers.count
@@ -49,16 +51,20 @@ public class UserHelper {
         Defaults[.youtubeLink] = user.links.youtube
         Defaults[.mediumLink] = user.links.medium
         Defaults[.websiteLink] = user.links.website
+        
+        ImageHelper.shared.downloadImage(from: user.images.avatar.thumbnail, iamgeName: user.castcleId, type: .avatar)
+        ImageHelper.shared.downloadImage(from: user.images.cover.fullHd, iamgeName: user.castcleId, type: .cover)
     }
     
     public func clearUserData() {
         Defaults[.userId] = ""
         Defaults[.castcleId] = ""
         Defaults[.displayName] = ""
-        Defaults[.cover] = ""
-        Defaults[.avatar] = ""
         Defaults[.overview] = ""
-        Defaults[.verified] = false
+        Defaults[.verifiedEmail] = false
+        Defaults[.verifiedSocial] = false
+        Defaults[.verifiedOfficial] = false
+        Defaults[.verifiedMobile] = false
         Defaults[.email] = ""
         Defaults[.dob] = ""
         Defaults[.followers] = 0

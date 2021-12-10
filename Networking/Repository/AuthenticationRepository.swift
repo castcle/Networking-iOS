@@ -22,13 +22,14 @@
 //  AuthenticationRepository.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 12/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 12/8/2564 BE.
 //
 
 import Core
 import Moya
 import SwiftyJSON
 import Defaults
+import RealmSwift
 
 public protocol AuthenticationRepository {
     func guestLogin(uuid: String, _ completion: @escaping (Bool) -> ())
@@ -40,8 +41,10 @@ public protocol AuthenticationRepository {
     func verificationEmail(_ completion: @escaping (Bool) -> ())
     func requestLinkVerify(_ completion: @escaping complate)
     func refreshToken(_ completion: @escaping (Bool, Bool) -> ())
-    func verificationPassword(authenRequest: AuthenRequest, _ completion: @escaping complate)
+    func verifyPassword(authenRequest: AuthenRequest, _ completion: @escaping complate)
     func changePasswordSubmit(authenRequest: AuthenRequest, _ completion: @escaping complate)
+    func requestOtp(authenRequest: AuthenRequest, _ completion: @escaping complate)
+    func verificationOtp(authenRequest: AuthenRequest, _ completion: @escaping complate)
 }
 
 public enum AuthenticationApiKey: String {
@@ -52,11 +55,14 @@ public enum AuthenticationApiKey: String {
     case suggestCastcleId
     case payload
     case refCode
+    case profile
+    case pages
 }
 
 public final class AuthenticationRepositoryImpl: AuthenticationRepository {
     private let authenticationProvider = MoyaProvider<AuthenticationApi>()
     private let completionHelper: CompletionHelper = CompletionHelper()
+    private let realm = try! Realm()
     
     public init() {
         // MARK: - Init
@@ -221,6 +227,29 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                     let json = JSON(rawJson)
                     if response.statusCode < 300 {
                         let accessToken = json[AuthenticationApiKey.accessToken.rawValue].stringValue
+                        let profile = JSON(json[AuthenticationApiKey.profile.rawValue].dictionaryValue)
+                        let pages = json[AuthenticationApiKey.pages.rawValue].arrayValue
+                        let userHelper = UserHelper()
+                        userHelper.updateLocalProfile(user: User(json: profile))
+                        let pageRealm = self.realm.objects(Page.self)
+                        try! self.realm.write {
+                            self.realm.delete(pageRealm)
+                        }
+                        
+                        pages.forEach { page in
+                            let pageInfo = PageInfo(json: page)
+                            try! self.realm.write {
+                                let pageTemp = Page()
+                                pageTemp.id = pageInfo.id
+                                pageTemp.castcleId = pageInfo.castcleId
+                                pageTemp.displayName = pageInfo.displayName
+                                ImageHelper.shared.downloadImage(from: pageInfo.images.avatar.thumbnail, iamgeName: pageInfo.castcleId, type: .avatar)
+                                ImageHelper.shared.downloadImage(from: pageInfo.images.cover.fullHd, iamgeName: pageInfo.castcleId, type: .cover)
+                                self.realm.add(pageTemp, update: .modified)
+                            }
+                            
+                        }
+                        
                         Defaults[.accessToken] = accessToken
                         completion(true, false)
                     } else {
@@ -243,7 +272,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
         }
     }
     
-    public func verificationPassword(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+    public func verifyPassword(authenRequest: AuthenRequest, _ completion: @escaping complate) {
         self.authenticationProvider.request(.verificationPassword(authenRequest)) { result in
             switch result {
             case .success(let response):
@@ -258,6 +287,32 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
     
     public func changePasswordSubmit(authenRequest: AuthenRequest, _ completion: @escaping complate) {
         self.authenticationProvider.request(.changePasswordSubmit(authenRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func requestOtp(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+        self.authenticationProvider.request(.requestOtp(authenRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func verificationOtp(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+        self.authenticationProvider.request(.verificationOtp(authenRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

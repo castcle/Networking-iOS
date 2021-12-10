@@ -19,52 +19,30 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  ContentPayload.swift
+//  Liked.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 21/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 14/7/2564 BE.
 //
-
-import Core
 import SwiftyJSON
 
-// MARK: - ContentPayload
-public enum ContentPayloadKey: String, Codable {
-    case header
-    case message
-    case photo
-    case link
-    
-    // Blog
-    case contents
-    case cover
-    case url
+// MARK: - Liked
+public enum LikedKey: String, Codable {
+    case count
+    case isLike = "liked"
+    case participant
 }
 
-public class ContentPayload: NSObject {
-    public var header: String = ""
-    public var message: String = ""
-    public var cover: ImageInfo = ImageInfo()
-    public var photo: [ImageInfo] = []
-    public var link: [Link] = []
+public class Liked: NSObject {
+    public var count: Int = 0
+    public var isLike: Bool = false
     
     public override init() {
         // Init
     }
     
     public init(json: JSON) {
-        self.header = json[ContentPayloadKey.header.rawValue].stringValue
-        self.message = json[ContentPayloadKey.message.rawValue].stringValue
-        
-        // MARK: - Photo
-        let photoJson = JSON(json[ContentPayloadKey.photo.rawValue].dictionaryValue)
-        self.photo = (photoJson[ContentPayloadKey.contents.rawValue].arrayValue).map { ImageInfo(json: $0) }
-        
-        // MARK: - Cover
-        let photoCoverJson = JSON(photoJson[ContentPayloadKey.cover.rawValue].dictionaryValue)
-        self.cover = ImageInfo(json: photoCoverJson)
-        
-        // MARK: - Link
-        self.link = (json[ContentPayloadKey.link.rawValue].arrayValue).map { Link(json: $0) }
+        self.count = json[LikedKey.count.rawValue].intValue
+        self.isLike = json[LikedKey.isLike.rawValue].boolValue
     }
 }

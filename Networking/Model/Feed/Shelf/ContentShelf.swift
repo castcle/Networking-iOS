@@ -19,23 +19,46 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Photo.swift
+//  ContentShelf.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 14/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 29/9/2564 BE.
 //
 
+import Core
 import SwiftyJSON
+import RealmSwift
 
-// MARK: - Photo
-public enum PhotoKey: String, Codable {
-    case url
+// MARK: - Hashtag List
+public enum ContentShelfKey: String, Codable {
+    case payload
+    case includes
+    case users
+    case casts
+    case meta
 }
 
-public class Photo: NSObject {
-    public let url: String
+public class ContentShelf: NSObject {
+    public var contents: [Content] = []
+    public var meta: Meta = Meta()
+    
+    public override init() {
+        // MARK: - Init
+    }
     
     public init(json: JSON) {
-        self.url = json[PhotoKey.url.rawValue].stringValue
+        self.contents = (json[ContentShelfKey.payload.rawValue].arrayValue).map { Content(json: $0) }.filter { $0.participate.reported == false }
+        self.meta = Meta(json: JSON(json[ContentShelfKey.meta.rawValue].dictionaryValue))
+        
+        let includes = JSON(json[ContentShelfKey.includes.rawValue].dictionaryValue)
+        let users = includes[ContentShelfKey.users.rawValue].arrayValue
+        
+        let realm = try! Realm()
+        users.forEach { user in
+            try! realm.write {
+                let authorRef = AuthorRef().initCustom(json: user)
+                realm.add(authorRef, update: .modified)
+            }
+        }
     }
 }

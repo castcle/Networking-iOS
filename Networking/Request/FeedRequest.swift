@@ -19,31 +19,47 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Liked.swift
+//  FeedRequest.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 14/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 7/10/2564 BE.
 //
 
-import SwiftyJSON
+public struct FeedRequest {
+    enum ContentKey: String {
+        case page
+        case maxResults
+        case untilId
+        case hashtag
+        case type
+    }
 
-// MARK: - Liked
-public enum LikedKey: String, Codable {
-    case count
-    case isLike = "liked"
-    case participant
-}
-
-public class Liked: NSObject {
-    public var count: Int
-    public var isLike: Bool
-    public let participant: [Participant]
+    public var untilId: String = ""
+    public var maxResults: Int = 100
+    public var hashtag: String = ""
+    public var type: ContentType = .unknow
     
-    public init(json: JSON) {
-        self.count = json[LikedKey.count.rawValue].intValue
-        self.isLike = json[LikedKey.isLike.rawValue].boolValue
+    public init() {
+        // Init FeedRequest
+    }
+    
+    public var paramGetFeed: [String: Any] {
+        var param: [String: Any] = [
+            ContentKey.maxResults.rawValue: self.maxResults
+        ]
         
-        // MARK: - Participant
-        self.participant = (json[LikedKey.participant.rawValue].arrayValue).map { Participant(json: $0) }
+        if !self.untilId.isEmpty {
+            param[ContentKey.untilId.rawValue] = self.untilId
+        }
+        
+        if !self.hashtag.isEmpty {
+            param[ContentKey.hashtag.rawValue] = self.hashtag
+        }
+        
+        if self.type != .unknow {
+            param[ContentKey.type.rawValue] = self.type.rawValue
+        }
+        
+        return param
     }
 }

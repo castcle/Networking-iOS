@@ -19,47 +19,33 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  LikeApi.swift
+//  Pagination.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 23/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 29/9/2564 BE.
 //
 
-import Core
-import Moya
+import SwiftyJSON
 
-enum LikeApi {
-    case liked(String)
-    case unliked(String)
+// MARK: - Circle
+public enum PaginationKey: String, Codable {
+    case now = "self"
+    case next
+    case limit
 }
 
-extension LikeApi: TargetType {
-    var baseURL: URL {
-        return URL(string: Environment.baseUrl)!
+public class Pagination: NSObject {
+    public var now: Int = 1
+    public var next: Int = 0
+    public var limit: Int = 25
+    
+    public override init() {
+        // MARK: - Init
     }
     
-    var path: String {
-        switch self {
-        case .liked(let feedUuid):
-            return "/feeds/\(feedUuid)/liked"
-        case .unliked(let feedUuid):
-            return "/feeds/\(feedUuid)/unliked"
-        }
-    }
-    
-    var method: Moya.Method {
-        return .put
-    }
-    
-    var sampleData: Data {
-        return "{\"message\": \"success message\"}".dataEncoded
-    }
-    
-    var task: Task {
-        return .requestPlain
-    }
-    
-    var headers: [String : String]? {
-        return nil
+    public init(json: JSON) {
+        self.now = json[PaginationKey.now.rawValue].intValue
+        self.next = json[PaginationKey.next.rawValue].intValue
+        self.limit = json[PaginationKey.limit.rawValue].intValue
     }
 }

@@ -22,7 +22,7 @@
 //  PageRequest.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 16/9/2564 BE.
+//  Created by Castcle Co., Ltd. on 16/9/2564 BE.
 //
 
 public struct PageRequest {
@@ -30,14 +30,21 @@ public struct PageRequest {
         case payload
         case castcleId
         case displayName
+        case images
         case avatar
         case cover
+        case overview
+        case links
+        case password
     }
     
     public var castcleId: String = ""
     public var displayName: String = ""
     public var avatar: String = ""
     public var cover: String = ""
+    public var overview: String = ""
+    public var links: PageLinkRequest = PageLinkRequest()
+    public var password: String = ""
     
     public init() {
         // Init PageRequest
@@ -45,11 +52,71 @@ public struct PageRequest {
     
     public var paramCreatePage: [String: Any] {
         return [
-            PageKey.payload.rawValue: [
-                PageKey.castcleId.rawValue: self.castcleId,
-                PageKey.displayName.rawValue: self.displayName,
+            PageKey.castcleId.rawValue: self.castcleId,
+            PageKey.displayName.rawValue: self.displayName
+        ]
+    }
+    
+    public var paramUpdatePageAvatar: [String: Any] {
+        return [
+            PageKey.images.rawValue: [
                 PageKey.avatar.rawValue: self.avatar
             ]
+        ]
+    }
+    
+    public var paramUpdatePageCover: [String: Any] {
+        return [
+            PageKey.images.rawValue: [
+                PageKey.cover.rawValue: self.cover
+            ]
+        ]
+    }
+    
+    public var paramUpdatePage: [String: Any] {
+        return [
+            PageKey.overview.rawValue: self.overview,
+            PageKey.links.rawValue: self.links.paramEditPageLink
+        ]
+    }
+    
+    public var paramDeletePage: [String: Any] {
+        return [
+            PageKey.password.rawValue: self.password
+        ]
+    }
+}
+
+public struct PageLinkRequest {
+    enum PageLinkRequestKey: String {
+        case facebook
+        case twitter
+        case youtube
+        case medium
+        case website
+    }
+    
+    public var facebook: String
+    public var twitter: String
+    public var youtube: String
+    public var medium: String
+    public var website: String
+    
+    public init() {
+        self.facebook = ""
+        self.twitter = ""
+        self.youtube = ""
+        self.medium = ""
+        self.website = ""
+    }
+    
+    public var paramEditPageLink: [String: Any] {
+        return [
+            PageLinkRequestKey.facebook.rawValue: self.facebook,
+            PageLinkRequestKey.twitter.rawValue: self.twitter,
+            PageLinkRequestKey.youtube.rawValue: self.youtube,
+            PageLinkRequestKey.medium.rawValue: self.medium,
+            PageLinkRequestKey.website.rawValue: self.website
         ]
     }
 }

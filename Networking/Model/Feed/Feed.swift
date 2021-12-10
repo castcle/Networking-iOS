@@ -22,7 +22,7 @@
 //  Feed.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 14/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 14/7/2564 BE.
 //
 
 import Core
@@ -33,11 +33,10 @@ public enum FeedKey: String, Codable {
     case id
     case feature
     case circle
-    case aggregator
     case type
     case payload
-    case created
-    case updated
+    case createdAt
+    case updatedAt
 }
 
 public enum FeedType: String, Codable {
@@ -51,22 +50,20 @@ public class Feed: NSObject {
     public let id: String
     public let feature: Feature
     public let circle: Circle
-    public let aggregator: Aggregator
     public let type: FeedType
-    public let feedPayload: Content
-    public let created: String
-    public let updated: String
+    public let payload: Content
+    public let createdAt: String
+    public let updatedAt: String
     
     public init(json: JSON) {
         self.id = json[FeedKey.id.rawValue].stringValue
         self.type = FeedType(rawValue: json[FeedKey.type.rawValue].stringValue) ?? .content
-        self.created = json[FeedKey.created.rawValue].stringValue
-        self.updated = json[FeedKey.updated.rawValue].stringValue
+        self.createdAt = json[FeedKey.createdAt.rawValue].stringValue
+        self.updatedAt = json[FeedKey.updatedAt.rawValue].stringValue
         
         // MARK: - Object
         self.feature = Feature(json: JSON(json[FeedKey.feature.rawValue].dictionaryObject ?? [:]))
-        self.circle = Circle(json: JSON(json[FeedKey.aggregator.rawValue].dictionaryObject ?? [:]))
-        self.aggregator = Aggregator(json: JSON(json[FeedKey.aggregator.rawValue].dictionaryObject ?? [:]))
-        self.feedPayload = Content(json: JSON(json[FeedKey.payload.rawValue].dictionaryObject ?? [:]))
+        self.circle = Circle(json: JSON(json[FeedKey.circle.rawValue].dictionaryObject ?? [:]))
+        self.payload = Content(json: JSON(json[FeedKey.payload.rawValue].dictionaryObject ?? [:]))
     }
 }

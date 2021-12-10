@@ -19,30 +19,52 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  LoginRequest.swift
+//  CommentRequest.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 12/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 18/11/2564 BE.
 //
 
-public struct LoginRequest {
-    enum LoginRequestKey: String {
-        case username
-        case password
+public struct CommentRequest {
+    enum CommentKey: String {
+        case message
+        case castcleId
+        case feedItemId
     }
-    
-    public var username: String
-    public var password: String
+
+    public var message: String = ""
+    public var castcleId: String = ""
+    public var feedItemId: String = ""
     
     public init() {
-        self.username = ""
-        self.password = ""
+        // Init CommentRequest
     }
     
-    public var paramLogin: [String: Any] {
+    public var paramCreateComment: [String: Any] {
         return [
-            LoginRequestKey.username.rawValue: self.username,
-            LoginRequestKey.password.rawValue: self.password
+            CommentKey.message.rawValue: self.message,
+            CommentKey.castcleId.rawValue: self.castcleId
+        ]
+    }
+    
+    public var paramReplyComment: [String: Any] {
+        return [
+            CommentKey.message.rawValue: self.message,
+            CommentKey.castcleId.rawValue: self.castcleId
+        ]
+    }
+    
+    public var paramLikedComment: [String: Any] {
+        return [
+            CommentKey.feedItemId.rawValue: self.feedItemId,
+            CommentKey.castcleId.rawValue: self.castcleId
+        ]
+    }
+    
+    public var paramUnlikedComment: [String: Any] {
+        return [
+            CommentKey.feedItemId.rawValue: self.feedItemId,
+            CommentKey.castcleId.rawValue: self.castcleId
         ]
     }
 }

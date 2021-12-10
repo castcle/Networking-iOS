@@ -19,47 +19,29 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  RecastApi.swift
+//  NotificationRequest.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 23/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 23/9/2564 BE.
 //
 
-import Core
-import Moya
-
-enum RecastApi {
-    case recasted(String)
-    case unrecasted(String)
-}
-
-extension RecastApi: TargetType {
-    var baseURL: URL {
-        return URL(string: Environment.baseUrl)!
+public struct NotificationRequest {
+    enum NotificationKey: String {
+        case deviceUUID
+        case firebaseToken
     }
     
-    var path: String {
-        switch self {
-        case .recasted(let feedUuid):
-            return "/feeds/\(feedUuid)/recasted"
-        case .unrecasted(let feedUuid):
-            return "/feeds/\(feedUuid)/unrecasted"
-        }
+    public var deviceUUID: String = ""
+    public var firebaseToken: String = ""
+    
+    public init() {
+        // Init NotificationRequest
     }
     
-    var method: Moya.Method {
-        return .put
-    }
-    
-    var sampleData: Data {
-        return "{\"message\": \"success message\"}".dataEncoded
-    }
-    
-    var task: Task {
-        return .requestPlain
-    }
-    
-    var headers: [String : String]? {
-        return nil
+    public var paramRegisterToken: [String: Any] {
+        return [
+            NotificationKey.deviceUUID.rawValue: self.deviceUUID,
+            NotificationKey.firebaseToken.rawValue: self.firebaseToken
+        ]
     }
 }

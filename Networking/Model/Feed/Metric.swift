@@ -19,47 +19,36 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Aggregator.swift
+//  Metric.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 14/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 3/12/2564 BE.
 //
 
 import SwiftyJSON
 
-// MARK: - Aggregator
-public enum AggregatorKey: String, Codable {
-    case type
-    case id
-    case action
-    case message
+// MARK: - Circle
+public enum MetricKey: String, Codable {
+    case likeCount
+    case commentCount
+    case quoteCount
+    case recastCount
 }
 
-public enum AggregatorType: String, Codable {
-    case friend
-    case following
-    case topic
-    case unknown
-}
-
-public enum ActionType: String, Codable {
-    case liked
-    case commented
-    case recasted
-    case suggestion
-    case unknown
-}
-
-public class Aggregator: NSObject {
-    public let type: AggregatorType
-    public let id: String
-    public let action: ActionType
-    public let message: String
+public class Metric: NSObject {
+    public var likeCount: Int = 0
+    public var commentCount: Int = 0
+    public var quoteCount: Int = 0
+    public var recastCount: Int = 0
+    
+    public override init() {
+        // MARK: - Init
+    }
     
     public init(json: JSON) {
-        self.type = AggregatorType(rawValue: json[AggregatorKey.type.rawValue].stringValue) ?? .unknown
-        self.id = json[AggregatorKey.id.rawValue].stringValue
-        self.action = ActionType(rawValue: json[AggregatorKey.action.rawValue].stringValue) ?? .unknown
-        self.message = json[AggregatorKey.message.rawValue].stringValue
+        self.likeCount = json[MetricKey.likeCount.rawValue].intValue
+        self.commentCount = json[MetricKey.commentCount.rawValue].intValue
+        self.quoteCount = json[MetricKey.quoteCount.rawValue].intValue
+        self.recastCount = json[MetricKey.recastCount.rawValue].intValue
     }
 }

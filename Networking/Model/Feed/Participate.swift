@@ -19,46 +19,39 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  RecastRepository.swift
+//  Participate.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 23/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 3/12/2564 BE.
 //
 
-import Moya
 import SwiftyJSON
 
-public protocol RecastRepository {
-    func recasted(feedUuid: String, _ completion: @escaping (Bool) -> ())
-    func unrecasted(feedUuid: String, _ completion: @escaping (Bool) -> ())
+// MARK: - Circle
+public enum ParticipateKey: String, Codable {
+    case liked
+    case commented
+    case quoted
+    case recasted
+    case reported
 }
 
-public final class RecastRepositoryImpl: RecastRepository {
-    private let recastProvider = MoyaProvider<RecastApi>(stubClosure: MoyaProvider.delayedStub(1.0))
+public class Participate: NSObject {
+    public var liked: Bool = false
+    public var commented: Bool = false
+    public var quoted: Bool = false
+    public var recasted: Bool = false
+    public var reported: Bool = false
     
-    public init() {
+    public override init() {
         // MARK: - Init
     }
     
-    public func recasted(feedUuid: String, _ completion: @escaping (Bool) -> ()) {
-        self.recastProvider.request(.recasted(feedUuid)) { result in
-            switch result {
-            case .success:
-                print("Success")
-            case .failure:
-                print("Failure")
-            }
-        }
-    }
-    
-    public func unrecasted(feedUuid: String, _ completion: @escaping (Bool) -> ()) {
-        self.recastProvider.request(.unrecasted(feedUuid)) { result in
-            switch result {
-            case .success:
-                print("Success")
-            case .failure:
-                print("Failure")
-            }
-        }
+    public init(json: JSON) {
+        self.liked = json[ParticipateKey.liked.rawValue].boolValue
+        self.commented = json[ParticipateKey.commented.rawValue].boolValue
+        self.quoted = json[ParticipateKey.quoted.rawValue].boolValue
+        self.recasted = json[ParticipateKey.recasted.rawValue].boolValue
+        self.reported = json[ParticipateKey.reported.rawValue].boolValue
     }
 }

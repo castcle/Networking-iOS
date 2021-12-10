@@ -19,49 +19,31 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  FeedRepository.swift
+//  SearchRepository.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 13/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 12/10/2564 BE.
 //
 
+import Core
 import Moya
 import SwiftyJSON
 
-public protocol FeedRepository {
-    func getHashtags(_ completion: @escaping (Bool, HashtagShelf) -> ())
-    func getFeedsGuests(feedRequest: FeedRequest, _ completion: @escaping complate)
-    func getFeedsMembers(featureSlug: String, circleSlug: String, feedRequest: FeedRequest, _ completion: @escaping complate)
+public protocol SearchRepository {
+    func getTopTrends(searchRequest: SearchRequest, _ completion: @escaping complate)
+    func getSuggestion(searchRequest: SearchRequest, _ completion: @escaping complate)
 }
 
-public final class FeedRepositoryImpl: FeedRepository {
-    private let feedProviderMock = MoyaProvider<FeedApi>(stubClosure: MoyaProvider.delayedStub(1.0))
-    private let feedProvider = MoyaProvider<FeedApi>()
+public final class SearchRepositoryImpl: SearchRepository {
+    private let searchProvider = MoyaProvider<SearchApi>()
     private let completionHelper: CompletionHelper = CompletionHelper()
     
     public init() {
         // MARK: - Init
     }
     
-    public func getHashtags(_ completion: @escaping (Bool, HashtagShelf) -> ()) {
-        self.feedProviderMock.request(.getHashtags) { result in
-            switch result {
-            case .success(let response):
-                do {
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    completion(true, HashtagShelf(json: json))
-                } catch {
-                    completion(false, HashtagShelf())
-                }
-            case .failure:
-                completion(false, HashtagShelf())
-            }
-        }
-    }
-    
-    public func getFeedsGuests(feedRequest: FeedRequest, _ completion: @escaping complate) {
-        self.feedProvider.request(.getFeedsGuests(feedRequest)) { result in
+    public func getTopTrends(searchRequest: SearchRequest, _ completion: @escaping complate) {
+        self.searchProvider.request(.getTopTrends(searchRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -73,8 +55,8 @@ public final class FeedRepositoryImpl: FeedRepository {
         }
     }
     
-    public func getFeedsMembers(featureSlug: String, circleSlug: String, feedRequest: FeedRequest, _ completion: @escaping complate) {
-        self.feedProvider.request(.getFeedsMembers(featureSlug, circleSlug, feedRequest)) { result in
+    public func getSuggestion(searchRequest: SearchRequest, _ completion: @escaping complate) {
+        self.searchProvider.request(.getSuggestion(searchRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

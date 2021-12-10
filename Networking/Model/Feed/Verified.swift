@@ -19,47 +19,36 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Aggregator.swift
+//  Verified.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 14/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 4/10/2564 BE.
 //
 
 import SwiftyJSON
 
-// MARK: - Aggregator
-public enum AggregatorKey: String, Codable {
-    case type
-    case id
-    case action
-    case message
+// MARK: - Circle
+public enum VerifiedKey: String, Codable {
+    case email
+    case mobile
+    case official
+    case social
 }
 
-public enum AggregatorType: String, Codable {
-    case friend
-    case following
-    case topic
-    case unknown
-}
-
-public enum ActionType: String, Codable {
-    case liked
-    case commented
-    case recasted
-    case suggestion
-    case unknown
-}
-
-public class Aggregator: NSObject {
-    public let type: AggregatorType
-    public let id: String
-    public let action: ActionType
-    public let message: String
+public class Verified: NSObject {
+    public var email: Bool = false
+    public var mobile: Bool = false
+    public var official: Bool = false
+    public var social: Bool = false
+    
+    public override init() {
+        // MARK: - Init
+    }
     
     public init(json: JSON) {
-        self.type = AggregatorType(rawValue: json[AggregatorKey.type.rawValue].stringValue) ?? .unknown
-        self.id = json[AggregatorKey.id.rawValue].stringValue
-        self.action = ActionType(rawValue: json[AggregatorKey.action.rawValue].stringValue) ?? .unknown
-        self.message = json[AggregatorKey.message.rawValue].stringValue
+        self.email = json[VerifiedKey.email.rawValue].boolValue
+        self.mobile = json[VerifiedKey.mobile.rawValue].boolValue
+        self.official = json[VerifiedKey.official.rawValue].boolValue
+        self.social = json[VerifiedKey.social.rawValue].boolValue
     }
 }

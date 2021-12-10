@@ -19,34 +19,48 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  CommentRepository.swift
+//  ReportRepository.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 2/9/2564 BE.
+//  Created by Castcle Co., Ltd. on 7/12/2564 BE.
 //
 
 import Core
 import Moya
 import SwiftyJSON
 
-public protocol CommentRepository {
-    func getComments(contentId: String, _ completion: @escaping complate)
-    func createComment(contentId: String, commentRequest: CommentRequest, _ completion: @escaping complate)
-    func replyComment(contentId: String, commentId: String, commentRequest: CommentRequest, _ completion: @escaping complate)
-    func likedComment(contentId: String, commentId: String, commentRequest: CommentRequest, _ completion: @escaping complate)
-    func unlikedComment(contentId: String, commentId: String, commentRequest: CommentRequest, _ completion: @escaping complate)
+public protocol ReportRepository {
+    func reportUser(userId: String, _ completion: @escaping complate)
+    func reportContent(contentId: String, _ completion: @escaping complate)
+    func blockUser(userId: String, _ completion: @escaping complate)
+    func unblockUser(userId: String, _ completion: @escaping complate)
 }
 
-public final class CommentRepositoryImpl: CommentRepository {
-    private let commentProvider = MoyaProvider<CommentApi>()
+public final class ReportRepositoryImpl: ReportRepository {
+    private let reportProvider = MoyaProvider<ReportApi>()
     private let completionHelper: CompletionHelper = CompletionHelper()
     
     public init() {
         // MARK: - Init
     }
     
-    public func getComments(contentId: String, _ completion: @escaping complate) {
-        self.commentProvider.request(.getComments(contentId)) { result in
+    public func reportUser(userId: String, _ completion: @escaping complate) {
+        self.reportProvider.request(.reportUser(userId)) { result in
+            switch result {
+            case .success(let response):
+                completion(true, response, false)
+//                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+//                    completion(success, response, isRefreshToken)
+//                }
+            case .failure(let error):
+                completion(true, error as! Response, false)
+//                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func reportContent(contentId: String, _ completion: @escaping complate) {
+        self.reportProvider.request(.reportContent(contentId)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -58,8 +72,8 @@ public final class CommentRepositoryImpl: CommentRepository {
         }
     }
     
-    public func createComment(contentId: String, commentRequest: CommentRequest, _ completion: @escaping complate) {
-        self.commentProvider.request(.createComment(contentId, commentRequest)) { result in
+    public func blockUser(userId: String, _ completion: @escaping complate) {
+        self.reportProvider.request(.blockUser(userId)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -71,34 +85,8 @@ public final class CommentRepositoryImpl: CommentRepository {
         }
     }
     
-    public func replyComment(contentId: String, commentId: String, commentRequest: CommentRequest, _ completion: @escaping complate) {
-        self.commentProvider.request(.replyComment(contentId, commentId, commentRequest)) { result in
-            switch result {
-            case .success(let response):
-                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
-                    completion(success, response, isRefreshToken)
-                }
-            case .failure(let error):
-                completion(false, error as! Response, false)
-            }
-        }
-    }
-    
-    public func likedComment(contentId: String, commentId: String, commentRequest: CommentRequest, _ completion: @escaping complate) {
-        self.commentProvider.request(.likedComment(contentId, commentId, commentRequest)) { result in
-            switch result {
-            case .success(let response):
-                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
-                    completion(success, response, isRefreshToken)
-                }
-            case .failure(let error):
-                completion(false, error as! Response, false)
-            }
-        }
-    }
-    
-    public func unlikedComment(contentId: String, commentId: String, commentRequest: CommentRequest, _ completion: @escaping complate) {
-        self.commentProvider.request(.unlikedComment(contentId, commentId, commentRequest)) { result in
+    public func unblockUser(userId: String, _ completion: @escaping complate) {
+        self.reportProvider.request(.unblockUser(userId)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

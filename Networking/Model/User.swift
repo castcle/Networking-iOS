@@ -22,7 +22,7 @@
 //  User.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 14/9/2564 BE.
+//  Created by Castcle Co., Ltd. on 14/9/2564 BE.
 //
 
 import SwiftyJSON
@@ -54,7 +54,7 @@ public class User: NSObject {
     public let links: UserLink
     public let following: UserFollowing
     public let followers: UserFollowers
-    public let verified: Bool
+    public let verified: Verified
     public let followed: Bool
     
     public init(json: JSON) {
@@ -65,7 +65,6 @@ public class User: NSObject {
         self.email = json[UserKey.email.rawValue].stringValue
         self.overview = json[UserKey.overview.rawValue].stringValue
         self.dob = json[UserKey.dob.rawValue].stringValue
-        self.verified = json[UserKey.verified.rawValue].boolValue
         self.followed = json[UserKey.followed.rawValue].boolValue
         
         // MARK: - Object
@@ -73,6 +72,7 @@ public class User: NSObject {
         self.links = UserLink(json: JSON(json[UserKey.links.rawValue].dictionaryObject ?? [:]))
         self.following = UserFollowing(json: JSON(json[UserKey.following.rawValue].dictionaryObject ?? [:]))
         self.followers = UserFollowers(json: JSON(json[UserKey.followers.rawValue].dictionaryObject ?? [:]))
+        self.verified = Verified(json: JSON(json[UserKey.verified.rawValue].dictionaryObject ?? [:]))
     }
 }
 
@@ -82,13 +82,43 @@ public enum UserImageKey: String, Codable {
     case avatar
 }
 
-public class UserImage: NSObject {
-    public let cover: String
-    public let avatar: String
+public class UserImage {
+    public var cover: ImageInfo = ImageInfo()
+    public var avatar: ImageInfo = ImageInfo()
+    
+    public init() {
+        // Init User Image
+    }
     
     public init(json: JSON) {
-        self.cover = json[UserImageKey.cover.rawValue].stringValue
-        self.avatar = json[UserImageKey.avatar.rawValue].stringValue
+        self.cover = ImageInfo(json: JSON(json[UserImageKey.cover.rawValue].dictionaryObject ?? [:]))
+        self.avatar = ImageInfo(json: JSON(json[UserImageKey.avatar.rawValue].dictionaryObject ?? [:]))
+    }
+}
+
+// MARK: - Image Info
+public enum ImageInfoKey: String, Codable {
+    case original
+    case thumbnail
+    case fullHd
+    case large
+}
+
+public class ImageInfo {
+    public var original: String = ""
+    public var thumbnail: String = ""
+    public var fullHd: String = ""
+    public var large: String = ""
+    
+    public init() {
+        // Init Profile Image
+    }
+    
+    public init(json: JSON) {
+        self.original = json[ImageInfoKey.original.rawValue].stringValue
+        self.thumbnail = json[ImageInfoKey.thumbnail.rawValue].stringValue
+        self.fullHd = json[ImageInfoKey.fullHd.rawValue].stringValue
+        self.large = json[ImageInfoKey.large.rawValue].stringValue
     }
 }
 

@@ -22,7 +22,7 @@
 //  UserRequest.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 31/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 31/8/2564 BE.
 //
 
 public enum UserChannelKey: String {
@@ -34,20 +34,35 @@ public struct UserRequest {
     enum UserRequestKey: String {
         case channel
         case payload
+        case targetCastcleId
     }
     
     public var channel: UserChannelKey
     public var payload: UserPayloadRequest
+    public var targetCastcleId: String
     
     public init() {
         self.channel = .email
         self.payload = UserPayloadRequest()
+        self.targetCastcleId = ""
     }
     
     public var paramDeleteUser: [String: Any] {
         return [
             UserRequestKey.channel.rawValue: self.channel.rawValue,
             UserRequestKey.payload.rawValue: self.payload.paramDeleteUserWithEmail
+        ]
+    }
+    
+    public var paramFollowUser: [String: Any] {
+        return [
+            UserRequestKey.targetCastcleId.rawValue: self.targetCastcleId
+        ]
+    }
+    
+    public var paramUnfollowUser: [String: Any] {
+        return [
+            UserRequestKey.targetCastcleId.rawValue: self.targetCastcleId
         ]
     }
 }

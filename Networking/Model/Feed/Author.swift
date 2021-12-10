@@ -22,9 +22,10 @@
 //  Author.swift
 //  Networking
 //
-//  Created by Tanakorn Phoochaliaw on 14/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 14/7/2564 BE.
 //
 
+import Core
 import SwiftyJSON
 
 // MARK: - Liked
@@ -44,21 +45,39 @@ public enum AuthorType: String, Codable {
 }
 
 public class Author: NSObject {
-    public let type: AuthorType
-    public let id: String
-    public let castcleId: String
-    public let displayName: String
-    public let avatar: String
-    public let verified: Bool
-    public let followed: Bool
+    public var type: AuthorType = .people
+    public var id: String = ""
+    public var castcleId: String = ""
+    public var displayName: String = ""
+    public var avatar: ImageInfo = ImageInfo()
+    public var verified: Verified = Verified()
+    public var followed: Bool = false
+    
+    public override init() {
+        // Init
+    }
+    
+    public init(authorRef: AuthorRef) {
+        self.id = authorRef.id
+        self.type = AuthorType(rawValue: authorRef.type) ?? .people
+        self.castcleId = authorRef.castcleId
+        self.displayName = authorRef.displayName
+        self.followed = authorRef.followed
+        
+        // MARK: - Object
+        self.verified.official = authorRef.official
+        self.avatar.thumbnail = authorRef.avatar
+    }
     
     public init(json: JSON) {
         self.id = json[AuthorKey.id.rawValue].stringValue
         self.type = AuthorType(rawValue: json[AuthorKey.type.rawValue].stringValue) ?? .people
         self.castcleId = json[AuthorKey.castcleId.rawValue].stringValue
         self.displayName = json[AuthorKey.displayName.rawValue].stringValue
-        self.avatar = json[AuthorKey.avatar.rawValue].stringValue
-        self.verified = json[AuthorKey.verified.rawValue].boolValue
         self.followed = json[AuthorKey.followed.rawValue].boolValue
+        
+        // MARK: - Object
+        self.verified = Verified(json: JSON(json[AuthorKey.verified.rawValue].dictionaryObject ?? [:]))
+        self.avatar = ImageInfo(json: JSON(json[AuthorKey.avatar.rawValue].dictionaryObject ?? [:]))
     }
 }

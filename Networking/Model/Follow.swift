@@ -19,47 +19,46 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Aggregator.swift
+//  Follow.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 14/7/2564 BE.
+//  Created by Castcle Co., Ltd. on 12/10/2564 BE.
 //
 
 import SwiftyJSON
 
-// MARK: - Aggregator
-public enum AggregatorKey: String, Codable {
-    case type
+// MARK: - Follow
+public enum FollowKey: String, Codable {
     case id
-    case action
-    case message
+    case castcleId
+    case displayName
+    case avatar
+    case overview
+    case verified
+    case type
+    case count
 }
 
-public enum AggregatorType: String, Codable {
-    case friend
-    case following
-    case topic
-    case unknown
-}
-
-public enum ActionType: String, Codable {
-    case liked
-    case commented
-    case recasted
-    case suggestion
-    case unknown
-}
-
-public class Aggregator: NSObject {
-    public let type: AggregatorType
+public class Follow: NSObject {
     public let id: String
-    public let action: ActionType
-    public let message: String
+    public let castcleId: String
+    public let displayName: String
+    public let avatar: ImageInfo
+    public let overview: String
+    public let verified: Verified
+    public let type: AuthorType
+    public let count: Int
     
     public init(json: JSON) {
-        self.type = AggregatorType(rawValue: json[AggregatorKey.type.rawValue].stringValue) ?? .unknown
-        self.id = json[AggregatorKey.id.rawValue].stringValue
-        self.action = ActionType(rawValue: json[AggregatorKey.action.rawValue].stringValue) ?? .unknown
-        self.message = json[AggregatorKey.message.rawValue].stringValue
+        self.id = json[FollowKey.id.rawValue].stringValue
+        self.castcleId = json[FollowKey.castcleId.rawValue].stringValue
+        self.displayName = json[FollowKey.displayName.rawValue].stringValue
+        self.overview = json[FollowKey.overview.rawValue].stringValue
+        self.type = AuthorType(rawValue: json[FollowKey.type.rawValue].stringValue) ?? .people
+        self.count = json[FollowKey.count.rawValue].intValue
+        
+        // MARK: - Object
+        self.verified = Verified(json: JSON(json[FollowKey.verified.rawValue].dictionaryObject ?? [:]))
+        self.avatar = ImageInfo(json: JSON(json[FollowKey.avatar.rawValue].dictionaryObject ?? [:]))
     }
 }
