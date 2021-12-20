@@ -46,6 +46,7 @@ public enum ContentKey: String, Codable {
 
 public enum ContentType: String, Codable {
     case short
+    case long
     case blog
     case image
     case shortClip
@@ -78,6 +79,7 @@ public class Content {
     public var participate: Participate = Participate()
     public var createdAt: String = "2021-11-19T06:41:33.179Z"
     public var updatedAt: String = "2021-11-19T06:41:33.179Z"
+    public var isExpand: Bool = false
     
     public var postDate: Date {
         return Date.stringToDate(str: self.createdAt)
