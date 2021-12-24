@@ -86,7 +86,7 @@ public class Content {
     }
     
     public var feedDisplayType: FeedDisplayType {
-        if self.type == .short {
+        if self.type == .short || self.type == .long {
             if !self.photo.isEmpty {
                 if self.photo.count == 1 {
                     return .postImageX1
