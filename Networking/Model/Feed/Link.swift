@@ -33,6 +33,8 @@ import SwiftyJSON
 public enum LinkKey: String, Codable {
     case type
     case url
+    case title
+    case description
     case imagePreview
 }
 
@@ -60,7 +62,7 @@ public enum LinkType: String, Codable {
         case .reddit:
             return UIImage.Asset.reddit
         default:
-            return UIImage()
+            return UIImage.Asset.web
         }
     }
 }
@@ -68,11 +70,15 @@ public enum LinkType: String, Codable {
 public class Link: NSObject {
     public let type: LinkType
     public let url: String
+    public let title: String
+    public let desc: String
     public let imagePreview: String
     
     public init(json: JSON) {
         self.type = LinkType(rawValue: json[LinkKey.type.rawValue].stringValue) ?? .other
         self.url = json[LinkKey.url.rawValue].stringValue
+        self.title = json[LinkKey.title.rawValue].stringValue
+        self.desc = json[LinkKey.description.rawValue].stringValue
         self.imagePreview = json[LinkKey.imagePreview.rawValue].stringValue
     }
 }

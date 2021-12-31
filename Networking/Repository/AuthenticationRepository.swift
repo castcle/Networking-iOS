@@ -243,8 +243,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                                 pageTemp.id = pageInfo.id
                                 pageTemp.castcleId = pageInfo.castcleId
                                 pageTemp.displayName = pageInfo.displayName
-                                ImageHelper.shared.downloadImage(from: pageInfo.images.avatar.thumbnail, iamgeName: pageInfo.castcleId, type: .avatar)
-                                ImageHelper.shared.downloadImage(from: pageInfo.images.cover.fullHd, iamgeName: pageInfo.castcleId, type: .cover)
+                                pageTemp.avatar = pageInfo.images.avatar.thumbnail
+                                pageTemp.cover = pageInfo.images.cover.fullHd
                                 self.realm.add(pageTemp, update: .modified)
                             }
                             

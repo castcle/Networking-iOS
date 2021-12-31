@@ -34,14 +34,16 @@ public struct ContentRequest {
         case message
         case maxResults
         case untilId
+        case userFields
     }
     public var type: ContentType = .unknow
     public var untilId: String = ""
-    public var maxResults: Int = 100
+    public var maxResults: Int = 25
     public var payload: ContentPayloadRequest = ContentPayloadRequest()
     public var castcleId: String = ""
     public var feedItemId: String = ""
     public var message: String = ""
+    public var userFields: String = "relationships"
     
     public init() {
         // Init ContentRequest
@@ -50,7 +52,8 @@ public struct ContentRequest {
     public var paramGetContent: [String: Any] {
         var param: [String: Any] = [
             ContentKey.type.rawValue: self.type.rawValue,
-            ContentKey.maxResults.rawValue: self.maxResults
+            ContentKey.maxResults.rawValue: self.maxResults,
+            ContentKey.userFields.rawValue: self.userFields
         ]
         
         if !self.untilId.isEmpty {

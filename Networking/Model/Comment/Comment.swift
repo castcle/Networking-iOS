@@ -65,6 +65,8 @@ public enum CommentKey: String, Codable {
     case like
     case author
     case reply
+    case metrics
+    case participate
     case createdAt
     case updatedAt
 }
@@ -72,9 +74,10 @@ public enum CommentKey: String, Codable {
 public class Comment: NSObject {
     public let id: String
     public let message: String
-    public let like: Liked
     public let author: Author
     public let reply: [ReplyComment]
+    public var metrics: Metric = Metric()
+    public var participate: Participate = Participate()
     public let createdAt: String
     public let updatedAt: String
     public var isFirst: Bool
@@ -89,8 +92,9 @@ public class Comment: NSObject {
         self.isLast = isLast
         
         // MARK: - Object
-        self.like = Liked(json: JSON(json[CommentKey.like.rawValue].dictionaryObject ?? [:]))
         self.author = Author(json: JSON(json[CommentKey.author.rawValue].dictionaryObject ?? [:]))
+        self.metrics = Metric(json: JSON(json[CommentKey.metrics.rawValue].dictionaryObject ?? [:]))
+        self.participate = Participate(json: JSON(json[CommentKey.participate.rawValue].dictionaryObject ?? [:]))
         
         // MARK: - Reply
         self.reply = (json[CommentKey.reply.rawValue].arrayValue).map { ReplyComment(json: $0) }
@@ -114,8 +118,9 @@ public enum ReplyCommentKey: String, Codable {
 public class ReplyComment: NSObject {
     public let id: String
     public let message: String
-    public let like: Liked
     public let author: Author
+    public var metrics: Metric = Metric()
+    public var participate: Participate = Participate()
     public let createdAt: String
     public let updatedAt: String
     
@@ -126,8 +131,9 @@ public class ReplyComment: NSObject {
         self.updatedAt = json[ReplyCommentKey.updatedAt.rawValue].stringValue
         
         // MARK: - Object
-        self.like = Liked(json: JSON(json[ReplyCommentKey.like.rawValue].dictionaryObject ?? [:]))
         self.author = Author(json: JSON(json[ReplyCommentKey.author.rawValue].dictionaryObject ?? [:]))
+        self.metrics = Metric(json: JSON(json[CommentKey.metrics.rawValue].dictionaryObject ?? [:]))
+        self.participate = Participate(json: JSON(json[CommentKey.participate.rawValue].dictionaryObject ?? [:]))
     }
     
     public var replyDate: Date {
