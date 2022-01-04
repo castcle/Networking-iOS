@@ -37,7 +37,7 @@ public enum MetaKey: String, Codable {
 public class Meta: NSObject {
     public var oldestId: String = ""
     public var newestId: String = ""
-    public var resultCount: Int = 100
+    public var resultCount: Int = 5
     
     public override init() {
         // MARK: - Init
