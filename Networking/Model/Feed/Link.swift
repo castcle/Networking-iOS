@@ -68,11 +68,15 @@ public enum LinkType: String, Codable {
 }
 
 public class Link: NSObject {
-    public let type: LinkType
-    public let url: String
-    public let title: String
-    public let desc: String
-    public let imagePreview: String
+    public var type: LinkType = .other
+    public var url: String = ""
+    public var title: String = ""
+    public var desc: String = ""
+    public var imagePreview: String = ""
+    
+    public override init() {
+        // Init Link
+    }
     
     public init(json: JSON) {
         self.type = LinkType(rawValue: json[LinkKey.type.rawValue].stringValue) ?? .other

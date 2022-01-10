@@ -51,9 +51,16 @@ public class ContentShelf: NSObject {
         self.meta = Meta(json: JSON(json[ContentShelfKey.meta.rawValue].dictionaryValue))
         
         let includes = JSON(json[ContentShelfKey.includes.rawValue].dictionaryValue)
+        let casts = includes[ContentShelfKey.casts.rawValue].arrayValue
         let users = includes[ContentShelfKey.users.rawValue].arrayValue
         
         let realm = try! Realm()
+        casts.forEach { cast in
+            try! realm.write {
+                let contentRef = ContentRef().initCustom(json: cast)
+                realm.add(contentRef, update: .modified)
+            }
+        }
         users.forEach { user in
             try! realm.write {
                 let authorRef = AuthorRef().initCustom(json: user)

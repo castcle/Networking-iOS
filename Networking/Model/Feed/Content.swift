@@ -55,7 +55,7 @@ public enum ContentType: String, Codable {
     case unknow = ""
 }
 
-public enum FeedDisplayType {
+public enum FeedDisplayType: String {
     case postText
     case postLink
     case postLinkPreview

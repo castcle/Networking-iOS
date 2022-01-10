@@ -52,4 +52,63 @@ public class ContentHelper {
             }
         }
     }
+    
+    public func getContentRef(id: String) -> Content? {
+        if id.isEmpty {
+            return nil
+        } else {
+            let realm = try! Realm()
+            if let contentRef = realm.objects(ContentRef.self).filter("id = '\(id)'").first {
+                return self.contentRefToContent(contentRef: contentRef)
+            } else {
+                return nil
+            }
+        }
+    }
+    
+    private func contentRefToContent(contentRef: ContentRef) -> Content {
+        let content: Content = Content()
+        content.id = contentRef.id
+        content.authorId = contentRef.authorId
+        content.type = ContentType(rawValue: contentRef.type) ?? .short
+        content.message = contentRef.message
+        content.createdAt = contentRef.createdAt
+        content.updatedAt = contentRef.updatedAt
+        
+        // MARK: - Metric
+        content.metrics.likeCount = contentRef.likeCount
+        content.metrics.commentCount = contentRef.commentCount
+        content.metrics.quoteCount = contentRef.quoteCount
+        content.metrics.recastCount = contentRef.recastCount
+        
+        // MARK: - Participate
+        content.participate.liked = contentRef.liked
+        content.participate.commented = contentRef.commented
+        content.participate.quoted = contentRef.quoted
+        content.participate.recasted = contentRef.recasted
+        content.participate.reported = contentRef.reported
+        
+        // MARK: - Photo
+        if !contentRef.photoThumbnail.isEmpty {
+            for i in 0..<contentRef.photoThumbnail.count {
+                let photo: ImageInfo = ImageInfo()
+                photo.thumbnail = contentRef.photoThumbnail[i]
+                photo.fullHd = contentRef.photoFullHd[i]
+                content.photo.append(photo)
+            }
+        }
+
+        // MARK: - Link
+        if !contentRef.linkType.isEmpty {
+            let link: Link = Link()
+            link.type = LinkType(rawValue: contentRef.linkType) ?? .other
+            link.url = contentRef.linkUrl
+            link.title = contentRef.linkTitle
+            link.desc = contentRef.linkDesc
+            link.imagePreview = contentRef.linkImagePreview
+            content.link.append(link)
+        }
+        
+        return content
+    }
 }
