@@ -34,12 +34,17 @@ public struct FeedRequest {
         case type
         case userFields
     }
+    
+    public enum UserFields: String {
+        case relationships
+        case none
+    }
 
     public var untilId: String = ""
     public var maxResults: Int = 25
     public var hashtag: String = ""
     public var type: ContentType = .unknow
-    public var userFields: String = "relationships"
+    public var userFields: UserFields = .none
     
     public init() {
         // Init FeedRequest
@@ -47,9 +52,12 @@ public struct FeedRequest {
     
     public var paramGetFeed: [String: Any] {
         var param: [String: Any] = [
-            ContentKey.maxResults.rawValue: self.maxResults,
-            ContentKey.userFields.rawValue: self.userFields
+            ContentKey.maxResults.rawValue: self.maxResults
         ]
+        
+        if self.userFields != .none {
+            param[ContentKey.userFields.rawValue] = self.userFields.rawValue
+        }
         
         if !self.untilId.isEmpty {
             param[ContentKey.untilId.rawValue] = self.untilId
