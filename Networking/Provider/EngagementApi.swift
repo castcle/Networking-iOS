@@ -30,6 +30,7 @@ import Moya
 
 enum EngagementApi {
     case engagement(EngagementRequest)
+    case seenContent(String)
 }
 
 extension EngagementApi: TargetType {
@@ -41,6 +42,8 @@ extension EngagementApi: TargetType {
         switch self {
         case .engagement:
             return "/engagements"
+        case.seenContent(let contentId):
+            return "contents/\(contentId)/seen"
         }
     }
     
@@ -56,6 +59,8 @@ extension EngagementApi: TargetType {
         switch self {
         case .engagement(let engagementRequest):
             return .requestParameters(parameters: engagementRequest.paramEngagement, encoding: JSONEncoding.default)
+        default:
+            return .requestPlain
         }
     }
     

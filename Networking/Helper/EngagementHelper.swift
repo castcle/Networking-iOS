@@ -51,11 +51,15 @@ public class EngagementHelper {
     private var engagementRepository: EngagementRepository = EngagementRepositoryImpl()
     private var engagementRequest: EngagementRequest
     
-    public init(engagementRequest: EngagementRequest) {
+    public init(engagementRequest: EngagementRequest = EngagementRequest()) {
         self.engagementRequest = engagementRequest
     }
     
     public func sendEngagement() {
         self.engagementRepository.engagement(engagementRequest: self.engagementRequest)
+    }
+    
+    public func seenContent(contentId: String) {
+        self.engagementRepository.seenContent(contentId: contentId)
     }
 }

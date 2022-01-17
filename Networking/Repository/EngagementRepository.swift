@@ -31,6 +31,7 @@ import SwiftyJSON
 
 public protocol EngagementRepository {
     func engagement(engagementRequest: EngagementRequest)
+    func seenContent(contentId: String)
 }
 
 public final class EngagementRepositoryImpl: EngagementRepository {
@@ -47,6 +48,17 @@ public final class EngagementRepositoryImpl: EngagementRepository {
                 print("Send Engagement Success")
             case .failure:
                 print("Send Engagement Failure")
+            }
+        }
+    }
+    
+    public func seenContent(contentId: String) {
+        self.engagementProvider.request(.seenContent(contentId)) { result in
+            switch result {
+            case .success:
+                print("Send Seen Content Success")
+            case .failure:
+                print("Send Seen Content Failure")
             }
         }
     }
