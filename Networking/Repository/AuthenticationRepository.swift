@@ -78,9 +78,9 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                     if response.statusCode < 300 {
                         let accessToken = json[AuthenticationApiKey.accessToken.rawValue].stringValue
                         let refreshToken = json[AuthenticationApiKey.refreshToken.rawValue].stringValue
-                        Defaults[.userRole] = "GUEST"
-                        Defaults[.accessToken] = accessToken
-                        Defaults[.refreshToken] = refreshToken
+                        UserManager.shared.setUserRole(userRole: .guest)
+                        UserManager.shared.setAccessToken(token: accessToken)
+                        UserManager.shared.setRefreshToken(token: refreshToken)
                         completion(true)
                     } else {
                         let code = json[ResponseErrorKey.code.rawValue].stringValue
@@ -250,7 +250,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                             
                         }
                         
-                        Defaults[.accessToken] = accessToken
+                        UserManager.shared.setAccessToken(token: accessToken)
                         completion(true, false)
                     } else {
                         let code = json[ResponseErrorKey.code.rawValue].stringValue

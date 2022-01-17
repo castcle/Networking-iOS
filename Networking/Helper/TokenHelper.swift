@@ -43,7 +43,7 @@ public class TokenHelper {
                 self.delegate?.didRefreshTokenFinish()
             } else {
                 if refreshTokenExpired {
-                    if Defaults[.userRole] == "GUEST" {
+                    if UserManager.shared.userRole == .guest {
                         self.guestLogin()
                     }
                 }
