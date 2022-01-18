@@ -31,6 +31,8 @@ import Moya
 enum SearchApi {
     case getTopTrends(SearchRequest)
     case getSuggestion(SearchRequest)
+    case searchTrend(SearchRequest)
+    case searchRecent(SearchRequest)
 }
 
 extension SearchApi: TargetType {
@@ -44,14 +46,15 @@ extension SearchApi: TargetType {
             return "/searches/topTrends"
         case .getSuggestion:
             return "/searches"
+        case .searchTrend:
+            return "/feeds/search/trends"
+        case .searchRecent:
+            return "/feeds/search/recent"
         }
     }
     
     var method: Moya.Method {
-        switch self {
-        case .getTopTrends, .getSuggestion:
-            return .get
-        }
+        return .get
     }
     
     var sampleData: Data {
@@ -64,6 +67,10 @@ extension SearchApi: TargetType {
             return .requestParameters(parameters: searchRequest.paramGetTopTrends, encoding: URLEncoding.queryString)
         case .getSuggestion(let searchRequest):
             return .requestParameters(parameters: searchRequest.paramSuggestion, encoding: URLEncoding.queryString)
+        case .searchTrend(let searchRequest):
+            return .requestParameters(parameters: searchRequest.paramSearch, encoding: URLEncoding.queryString)
+        case .searchRecent(let searchRequest):
+            return .requestParameters(parameters: searchRequest.paramSearch, encoding: URLEncoding.queryString)
         }
     }
     

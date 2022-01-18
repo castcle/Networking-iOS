@@ -22,7 +22,6 @@
 		B74CEF1226C50727006B1F2C /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B74CEF1126C50727006B1F2C /* Core.framework */; };
 		B754A12127463DED00147210 /* CommentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B754A12027463DED00147210 /* CommentRequest.swift */; };
 		B7642C5A26E1073800CDCE95 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7642C5926E1073800CDCE95 /* Comment.swift */; };
-		B7642C5C26E10DFA00CDCE95 /* Comments.json in Resources */ = {isa = PBXBuildFile; fileRef = B7642C5B26E10DFA00CDCE95 /* Comments.json */; };
 		B7642C5E26E10F8000CDCE95 /* CommentApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7642C5D26E10F8000CDCE95 /* CommentApi.swift */; };
 		B7642C6026E1105A00CDCE95 /* CommentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7642C5F26E1105A00CDCE95 /* CommentRepository.swift */; };
 		B7684A2626C5049100C438C5 /* Networking.h in Headers */ = {isa = PBXBuildFile; fileRef = B7684A2426C5049100C438C5 /* Networking.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -42,7 +41,6 @@
 		B7684A6B26C5061C00C438C5 /* AuthenticationApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A4D26C5061C00C438C5 /* AuthenticationApi.swift */; };
 		B7684A6D26C5061C00C438C5 /* FeedApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A4F26C5061C00C438C5 /* FeedApi.swift */; };
 		B7684A6F26C5061C00C438C5 /* Hashtag.json in Resources */ = {isa = PBXBuildFile; fileRef = B7684A5226C5061C00C438C5 /* Hashtag.json */; };
-		B7684A7026C5061C00C438C5 /* Feeds.json in Resources */ = {isa = PBXBuildFile; fileRef = B7684A5326C5061C00C438C5 /* Feeds.json */; };
 		B7684A7126C5061C00C438C5 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A5526C5061C00C438C5 /* LoginRequest.swift */; };
 		B7684A7226C5061C00C438C5 /* AuthenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7684A5626C5061C00C438C5 /* AuthenRequest.swift */; };
 		B773647E2759C60600E8E74D /* ReferencedCast.swift in Sources */ = {isa = PBXBuildFile; fileRef = B773647D2759C60600E8E74D /* ReferencedCast.swift */; };
@@ -99,7 +97,6 @@
 		B74CEF1126C50727006B1F2C /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B754A12027463DED00147210 /* CommentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentRequest.swift; sourceTree = "<group>"; };
 		B7642C5926E1073800CDCE95 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
-		B7642C5B26E10DFA00CDCE95 /* Comments.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Comments.json; sourceTree = "<group>"; };
 		B7642C5D26E10F8000CDCE95 /* CommentApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentApi.swift; sourceTree = "<group>"; };
 		B7642C5F26E1105A00CDCE95 /* CommentRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentRepository.swift; sourceTree = "<group>"; };
 		B7684A2126C5049100C438C5 /* Networking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Networking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -121,7 +118,6 @@
 		B7684A4D26C5061C00C438C5 /* AuthenticationApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationApi.swift; sourceTree = "<group>"; };
 		B7684A4F26C5061C00C438C5 /* FeedApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedApi.swift; sourceTree = "<group>"; };
 		B7684A5226C5061C00C438C5 /* Hashtag.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Hashtag.json; sourceTree = "<group>"; };
-		B7684A5326C5061C00C438C5 /* Feeds.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Feeds.json; sourceTree = "<group>"; };
 		B7684A5526C5061C00C438C5 /* LoginRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
 		B7684A5626C5061C00C438C5 /* AuthenRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenRequest.swift; sourceTree = "<group>"; };
 		B773647D2759C60600E8E74D /* ReferencedCast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferencedCast.swift; sourceTree = "<group>"; };
@@ -331,8 +327,6 @@
 			isa = PBXGroup;
 			children = (
 				B7684A5226C5061C00C438C5 /* Hashtag.json */,
-				B7684A5326C5061C00C438C5 /* Feeds.json */,
-				B7642C5B26E10DFA00CDCE95 /* Comments.json */,
 			);
 			path = Mockup;
 			sourceTree = "<group>";
@@ -447,8 +441,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7684A6F26C5061C00C438C5 /* Hashtag.json in Resources */,
-				B7684A7026C5061C00C438C5 /* Feeds.json in Resources */,
-				B7642C5C26E10DFA00CDCE95 /* Comments.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

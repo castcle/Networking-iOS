@@ -26,15 +26,29 @@
 //
 
 public struct SearchRequest {
-    enum ContentKey: String {
+    enum SearchKey: String {
         case page
         case limit
         case keyword
+        case maxResults
+        case untilId
+        case contentType
+        case userFields
+    }
+    
+    public enum SearchContentType: String {
+        case photo
+        case video
+        case none
     }
 
     public var page: Int = 1
     public var limit: Int = 10
     public var keyword: String = ""
+    public var untilId: String = ""
+    public var maxResults: Int = 25
+    public var type: SearchContentType = .none
+    public var userFields: UserFields = .relationships
     
     public init() {
         // Init SearchRequest
@@ -42,13 +56,32 @@ public struct SearchRequest {
     
     public var paramGetTopTrends: [String: Any] {
         return [
-            ContentKey.limit.rawValue: self.limit
+            SearchKey.limit.rawValue: self.limit
         ]
     }
     
     public var paramSuggestion: [String: Any] {
         return [
-            ContentKey.keyword.rawValue: self.keyword
+            SearchKey.keyword.rawValue: self.keyword
         ]
+    }
+    
+    public var paramSearch: [String: Any] {
+        var param: [String: Any] = [
+            SearchKey.keyword.rawValue: self.keyword,
+            SearchKey.maxResults.rawValue: self.maxResults,
+            SearchKey.userFields.rawValue: self.userFields.rawValue
+        ]
+        
+        if !self.untilId.isEmpty {
+            param[SearchKey.untilId.rawValue] = self.untilId
+        }
+        
+        if self.type != .none {
+            param[SearchKey.contentType.rawValue] = self.type.rawValue
+        }
+        
+        return param
+        
     }
 }

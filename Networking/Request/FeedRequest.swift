@@ -25,19 +25,18 @@
 //  Created by Castcle Co., Ltd. on 7/10/2564 BE.
 //
 
+public enum UserFields: String {
+    case relationships
+    case none
+}
+
 public struct FeedRequest {
     enum ContentKey: String {
-        case page
         case maxResults
         case untilId
         case hashtag
         case type
         case userFields
-    }
-    
-    public enum UserFields: String {
-        case relationships
-        case none
     }
 
     public var untilId: String = ""

@@ -43,7 +43,7 @@ public struct ContentRequest {
     public var castcleId: String = ""
     public var feedItemId: String = ""
     public var message: String = ""
-    public var userFields: String = "relationships"
+    public var userFields: UserFields = .relationships
     
     public init() {
         // Init ContentRequest
@@ -53,7 +53,7 @@ public struct ContentRequest {
         var param: [String: Any] = [
             ContentKey.type.rawValue: self.type.rawValue,
             ContentKey.maxResults.rawValue: self.maxResults,
-            ContentKey.userFields.rawValue: self.userFields
+            ContentKey.userFields.rawValue: self.userFields.rawValue
         ]
         
         if !self.untilId.isEmpty {
