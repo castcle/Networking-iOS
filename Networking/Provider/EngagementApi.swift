@@ -31,6 +31,7 @@ import Moya
 enum EngagementApi {
     case engagement(EngagementRequest)
     case seenContent(String)
+    case castOffView(String)
 }
 
 extension EngagementApi: TargetType {
@@ -44,6 +45,8 @@ extension EngagementApi: TargetType {
             return "/engagements"
         case.seenContent(let contentId):
             return "contents/\(contentId)/seen"
+        case.castOffView(let contentId):
+            return "contents/\(contentId)/off-view"
         }
     }
     

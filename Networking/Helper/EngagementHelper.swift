@@ -62,4 +62,8 @@ public class EngagementHelper {
     public func seenContent(contentId: String) {
         self.engagementRepository.seenContent(contentId: contentId)
     }
+    
+    public func castOffView(contentId: String) {
+        self.engagementRepository.castOffView(contentId: contentId)
+    }
 }
