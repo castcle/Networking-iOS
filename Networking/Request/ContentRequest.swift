@@ -31,6 +31,7 @@ public struct ContentRequest {
         case payload
         case castcleId
         case feedItemId
+        case contentId
         case message
         case maxResults
         case untilId
@@ -42,6 +43,7 @@ public struct ContentRequest {
     public var payload: ContentPayloadRequest = ContentPayloadRequest()
     public var castcleId: String = ""
     public var feedItemId: String = ""
+    public var contentId: String = ""
     public var message: String = ""
     public var userFields: UserFields = .relationships
     
@@ -73,23 +75,14 @@ public struct ContentRequest {
     
     public var paramRecastContent: [String: Any] {
         return [
-            ContentKey.feedItemId.rawValue: self.feedItemId,
-            ContentKey.castcleId.rawValue: self.castcleId
-        ]
-    }
-    
-    public var paramUnrecastContent: [String: Any] {
-        return [
-            ContentKey.feedItemId.rawValue: self.feedItemId,
-            ContentKey.castcleId.rawValue: self.castcleId
+            ContentKey.contentId.rawValue: self.contentId
         ]
     }
     
     public var paramQuotecastContent: [String: Any] {
         return [
-            ContentKey.message.rawValue: self.message,
-            ContentKey.feedItemId.rawValue: self.feedItemId,
-            ContentKey.castcleId.rawValue: self.castcleId
+            ContentKey.contentId.rawValue: self.contentId,
+            ContentKey.message.rawValue: self.message
         ]
     }
     

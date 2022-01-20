@@ -34,9 +34,9 @@ enum ContentApi {
     case likeContent(String, ContentRequest)
     case unlikeContent(String, ContentRequest)
     case deleteContent(String)
-    case recastContent(String, ContentRequest)
-    case unrecastContent(String, ContentRequest)
-    case quotecastContent(String, ContentRequest)
+    case recastContent(ContentRequest)
+    case unrecastContent(ContentRequest)
+    case quotecastContent(ContentRequest)
 }
 
 extension ContentApi: TargetType {
@@ -56,12 +56,12 @@ extension ContentApi: TargetType {
             return "/contents/\(contentId)/unliked"
         case .deleteContent(let contentId):
             return "/contents/\(contentId)"
-        case .recastContent(let contentId, _):
-            return "/contents/\(contentId)/recasted"
-        case .unrecastContent(let contentId, _):
-            return "/contents/\(contentId)/unrecasted"
-        case .quotecastContent(let contentId, _):
-            return "/contents/\(contentId)/quotecast"
+        case .recastContent(let contentRequest):
+            return "/users/\(contentRequest.castcleId)/recast"
+        case .unrecastContent(let contentRequest):
+            return "/users/\(contentRequest.castcleId)/recast/\(contentRequest.contentId)"
+        case .quotecastContent(let contentRequest):
+            return "/users/\(contentRequest.castcleId)/quotecast"
         }
     }
     
@@ -88,11 +88,9 @@ extension ContentApi: TargetType {
             return .requestParameters(parameters: contentRequest.paramGetContent, encoding: URLEncoding.queryString)
         case .createContent(_, let contentRequest):
             return .requestParameters(parameters: contentRequest.paramCreateContent, encoding: JSONEncoding.default)
-        case .recastContent(_, let contentRequest):
+        case .recastContent(let contentRequest):
             return .requestParameters(parameters: contentRequest.paramRecastContent, encoding: JSONEncoding.default)
-        case .unrecastContent(_, let contentRequest):
-            return .requestParameters(parameters: contentRequest.paramUnrecastContent, encoding: JSONEncoding.default)
-        case .quotecastContent(_, let contentRequest):
+        case .quotecastContent(let contentRequest):
             return .requestParameters(parameters: contentRequest.paramQuotecastContent, encoding: JSONEncoding.default)
         case .likeContent(_, let contentRequest):
             return .requestParameters(parameters: contentRequest.paramLikeContent, encoding: JSONEncoding.default)
