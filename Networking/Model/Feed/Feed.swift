@@ -44,6 +44,7 @@ public enum FeedType: String, Codable {
     case suggestion
     case reminder
     case ads
+    case suggestionFollow = "suggestion-follow"
 }
 
 public class Feed: NSObject {
@@ -51,7 +52,8 @@ public class Feed: NSObject {
     public let feature: Feature
     public let circle: Circle
     public let type: FeedType
-    public let payload: Content
+    public let content: Content
+    public let userToFollow: [Author]
     public let createdAt: String
     public let updatedAt: String
     
@@ -64,6 +66,9 @@ public class Feed: NSObject {
         // MARK: - Object
         self.feature = Feature(json: JSON(json[FeedKey.feature.rawValue].dictionaryObject ?? [:]))
         self.circle = Circle(json: JSON(json[FeedKey.circle.rawValue].dictionaryObject ?? [:]))
-        self.payload = Content(json: JSON(json[FeedKey.payload.rawValue].dictionaryObject ?? [:]))
+        self.content = Content(json: JSON(json[FeedKey.payload.rawValue].dictionaryObject ?? [:]))
+        
+        // MARK: - User to Follow
+        self.userToFollow = (json[FeedKey.payload.rawValue].arrayValue).map { Author(json: $0) }
     }
 }
