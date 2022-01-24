@@ -45,6 +45,7 @@ public protocol AuthenticationRepository {
     func changePasswordSubmit(authenRequest: AuthenRequest, _ completion: @escaping complate)
     func requestOtp(authenRequest: AuthenRequest, _ completion: @escaping complate)
     func verificationOtp(authenRequest: AuthenRequest, _ completion: @escaping complate)
+    func loginWithSocial(authenRequest: AuthenRequest, _ completion: @escaping complate)
 }
 
 public enum AuthenticationApiKey: String {
@@ -313,6 +314,19 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
     
     public func verificationOtp(authenRequest: AuthenRequest, _ completion: @escaping complate) {
         self.authenticationProvider.request(.verificationOtp(authenRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func loginWithSocial(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+        self.authenticationProvider.request(.loginWithSocial(authenRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

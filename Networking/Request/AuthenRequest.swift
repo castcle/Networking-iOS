@@ -36,6 +36,14 @@ public enum AuthenObjective: String {
     case none
 }
 
+public enum SocialProvider: String {
+    case facebook
+    case twitter
+    case google
+    case apple = "apple id"
+    case none
+}
+
 public struct AuthenRequest {
     enum AuthenRequestKey: String {
         case objective
@@ -43,11 +51,25 @@ public struct AuthenRequest {
         case payload
         case refCode
         case otp
+        case provider
+        case uid
+        case displayName
+        case avatar
+        case email
+        case authToken
     }
     
     public var objective: AuthenObjective
     public var channel: AuthenChannelKey
     public var payload: AuthenPayloadRequest
+    
+    // Login with Social
+    public var provider: SocialProvider = .none
+    public var uid: String = ""
+    public var displayName: String = ""
+    public var avatar: String = ""
+    public var email: String = ""
+    public var authToken: String = ""
     
     public init() {
         self.objective = .none
@@ -77,6 +99,17 @@ public struct AuthenRequest {
             AuthenRequestKey.payload.rawValue: self.payload.paramRequestOtpForgotPassword,
             AuthenRequestKey.refCode.rawValue: self.payload.refCode,
             AuthenRequestKey.otp.rawValue: self.payload.otp
+        ]
+    }
+    
+    public var paramLoginWithSocial: [String: Any] {
+        return [
+            AuthenRequestKey.provider.rawValue: self.provider.rawValue,
+            AuthenRequestKey.uid.rawValue: self.uid,
+            AuthenRequestKey.displayName.rawValue: self.displayName,
+            AuthenRequestKey.avatar.rawValue: self.avatar,
+            AuthenRequestKey.email.rawValue: self.email,
+            AuthenRequestKey.authToken.rawValue: self.authToken
         ]
     }
 }
