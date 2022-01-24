@@ -40,6 +40,15 @@ public class ContentHelper {
         }
     }
     
+    public func getAuthorRef(castcleId: String) -> AuthorRef? {
+        if castcleId.isEmpty {
+            return nil
+        } else {
+            let realm = try! Realm()
+            return realm.objects(AuthorRef.self).filter("castcleId = '\(castcleId)'").first
+        }
+    }
+    
     public func isMyAccount(id: String) -> Bool {
         if id == UserManager.shared.id {
             return true
@@ -64,6 +73,22 @@ public class ContentHelper {
                 return nil
             }
         }
+    }
+    
+    public func authorRefToAuthor(authorRef: AuthorRef) -> Author {
+        let author: Author = Author()
+        author.id = authorRef.id
+        author.type = AuthorType(rawValue: authorRef.type) ?? .people
+        author.castcleId = authorRef.castcleId
+        author.displayName = authorRef.displayName
+        author.overview = ""
+        author.followed = authorRef.followed
+        author.blocking = authorRef.blocking
+        author.blocked = authorRef.blocked
+        author.avatar.thumbnail = authorRef.avatar
+        author.verified.official = authorRef.official
+        author.aggregator.message = ""
+        return author
     }
     
     private func contentRefToContent(contentRef: ContentRef) -> Content {
