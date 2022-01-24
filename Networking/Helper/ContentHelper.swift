@@ -81,7 +81,7 @@ public class ContentHelper {
         author.type = AuthorType(rawValue: authorRef.type) ?? .people
         author.castcleId = authorRef.castcleId
         author.displayName = authorRef.displayName
-        author.overview = ""
+        author.overview = authorRef.overview
         author.followed = authorRef.followed
         author.blocking = authorRef.blocking
         author.blocked = authorRef.blocked
