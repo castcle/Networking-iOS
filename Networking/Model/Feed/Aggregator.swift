@@ -30,36 +30,19 @@ import SwiftyJSON
 // MARK: - Aggregator
 public enum AggregatorKey: String, Codable {
     case type
-    case id
-    case action
     case message
 }
 
-public enum AggregatorType: String, Codable {
-    case friend
-    case following
-    case topic
-    case unknown
-}
-
-public enum ActionType: String, Codable {
-    case liked
-    case commented
-    case recasted
-    case suggestion
-    case unknown
-}
-
 public class Aggregator: NSObject {
-    public let type: AggregatorType
-    public let id: String
-    public let action: ActionType
-    public let message: String
+    public var type: String = ""
+    public var message: String = ""
+    
+    public override init() {
+        // Init Aggregator
+    }
     
     public init(json: JSON) {
-        self.type = AggregatorType(rawValue: json[AggregatorKey.type.rawValue].stringValue) ?? .unknown
-        self.id = json[AggregatorKey.id.rawValue].stringValue
-        self.action = ActionType(rawValue: json[AggregatorKey.action.rawValue].stringValue) ?? .unknown
+        self.type = json[AggregatorKey.type.rawValue].stringValue
         self.message = json[AggregatorKey.message.rawValue].stringValue
     }
 }

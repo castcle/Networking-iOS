@@ -34,9 +34,13 @@ public enum AuthorKey: String, Codable {
     case type
     case castcleId
     case displayName
+    case overview
     case avatar
     case verified
+    case aggregator
     case followed
+    case blocking
+    case blocked
 }
 
 public enum AuthorType: String, Codable {
@@ -49,9 +53,13 @@ public class Author: NSObject {
     public var id: String = ""
     public var castcleId: String = ""
     public var displayName: String = ""
+    public var overview: String = ""
     public var avatar: ImageInfo = ImageInfo()
     public var verified: Verified = Verified()
+    public var aggregator: Aggregator = Aggregator()
     public var followed: Bool = false
+    public var blocking: Bool = false
+    public var blocked: Bool = false
     
     public override init() {
         // Init
@@ -74,10 +82,14 @@ public class Author: NSObject {
         self.type = AuthorType(rawValue: json[AuthorKey.type.rawValue].stringValue) ?? .people
         self.castcleId = json[AuthorKey.castcleId.rawValue].stringValue
         self.displayName = json[AuthorKey.displayName.rawValue].stringValue
+        self.overview = json[AuthorKey.overview.rawValue].stringValue
         self.followed = json[AuthorKey.followed.rawValue].boolValue
+        self.blocking = json[AuthorKey.blocking.rawValue].boolValue
+        self.blocked = json[AuthorKey.blocked.rawValue].boolValue
         
         // MARK: - Object
         self.verified = Verified(json: JSON(json[AuthorKey.verified.rawValue].dictionaryObject ?? [:]))
         self.avatar = ImageInfo(json: JSON(json[AuthorKey.avatar.rawValue].dictionaryObject ?? [:]))
+        self.aggregator = Aggregator(json: JSON(json[AuthorKey.aggregator.rawValue].dictionaryObject ?? [:]))
     }
 }

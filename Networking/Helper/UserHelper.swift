@@ -27,7 +27,6 @@
 
 import Core
 import Defaults
-import RealmSwift
 
 public class UserHelper {
     public init() {
@@ -79,10 +78,6 @@ public class UserHelper {
     }
     
     public func clearSeenContent() {
-        let realm = try! Realm()
-        let contentsSeen = realm.objects(ContentsSeen.self)
-        try! realm.write {
-            realm.delete(contentsSeen)
-        }
+        Defaults[.seenId] = ""
     }
 }
