@@ -35,13 +35,13 @@ public enum VerifiedKey: String, Codable {
     case social
 }
 
-public class Verified: NSObject {
+public class Verified {
     public var email: Bool = false
     public var mobile: Bool = false
     public var official: Bool = false
     public var social: Bool = false
     
-    public override init() {
+    public init() {
         // MARK: - Init
     }
     

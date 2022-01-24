@@ -33,6 +33,7 @@ enum SearchApi {
     case getSuggestion(SearchRequest)
     case searchTrend(SearchRequest)
     case searchRecent(SearchRequest)
+    case searchUser(SearchRequest)
 }
 
 extension SearchApi: TargetType {
@@ -50,6 +51,8 @@ extension SearchApi: TargetType {
             return "/feeds/search/trends"
         case .searchRecent:
             return "/feeds/search/recent"
+        case .searchUser:
+            return "/users/search"
         }
     }
     
@@ -71,6 +74,8 @@ extension SearchApi: TargetType {
             return .requestParameters(parameters: searchRequest.paramSearch, encoding: URLEncoding.queryString)
         case .searchRecent(let searchRequest):
             return .requestParameters(parameters: searchRequest.paramSearch, encoding: URLEncoding.queryString)
+        case .searchUser(let searchRequest):
+            return .requestParameters(parameters: searchRequest.paramSearchUser, encoding: URLEncoding.queryString)
         }
     }
     

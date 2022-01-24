@@ -41,24 +41,33 @@ public enum UserKey: String, Codable {
     case followers
     case verified
     case followed
+    case blocking
+    case blocked
 }
 
-public class User: NSObject {
-    public let id: String
-    public let castcleId: String
-    public let displayName: String
-    public let email: String
-    public let overview: String
-    public let dob: String
-    public let images: UserImage
-    public let links: UserLink
-    public let following: UserFollowing
-    public let followers: UserFollowers
-    public let verified: Verified
-    public let followed: Bool
+public class User {
+    public var type: AuthorType = .people
+    public var id: String = ""
+    public var castcleId: String = ""
+    public var displayName: String = ""
+    public var email: String = ""
+    public var overview: String = ""
+    public var dob: String = ""
+    public var images: UserImage = UserImage()
+    public var links: UserLink = UserLink()
+    public var following: UserFollowing = UserFollowing()
+    public var followers: UserFollowers = UserFollowers()
+    public var verified: Verified = Verified()
+    public var followed: Bool = false
+    public var blocking: Bool = false
+    public var blocked: Bool = false
+    
+    public init() {
+        // Init User
+    }
     
     public init(json: JSON) {
-        
+        self.id = json[AuthorKey.id.rawValue].stringValue
         self.id = json[UserKey.id.rawValue].stringValue
         self.castcleId = json[UserKey.castcleId.rawValue].stringValue
         self.displayName = json[UserKey.displayName.rawValue].stringValue
@@ -66,6 +75,8 @@ public class User: NSObject {
         self.overview = json[UserKey.overview.rawValue].stringValue
         self.dob = json[UserKey.dob.rawValue].stringValue
         self.followed = json[UserKey.followed.rawValue].boolValue
+        self.blocking = json[UserKey.blocking.rawValue].boolValue
+        self.blocked = json[UserKey.blocked.rawValue].boolValue
         
         // MARK: - Object
         self.images = UserImage(json: JSON(json[UserKey.images.rawValue].dictionaryObject ?? [:]))
@@ -131,12 +142,16 @@ public enum UserLinkKey: String, Codable {
     case website
 }
 
-public class UserLink: NSObject {
-    public let facebook: String
-    public let twitter: String
-    public let youtube: String
-    public let medium: String
-    public let website: String
+public class UserLink {
+    public var facebook: String = ""
+    public var twitter: String = ""
+    public var youtube: String = ""
+    public var medium: String = ""
+    public var website: String = ""
+    
+    public init() {
+        // Init User Link
+    }
     
     public init(json: JSON) {
         self.facebook = json[UserLinkKey.facebook.rawValue].stringValue
@@ -152,8 +167,12 @@ public enum UserFollowingKey: String, Codable {
     case count
 }
 
-public class UserFollowing: NSObject {
-    public let count: Int
+public class UserFollowing {
+    public var count: Int = 0
+    
+    public init() {
+        // Init User Following
+    }
     
     public init(json: JSON) {
         self.count = json[UserFollowingKey.count.rawValue].intValue
@@ -165,8 +184,12 @@ public enum UserFollowersKey: String, Codable {
     case count
 }
 
-public class UserFollowers: NSObject {
-    public let count: Int
+public class UserFollowers {
+    public var count: Int = 0
+    
+    public init() {
+        // Init User Followers
+    }
     
     public init(json: JSON) {
         self.count = json[UserFollowingKey.count.rawValue].intValue

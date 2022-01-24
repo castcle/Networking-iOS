@@ -84,4 +84,19 @@ public struct SearchRequest {
         return param
         
     }
+    
+    public var paramSearchUser: [String: Any] {
+        var param: [String: Any] = [
+            SearchKey.keyword.rawValue: self.keyword,
+            SearchKey.maxResults.rawValue: self.maxResults,
+            SearchKey.userFields.rawValue: self.userFields.rawValue
+        ]
+        
+        if !self.untilId.isEmpty {
+            param[SearchKey.untilId.rawValue] = self.untilId
+        }
+        
+        return param
+        
+    }
 }
