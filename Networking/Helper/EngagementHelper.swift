@@ -25,7 +25,9 @@
 //  Created by Castcle Co., Ltd. on 13/9/2564 BE.
 //
 
+import Core
 import SwiftyJSON
+import Firebase
 
 public enum EventType: String {
     case startSession = "START_SESSION"
@@ -36,27 +38,28 @@ public enum EventType: String {
     case offScreenView = "OFF_SCREEN_VIEW"
     case like = "LIKE"
     case unLike = "UN_LIKE"
+    case unknown
 }
 
 public enum ScreenId: String {
     case splashScreen = "SPLASH_SCREEN"
     case feed = "FEED"
     case content = "CONTENT"
+    case newCast = "NEW_CAST"
     case profileTimeline = "PROFILE_TIMELINE"
     case pageTimeline = "PAGE_TIMELINE"
+    case viewProfile = "VIEW_PROFILE"
+    case search = "SEARCH"
+    case photo = "PHOTO"
+    case unknown
 }
 
 public class EngagementHelper {
 
     private var engagementRepository: EngagementRepository = EngagementRepositoryImpl()
-    private var engagementRequest: EngagementRequest
     
-    public init(engagementRequest: EngagementRequest = EngagementRequest()) {
-        self.engagementRequest = engagementRequest
-    }
-    
-    public func sendEngagement() {
-        self.engagementRepository.engagement(engagementRequest: self.engagementRequest)
+    public init() {
+        // Init EngagementHelper
     }
     
     public func seenContent(contentId: String) {
@@ -65,5 +68,27 @@ public class EngagementHelper {
     
     public func castOffView(contentId: String) {
         self.engagementRepository.castOffView(contentId: contentId)
+    }
+    
+    public func sendCastcleAnalytic(event: EventType, screen: ScreenId) {
+        DispatchQueue.background(background: {
+            let systemVersion = UIDevice.current.systemVersion
+            var engagementRequest: EngagementRequest = EngagementRequest()
+            engagementRequest.client = "iOS \(systemVersion)"
+            engagementRequest.accountId = UserManager.shared.accountId
+            engagementRequest.uxSessionId = UserManager.shared.uxSessionId
+            engagementRequest.screenId =  screen.rawValue
+            engagementRequest.eventType = event.rawValue
+            engagementRequest.timestamp = "\(Date.currentTimeStamp)"
+            self.engagementRepository.engagement(engagementRequest: engagementRequest)
+            
+            if event == .onScreenView {
+                self.sendFirebaseAnalytic(screen: screen)
+            }
+        })
+    }
+    
+    private func sendFirebaseAnalytic(screen: ScreenId) {
+        Analytics.logEvent(AnalyticsEventScreenView, parameters: [AnalyticsParameterScreenName: screen.rawValue])
     }
 }
