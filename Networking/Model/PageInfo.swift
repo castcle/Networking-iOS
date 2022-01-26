@@ -33,6 +33,7 @@ public enum PageInfoKey: String, Codable {
     case castcleId
     case displayName
     case overview
+    case dob
     case images
     case following
     case followers
@@ -45,6 +46,7 @@ public class PageInfo: NSObject {
     public var castcleId: String = ""
     public var displayName: String = ""
     public var overview: String = ""
+    public var dob: String = ""
     public var images: UserImage = UserImage()
     public var following: Following = Following()
     public var followers: Followers = Followers()
@@ -60,6 +62,7 @@ public class PageInfo: NSObject {
         self.castcleId = json[PageInfoKey.castcleId.rawValue].stringValue
         self.displayName = json[PageInfoKey.displayName.rawValue].stringValue
         self.overview = json[PageInfoKey.overview.rawValue].stringValue
+        self.dob = json[PageInfoKey.dob.rawValue].stringValue
         self.followed = json[PageInfoKey.followed.rawValue].boolValue
         
         // MARK: - Object
