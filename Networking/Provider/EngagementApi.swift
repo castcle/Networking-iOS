@@ -43,10 +43,10 @@ extension EngagementApi: TargetType {
         switch self {
         case .engagement:
             return "/engagements"
-        case.seenContent(let contentId):
-            return "contents/\(contentId)/seen"
-        case.castOffView(let contentId):
-            return "contents/\(contentId)/off-view"
+        case.seenContent(let feedId):
+            return "contents/\(feedId)/seen"
+        case.castOffView(let feedId):
+            return "contents/\(feedId)/off-view"
         }
     }
     

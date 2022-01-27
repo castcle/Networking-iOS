@@ -62,12 +62,12 @@ public class EngagementHelper {
         // Init EngagementHelper
     }
     
-    public func seenContent(contentId: String) {
-        self.engagementRepository.seenContent(contentId: contentId)
+    public func seenContent(feedId: String) {
+        self.engagementRepository.seenContent(feedId: feedId)
     }
     
-    public func castOffView(contentId: String) {
-        self.engagementRepository.castOffView(contentId: contentId)
+    public func castOffView(feedId: String) {
+        self.engagementRepository.castOffView(feedId: feedId)
     }
     
     public func sendCastcleAnalytic(event: EventType, screen: ScreenId) {
