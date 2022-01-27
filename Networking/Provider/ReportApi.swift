@@ -29,8 +29,8 @@ import Core
 import Moya
 
 enum ReportApi {
-    case reportUser(String)
-    case reportContent(String)
+    case reportUser(String, ReportRequest)
+    case reportContent(String, ReportRequest)
     case blockUser(String)
     case unblockUser(String)
 }
@@ -42,10 +42,10 @@ extension ReportApi: TargetType {
     
     var path: String {
         switch self {
-        case .reportUser(let userId):
+        case .reportUser(let userId, _):
             return "/users/\(userId)/reporting"
-        case .reportContent(let contentId):
-            return "/contents/\(contentId)/reporting"
+        case .reportContent(let userId, _):
+            return "/users/\(userId)/reporting"
         case .blockUser(let userId):
             return "/users/\(userId)/blocking"
         case .unblockUser(let userId):
@@ -63,8 +63,10 @@ extension ReportApi: TargetType {
     
     var task: Task {
         switch self {
-        case .reportUser, .reportContent:
-            return .requestParameters(parameters: ["message": ""], encoding: JSONEncoding.default)
+        case .reportUser(_, let reportRequest):
+            return .requestParameters(parameters: reportRequest.paramReportUser, encoding: JSONEncoding.default)
+        case .reportContent(_, let reportRequest):
+            return .requestParameters(parameters: reportRequest.paramReportContent, encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }

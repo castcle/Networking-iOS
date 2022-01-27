@@ -30,8 +30,8 @@ import Moya
 import SwiftyJSON
 
 public protocol ReportRepository {
-    func reportUser(userId: String, _ completion: @escaping complate)
-    func reportContent(contentId: String, _ completion: @escaping complate)
+    func reportUser(userId: String, reportRequest: ReportRequest, _ completion: @escaping complate)
+    func reportContent(userId: String, reportRequest: ReportRequest, _ completion: @escaping complate)
     func blockUser(userId: String, _ completion: @escaping complate)
     func unblockUser(userId: String, _ completion: @escaping complate)
 }
@@ -44,23 +44,22 @@ public final class ReportRepositoryImpl: ReportRepository {
         // MARK: - Init
     }
     
-    public func reportUser(userId: String, _ completion: @escaping complate) {
-        self.reportProvider.request(.reportUser(userId)) { result in
+    public func reportUser(userId: String, reportRequest: ReportRequest, _ completion: @escaping complate) {
+        self.reportProvider.request(.reportUser(userId, reportRequest)) { result in
             switch result {
             case .success(let response):
                 completion(true, response, false)
-//                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
-//                    completion(success, response, isRefreshToken)
-//                }
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
             case .failure(let error):
-                completion(true, error as! Response, false)
-//                completion(false, error as! Response, false)
+                completion(false, error as! Response, false)
             }
         }
     }
     
-    public func reportContent(contentId: String, _ completion: @escaping complate) {
-        self.reportProvider.request(.reportContent(contentId)) { result in
+    public func reportContent(userId: String, reportRequest: ReportRequest, _ completion: @escaping complate) {
+        self.reportProvider.request(.reportContent(userId, reportRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
