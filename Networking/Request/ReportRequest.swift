@@ -53,4 +53,10 @@ public struct ReportRequest {
             ReportKey.targetContentId.rawValue: self.targetContentId
         ]
     }
+    
+    public var paramBlockUser: [String: Any] {
+        return [
+            ReportKey.targetCastcleId.rawValue: self.targetCastcleId
+        ]
+    }
 }

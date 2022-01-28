@@ -31,8 +31,8 @@ import Moya
 enum ReportApi {
     case reportUser(String, ReportRequest)
     case reportContent(String, ReportRequest)
-    case blockUser(String)
-    case unblockUser(String)
+    case blockUser(String, ReportRequest)
+    case unblockUser(String, String)
 }
 
 extension ReportApi: TargetType {
@@ -46,15 +46,20 @@ extension ReportApi: TargetType {
             return "/users/\(userId)/reporting"
         case .reportContent(let userId, _):
             return "/users/\(userId)/reporting"
-        case .blockUser(let userId):
+        case .blockUser(let userId, _):
             return "/users/\(userId)/blocking"
-        case .unblockUser(let userId):
-            return "/users/\(userId)/unblocking"
+        case .unblockUser(let userId, let targetCastcleId):
+            return "/users/\(userId)/unblocking/\(targetCastcleId)"
         }
     }
     
     var method: Moya.Method {
-        return .post
+        switch self {
+        case.unblockUser:
+            return .delete
+        default:
+            return .post
+        }
     }
     
     var sampleData: Data {
@@ -67,6 +72,8 @@ extension ReportApi: TargetType {
             return .requestParameters(parameters: reportRequest.paramReportUser, encoding: JSONEncoding.default)
         case .reportContent(_, let reportRequest):
             return .requestParameters(parameters: reportRequest.paramReportContent, encoding: JSONEncoding.default)
+        case .blockUser(_, let reportRequest):
+            return .requestParameters(parameters: reportRequest.paramBlockUser, encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }

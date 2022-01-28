@@ -32,8 +32,8 @@ import SwiftyJSON
 public protocol ReportRepository {
     func reportUser(userId: String, reportRequest: ReportRequest, _ completion: @escaping complate)
     func reportContent(userId: String, reportRequest: ReportRequest, _ completion: @escaping complate)
-    func blockUser(userId: String, _ completion: @escaping complate)
-    func unblockUser(userId: String, _ completion: @escaping complate)
+    func blockUser(userId: String, reportRequest: ReportRequest, _ completion: @escaping complate)
+    func unblockUser(userId: String, targetCastcleId: String, _ completion: @escaping complate)
 }
 
 public final class ReportRepositoryImpl: ReportRepository {
@@ -71,8 +71,8 @@ public final class ReportRepositoryImpl: ReportRepository {
         }
     }
     
-    public func blockUser(userId: String, _ completion: @escaping complate) {
-        self.reportProvider.request(.blockUser(userId)) { result in
+    public func blockUser(userId: String, reportRequest: ReportRequest, _ completion: @escaping complate) {
+        self.reportProvider.request(.blockUser(userId, reportRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -84,8 +84,8 @@ public final class ReportRepositoryImpl: ReportRepository {
         }
     }
     
-    public func unblockUser(userId: String, _ completion: @escaping complate) {
-        self.reportProvider.request(.unblockUser(userId)) { result in
+    public func unblockUser(userId: String, targetCastcleId: String, _ completion: @escaping complate) {
+        self.reportProvider.request(.unblockUser(userId, targetCastcleId)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
