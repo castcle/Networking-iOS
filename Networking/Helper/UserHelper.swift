@@ -75,6 +75,7 @@ public class UserHelper {
         Defaults[.websiteLink] = ""
         Defaults[.avatar] = ""
         Defaults[.cover] = ""
+        Defaults[.notificationBadges] = 0
     }
     
     public func clearSeenContent() {

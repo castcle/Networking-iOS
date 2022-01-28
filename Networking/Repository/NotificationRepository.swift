@@ -31,6 +31,8 @@ import SwiftyJSON
 
 public protocol NotificationRepository {
     func registerToken(notificationRequest: NotificationRequest, _ completion: @escaping complate)
+    func getBadges(_ completion: @escaping complate)
+    //case getNotification(NotificationRequest)
 }
 
 public final class NotificationRepositoryImpl: NotificationRepository {
@@ -46,6 +48,19 @@ public final class NotificationRepositoryImpl: NotificationRepository {
             switch result {
             case .success(let response):
                 completion(true, response, false)
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func getBadges(_ completion: @escaping complate) {
+        self.notificationProvider.request(.getBadges) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
             case .failure(let error):
                 completion(false, error as! Response, false)
             }

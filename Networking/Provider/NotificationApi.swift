@@ -30,6 +30,8 @@ import Moya
 
 enum NotificationApi {
     case registerToken(NotificationRequest)
+    case getBadges
+    case getNotification(NotificationRequest)
 }
 
 extension NotificationApi: TargetType {
@@ -41,11 +43,21 @@ extension NotificationApi: TargetType {
         switch self {
         case .registerToken:
             return "/notifications/registerToken"
+        case .getBadges:
+            return "notifications/badges"
+        case .getNotification:
+            return "notifications"
         }
     }
     
     var method: Moya.Method {
-        return .post
+        switch self {
+        case .registerToken:
+            return .post
+        case .getBadges, .getNotification:
+            return .get
+        }
+        
     }
     
     var sampleData: Data {
@@ -56,6 +68,8 @@ extension NotificationApi: TargetType {
         switch self {
         case .registerToken(let notificationRequest):
             return .requestParameters(parameters: notificationRequest.paramRegisterToken, encoding: JSONEncoding.default)
+        default:
+            return .requestPlain
         }
     }
     
