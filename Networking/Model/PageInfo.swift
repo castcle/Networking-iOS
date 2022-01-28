@@ -38,6 +38,8 @@ public enum PageInfoKey: String, Codable {
     case followers
     case links
     case followed
+    case blocking
+    case blocked
 }
 
 public class PageInfo: NSObject {
@@ -50,6 +52,8 @@ public class PageInfo: NSObject {
     public var followers: Followers = Followers()
     public var links: Social = Social()
     public var followed: Bool = false
+    public var blocking: Bool = false
+    public var blocked: Bool = false
     
     public override init() {
         // Init PageInfo
@@ -61,6 +65,8 @@ public class PageInfo: NSObject {
         self.displayName = json[PageInfoKey.displayName.rawValue].stringValue
         self.overview = json[PageInfoKey.overview.rawValue].stringValue
         self.followed = json[PageInfoKey.followed.rawValue].boolValue
+        self.blocking = json[PageInfoKey.blocking.rawValue].boolValue
+        self.blocked = json[PageInfoKey.blocked.rawValue].boolValue
         
         // MARK: - Object
         self.images = UserImage(json: JSON(json[PageInfoKey.images.rawValue].dictionaryValue))
