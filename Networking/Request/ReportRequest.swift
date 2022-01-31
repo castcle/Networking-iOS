@@ -19,55 +19,44 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  EngagementApi.swift
+//  ReportRequest.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 13/9/2564 BE.
+//  Created by Castcle Co., Ltd. on 27/1/2565 BE.
 //
 
-import Core
-import Moya
+public struct ReportRequest {
+    enum ReportKey: String {
+        case message
+        case targetCastcleId
+        case targetContentId
+    }
 
-enum EngagementApi {
-    case engagement(EngagementRequest)
-    case seenContent(String)
-    case castOffView(String)
-}
-
-extension EngagementApi: TargetType {
-    var baseURL: URL {
-        return URL(string: Environment.baseUrl)!
+    public var message: String = " "
+    public var targetCastcleId: String = ""
+    public var targetContentId: String = ""
+    
+    public init() {
+        // Init CommentRequest
     }
     
-    var path: String {
-        switch self {
-        case .engagement:
-            return "/engagements"
-        case.seenContent(let feedId):
-            return "contents/\(feedId)/seen"
-        case.castOffView(let feedId):
-            return "contents/\(feedId)/off-view"
-        }
+    public var paramReportUser: [String: Any] {
+        return [
+            ReportKey.message.rawValue: self.message,
+            ReportKey.targetCastcleId.rawValue: self.targetCastcleId
+        ]
     }
     
-    var method: Moya.Method {
-        return .post
+    public var paramReportContent: [String: Any] {
+        return [
+            ReportKey.message.rawValue: self.message,
+            ReportKey.targetContentId.rawValue: self.targetContentId
+        ]
     }
     
-    var sampleData: Data {
-        return Data()
-    }
-    
-    var task: Task {
-        switch self {
-        case .engagement(let engagementRequest):
-            return .requestParameters(parameters: engagementRequest.paramEngagement, encoding: JSONEncoding.default)
-        default:
-            return .requestPlain
-        }
-    }
-    
-    var headers: [String : String]? {
-        return ApiHelper.header
+    public var paramBlockUser: [String: Any] {
+        return [
+            ReportKey.targetCastcleId.rawValue: self.targetCastcleId
+        ]
     }
 }

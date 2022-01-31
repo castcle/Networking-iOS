@@ -31,8 +31,8 @@ import SwiftyJSON
 
 public protocol EngagementRepository {
     func engagement(engagementRequest: EngagementRequest)
-    func seenContent(contentId: String)
-    func castOffView(contentId: String)
+    func seenContent(feedId: String)
+    func castOffView(feedId: String)
 }
 
 public final class EngagementRepositoryImpl: EngagementRepository {
@@ -53,8 +53,8 @@ public final class EngagementRepositoryImpl: EngagementRepository {
         }
     }
     
-    public func seenContent(contentId: String) {
-        self.engagementProvider.request(.seenContent(contentId)) { result in
+    public func seenContent(feedId: String) {
+        self.engagementProvider.request(.seenContent(feedId)) { result in
             switch result {
             case .success:
                 print("Send Seen Content Success")
@@ -64,8 +64,8 @@ public final class EngagementRepositoryImpl: EngagementRepository {
         }
     }
     
-    public func castOffView(contentId: String) {
-        self.engagementProvider.request(.castOffView(contentId)) { result in
+    public func castOffView(feedId: String) {
+        self.engagementProvider.request(.castOffView(feedId)) { result in
             switch result {
             case .success:
                 print("Cast off view Success")

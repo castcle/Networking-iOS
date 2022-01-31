@@ -29,10 +29,10 @@ import Core
 import Moya
 
 enum ReportApi {
-    case reportUser(String)
-    case reportContent(String)
-    case blockUser(String)
-    case unblockUser(String)
+    case reportUser(String, ReportRequest)
+    case reportContent(String, ReportRequest)
+    case blockUser(String, ReportRequest)
+    case unblockUser(String, String)
 }
 
 extension ReportApi: TargetType {
@@ -42,19 +42,24 @@ extension ReportApi: TargetType {
     
     var path: String {
         switch self {
-        case .reportUser(let userId):
+        case .reportUser(let userId, _):
             return "/users/\(userId)/reporting"
-        case .reportContent(let contentId):
-            return "/contents/\(contentId)/reporting"
-        case .blockUser(let userId):
+        case .reportContent(let userId, _):
+            return "/users/\(userId)/reporting"
+        case .blockUser(let userId, _):
             return "/users/\(userId)/blocking"
-        case .unblockUser(let userId):
-            return "/users/\(userId)/unblocking"
+        case .unblockUser(let userId, let targetCastcleId):
+            return "/users/\(userId)/unblocking/\(targetCastcleId)"
         }
     }
     
     var method: Moya.Method {
-        return .post
+        switch self {
+        case.unblockUser:
+            return .delete
+        default:
+            return .post
+        }
     }
     
     var sampleData: Data {
@@ -63,8 +68,12 @@ extension ReportApi: TargetType {
     
     var task: Task {
         switch self {
-        case .reportUser, .reportContent:
-            return .requestParameters(parameters: ["message": ""], encoding: JSONEncoding.default)
+        case .reportUser(_, let reportRequest):
+            return .requestParameters(parameters: reportRequest.paramReportUser, encoding: JSONEncoding.default)
+        case .reportContent(_, let reportRequest):
+            return .requestParameters(parameters: reportRequest.paramReportContent, encoding: JSONEncoding.default)
+        case .blockUser(_, let reportRequest):
+            return .requestParameters(parameters: reportRequest.paramBlockUser, encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }

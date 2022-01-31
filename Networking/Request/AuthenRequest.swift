@@ -52,7 +52,7 @@ public struct AuthenRequest {
         case refCode
         case otp
         case provider
-        case uid
+        case socialId
         case displayName
         case avatar
         case email
@@ -65,7 +65,7 @@ public struct AuthenRequest {
     
     // Login with Social
     public var provider: SocialProvider = .none
-    public var uid: String = ""
+    public var socialId: String = ""
     public var displayName: String = ""
     public var avatar: String = ""
     public var email: String = ""
@@ -105,7 +105,7 @@ public struct AuthenRequest {
     public var paramLoginWithSocial: [String: Any] {
         return [
             AuthenRequestKey.provider.rawValue: self.provider.rawValue,
-            AuthenRequestKey.uid.rawValue: self.uid,
+            AuthenRequestKey.socialId.rawValue: self.socialId,
             AuthenRequestKey.displayName.rawValue: self.displayName,
             AuthenRequestKey.avatar.rawValue: self.avatar,
             AuthenRequestKey.email.rawValue: self.email,
