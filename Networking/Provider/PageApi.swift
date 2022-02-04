@@ -37,6 +37,7 @@ enum PageApi {
     case getPageContent(String, ContentRequest)
     case getMyPage
     case deletePage(String, PageRequest)
+    case createPageWithSocial(PageSocialRequest)
 }
 
 extension PageApi: TargetType {
@@ -58,12 +59,14 @@ extension PageApi: TargetType {
             return "/users/me/pages"
         case .deletePage(let pageId, _):
             return "/pages/\(pageId)"
+        case .createPageWithSocial:
+            return "/pages/social"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .createPage:
+        case .createPage, .createPageWithSocial:
             return .post
         case .updatePageInfo, .updatePageAvatar, .updatePageCover:
             return .put
@@ -92,6 +95,8 @@ extension PageApi: TargetType {
             return .requestParameters(parameters: contentRequest.paramGetContent, encoding: URLEncoding.queryString)
         case .deletePage(_, let pageRequest):
             return .requestParameters(parameters: pageRequest.paramDeletePage, encoding: JSONEncoding.default)
+        case .createPageWithSocial(let pageSocialRequest):
+            return .requestParameters(parameters: pageSocialRequest.paramCreatePageWithSocial, encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }

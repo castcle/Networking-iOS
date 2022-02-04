@@ -38,6 +38,7 @@ public protocol PageRepository {
     func getPageContent(pageId: String, contentRequest: ContentRequest, _ completion: @escaping complate)
     func getMyPage(_ completion: @escaping complate)
     func deletePage(pageId: String, pageRequest: PageRequest, _ completion: @escaping complate)
+    func createPageWithSocial(pageSocialRequest: PageSocialRequest, _ completion: @escaping complate)
 }
 
 public final class PageRepositoryImpl: PageRepository {
@@ -141,6 +142,19 @@ public final class PageRepositoryImpl: PageRepository {
     
     public func deletePage(pageId: String, pageRequest: PageRequest, _ completion: @escaping complate) {
         self.pageProvider.request(.deletePage(pageId, pageRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func createPageWithSocial(pageSocialRequest: PageSocialRequest, _ completion: @escaping complate) {
+        self.pageProvider.request(.createPageWithSocial(pageSocialRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

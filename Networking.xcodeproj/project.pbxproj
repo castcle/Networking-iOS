@@ -10,6 +10,7 @@
 		82A58218234A511E562F9BE5 /* Pods_Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 546DDC4CB85DF7697289CD73 /* Pods_Networking.framework */; };
 		B7106931271894A600D53527 /* Suggestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7106930271894A600D53527 /* Suggestion.swift */; };
 		B710693727189D8A00D53527 /* Keyword.swift in Sources */ = {isa = PBXBuildFile; fileRef = B710693627189D8A00D53527 /* Keyword.swift */; };
+		B7167F9027ACEC6300067DBD /* PageSocialRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7167F8F27ACEC6300067DBD /* PageSocialRequest.swift */; };
 		B7189ACC26EDCADF00CB9719 /* TokenHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189ACB26EDCADF00CB9719 /* TokenHelper.swift */; };
 		B7189AD026EF24A000CB9719 /* EngagementApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189ACF26EF24A000CB9719 /* EngagementApi.swift */; };
 		B7189AD326EF260100CB9719 /* EngagementRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189AD226EF260100CB9719 /* EngagementRequest.swift */; };
@@ -86,6 +87,7 @@
 		9BE55BC65C42B22EA6BD4612 /* Pods-Networking.release (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Networking.release (staging).xcconfig"; path = "Target Support Files/Pods-Networking/Pods-Networking.release (staging).xcconfig"; sourceTree = "<group>"; };
 		B7106930271894A600D53527 /* Suggestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Suggestion.swift; sourceTree = "<group>"; };
 		B710693627189D8A00D53527 /* Keyword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyword.swift; sourceTree = "<group>"; };
+		B7167F8F27ACEC6300067DBD /* PageSocialRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageSocialRequest.swift; sourceTree = "<group>"; };
 		B7189ACB26EDCADF00CB9719 /* TokenHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHelper.swift; sourceTree = "<group>"; };
 		B7189ACF26EF24A000CB9719 /* EngagementApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngagementApi.swift; sourceTree = "<group>"; };
 		B7189AD226EF260100CB9719 /* EngagementRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngagementRequest.swift; sourceTree = "<group>"; };
@@ -341,6 +343,7 @@
 				B743388D26DE21F8004BBC05 /* UserRequest.swift */,
 				B7189AD226EF260100CB9719 /* EngagementRequest.swift */,
 				B7AF661926F2FAD500BDE9C4 /* PageRequest.swift */,
+				B7167F8F27ACEC6300067DBD /* PageSocialRequest.swift */,
 				B7A71D0426FC5C160092F318 /* NotificationRequest.swift */,
 				B7A71D742703059E0092F318 /* ContentRequest.swift */,
 				B79DF1AF270EF30C00A40502 /* FeedRequest.swift */,
@@ -482,6 +485,7 @@
 				B7684A6626C5061C00C438C5 /* FeedShelf.swift in Sources */,
 				B7AF660526F06EE400BDE9C4 /* UserHelper.swift in Sources */,
 				B7A71D792704192E0092F318 /* Pagination.swift in Sources */,
+				B7167F9027ACEC6300067DBD /* PageSocialRequest.swift in Sources */,
 				B7684A5726C5061C00C438C5 /* AuthenticationRepository.swift in Sources */,
 				B7A71D7B27041F1F0092F318 /* ContentShelf.swift in Sources */,
 				B743387C26DCBEDE004BBC05 /* UserApi.swift in Sources */,
