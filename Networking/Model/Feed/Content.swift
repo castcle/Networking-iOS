@@ -109,11 +109,7 @@ public class Content {
                     return .postLink
                 }
             } else {
-                if self.message.extractURLs().first != nil {
-                    return .postLink
-                } else {
-                    return .postText
-                }
+                return .postText
             }
         } else if self.type == .image {
             if self.photo.isEmpty {
