@@ -72,4 +72,20 @@ public struct FeedRequest {
         
         return param
     }
+    
+    public var paramGetSuggestionUser: [String: Any] {
+        var param: [String: Any] = [
+            ContentKey.maxResults.rawValue: self.maxResults
+        ]
+        
+        if self.userFields != .none {
+            param[ContentKey.userFields.rawValue] = self.userFields.rawValue
+        }
+        
+        if !self.untilId.isEmpty {
+            param[ContentKey.untilId.rawValue] = self.untilId
+        }
+        
+        return param
+    }
 }

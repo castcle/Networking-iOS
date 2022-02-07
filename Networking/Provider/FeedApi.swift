@@ -32,6 +32,7 @@ enum FeedApi {
     case getHashtags
     case getFeedsGuests(FeedRequest)
     case getFeedsMembers(String, String, FeedRequest)
+    case getSuggestionFollow(FeedRequest)
 }
 
 extension FeedApi: TargetType {
@@ -47,6 +48,8 @@ extension FeedApi: TargetType {
             return "/feeds/guests"
         case .getFeedsMembers(let featureSlug, let circleSlug, _):
             return "/feeds/members/\(featureSlug)/\(circleSlug)"
+        case .getSuggestionFollow:
+            return "/users/me/suggestion-follow"
         }
     }
     
@@ -78,6 +81,8 @@ extension FeedApi: TargetType {
             return .requestParameters(parameters: feedRequest.paramGetFeed, encoding: URLEncoding.queryString)
         case .getFeedsMembers(_, _, let feedRequest):
             return .requestParameters(parameters: feedRequest.paramGetFeed, encoding: URLEncoding.queryString)
+        case .getSuggestionFollow(let feedRequest):
+            return .requestParameters(parameters: feedRequest.paramGetSuggestionUser, encoding: URLEncoding.queryString)
         default:
             return .requestPlain
         }

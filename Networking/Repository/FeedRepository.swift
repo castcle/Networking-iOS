@@ -32,6 +32,7 @@ public protocol FeedRepository {
     func getHashtags(_ completion: @escaping (Bool, HashtagShelf) -> ())
     func getFeedsGuests(feedRequest: FeedRequest, _ completion: @escaping complate)
     func getFeedsMembers(featureSlug: String, circleSlug: String, feedRequest: FeedRequest, _ completion: @escaping complate)
+    func getSuggestionFollow(feedRequest: FeedRequest, _ completion: @escaping complate)
 }
 
 public final class FeedRepositoryImpl: FeedRepository {
@@ -75,6 +76,19 @@ public final class FeedRepositoryImpl: FeedRepository {
     
     public func getFeedsMembers(featureSlug: String, circleSlug: String, feedRequest: FeedRequest, _ completion: @escaping complate) {
         self.feedProvider.request(.getFeedsMembers(featureSlug, circleSlug, feedRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func getSuggestionFollow(feedRequest: FeedRequest, _ completion: @escaping complate) {
+        self.feedProvider.request(.getSuggestionFollow(feedRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

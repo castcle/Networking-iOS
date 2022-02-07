@@ -40,6 +40,7 @@ public enum UserKey: String, Codable {
     case following
     case followers
     case verified
+    case aggregator
     case followed
     case blocking
     case blocked
@@ -58,6 +59,7 @@ public class User {
     public var following: UserFollowing = UserFollowing()
     public var followers: UserFollowers = UserFollowers()
     public var verified: Verified = Verified()
+    public var aggregator: Aggregator = Aggregator()
     public var followed: Bool = false
     public var blocking: Bool = false
     public var blocked: Bool = false
@@ -84,6 +86,7 @@ public class User {
         self.following = UserFollowing(json: JSON(json[UserKey.following.rawValue].dictionaryObject ?? [:]))
         self.followers = UserFollowers(json: JSON(json[UserKey.followers.rawValue].dictionaryObject ?? [:]))
         self.verified = Verified(json: JSON(json[UserKey.verified.rawValue].dictionaryObject ?? [:]))
+        self.aggregator = Aggregator(json: JSON(json[UserKey.aggregator.rawValue].dictionaryObject ?? [:]))
     }
 }
 
