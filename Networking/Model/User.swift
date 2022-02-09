@@ -45,6 +45,7 @@ public enum UserKey: String, Codable {
     case blocking
     case blocked
     case passwordNotSet
+    case linkSocial
 }
 
 public class User {
@@ -65,6 +66,7 @@ public class User {
     public var blocking: Bool = false
     public var blocked: Bool = false
     public var passwordNotSet: Bool = true
+    public var linkSocial: LinkSocial = LinkSocial()
     
     public init() {
         // Init User
@@ -90,6 +92,7 @@ public class User {
         self.followers = UserFollowers(json: JSON(json[UserKey.followers.rawValue].dictionaryObject ?? [:]))
         self.verified = Verified(json: JSON(json[UserKey.verified.rawValue].dictionaryObject ?? [:]))
         self.aggregator = Aggregator(json: JSON(json[UserKey.aggregator.rawValue].dictionaryObject ?? [:]))
+        self.linkSocial = LinkSocial(json: JSON(json[UserKey.linkSocial.rawValue].dictionaryObject ?? [:]))
     }
 }
 
@@ -199,5 +202,51 @@ public class UserFollowers {
     
     public init(json: JSON) {
         self.count = json[UserFollowingKey.count.rawValue].intValue
+    }
+}
+
+// MARK: - Link Social
+public enum LinkSocialKey: String, Codable {
+    case facebook
+    case twitter
+    case google
+    case apple
+}
+
+public class LinkSocial {
+    public var facebook: SocialUser = SocialUser()
+    public var twitter: SocialUser = SocialUser()
+    public var google: SocialUser = SocialUser()
+    public var apple: SocialUser = SocialUser()
+    
+    public init() {
+        // Init Link Social
+    }
+    
+    public init(json: JSON) {
+        self.facebook = SocialUser(json: JSON(json[LinkSocialKey.facebook.rawValue].dictionaryObject ?? [:]))
+        self.twitter = SocialUser(json: JSON(json[LinkSocialKey.twitter.rawValue].dictionaryObject ?? [:]))
+        self.google = SocialUser(json: JSON(json[LinkSocialKey.google.rawValue].dictionaryObject ?? [:]))
+        self.apple = SocialUser(json: JSON(json[LinkSocialKey.apple.rawValue].dictionaryObject ?? [:]))
+    }
+}
+
+// MARK: - SocialUser
+public enum SocialUserKey: String, Codable {
+    case socialId
+    case displayName
+}
+
+public class SocialUser {
+    public var socialId: String = ""
+    public var displayName: String = ""
+    
+    public init() {
+        // Init SocialUser
+    }
+    
+    public init(json: JSON) {
+        self.socialId = json[SocialUserKey.socialId.rawValue].stringValue
+        self.displayName = json[SocialUserKey.displayName.rawValue].stringValue
     }
 }

@@ -90,6 +90,11 @@ extension UserApi: TargetType {
     
     var task: Task {
         switch self {
+        case .getMe:
+            let param = [
+                "userFields": "link-social"
+            ]
+            return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .updateMe(let userRequest):
             return .requestParameters(parameters: userRequest.payload.paramEditUserProfile, encoding: JSONEncoding.default)
         case .updateMeAvatar(let userRequest):
