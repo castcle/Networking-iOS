@@ -53,6 +53,7 @@ public class UserHelper {
         Defaults[.websiteLink] = user.links.website
         Defaults[.avatar] = user.images.avatar.thumbnail
         Defaults[.cover] = user.images.cover.fullHd
+        Defaults[.passwordNotSet] = user.passwordNotSet
     }
     
     public func clearUserData() {
@@ -76,6 +77,7 @@ public class UserHelper {
         Defaults[.avatar] = ""
         Defaults[.cover] = ""
         Defaults[.notificationBadges] = 0
+        Defaults[.passwordNotSet] = true
     }
     
     public func clearSeenContent() {

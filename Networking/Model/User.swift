@@ -44,6 +44,7 @@ public enum UserKey: String, Codable {
     case followed
     case blocking
     case blocked
+    case passwordNotSet
 }
 
 public class User {
@@ -63,6 +64,7 @@ public class User {
     public var followed: Bool = false
     public var blocking: Bool = false
     public var blocked: Bool = false
+    public var passwordNotSet: Bool = true
     
     public init() {
         // Init User
@@ -79,6 +81,7 @@ public class User {
         self.followed = json[UserKey.followed.rawValue].boolValue
         self.blocking = json[UserKey.blocking.rawValue].boolValue
         self.blocked = json[UserKey.blocked.rawValue].boolValue
+        self.passwordNotSet = json[UserKey.passwordNotSet.rawValue].boolValue
         
         // MARK: - Object
         self.images = UserImage(json: JSON(json[UserKey.images.rawValue].dictionaryObject ?? [:]))
