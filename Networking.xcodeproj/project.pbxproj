@@ -48,6 +48,8 @@
 		B77364802759C81500E8E74D /* Metric.swift in Sources */ = {isa = PBXBuildFile; fileRef = B773647F2759C81500E8E74D /* Metric.swift */; };
 		B77364822759C92F00E8E74D /* Participate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77364812759C92F00E8E74D /* Participate.swift */; };
 		B77364842759CD8D00E8E74D /* Meta.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77364832759CD8D00E8E74D /* Meta.swift */; };
+		B779D94A27B4CC98008C8670 /* MasterDataApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B779D94927B4CC98008C8670 /* MasterDataApi.swift */; };
+		B779D94C27B4CDC4008C8670 /* MasterDataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B779D94B27B4CDC4008C8670 /* MasterDataRepository.swift */; };
 		B786633A27478B7000B13EEF /* ContentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B786633927478B7000B13EEF /* ContentHelper.swift */; };
 		B78795B326C5512400FECC21 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = B78795B226C5512400FECC21 /* Moya */; };
 		B793EF6727A2E73500AA1E92 /* ReportRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B793EF6627A2E73500AA1E92 /* ReportRequest.swift */; };
@@ -127,6 +129,8 @@
 		B773647F2759C81500E8E74D /* Metric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metric.swift; sourceTree = "<group>"; };
 		B77364812759C92F00E8E74D /* Participate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Participate.swift; sourceTree = "<group>"; };
 		B77364832759CD8D00E8E74D /* Meta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meta.swift; sourceTree = "<group>"; };
+		B779D94927B4CC98008C8670 /* MasterDataApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterDataApi.swift; sourceTree = "<group>"; };
+		B779D94B27B4CDC4008C8670 /* MasterDataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterDataRepository.swift; sourceTree = "<group>"; };
 		B786633927478B7000B13EEF /* ContentHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentHelper.swift; sourceTree = "<group>"; };
 		B793EF6627A2E73500AA1E92 /* ReportRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRequest.swift; sourceTree = "<group>"; };
 		B79DF1A9270AB34300A40502 /* Verified.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Verified.swift; sourceTree = "<group>"; };
@@ -257,6 +261,7 @@
 				B7A71D76270308910092F318 /* ContentRepository.swift */,
 				B7AC1E3927158D1A002FC176 /* SearchRepository.swift */,
 				B7E64EC7275F5A3B00FFD78E /* ReportRepository.swift */,
+				B779D94B27B4CDC4008C8670 /* MasterDataRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -322,6 +327,7 @@
 				B7A71D72270304060092F318 /* ContentApi.swift */,
 				B7AC1E3527158B27002FC176 /* SearchApi.swift */,
 				B7E64EC5275F578700FFD78E /* ReportApi.swift */,
+				B779D94927B4CC98008C8670 /* MasterDataApi.swift */,
 				B7684A5126C5061C00C438C5 /* Mockup */,
 			);
 			path = Provider;
@@ -503,6 +509,7 @@
 				B7AC1E3627158B27002FC176 /* SearchApi.swift in Sources */,
 				B7AC1E3827158BAE002FC176 /* SearchRequest.swift in Sources */,
 				B7684A5B26C5061C00C438C5 /* Feature.swift in Sources */,
+				B779D94C27B4CDC4008C8670 /* MasterDataRepository.swift in Sources */,
 				B7A71D752703059E0092F318 /* ContentRequest.swift in Sources */,
 				B7642C6026E1105A00CDCE95 /* CommentRepository.swift in Sources */,
 				B7A71D0326FC5B860092F318 /* NotificationApi.swift in Sources */,
@@ -528,6 +535,7 @@
 				B77364842759CD8D00E8E74D /* Meta.swift in Sources */,
 				B7A71D73270304060092F318 /* ContentApi.swift in Sources */,
 				B7AF660326F0611C00BDE9C4 /* User.swift in Sources */,
+				B779D94A27B4CC98008C8670 /* MasterDataApi.swift in Sources */,
 				B7AC1E3A27158D1A002FC176 /* SearchRepository.swift in Sources */,
 				B743388E26DE21F8004BBC05 /* UserRequest.swift in Sources */,
 				B7106931271894A600D53527 /* Suggestion.swift in Sources */,
