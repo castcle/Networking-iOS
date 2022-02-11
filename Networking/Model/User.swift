@@ -46,6 +46,7 @@ public enum UserKey: String, Codable {
     case blocked
     case passwordNotSet
     case linkSocial
+    case mobile
 }
 
 public class User {
@@ -67,6 +68,7 @@ public class User {
     public var blocked: Bool = false
     public var passwordNotSet: Bool = true
     public var linkSocial: LinkSocial = LinkSocial()
+    public var mobile: Mobile = Mobile()
     
     public init() {
         // Init User
@@ -93,6 +95,7 @@ public class User {
         self.verified = Verified(json: JSON(json[UserKey.verified.rawValue].dictionaryObject ?? [:]))
         self.aggregator = Aggregator(json: JSON(json[UserKey.aggregator.rawValue].dictionaryObject ?? [:]))
         self.linkSocial = LinkSocial(json: JSON(json[UserKey.linkSocial.rawValue].dictionaryObject ?? [:]))
+        self.mobile = Mobile(json: JSON(json[UserKey.mobile.rawValue].dictionaryObject ?? [:]))
     }
 }
 
@@ -248,5 +251,25 @@ public class SocialUser {
     public init(json: JSON) {
         self.socialId = json[SocialUserKey.socialId.rawValue].stringValue
         self.displayName = json[SocialUserKey.displayName.rawValue].stringValue
+    }
+}
+
+// MARK: - Mobile
+public enum MobileKey: String, Codable {
+    case countryCode
+    case number
+}
+
+public class Mobile {
+    public var countryCode: String = ""
+    public var number: String = ""
+    
+    public init() {
+        // Init SocialUser
+    }
+    
+    public init(json: JSON) {
+        self.countryCode = json[MobileKey.countryCode.rawValue].stringValue
+        self.number = json[MobileKey.number.rawValue].stringValue
     }
 }

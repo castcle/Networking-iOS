@@ -35,6 +35,7 @@ enum UserApi {
     case updateMe(UserRequest)
     case updateMeAvatar(UserRequest)
     case updateMeCover(UserRequest)
+    case updateMobile(UserRequest)
     case delateUser(UserRequest)
     
     case getUser(String)
@@ -68,6 +69,8 @@ extension UserApi: TargetType {
             return "/users/\(userId)/following"
         case .unfollow(let userId, _):
             return "/users/\(userId)/unfollow"
+        case .updateMobile:
+            return "/users/me/mobile"
         default:
             return "/users/me"
         }
@@ -77,7 +80,7 @@ extension UserApi: TargetType {
         switch self {
         case .getAllUser, .getMe, .getUser, .getUserContents, .getUserFollower, .getUserFollowing:
             return .get
-        case .updateMe, .updateMeAvatar, .updateMeCover, .follow, .unfollow:
+        case .updateMe, .updateMeAvatar, .updateMobile, .updateMeCover, .follow, .unfollow:
             return .put
         case .delateUser:
             return .delete
@@ -101,6 +104,8 @@ extension UserApi: TargetType {
             return .requestParameters(parameters: userRequest.payload.paramEditUserAvatar, encoding: JSONEncoding.default)
         case .updateMeCover(let userRequest):
             return .requestParameters(parameters: userRequest.payload.paramEditUserCover, encoding: JSONEncoding.default)
+        case .updateMobile(let userRequest):
+            return .requestParameters(parameters: userRequest.paramUpdateMobile, encoding: JSONEncoding.default)
         case .delateUser(let userRequest):
             return .requestParameters(parameters: userRequest.paramDeleteUser, encoding: JSONEncoding.default)
         case .getUserContents(_, let contentRequest):

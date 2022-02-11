@@ -54,6 +54,8 @@ public class UserHelper {
         Defaults[.avatar] = user.images.avatar.thumbnail
         Defaults[.cover] = user.images.cover.fullHd
         Defaults[.passwordNotSet] = user.passwordNotSet
+        Defaults[.mobileCountryCode] = user.mobile.countryCode
+        Defaults[.mobileNumber] = user.mobile.number
     }
     
     public func clearUserData() {
@@ -78,6 +80,8 @@ public class UserHelper {
         Defaults[.cover] = ""
         Defaults[.notificationBadges] = 0
         Defaults[.passwordNotSet] = true
+        Defaults[.mobileCountryCode] = ""
+        Defaults[.mobileNumber] = ""
     }
     
     public func clearSeenContent() {

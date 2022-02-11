@@ -33,6 +33,7 @@ public enum AuthenChannelKey: String {
 public enum AuthenObjective: String {
     case forgotPassword = "forgot_password"
     case changePassword = "change_password"
+    case verifyMobile = "verify_mobile"
     case none
 }
 
@@ -85,21 +86,37 @@ public struct AuthenRequest {
     }
     
     public var paramRequestOtp: [String: Any] {
-        return [
+        var param: [String: Any] = [
             AuthenRequestKey.objective.rawValue: self.objective.rawValue,
             AuthenRequestKey.channel.rawValue: self.channel.rawValue,
-            AuthenRequestKey.payload.rawValue: self.payload.paramRequestOtpForgotPassword
+            
         ]
+        
+        if self.channel == .email {
+            param[AuthenRequestKey.payload.rawValue] = self.payload.paramRequestOtpEmail
+        } else {
+            param[AuthenRequestKey.payload.rawValue] = self.payload.paramRequestOtpMobile
+        }
+        
+        return param
     }
     
     public var paramVerifyOtp: [String: Any] {
-        return [
+        var param: [String: Any] = [
             AuthenRequestKey.objective.rawValue: self.objective.rawValue,
             AuthenRequestKey.channel.rawValue: self.channel.rawValue,
-            AuthenRequestKey.payload.rawValue: self.payload.paramRequestOtpForgotPassword,
             AuthenRequestKey.refCode.rawValue: self.payload.refCode,
             AuthenRequestKey.otp.rawValue: self.payload.otp
+            
         ]
+        
+        if self.channel == .email {
+            param[AuthenRequestKey.payload.rawValue] = self.payload.paramRequestOtpEmail
+        } else {
+            param[AuthenRequestKey.payload.rawValue] = self.payload.paramRequestOtpMobile
+        }
+        
+        return param
     }
     
     public var paramLoginWithSocial: [String: Any] {
@@ -195,9 +212,16 @@ public struct AuthenPayloadRequest {
         ]
     }
     
-    public var paramRequestOtpForgotPassword: [String: Any] {
+    public var paramRequestOtpEmail: [String: Any] {
         return [
-            AuthenPayloadKey.email.rawValue: self.email,
+            AuthenPayloadKey.email.rawValue: self.email
+        ]
+    }
+    
+    public var paramRequestOtpMobile: [String: Any] {
+        return [
+            AuthenPayloadKey.countryCode.rawValue: self.countryCode,
+            AuthenPayloadKey.mobileNumber.rawValue: self.mobileNumber
         ]
     }
 }

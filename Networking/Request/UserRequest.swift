@@ -35,16 +35,29 @@ public struct UserRequest {
         case channel
         case payload
         case targetCastcleId
+        case objective
+        case refCode
+        case countryCode
+        case mobileNumber
     }
     
     public var channel: UserChannelKey
     public var payload: UserPayloadRequest
     public var targetCastcleId: String
     
+    public var objective: AuthenObjective
+    public var refCode: String
+    public var countryCode: String
+    public var mobileNumber: String
+    
     public init() {
         self.channel = .email
         self.payload = UserPayloadRequest()
         self.targetCastcleId = ""
+        self.objective = .none
+        self.refCode = ""
+        self.countryCode = ""
+        self.mobileNumber = ""
     }
     
     public var paramDeleteUser: [String: Any] {
@@ -63,6 +76,15 @@ public struct UserRequest {
     public var paramUnfollowUser: [String: Any] {
         return [
             UserRequestKey.targetCastcleId.rawValue: self.targetCastcleId
+        ]
+    }
+    
+    public var paramUpdateMobile: [String: Any] {
+        return [
+            UserRequestKey.objective.rawValue: self.objective.rawValue,
+            UserRequestKey.refCode.rawValue: self.refCode,
+            UserRequestKey.countryCode.rawValue: self.countryCode,
+            UserRequestKey.mobileNumber.rawValue: self.mobileNumber
         ]
     }
 }
