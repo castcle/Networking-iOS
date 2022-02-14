@@ -106,7 +106,7 @@ extension AuthenticationApi: TargetType {
         case .register(let authenRequest):
             return .requestParameters(parameters: authenRequest.paramRegister, encoding: JSONEncoding.default)
         case .verificationPassword(let authenRequest):
-            return .requestParameters(parameters: authenRequest.payload.paramVerificationPassword, encoding: JSONEncoding.default)
+            return .requestParameters(parameters: authenRequest.paramVerificationPassword, encoding: JSONEncoding.default)
         case .changePasswordSubmit(let authenRequest):
             return .requestParameters(parameters: authenRequest.payload.paramChangePasswordSubmit, encoding: JSONEncoding.default)
         case .requestOtp(let authenRequest):

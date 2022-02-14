@@ -58,6 +58,7 @@ public struct AuthenRequest {
         case avatar
         case email
         case authToken
+        case password
     }
     
     public var objective: AuthenObjective
@@ -82,6 +83,13 @@ public struct AuthenRequest {
         return [
             AuthenRequestKey.channel.rawValue: self.channel.rawValue,
             AuthenRequestKey.payload.rawValue: self.payload.param
+        ]
+    }
+    
+    public var paramVerificationPassword: [String: Any] {
+        return [
+            AuthenRequestKey.objective.rawValue: self.objective.rawValue,
+            AuthenRequestKey.password.rawValue: self.payload.password
         ]
     }
     
@@ -195,12 +203,6 @@ public struct AuthenPayloadRequest {
             AuthenPayloadKey.mobileNumber.rawValue: self.mobileNumber,
             AuthenPayloadKey.displayName.rawValue: self.displayName,
             AuthenPayloadKey.castcleId.rawValue: self.castcleId
-        ]
-    }
-    
-    public var paramVerificationPassword: [String: Any] {
-        return [
-            AuthenPayloadKey.password.rawValue: self.password
         ]
     }
     
