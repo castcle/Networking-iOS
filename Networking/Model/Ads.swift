@@ -25,6 +25,7 @@
 //  Created by Castcle Co., Ltd. on 15/2/2565 BE.
 //
 
+import UIKit
 import SwiftyJSON
 
 // MARK: - PageInfo
@@ -48,6 +49,26 @@ public enum AdsKey: String, Codable {
 public enum AdsObjective: String {
     case engagement
     case reach
+    
+    public var detail: String {
+        switch self {
+        case .engagement:
+            return "Get more people to see your Cast or Page"
+        case .reach:
+            return "Show your ad to the maximum number of people"
+        }
+    }
+    
+    public var image: UIImage {
+        switch self {
+        case .engagement:
+            return UIImage()
+        case .reach:
+            return UIImage()
+//        case .ads:
+//            return UIImage.init(icon: .castcle(.adsManager), size: CGSize(width: 25, height: 25), textColor: UIColor.Asset.white)
+        }
+    }
 }
 
 public enum AdStatus: String {
