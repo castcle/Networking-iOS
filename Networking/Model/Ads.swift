@@ -26,6 +26,7 @@
 //
 
 import UIKit
+import Core
 import SwiftyJSON
 
 // MARK: - PageInfo
@@ -62,11 +63,9 @@ public enum AdsObjective: String {
     public var image: UIImage {
         switch self {
         case .engagement:
-            return UIImage()
+            return UIImage.init(icon: .castcle(.engagement), size: CGSize(width: 100, height: 100), textColor: UIColor.Asset.white)
         case .reach:
-            return UIImage()
-//        case .ads:
-//            return UIImage.init(icon: .castcle(.adsManager), size: CGSize(width: 25, height: 25), textColor: UIColor.Asset.white)
+            return UIImage.init(icon: .castcle(.reach), size: CGSize(width: 100, height: 100), textColor: UIColor.Asset.white)
         }
     }
 }
