@@ -93,8 +93,8 @@ public class Ads: NSObject {
     public var campaignMessage: String = ""
     public var campaignCode: String = ""
     public var objective: AdsObjective = .engagement
-    public var dailyBudget: Double = 0
-    public var duration: Int = 0
+    public var dailyBudget: Double = 10
+    public var duration: Int = 1
     public var adStatus: AdStatus = .processing
     public var boostStatus: BoostStatus = .unknown
     public var boostType: BoostType = .page
