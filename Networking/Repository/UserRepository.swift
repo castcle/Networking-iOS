@@ -32,9 +32,9 @@ import SwiftyJSON
 public protocol UserRepository {
     func getAllUser(_ completion: @escaping complate)
     func getMe(_ completion: @escaping complate)
-    func updateMe(userRequest: UserRequest, _ completion: @escaping complate)
-    func updateMeAvatar(userRequest: UserRequest, _ completion: @escaping complate)
-    func updateMeCover(userRequest: UserRequest, _ completion: @escaping complate)
+    func updateInfo(userId: String, userRequest: UserRequest, _ completion: @escaping complate)
+    func updateAvatar(userId: String, userRequest: UserRequest, _ completion: @escaping complate)
+    func updateCover(userId: String, userRequest: UserRequest, _ completion: @escaping complate)
     func updateMobile(userRequest: UserRequest, _ completion: @escaping complate)
     func delateUser(userRequest: UserRequest, _ completion: @escaping complate)
     func getUser(userId: String, _ completion: @escaping complate)
@@ -106,8 +106,8 @@ public final class UserRepositoryImpl: UserRepository {
         }
     }
     
-    public func updateMe(userRequest: UserRequest, _ completion: @escaping complate) {
-        self.userProvider.request(.updateMe(userRequest)) { result in
+    public func updateInfo(userId: String, userRequest: UserRequest, _ completion: @escaping complate) {
+        self.userProvider.request(.updateInfo(userId, userRequest)) { result in
             switch result {
             case .success(let response):
                 if response.statusCode < 300 {
@@ -133,8 +133,8 @@ public final class UserRepositoryImpl: UserRepository {
         }
     }
     
-    public func updateMeAvatar(userRequest: UserRequest, _ completion: @escaping complate) {
-        self.userProvider.request(.updateMeAvatar(userRequest)) { result in
+    public func updateAvatar(userId: String, userRequest: UserRequest, _ completion: @escaping complate) {
+        self.userProvider.request(.updateAvatar(userId, userRequest)) { result in
             switch result {
             case .success(let response):
                 if response.statusCode < 300 {
@@ -160,8 +160,8 @@ public final class UserRepositoryImpl: UserRepository {
         }
     }
     
-    public func updateMeCover(userRequest: UserRequest, _ completion: @escaping complate) {
-        self.userProvider.request(.updateMeCover(userRequest)) { result in
+    public func updateCover(userId: String, userRequest: UserRequest, _ completion: @escaping complate) {
+        self.userProvider.request(.updateCover(userId, userRequest)) { result in
             switch result {
             case .success(let response):
                 if response.statusCode < 300 {

@@ -19,7 +19,7 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  User.swift
+//  UserInfo.swift
 //  Networking
 //
 //  Created by Castcle Co., Ltd. on 14/9/2564 BE.
@@ -27,8 +27,9 @@
 
 import SwiftyJSON
 
-// MARK: - User
-public enum UserKey: String, Codable {
+// MARK: - UserInfo
+public enum UserInfoKey: String, Codable {
+    case type
     case id
     case castcleId
     case displayName
@@ -49,7 +50,7 @@ public enum UserKey: String, Codable {
     case mobile
 }
 
-public class User {
+public class UserInfo {
     public var type: AuthorType = .people
     public var id: String = ""
     public var castcleId: String = ""
@@ -71,31 +72,31 @@ public class User {
     public var mobile: Mobile = Mobile()
     
     public init() {
-        // Init User
+        // Init UserInfo
     }
     
     public init(json: JSON) {
-        self.id = json[AuthorKey.id.rawValue].stringValue
-        self.id = json[UserKey.id.rawValue].stringValue
-        self.castcleId = json[UserKey.castcleId.rawValue].stringValue
-        self.displayName = json[UserKey.displayName.rawValue].stringValue
-        self.email = json[UserKey.email.rawValue].stringValue
-        self.overview = json[UserKey.overview.rawValue].stringValue
-        self.dob = json[UserKey.dob.rawValue].stringValue
-        self.followed = json[UserKey.followed.rawValue].boolValue
-        self.blocking = json[UserKey.blocking.rawValue].boolValue
-        self.blocked = json[UserKey.blocked.rawValue].boolValue
-        self.passwordNotSet = json[UserKey.passwordNotSet.rawValue].boolValue
+        self.type = AuthorType(rawValue: json[UserInfoKey.type.rawValue].stringValue) ?? .people
+        self.id = json[UserInfoKey.id.rawValue].stringValue
+        self.castcleId = json[UserInfoKey.castcleId.rawValue].stringValue
+        self.displayName = json[UserInfoKey.displayName.rawValue].stringValue
+        self.email = json[UserInfoKey.email.rawValue].stringValue
+        self.overview = json[UserInfoKey.overview.rawValue].stringValue
+        self.dob = json[UserInfoKey.dob.rawValue].stringValue
+        self.followed = json[UserInfoKey.followed.rawValue].boolValue
+        self.blocking = json[UserInfoKey.blocking.rawValue].boolValue
+        self.blocked = json[UserInfoKey.blocked.rawValue].boolValue
+        self.passwordNotSet = json[UserInfoKey.passwordNotSet.rawValue].boolValue
         
         // MARK: - Object
-        self.images = UserImage(json: JSON(json[UserKey.images.rawValue].dictionaryObject ?? [:]))
-        self.links = UserLink(json: JSON(json[UserKey.links.rawValue].dictionaryObject ?? [:]))
-        self.following = UserFollowing(json: JSON(json[UserKey.following.rawValue].dictionaryObject ?? [:]))
-        self.followers = UserFollowers(json: JSON(json[UserKey.followers.rawValue].dictionaryObject ?? [:]))
-        self.verified = Verified(json: JSON(json[UserKey.verified.rawValue].dictionaryObject ?? [:]))
-        self.aggregator = Aggregator(json: JSON(json[UserKey.aggregator.rawValue].dictionaryObject ?? [:]))
-        self.linkSocial = LinkSocial(json: JSON(json[UserKey.linkSocial.rawValue].dictionaryObject ?? [:]))
-        self.mobile = Mobile(json: JSON(json[UserKey.mobile.rawValue].dictionaryObject ?? [:]))
+        self.images = UserImage(json: JSON(json[UserInfoKey.images.rawValue].dictionaryObject ?? [:]))
+        self.links = UserLink(json: JSON(json[UserInfoKey.links.rawValue].dictionaryObject ?? [:]))
+        self.following = UserFollowing(json: JSON(json[UserInfoKey.following.rawValue].dictionaryObject ?? [:]))
+        self.followers = UserFollowers(json: JSON(json[UserInfoKey.followers.rawValue].dictionaryObject ?? [:]))
+        self.verified = Verified(json: JSON(json[UserInfoKey.verified.rawValue].dictionaryObject ?? [:]))
+        self.aggregator = Aggregator(json: JSON(json[UserInfoKey.aggregator.rawValue].dictionaryObject ?? [:]))
+        self.linkSocial = LinkSocial(json: JSON(json[UserInfoKey.linkSocial.rawValue].dictionaryObject ?? [:]))
+        self.mobile = Mobile(json: JSON(json[UserInfoKey.mobile.rawValue].dictionaryObject ?? [:]))
     }
 }
 

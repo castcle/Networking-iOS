@@ -32,9 +32,9 @@ enum UserApi {
     case getAllUser
     
     case getMe
-    case updateMe(UserRequest)
-    case updateMeAvatar(UserRequest)
-    case updateMeCover(UserRequest)
+    case updateInfo(String, UserRequest)
+    case updateAvatar(String, UserRequest)
+    case updateCover(String, UserRequest)
     case updateMobile(UserRequest)
     case delateUser(UserRequest)
     
@@ -71,6 +71,12 @@ extension UserApi: TargetType {
             return "/users/\(userId)/unfollow"
         case .updateMobile:
             return "/users/me/mobile"
+        case .updateInfo(let userId, _):
+            return "/users/\(userId)"
+        case .updateAvatar(let userId, _):
+            return "/users/\(userId)"
+        case .updateCover(let userId, _):
+            return "/users/\(userId)"
         default:
             return "/users/me"
         }
@@ -80,7 +86,7 @@ extension UserApi: TargetType {
         switch self {
         case .getAllUser, .getMe, .getUser, .getUserContents, .getUserFollower, .getUserFollowing:
             return .get
-        case .updateMe, .updateMeAvatar, .updateMobile, .updateMeCover, .follow, .unfollow:
+        case .updateInfo, .updateAvatar, .updateMobile, .updateCover, .follow, .unfollow:
             return .put
         case .delateUser:
             return .delete
@@ -98,11 +104,11 @@ extension UserApi: TargetType {
                 "userFields": "link-social"
             ]
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
-        case .updateMe(let userRequest):
+        case .updateInfo(_, let userRequest):
             return .requestParameters(parameters: userRequest.payload.paramEditUserProfile, encoding: JSONEncoding.default)
-        case .updateMeAvatar(let userRequest):
+        case .updateAvatar(_, let userRequest):
             return .requestParameters(parameters: userRequest.payload.paramEditUserAvatar, encoding: JSONEncoding.default)
-        case .updateMeCover(let userRequest):
+        case .updateCover(_, let userRequest):
             return .requestParameters(parameters: userRequest.payload.paramEditUserCover, encoding: JSONEncoding.default)
         case .updateMobile(let userRequest):
             return .requestParameters(parameters: userRequest.paramUpdateMobile, encoding: JSONEncoding.default)
