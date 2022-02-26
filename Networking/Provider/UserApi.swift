@@ -45,7 +45,7 @@ enum UserApi {
     case getUserFollowing(String)
     
     case follow(String, UserRequest)
-    case unfollow(String, UserRequest)
+    case unfollow(String, String)
 }
 
 extension UserApi: TargetType {
@@ -67,8 +67,8 @@ extension UserApi: TargetType {
             return "/users/\(userId)/following"
         case .follow(let userId, _):
             return "/users/\(userId)/following"
-        case .unfollow(let userId, _):
-            return "/users/\(userId)/unfollow"
+        case .unfollow(let userId, let targetCastcleId):
+            return "/users/\(userId)/following/\(targetCastcleId)"
         case .updateMobile:
             return "/users/me/mobile"
         case .updateInfo(let userId, _):
@@ -86,9 +86,9 @@ extension UserApi: TargetType {
         switch self {
         case .getAllUser, .getMe, .getUser, .getUserContents, .getUserFollower, .getUserFollowing:
             return .get
-        case .updateInfo, .updateAvatar, .updateMobile, .updateCover, .follow, .unfollow:
+        case .updateInfo, .updateAvatar, .updateMobile, .updateCover, .follow:
             return .put
-        case .delateUser:
+        case .delateUser, .unfollow:
             return .delete
         }
     }
@@ -102,6 +102,11 @@ extension UserApi: TargetType {
         case .getMe:
             let param = [
                 "userFields": "link-social"
+            ]
+            return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
+        case .getUser:
+            let param = [
+                "userFields": "relationships"
             ]
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .updateInfo(_, let userRequest):
@@ -118,8 +123,6 @@ extension UserApi: TargetType {
             return .requestParameters(parameters: contentRequest.paramGetContent, encoding: URLEncoding.queryString)
         case .follow(_, let userRequest):
             return .requestParameters(parameters: userRequest.paramFollowUser, encoding: JSONEncoding.default)
-        case .unfollow(_, let userRequest):
-            return .requestParameters(parameters: userRequest.paramUnfollowUser, encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }

@@ -42,7 +42,7 @@ public protocol UserRepository {
     func getUserFollower(userId: String, _ completion: @escaping complate)
     func getUserFollowing(userId: String, _ completion: @escaping complate)
     func follow(userId: String, userRequest: UserRequest, _ completion: @escaping complate)
-    func unfollow(userId: String, userRequest: UserRequest, _ completion: @escaping complate)
+    func unfollow(userId: String, targetCastcleId: String, _ completion: @escaping complate)
 }
 
 public final class UserRepositoryImpl: UserRepository {
@@ -376,8 +376,8 @@ public final class UserRepositoryImpl: UserRepository {
         }
     }
 
-    public func unfollow(userId: String, userRequest: UserRequest, _ completion: @escaping complate) {
-        self.userProvider.request(.unfollow(userId, userRequest)) { result in
+    public func unfollow(userId: String, targetCastcleId: String, _ completion: @escaping complate) {
+        self.userProvider.request(.unfollow(userId, targetCastcleId)) { result in
             switch result {
             case .success(let response):
                 if response.statusCode < 300 {
