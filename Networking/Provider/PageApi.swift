@@ -47,7 +47,7 @@ extension PageApi: TargetType {
         case .deletePage(let pageId, _):
             return "/pages/\(pageId)"
         case .createPageWithSocial:
-            return "/pages/social"
+            return "/users/me/pages/sync-social"
         }
     }
     
