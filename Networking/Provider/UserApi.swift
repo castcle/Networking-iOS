@@ -32,9 +32,9 @@ enum UserApi {
     case getAllUser
     
     case getMe
-    case updateMe(UserRequest)
-    case updateMeAvatar(UserRequest)
-    case updateMeCover(UserRequest)
+    case updateInfo(String, UserRequest)
+    case updateAvatar(String, UserRequest)
+    case updateCover(String, UserRequest)
     case updateMobile(UserRequest)
     case delateUser(UserRequest)
     
@@ -45,7 +45,7 @@ enum UserApi {
     case getUserFollowing(String)
     
     case follow(String, UserRequest)
-    case unfollow(String, UserRequest)
+    case unfollow(String, String)
 }
 
 extension UserApi: TargetType {
@@ -67,10 +67,16 @@ extension UserApi: TargetType {
             return "/users/\(userId)/following"
         case .follow(let userId, _):
             return "/users/\(userId)/following"
-        case .unfollow(let userId, _):
-            return "/users/\(userId)/unfollow"
+        case .unfollow(let userId, let targetCastcleId):
+            return "/users/\(userId)/following/\(targetCastcleId)"
         case .updateMobile:
             return "/users/me/mobile"
+        case .updateInfo(let userId, _):
+            return "/users/\(userId)"
+        case .updateAvatar(let userId, _):
+            return "/users/\(userId)"
+        case .updateCover(let userId, _):
+            return "/users/\(userId)"
         default:
             return "/users/me"
         }
@@ -80,9 +86,9 @@ extension UserApi: TargetType {
         switch self {
         case .getAllUser, .getMe, .getUser, .getUserContents, .getUserFollower, .getUserFollowing:
             return .get
-        case .updateMe, .updateMeAvatar, .updateMobile, .updateMeCover, .follow, .unfollow:
+        case .updateInfo, .updateAvatar, .updateMobile, .updateCover, .follow:
             return .put
-        case .delateUser:
+        case .delateUser, .unfollow:
             return .delete
         }
     }
@@ -98,11 +104,16 @@ extension UserApi: TargetType {
                 "userFields": "link-social"
             ]
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
-        case .updateMe(let userRequest):
+        case .getUser:
+            let param = [
+                "userFields": "relationships"
+            ]
+            return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
+        case .updateInfo(_, let userRequest):
             return .requestParameters(parameters: userRequest.payload.paramEditUserProfile, encoding: JSONEncoding.default)
-        case .updateMeAvatar(let userRequest):
+        case .updateAvatar(_, let userRequest):
             return .requestParameters(parameters: userRequest.payload.paramEditUserAvatar, encoding: JSONEncoding.default)
-        case .updateMeCover(let userRequest):
+        case .updateCover(_, let userRequest):
             return .requestParameters(parameters: userRequest.payload.paramEditUserCover, encoding: JSONEncoding.default)
         case .updateMobile(let userRequest):
             return .requestParameters(parameters: userRequest.paramUpdateMobile, encoding: JSONEncoding.default)
@@ -112,8 +123,6 @@ extension UserApi: TargetType {
             return .requestParameters(parameters: contentRequest.paramGetContent, encoding: URLEncoding.queryString)
         case .follow(_, let userRequest):
             return .requestParameters(parameters: userRequest.paramFollowUser, encoding: JSONEncoding.default)
-        case .unfollow(_, let userRequest):
-            return .requestParameters(parameters: userRequest.paramUnfollowUser, encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }

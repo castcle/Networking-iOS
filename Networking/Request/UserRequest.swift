@@ -73,12 +73,6 @@ public struct UserRequest {
         ]
     }
     
-    public var paramUnfollowUser: [String: Any] {
-        return [
-            UserRequestKey.targetCastcleId.rawValue: self.targetCastcleId
-        ]
-    }
-    
     public var paramUpdateMobile: [String: Any] {
         return [
             UserRequestKey.objective.rawValue: self.objective.rawValue,
