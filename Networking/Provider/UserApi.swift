@@ -30,20 +30,16 @@ import Moya
 
 enum UserApi {
     case getAllUser
-    
     case getMe
     case updateInfo(String, UserRequest)
     case updateAvatar(String, UserRequest)
     case updateCover(String, UserRequest)
     case updateMobile(UserRequest)
     case delateUser(UserRequest)
-    
     case getUser(String)
     case getUserContents(String, ContentRequest)
-    
-    case getUserFollower(String)
-    case getUserFollowing(String)
-    
+    case getUserFollower(String, UserFollowRequest)
+    case getUserFollowing(String, UserFollowRequest)
     case follow(String, UserRequest)
     case unfollow(String, String)
 }
@@ -61,9 +57,9 @@ extension UserApi: TargetType {
             return "/users/\(userId)"
         case .getUserContents(let userId, _):
             return "/users/\(userId)/contents"
-        case .getUserFollower(let userId):
-            return "/users/\(userId)/follower"
-        case .getUserFollowing(let userId):
+        case .getUserFollower(let userId, _):
+            return "/users/\(userId)/followers"
+        case .getUserFollowing(let userId, _):
             return "/users/\(userId)/following"
         case .follow(let userId, _):
             return "/users/\(userId)/following"
@@ -123,6 +119,10 @@ extension UserApi: TargetType {
             return .requestParameters(parameters: contentRequest.paramGetContent, encoding: URLEncoding.queryString)
         case .follow(_, let userRequest):
             return .requestParameters(parameters: userRequest.paramFollowUser, encoding: JSONEncoding.default)
+        case .getUserFollower(_, let userFollowRequest):
+            return .requestParameters(parameters: userFollowRequest.paramGetFollowUser, encoding: URLEncoding.queryString)
+        case .getUserFollowing(_, let userFollowRequest):
+            return .requestParameters(parameters: userFollowRequest.paramGetFollowUser, encoding: URLEncoding.queryString)
         default:
             return .requestPlain
         }
