@@ -32,21 +32,22 @@ import SwiftyJSON
 public protocol UserRepository {
     func getAllUser(_ completion: @escaping complate)
     func getMe(_ completion: @escaping complate)
-    func updateMe(userRequest: UserRequest, _ completion: @escaping complate)
-    func updateMeAvatar(userRequest: UserRequest, _ completion: @escaping complate)
-    func updateMeCover(userRequest: UserRequest, _ completion: @escaping complate)
+    func updateInfo(userId: String, userRequest: UserRequest, _ completion: @escaping complate)
+    func updateAvatar(userId: String, userRequest: UserRequest, _ completion: @escaping complate)
+    func updateCover(userId: String, userRequest: UserRequest, _ completion: @escaping complate)
     func updateMobile(userRequest: UserRequest, _ completion: @escaping complate)
     func delateUser(userRequest: UserRequest, _ completion: @escaping complate)
     func getUser(userId: String, _ completion: @escaping complate)
     func getUserContents(userId: String, contentRequest: ContentRequest, _ completion: @escaping complate)
-    func getUserFollower(userId: String, _ completion: @escaping complate)
-    func getUserFollowing(userId: String, _ completion: @escaping complate)
+    func getUserFollower(userId: String, userFollowRequest: UserFollowRequest, _ completion: @escaping complate)
+    func getUserFollowing(userId: String, userFollowRequest: UserFollowRequest, _ completion: @escaping complate)
     func follow(userId: String, userRequest: UserRequest, _ completion: @escaping complate)
-    func unfollow(userId: String, userRequest: UserRequest, _ completion: @escaping complate)
+    func unfollow(userId: String, targetCastcleId: String, _ completion: @escaping complate)
 }
 
 public final class UserRepositoryImpl: UserRepository {
     private let userProvider = MoyaProvider<UserApi>()
+    private let completionHelper: CompletionHelper = CompletionHelper()
     
     public init() {
         // MARK: - Init
@@ -56,22 +57,8 @@ public final class UserRepositoryImpl: UserRepository {
         self.userProvider.request(.getAllUser) { result in
             switch result {
             case .success(let response):
-                if response.statusCode < 300 {
-                    completion(true, response, false)
-                } else {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        if code == errorRefreshToken {
-                            completion(false, response, true)
-                        } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                            completion(false, response, false)
-                        }
-                    } catch {
-                        completion(false, response, false)
-                    }
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
             case .failure(let error):
                 completion(false, error as! Response, false)
@@ -83,22 +70,8 @@ public final class UserRepositoryImpl: UserRepository {
         self.userProvider.request(.getMe) { result in
             switch result {
             case .success(let response):
-                if response.statusCode < 300 {
-                    completion(true, response, false)
-                } else {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        if code == errorRefreshToken {
-                            completion(false, response, true)
-                        } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                            completion(false, response, false)
-                        }
-                    } catch {
-                        completion(false, response, false)
-                    }
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
             case .failure(let error):
                 completion(false, error as! Response, false)
@@ -106,26 +79,12 @@ public final class UserRepositoryImpl: UserRepository {
         }
     }
     
-    public func updateMe(userRequest: UserRequest, _ completion: @escaping complate) {
-        self.userProvider.request(.updateMe(userRequest)) { result in
+    public func updateInfo(userId: String, userRequest: UserRequest, _ completion: @escaping complate) {
+        self.userProvider.request(.updateInfo(userId, userRequest)) { result in
             switch result {
             case .success(let response):
-                if response.statusCode < 300 {
-                    completion(true, response, false)
-                } else {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        if code == errorRefreshToken {
-                            completion(false, response, true)
-                        } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                            completion(false, response, false)
-                        }
-                    } catch {
-                        completion(false, response, false)
-                    }
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
             case .failure(let error):
                 completion(false, error as! Response, false)
@@ -133,26 +92,12 @@ public final class UserRepositoryImpl: UserRepository {
         }
     }
     
-    public func updateMeAvatar(userRequest: UserRequest, _ completion: @escaping complate) {
-        self.userProvider.request(.updateMeAvatar(userRequest)) { result in
+    public func updateAvatar(userId: String, userRequest: UserRequest, _ completion: @escaping complate) {
+        self.userProvider.request(.updateAvatar(userId, userRequest)) { result in
             switch result {
             case .success(let response):
-                if response.statusCode < 300 {
-                    completion(true, response, false)
-                } else {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        if code == errorRefreshToken {
-                            completion(false, response, true)
-                        } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                            completion(false, response, false)
-                        }
-                    } catch {
-                        completion(false, response, false)
-                    }
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
             case .failure(let error):
                 completion(false, error as! Response, false)
@@ -160,26 +105,12 @@ public final class UserRepositoryImpl: UserRepository {
         }
     }
     
-    public func updateMeCover(userRequest: UserRequest, _ completion: @escaping complate) {
-        self.userProvider.request(.updateMeCover(userRequest)) { result in
+    public func updateCover(userId: String, userRequest: UserRequest, _ completion: @escaping complate) {
+        self.userProvider.request(.updateCover(userId, userRequest)) { result in
             switch result {
             case .success(let response):
-                if response.statusCode < 300 {
-                    completion(true, response, false)
-                } else {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        if code == errorRefreshToken {
-                            completion(false, response, true)
-                        } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                            completion(false, response, false)
-                        }
-                    } catch {
-                        completion(false, response, false)
-                    }
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
             case .failure(let error):
                 completion(false, error as! Response, false)
@@ -191,22 +122,8 @@ public final class UserRepositoryImpl: UserRepository {
         self.userProvider.request(.updateMobile(userRequest)) { result in
             switch result {
             case .success(let response):
-                if response.statusCode < 300 {
-                    completion(true, response, false)
-                } else {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        if code == errorRefreshToken {
-                            completion(false, response, true)
-                        } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                            completion(false, response, false)
-                        }
-                    } catch {
-                        completion(false, response, false)
-                    }
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
             case .failure(let error):
                 completion(false, error as! Response, false)
@@ -218,22 +135,8 @@ public final class UserRepositoryImpl: UserRepository {
         self.userProvider.request(.delateUser(userRequest)) { result in
             switch result {
             case .success(let response):
-                if response.statusCode < 300 {
-                    completion(true, response, false)
-                } else {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        if code == errorRefreshToken {
-                            completion(false, response, true)
-                        } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                            completion(false, response, false)
-                        }
-                    } catch {
-                        completion(false, response, false)
-                    }
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
             case .failure(let error):
                 completion(false, error as! Response, false)
@@ -245,22 +148,8 @@ public final class UserRepositoryImpl: UserRepository {
         self.userProvider.request(.getUser(userId)) { result in
             switch result {
             case .success(let response):
-                if response.statusCode < 300 {
-                    completion(true, response, false)
-                } else {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        if code == errorRefreshToken {
-                            completion(false, response, true)
-                        } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                            completion(false, response, false)
-                        }
-                    } catch {
-                        completion(false, response, false)
-                    }
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
             case .failure(let error):
                 completion(false, error as! Response, false)
@@ -272,22 +161,8 @@ public final class UserRepositoryImpl: UserRepository {
         self.userProvider.request(.getUserContents(userId, contentRequest)) { result in
             switch result {
             case .success(let response):
-                if response.statusCode < 300 {
-                    completion(true, response, false)
-                } else {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        if code == errorRefreshToken {
-                            completion(false, response, true)
-                        } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                            completion(false, response, false)
-                        }
-                    } catch {
-                        completion(false, response, false)
-                    }
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
             case .failure(let error):
                 completion(false, error as! Response, false)
@@ -295,26 +170,12 @@ public final class UserRepositoryImpl: UserRepository {
         }
     }
     
-    public func getUserFollower(userId: String, _ completion: @escaping complate) {
-        self.userProvider.request(.getUserFollower(userId)) { result in
+    public func getUserFollower(userId: String, userFollowRequest: UserFollowRequest, _ completion: @escaping complate) {
+        self.userProvider.request(.getUserFollower(userId, userFollowRequest)) { result in
             switch result {
             case .success(let response):
-                if response.statusCode < 300 {
-                    completion(true, response, false)
-                } else {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        if code == errorRefreshToken {
-                            completion(false, response, true)
-                        } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                            completion(false, response, false)
-                        }
-                    } catch {
-                        completion(false, response, false)
-                    }
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
             case .failure(let error):
                 completion(false, error as! Response, false)
@@ -322,26 +183,12 @@ public final class UserRepositoryImpl: UserRepository {
         }
     }
 
-    public func getUserFollowing(userId: String, _ completion: @escaping complate) {
-        self.userProvider.request(.getUserFollowing(userId)) { result in
+    public func getUserFollowing(userId: String, userFollowRequest: UserFollowRequest, _ completion: @escaping complate) {
+        self.userProvider.request(.getUserFollowing(userId, userFollowRequest)) { result in
             switch result {
             case .success(let response):
-                if response.statusCode < 300 {
-                    completion(true, response, false)
-                } else {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        if code == errorRefreshToken {
-                            completion(false, response, true)
-                        } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                            completion(false, response, false)
-                        }
-                    } catch {
-                        completion(false, response, false)
-                    }
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
             case .failure(let error):
                 completion(false, error as! Response, false)
@@ -353,22 +200,8 @@ public final class UserRepositoryImpl: UserRepository {
         self.userProvider.request(.follow(userId, userRequest)) { result in
             switch result {
             case .success(let response):
-                if response.statusCode < 300 {
-                    completion(true, response, false)
-                } else {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        if code == errorRefreshToken {
-                            completion(false, response, true)
-                        } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                            completion(false, response, false)
-                        }
-                    } catch {
-                        completion(false, response, false)
-                    }
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
             case .failure(let error):
                 completion(false, error as! Response, false)
@@ -376,26 +209,12 @@ public final class UserRepositoryImpl: UserRepository {
         }
     }
 
-    public func unfollow(userId: String, userRequest: UserRequest, _ completion: @escaping complate) {
-        self.userProvider.request(.unfollow(userId, userRequest)) { result in
+    public func unfollow(userId: String, targetCastcleId: String, _ completion: @escaping complate) {
+        self.userProvider.request(.unfollow(userId, targetCastcleId)) { result in
             switch result {
             case .success(let response):
-                if response.statusCode < 300 {
-                    completion(true, response, false)
-                } else {
-                    do {
-                        let rawJson = try response.mapJSON()
-                        let json = JSON(rawJson)
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        if code == errorRefreshToken {
-                            completion(false, response, true)
-                        } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
-                            completion(false, response, false)
-                        }
-                    } catch {
-                        completion(false, response, false)
-                    }
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
                 }
             case .failure(let error):
                 completion(false, error as! Response, false)

@@ -231,7 +231,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                         let profile = JSON(json[AuthenticationApiKey.profile.rawValue].dictionaryValue)
                         let pages = json[AuthenticationApiKey.pages.rawValue].arrayValue
                         let userHelper = UserHelper()
-                        userHelper.updateLocalProfile(user: User(json: profile))
+                        userHelper.updateLocalProfile(user: UserInfo(json: profile))
                         let pageRealm = self.realm.objects(Page.self)
                         try! self.realm.write {
                             self.realm.delete(pageRealm)

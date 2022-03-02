@@ -65,6 +65,7 @@ public struct PageSocial {
         case avatar
         case cover
         case link
+        case authToken
     }
     
     public var provider: ProviderCreatePage = .none
@@ -75,6 +76,7 @@ public struct PageSocial {
     public var avatar: String = ""
     public var cover: String = ""
     public var link: String = ""
+    public var authToken: String = ""
     
     public init() {
         // Init PageSocial
@@ -89,7 +91,8 @@ public struct PageSocial {
             PageSocialKey.overview.rawValue: self.overview,
             PageSocialKey.avatar.rawValue: self.avatar,
             PageSocialKey.cover.rawValue: self.cover,
-            PageSocialKey.link.rawValue: self.link
+            PageSocialKey.link.rawValue: self.link,
+            PageSocialKey.authToken.rawValue: self.authToken
         ]
     }
 }
