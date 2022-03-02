@@ -246,6 +246,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                                 pageTemp.displayName = pageInfo.displayName
                                 pageTemp.avatar = pageInfo.images.avatar.thumbnail
                                 pageTemp.cover = pageInfo.images.cover.fullHd
+                                pageTemp.overview = pageInfo.overview
+                                pageTemp.official = pageInfo.verified.official
                                 self.realm.add(pageTemp, update: .modified)
                             }
                             
