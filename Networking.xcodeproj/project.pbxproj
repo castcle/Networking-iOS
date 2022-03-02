@@ -561,11 +561,8 @@
 				B7AF661826F2FA1200BDE9C4 /* PageApi.swift in Sources */,
 				B7684A6A26C5061C00C438C5 /* ContentPayload.swift in Sources */,
 				B7642C5A26E1073800CDCE95 /* Comment.swift in Sources */,
-<<<<<<< HEAD
 				B786903527CCAA290029EDFE /* UserFollowRequest.swift in Sources */,
-=======
 				B70EDBD727BB5F4400EA53E2 /* AdsRepository.swift in Sources */,
->>>>>>> develop
 				B7AC1E3F27159243002FC176 /* TopTrend.swift in Sources */,
 				B70EDBD927BB7BE100EA53E2 /* Ads.swift in Sources */,
 				B7684A5D26C5061C00C438C5 /* Hashtag.swift in Sources */,
