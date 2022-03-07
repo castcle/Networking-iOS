@@ -34,6 +34,7 @@ public enum AuthenObjective: String {
     case forgotPassword = "forgot_password"
     case changePassword = "change_password"
     case verifyMobile = "verify_mobile"
+    case mergeAccount = "merge_account"
     case none
 }
 

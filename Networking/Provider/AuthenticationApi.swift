@@ -43,6 +43,7 @@ enum AuthenticationApi {
     case requestOtp(AuthenRequest)
     case verificationOtp(AuthenRequest)
     case loginWithSocial(AuthenRequest)
+    case connectWithSocial(AuthenRequest)
 }
 
 extension AuthenticationApi: TargetType {
@@ -80,6 +81,8 @@ extension AuthenticationApi: TargetType {
             return "/authentications/verificationOTP"
         case .loginWithSocial:
             return "/authentications/login-with-social"
+        case .connectWithSocial:
+            return "/authentications/connect-with-social"
         }
     }
     
@@ -114,6 +117,8 @@ extension AuthenticationApi: TargetType {
         case .verificationOtp(let authenRequest):
             return .requestParameters(parameters: authenRequest.paramVerifyOtp, encoding: JSONEncoding.default)
         case .loginWithSocial(let authenRequest):
+            return .requestParameters(parameters: authenRequest.paramLoginWithSocial, encoding: JSONEncoding.default)
+        case .connectWithSocial(let authenRequest):
             return .requestParameters(parameters: authenRequest.paramLoginWithSocial, encoding: JSONEncoding.default)
         default:
             return .requestPlain

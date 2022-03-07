@@ -33,9 +33,10 @@ public typealias complate = (_ complate: Bool, _ response: Response, _ isRefresh
 
 public let errorRefreshToken: String = "1003"
 public let errorRefreshTokenExpired: String = "1004"
+public let errorEmailIsAlreadyInCastcle: String = "3021"
 
 public class CompletionHelper {
-    func handleNetworingResponse(response: Response,_ completion: @escaping complate) {
+    func handleNetworingResponse(isSocialLogin: Bool = false, response: Response,_ completion: @escaping complate) {
         if response.statusCode < 300 {
             completion(true, response, false)
         } else {
@@ -45,6 +46,8 @@ public class CompletionHelper {
                 let code = json[ResponseErrorKey.code.rawValue].stringValue
                 if code == errorRefreshToken {
                     completion(false, response, true)
+                } else if isSocialLogin && code == errorEmailIsAlreadyInCastcle {
+                    completion(true, response, false)
                 } else {
                     print("########## ERROR ##########")
                     print("\(response.request!)")

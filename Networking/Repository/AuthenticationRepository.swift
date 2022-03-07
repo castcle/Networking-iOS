@@ -46,6 +46,7 @@ public protocol AuthenticationRepository {
     func requestOtp(authenRequest: AuthenRequest, _ completion: @escaping complate)
     func verificationOtp(authenRequest: AuthenRequest, _ completion: @escaping complate)
     func loginWithSocial(authenRequest: AuthenRequest, _ completion: @escaping complate)
+    func connectWithSocial(authenRequest: AuthenRequest, _ completion: @escaping complate)
 }
 
 public enum AuthenticationApiKey: String {
@@ -58,6 +59,7 @@ public enum AuthenticationApiKey: String {
     case refCode
     case profile
     case pages
+    case code
 }
 
 public final class AuthenticationRepositoryImpl: AuthenticationRepository {
@@ -329,6 +331,19 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
     
     public func loginWithSocial(authenRequest: AuthenRequest, _ completion: @escaping complate) {
         self.authenticationProvider.request(.loginWithSocial(authenRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(isSocialLogin: true, response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func connectWithSocial(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+        self.authenticationProvider.request(.connectWithSocial(authenRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
