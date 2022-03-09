@@ -48,6 +48,7 @@ public enum UserInfoKey: String, Codable {
     case passwordNotSet
     case linkSocial
     case mobile
+    case syncSocial
 }
 
 public class UserInfo {
@@ -70,6 +71,7 @@ public class UserInfo {
     public var passwordNotSet: Bool = true
     public var linkSocial: LinkSocial = LinkSocial()
     public var mobile: Mobile = Mobile()
+    public var syncSocial: SyncSocial = SyncSocial()
     
     public init() {
         // Init UserInfo
@@ -97,6 +99,7 @@ public class UserInfo {
         self.aggregator = Aggregator(json: JSON(json[UserInfoKey.aggregator.rawValue].dictionaryObject ?? [:]))
         self.linkSocial = LinkSocial(json: JSON(json[UserInfoKey.linkSocial.rawValue].dictionaryObject ?? [:]))
         self.mobile = Mobile(json: JSON(json[UserInfoKey.mobile.rawValue].dictionaryObject ?? [:]))
+        self.syncSocial = SyncSocial(json: JSON(json[UserInfoKey.syncSocial.rawValue].dictionaryObject ?? [:]))
     }
 }
 

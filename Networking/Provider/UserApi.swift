@@ -102,7 +102,7 @@ extension UserApi: TargetType {
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .getUser:
             let param = [
-                "userFields": "relationships"
+                "userFields": "relationships,sync-social"
             ]
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .updateInfo(_, let userRequest):
