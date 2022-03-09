@@ -41,6 +41,7 @@ public enum PageInfoKey: String, Codable {
     case blocking
     case blocked
     case verified
+    case syncSocial
 }
 
 public class PageInfo: NSObject {
@@ -56,6 +57,7 @@ public class PageInfo: NSObject {
     public var blocking: Bool = false
     public var blocked: Bool = false
     public var verified: Verified = Verified()
+    public var syncSocial: SyncSocial = SyncSocial()
     
     public override init() {
         // Init PageInfo
@@ -76,6 +78,7 @@ public class PageInfo: NSObject {
         self.followers = Followers(json: JSON(json[PageInfoKey.followers.rawValue].dictionaryValue))
         self.links = Social(json: JSON(json[PageInfoKey.links.rawValue].dictionaryValue))
         self.verified = Verified(json: JSON(json[PageInfoKey.verified.rawValue].dictionaryObject ?? [:]))
+        self.syncSocial = SyncSocial(json: JSON(json[PageInfoKey.syncSocial.rawValue].dictionaryObject ?? [:]))
     }
     
     public init(displayName: String, avatar: String, castcleId: String) {
@@ -145,5 +148,43 @@ public class Social: NSObject {
         self.youtube = json[SocialKey.youtube.rawValue].stringValue
         self.medium = json[SocialKey.medium.rawValue].stringValue
         self.website = json[SocialKey.website.rawValue].stringValue
+    }
+}
+
+// MARK: - SyncSocial
+public enum SyncSocialKey: String, Codable {
+    case id
+    case provider
+    case socialId
+    case userName
+    case displayName
+    case avatar
+    case active
+    case autoPost
+}
+
+public class SyncSocial: NSObject {
+    public var id: String = ""
+    public var provider: String = ""
+    public var socialId: String = ""
+    public var userName: String = ""
+    public var displayName: String = ""
+    public var avatar: String = ""
+    public var active: Bool = false
+    public var autoPost: Bool = false
+    
+    public override init() {
+        // Init Social
+    }
+    
+    public init(json: JSON) {
+        self.id = json[SyncSocialKey.id.rawValue].stringValue
+        self.provider = json[SyncSocialKey.provider.rawValue].stringValue
+        self.socialId = json[SyncSocialKey.socialId.rawValue].stringValue
+        self.userName = json[SyncSocialKey.userName.rawValue].stringValue
+        self.displayName = json[SyncSocialKey.displayName.rawValue].stringValue
+        self.avatar = json[SyncSocialKey.avatar.rawValue].stringValue
+        self.active = json[SyncSocialKey.active.rawValue].boolValue
+        self.autoPost = json[SyncSocialKey.autoPost.rawValue].boolValue
     }
 }
