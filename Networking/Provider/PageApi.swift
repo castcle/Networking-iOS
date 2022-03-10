@@ -33,6 +33,10 @@ enum PageApi {
     case getMyPage
     case deletePage(String, PageRequest)
     case createPageWithSocial(PageSocialRequest)
+    case setAutoPost(String)
+    case cancelAutoPost(String)
+    case reconnectSyncSocial(String, PageSocial)
+    case disconnectSyncSocial(String)
 }
 
 extension PageApi: TargetType {
@@ -48,16 +52,24 @@ extension PageApi: TargetType {
             return "/pages/\(pageId)"
         case .createPageWithSocial:
             return "/users/me/pages/sync-social"
+        case .setAutoPost(let syncSocialId):
+            return "/users/me/pages/sync-social/\(syncSocialId)/auto-post"
+        case .cancelAutoPost(let syncSocialId):
+            return "/users/me/pages/sync-social/\(syncSocialId)/auto-post"
+        case .reconnectSyncSocial(let syncSocialId, _):
+            return "/users/me/pages/sync-social/\(syncSocialId)/connect"
+        case .disconnectSyncSocial(let syncSocialId):
+            return "/users/me/pages/sync-social/\(syncSocialId)/connect"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .createPage, .createPageWithSocial:
+        case .createPage, .createPageWithSocial, .setAutoPost, .reconnectSyncSocial:
             return .post
         case .getMyPage:
             return .get
-        case .deletePage:
+        case .deletePage, .cancelAutoPost, .disconnectSyncSocial:
             return .delete
         }
     }
@@ -74,6 +86,8 @@ extension PageApi: TargetType {
             return .requestParameters(parameters: pageRequest.paramDeletePage, encoding: JSONEncoding.default)
         case .createPageWithSocial(let pageSocialRequest):
             return .requestParameters(parameters: pageSocialRequest.paramCreatePageWithSocial, encoding: JSONEncoding.default)
+        case .reconnectSyncSocial(_, let pageSocial):
+            return .requestParameters(parameters: pageSocial.paramConnectSocial, encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }

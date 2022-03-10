@@ -57,6 +57,7 @@ public struct PageSocialRequest {
 
 public struct PageSocial {
     enum PageSocialKey: String {
+        case payload
         case provider
         case socialId
         case userName
@@ -93,6 +94,20 @@ public struct PageSocial {
             PageSocialKey.cover.rawValue: self.cover,
             PageSocialKey.link.rawValue: self.link,
             PageSocialKey.authToken.rawValue: self.authToken
+        ]
+    }
+    
+    public var paramConnectSocial: [String: Any] {
+        return [
+            PageSocialKey.payload.rawValue: [
+                PageSocialKey.provider.rawValue: self.provider.rawValue,
+                PageSocialKey.socialId.rawValue: self.socialId,
+                PageSocialKey.userName.rawValue: self.userName,
+                PageSocialKey.displayName.rawValue: self.displayName,
+                PageSocialKey.overview.rawValue: self.overview,
+                PageSocialKey.avatar.rawValue: self.avatar,
+                PageSocialKey.cover.rawValue: self.cover
+            ]
         ]
     }
 }

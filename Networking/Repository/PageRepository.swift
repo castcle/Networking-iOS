@@ -34,6 +34,10 @@ public protocol PageRepository {
     func getMyPage(_ completion: @escaping complate)
     func deletePage(pageId: String, pageRequest: PageRequest, _ completion: @escaping complate)
     func createPageWithSocial(pageSocialRequest: PageSocialRequest, _ completion: @escaping complate)
+    func setAutoPost(syncSocialId: String, _ completion: @escaping complate)
+    func cancelAutoPost(syncSocialId: String, _ completion: @escaping complate)
+    func reconnectSyncSocial(syncSocialId: String, pageSocial: PageSocial, _ completion: @escaping complate)
+    func disconnectSyncSocial(syncSocialId: String, _ completion: @escaping complate)
 }
 
 public final class PageRepositoryImpl: PageRepository {
@@ -85,6 +89,58 @@ public final class PageRepositoryImpl: PageRepository {
     
     public func createPageWithSocial(pageSocialRequest: PageSocialRequest, _ completion: @escaping complate) {
         self.pageProvider.request(.createPageWithSocial(pageSocialRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func setAutoPost(syncSocialId: String, _ completion: @escaping complate) {
+        self.pageProvider.request(.setAutoPost(syncSocialId)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func cancelAutoPost(syncSocialId: String, _ completion: @escaping complate) {
+        self.pageProvider.request(.cancelAutoPost(syncSocialId)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func reconnectSyncSocial(syncSocialId: String, pageSocial: PageSocial, _ completion: @escaping complate) {
+        self.pageProvider.request(.reconnectSyncSocial(syncSocialId, pageSocial)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func disconnectSyncSocial(syncSocialId: String, _ completion: @escaping complate) {
+        self.pageProvider.request(.disconnectSyncSocial(syncSocialId)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
