@@ -88,6 +88,29 @@ public enum BoostType: String {
     case content
 }
 
+public enum AdsPaymentType: String {
+    case token = "Token wallet"
+    case adCredit = "Ad credit"
+    
+    public var image: UIImage {
+        switch self {
+        case .token:
+            return UIImage.init(icon: .castcle(.wallet), size: CGSize(width: 100, height: 100), textColor: UIColor.Asset.white)
+        case .adCredit:
+            return UIImage.init(icon: .castcle(.coin), size: CGSize(width: 100, height: 100), textColor: UIColor.Asset.white)
+        }
+    }
+    
+    public var notice: String {
+        switch self {
+        case .token:
+            return "Approximate token value in\nUSD 40.32 Learn more"
+        case .adCredit:
+            return "Note: Ad credit are valid\nuntil 29/12/2020"
+        }
+    }
+}
+
 public class Ads: NSObject {
     public var campaignName: String = ""
     public var campaignMessage: String = ""
@@ -101,6 +124,7 @@ public class Ads: NSObject {
 //    public var payload: Bool = false
     public var statistics: Statistics = Statistics()
     public var engagement: Engagement = Engagement()
+    public var payment: AdsPaymentType = .adCredit
     public var createdAt: String = ""
     public var updatedAt: String = ""
     
