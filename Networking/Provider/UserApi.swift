@@ -82,8 +82,10 @@ extension UserApi: TargetType {
         switch self {
         case .getAllUser, .getMe, .getUser, .getUserContents, .getUserFollower, .getUserFollowing:
             return .get
-        case .updateInfo, .updateAvatar, .updateMobile, .updateCover, .follow:
+        case .updateInfo, .updateAvatar, .updateMobile, .updateCover:
             return .put
+        case .follow:
+            return .post
         case .delateUser, .unfollow:
             return .delete
         }
