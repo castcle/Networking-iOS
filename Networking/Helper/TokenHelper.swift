@@ -43,9 +43,9 @@ public class TokenHelper {
                 self.delegate?.didRefreshTokenFinish()
             } else {
                 if refreshTokenExpired {
-                    if UserManager.shared.userRole == .guest {
-                        self.guestLogin()
-                    }
+                    UserHelper().clearUserData()
+                    self.guestLogin()
+                    print("refreshTokenExpired")
                 }
             }
         }
@@ -58,7 +58,7 @@ public class TokenHelper {
     private func guestLogin() {
         self.authenticationRepository.guestLogin(uuid: Defaults[.deviceUuid]) { (success) in
             if success {
-                self.delegate?.didRefreshTokenFinish()
+                NotificationCenter.default.post(name: .resetApplication, object: nil)
             }
         }
     }
