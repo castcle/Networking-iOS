@@ -113,11 +113,16 @@ public struct UserPayloadRequest {
     }
     
     public var paramEditUserProfile: [String: Any] {
-        return [
+        var param: [String: Any] = [
             UserPlayloadKey.overview.rawValue: self.overview,
             UserPlayloadKey.dob.rawValue: self.dob,
             UserPlayloadKey.links.rawValue: self.links.paramEditUserLink
         ]
+        
+        if !self.images.avatar.isEmpty || !self.images.cover.isEmpty {
+            param[UserPlayloadKey.images.rawValue] = self.images.paramEditUserInfo
+        }
+        return param
     }
     
     public var paramEditUserAvatar: [String: Any] {
@@ -145,6 +150,17 @@ public struct UserImageRequest {
     public init() {
         self.avatar = ""
         self.cover = ""
+    }
+    
+    public var paramEditUserInfo: [String: Any] {
+        var param: [String: Any] = [:]
+        if !self.avatar.isEmpty {
+            param[UserImageRequestKey.avatar.rawValue] = self.avatar
+        }
+        if !self.cover.isEmpty {
+            param[UserImageRequestKey.cover.rawValue] = self.cover
+        }
+        return param
     }
     
     public var paramEditUserAvatar: [String: Any] {
