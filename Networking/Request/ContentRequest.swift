@@ -85,20 +85,6 @@ public struct ContentRequest {
             ContentKey.message.rawValue: self.message
         ]
     }
-    
-    public var paramLikeContent: [String: Any] {
-        return [
-            ContentKey.feedItemId.rawValue: self.feedItemId,
-            ContentKey.castcleId.rawValue: self.castcleId
-        ]
-    }
-    
-    public var paramUnlikeContent: [String: Any] {
-        return [
-            ContentKey.feedItemId.rawValue: self.feedItemId,
-            ContentKey.castcleId.rawValue: self.castcleId
-        ]
-    }
 }
 
 public struct ContentPayloadRequest {

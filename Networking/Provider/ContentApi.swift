@@ -31,8 +31,8 @@ import Moya
 enum ContentApi {
     case getMeContents(ContentRequest)
     case createContent(String, ContentRequest)
-    case likeContent(String, ContentRequest)
-    case unlikeContent(String, ContentRequest)
+    case likeContent(String)
+    case unlikeContent(String)
     case deleteContent(String)
     case recastContent(ContentRequest)
     case unrecastContent(ContentRequest)
@@ -50,10 +50,10 @@ extension ContentApi: TargetType {
             return "/users/me/contents"
         case .createContent(let feature, _):
             return "/contents/\(feature)"
-        case .likeContent(let contentId, _):
-            return "/contents/\(contentId)/liked"
-        case .unlikeContent(let contentId, _):
-            return "/contents/\(contentId)/unliked"
+        case .likeContent:
+            return "/users/me/likes"
+        case .unlikeContent(let contentId):
+            return "users/me/likes/\(contentId)"
         case .deleteContent(let contentId):
             return "/contents/\(contentId)"
         case .recastContent(let contentRequest):
@@ -69,11 +69,9 @@ extension ContentApi: TargetType {
         switch self {
         case .getMeContents:
             return .get
-        case .createContent, .recastContent, .quotecastContent:
+        case .createContent, .likeContent, .recastContent, .quotecastContent:
             return .post
-        case .likeContent, .unlikeContent:
-            return .put
-        case .deleteContent, .unrecastContent:
+        case .unlikeContent, .deleteContent, .unrecastContent:
             return .delete
         }
     }
@@ -92,10 +90,11 @@ extension ContentApi: TargetType {
             return .requestParameters(parameters: contentRequest.paramRecastContent, encoding: JSONEncoding.default)
         case .quotecastContent(let contentRequest):
             return .requestParameters(parameters: contentRequest.paramQuotecastContent, encoding: JSONEncoding.default)
-        case .likeContent(_, let contentRequest):
-            return .requestParameters(parameters: contentRequest.paramLikeContent, encoding: JSONEncoding.default)
-        case .unlikeContent(_, let contentRequest):
-            return .requestParameters(parameters: contentRequest.paramUnlikeContent, encoding: JSONEncoding.default)
+        case .likeContent(let contentId):
+            let param = [
+                "contentId": contentId
+            ]
+            return .requestParameters(parameters: param, encoding: JSONEncoding.default)
         default:
             return.requestPlain
         }
