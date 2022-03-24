@@ -41,8 +41,8 @@ public protocol UserRepository {
     func getUserContents(userId: String, contentRequest: ContentRequest, _ completion: @escaping complate)
     func getUserFollower(userId: String, userFollowRequest: UserFollowRequest, _ completion: @escaping complate)
     func getUserFollowing(userId: String, userFollowRequest: UserFollowRequest, _ completion: @escaping complate)
-    func follow(userId: String, userRequest: UserRequest, _ completion: @escaping complate)
-    func unfollow(userId: String, targetCastcleId: String, _ completion: @escaping complate)
+    func follow(userRequest: UserRequest, _ completion: @escaping complate)
+    func unfollow(targetCastcleId: String, _ completion: @escaping complate)
 }
 
 public final class UserRepositoryImpl: UserRepository {
@@ -196,8 +196,8 @@ public final class UserRepositoryImpl: UserRepository {
         }
     }
 
-    public func follow(userId: String, userRequest: UserRequest, _ completion: @escaping complate) {
-        self.userProvider.request(.follow(userId, userRequest)) { result in
+    public func follow(userRequest: UserRequest, _ completion: @escaping complate) {
+        self.userProvider.request(.follow(userRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -209,8 +209,8 @@ public final class UserRepositoryImpl: UserRepository {
         }
     }
 
-    public func unfollow(userId: String, targetCastcleId: String, _ completion: @escaping complate) {
-        self.userProvider.request(.unfollow(userId, targetCastcleId)) { result in
+    public func unfollow(targetCastcleId: String, _ completion: @escaping complate) {
+        self.userProvider.request(.unfollow(targetCastcleId)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

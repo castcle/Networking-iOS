@@ -40,8 +40,8 @@ enum UserApi {
     case getUserContents(String, ContentRequest)
     case getUserFollower(String, UserFollowRequest)
     case getUserFollowing(String, UserFollowRequest)
-    case follow(String, UserRequest)
-    case unfollow(String, String)
+    case follow(UserRequest)
+    case unfollow(String)
 }
 
 extension UserApi: TargetType {
@@ -61,10 +61,10 @@ extension UserApi: TargetType {
             return "/users/\(userId)/followers"
         case .getUserFollowing(let userId, _):
             return "/users/\(userId)/following"
-        case .follow(let userId, _):
-            return "/users/\(userId)/following"
-        case .unfollow(let userId, let targetCastcleId):
-            return "/users/\(userId)/following/\(targetCastcleId)"
+        case .follow:
+            return "/users/me/following"
+        case .unfollow(let targetCastcleId):
+            return "/users/me/following/\(targetCastcleId)"
         case .updateMobile:
             return "/users/me/mobile"
         case .updateInfo(let userId, _):
@@ -82,8 +82,10 @@ extension UserApi: TargetType {
         switch self {
         case .getAllUser, .getMe, .getUser, .getUserContents, .getUserFollower, .getUserFollowing:
             return .get
-        case .updateInfo, .updateAvatar, .updateMobile, .updateCover, .follow:
+        case .updateInfo, .updateAvatar, .updateMobile, .updateCover:
             return .put
+        case .follow:
+            return .post
         case .delateUser, .unfollow:
             return .delete
         }
@@ -117,7 +119,7 @@ extension UserApi: TargetType {
             return .requestParameters(parameters: userRequest.paramDeleteUser, encoding: JSONEncoding.default)
         case .getUserContents(_, let contentRequest):
             return .requestParameters(parameters: contentRequest.paramGetContent, encoding: URLEncoding.queryString)
-        case .follow(_, let userRequest):
+        case .follow(let userRequest):
             return .requestParameters(parameters: userRequest.paramFollowUser, encoding: JSONEncoding.default)
         case .getUserFollower(_, let userFollowRequest):
             return .requestParameters(parameters: userFollowRequest.paramGetFollowUser, encoding: URLEncoding.queryString)
