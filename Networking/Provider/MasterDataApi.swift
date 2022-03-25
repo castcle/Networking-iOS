@@ -30,6 +30,8 @@ import Moya
 
 enum MasterDataApi {
     case getCountry
+    case getMentions(String)
+    case getHashtag(String)
 }
 
 extension MasterDataApi: TargetType {
@@ -41,6 +43,10 @@ extension MasterDataApi: TargetType {
         switch self {
         case .getCountry:
             return "/metadata/country"
+        case .getMentions:
+            return "/users/me/mentions"
+        case .getHashtag:
+            return "/metadata/hashtag/search"
         }
     }
     
@@ -53,7 +59,21 @@ extension MasterDataApi: TargetType {
     }
     
     var task: Task {
-        return .requestPlain
+        switch self {
+        case .getMentions(let keyword):
+            let param = [
+                "keyword": keyword,
+                "userFields": "relationships"
+            ]
+            return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
+        case .getHashtag(let keyword):
+            let param = [
+                "keyword": keyword
+            ]
+            return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
+        default:
+            return .requestPlain
+        }
     }
     
     var headers: [String : String]? {

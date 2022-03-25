@@ -31,6 +31,8 @@ import SwiftyJSON
 
 public protocol MasterDataRepository {
     func getCountry(_ completion: @escaping complate)
+    func getMentions(keyword: String, _ completion: @escaping complate)
+    func getHashtag(keyword: String, _ completion: @escaping complate)
 }
 
 public final class MasterDataRepositoryImpl: MasterDataRepository {
@@ -43,6 +45,34 @@ public final class MasterDataRepositoryImpl: MasterDataRepository {
     
     public func getCountry(_ completion: @escaping complate) {
         self.masterDataProvider.request(.getCountry) { result in
+            switch result {
+            case .success(let response):
+                completion(true, response, false)
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func getMentions(keyword: String, _ completion: @escaping complate) {
+        self.masterDataProvider.request(.getMentions(keyword)) { result in
+            switch result {
+            case .success(let response):
+                completion(true, response, false)
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func getHashtag(keyword: String, _ completion: @escaping complate) {
+        self.masterDataProvider.request(.getHashtag(keyword)) { result in
             switch result {
             case .success(let response):
                 completion(true, response, false)
