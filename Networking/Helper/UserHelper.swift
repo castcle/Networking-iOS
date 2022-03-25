@@ -54,6 +54,7 @@ public class UserHelper {
         Defaults[.avatar] = user.images.avatar.thumbnail
         Defaults[.cover] = user.images.cover.fullHd
         Defaults[.passwordNotSet] = user.passwordNotSet
+        Defaults[.canUpdateCastcleId] = user.canUpdateCastcleId
         Defaults[.mobileCountryCode] = user.mobile.countryCode
         Defaults[.mobileNumber] = user.mobile.number
     }
@@ -80,6 +81,7 @@ public class UserHelper {
         Defaults[.cover] = ""
         Defaults[.notificationBadges] = 0
         Defaults[.passwordNotSet] = true
+        Defaults[.canUpdateCastcleId] = false
         Defaults[.mobileCountryCode] = ""
         Defaults[.mobileNumber] = ""
     }

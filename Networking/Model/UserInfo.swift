@@ -49,6 +49,7 @@ public enum UserInfoKey: String, Codable {
     case linkSocial
     case mobile
     case syncSocial
+    case canUpdateCastcleId
 }
 
 public class UserInfo {
@@ -72,6 +73,7 @@ public class UserInfo {
     public var linkSocial: LinkSocial = LinkSocial()
     public var mobile: Mobile = Mobile()
     public var syncSocial: SyncSocial = SyncSocial()
+    public var canUpdateCastcleId: Bool = false
     
     public init() {
         // Init UserInfo
@@ -89,6 +91,7 @@ public class UserInfo {
         self.blocking = json[UserInfoKey.blocking.rawValue].boolValue
         self.blocked = json[UserInfoKey.blocked.rawValue].boolValue
         self.passwordNotSet = json[UserInfoKey.passwordNotSet.rawValue].boolValue
+        self.canUpdateCastcleId = json[UserInfoKey.canUpdateCastcleId.rawValue].boolValue
         
         // MARK: - Object
         self.images = UserImage(json: JSON(json[UserInfoKey.images.rawValue].dictionaryObject ?? [:]))
