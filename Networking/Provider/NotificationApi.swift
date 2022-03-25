@@ -30,6 +30,7 @@ import Moya
 
 enum NotificationApi {
     case registerToken(NotificationRequest)
+    case unregisterToken(NotificationRequest)
     case getBadges
     case getNotification(NotificationRequest)
 }
@@ -41,12 +42,12 @@ extension NotificationApi: TargetType {
     
     var path: String {
         switch self {
-        case .registerToken:
-            return "/notifications/registerToken"
+        case .registerToken, .unregisterToken:
+            return "/authentications/register-token"
         case .getBadges:
-            return "notifications/badges"
+            return "/notifications/badges"
         case .getNotification:
-            return "notifications"
+            return "/notifications"
         }
     }
     
@@ -54,6 +55,8 @@ extension NotificationApi: TargetType {
         switch self {
         case .registerToken:
             return .post
+        case .unregisterToken:
+            return .delete
         case .getBadges, .getNotification:
             return .get
         }
@@ -67,6 +70,8 @@ extension NotificationApi: TargetType {
     var task: Task {
         switch self {
         case .registerToken(let notificationRequest):
+            return .requestParameters(parameters: notificationRequest.paramRegisterToken, encoding: JSONEncoding.default)
+        case .unregisterToken(let notificationRequest):
             return .requestParameters(parameters: notificationRequest.paramRegisterToken, encoding: JSONEncoding.default)
         default:
             return .requestPlain
