@@ -27,12 +27,14 @@
 
 public struct NotificationRequest {
     enum NotificationKey: String {
-        case deviceUUID
+        case uuid
         case firebaseToken
+        case platform
     }
     
-    public var deviceUUID: String = ""
+    public var uuid: String = ""
     public var firebaseToken: String = ""
+    public var platform: String = "ios"
     
     public init() {
         // Init NotificationRequest
@@ -40,8 +42,9 @@ public struct NotificationRequest {
     
     public var paramRegisterToken: [String: Any] {
         return [
-            NotificationKey.deviceUUID.rawValue: self.deviceUUID,
-            NotificationKey.firebaseToken.rawValue: self.firebaseToken
+            NotificationKey.uuid.rawValue: self.uuid,
+            NotificationKey.firebaseToken.rawValue: self.firebaseToken,
+            NotificationKey.platform.rawValue: self.platform
         ]
     }
 }
