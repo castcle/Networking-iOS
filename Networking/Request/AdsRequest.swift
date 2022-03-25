@@ -29,10 +29,26 @@ public struct AdsRequest {
     enum AdsKey: String {
         case untilId
         case maxResults
+        case campaignName
+        case campaignMessage
+        case objective
+        case dailyBudget
+        case duration
+        case paymentMethod
+        case contentId
+        case userId
     }
 
     public var untilId: String = ""
     public var maxResults: Int = 25
+    public var campaignName: String = ""
+    public var campaignMessage: String = ""
+    public var objective: AdsObjective = .engagement
+    public var dailyBudget: Double = 0.0
+    public var duration: Int = 0
+    public var paymentMethod: AdsPaymentType = .token
+    public var contentId: String = ""
+    public var userId: String = ""
     
     public init() {
         // Init AdsRequest
@@ -45,6 +61,27 @@ public struct AdsRequest {
         
         if !self.untilId.isEmpty {
             param[AdsKey.untilId.rawValue] = self.untilId
+        }
+        
+        return param
+    }
+    
+    public var paramCreateAds: [String: Any] {
+        var param: [String: Any] = [
+            AdsKey.campaignName.rawValue: self.campaignName,
+            AdsKey.objective.rawValue: self.objective.rawValue,
+            AdsKey.dailyBudget.rawValue: self.dailyBudget,
+            AdsKey.duration.rawValue: self.duration,
+            AdsKey.paymentMethod.rawValue: self.paymentMethod.rawValue,
+            AdsKey.userId.rawValue: self.userId
+        ]
+        
+        if !self.campaignMessage.isEmpty {
+            param[AdsKey.campaignMessage.rawValue] = self.campaignMessage
+        }
+        
+        if !self.contentId.isEmpty {
+            param[AdsKey.contentId.rawValue] = self.campaignMessage
         }
         
         return param

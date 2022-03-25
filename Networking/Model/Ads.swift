@@ -89,8 +89,8 @@ public enum BoostType: String {
 }
 
 public enum AdsPaymentType: String {
-    case token = "Token wallet"
-    case adCredit = "Ad credit"
+    case token = "token-wallet"
+    case adCredit = "ad-credit"
     
     public var image: UIImage {
         switch self {
@@ -98,6 +98,15 @@ public enum AdsPaymentType: String {
             return UIImage.init(icon: .castcle(.wallet), size: CGSize(width: 100, height: 100), textColor: UIColor.Asset.white)
         case .adCredit:
             return UIImage.init(icon: .castcle(.coin), size: CGSize(width: 100, height: 100), textColor: UIColor.Asset.white)
+        }
+    }
+    
+    public var display: String {
+        switch self {
+        case .token:
+            return "Token wallet"
+        case .adCredit:
+            return "Ad credit"
         }
     }
     
