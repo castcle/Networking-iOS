@@ -86,6 +86,8 @@ public struct UserRequest {
 public struct UserPayloadRequest {
     enum UserPlayloadKey: String {
         case password
+        case castcleId
+        case displayName
         case overview
         case dob
         case images
@@ -93,6 +95,8 @@ public struct UserPayloadRequest {
     }
     
     public var password: String
+    public var castcleId: String
+    public var displayName: String
     public var overview: String
     public var dob: String
     public var images: UserImageRequest
@@ -100,6 +104,8 @@ public struct UserPayloadRequest {
     
     public init() {
         self.password = ""
+        self.castcleId = ""
+        self.displayName = ""
         self.overview = ""
         self.dob = ""
         self.images = UserImageRequest()
@@ -118,6 +124,14 @@ public struct UserPayloadRequest {
             UserPlayloadKey.dob.rawValue: self.dob,
             UserPlayloadKey.links.rawValue: self.links.paramEditUserLink
         ]
+        
+        if !self.castcleId.isEmpty {
+            param[UserPlayloadKey.castcleId.rawValue] = self.castcleId
+        }
+        
+        if !self.displayName.isEmpty {
+            param[UserPlayloadKey.displayName.rawValue] = self.displayName
+        }
         
         if !self.images.avatar.isEmpty || !self.images.cover.isEmpty {
             param[UserPlayloadKey.images.rawValue] = self.images.paramEditUserInfo
