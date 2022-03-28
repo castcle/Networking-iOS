@@ -128,9 +128,9 @@ extension AuthenticationApi: TargetType {
     var headers: [String : String]? {
         switch self {
         case .refreshToken:
-            return ApiHelper.headerRefreshToken
+            return ApiHelper.headerRefreshToken(version: "1.0")
         default:
-            return ApiHelper.header
+            return ApiHelper.header(version: "1.0")
         }
     }
 }

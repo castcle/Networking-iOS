@@ -79,6 +79,6 @@ extension NotificationApi: TargetType {
     }
     
     var headers: [String : String]? {
-        return ApiHelper.header
+        return ApiHelper.header(version: "1.0")
     }
 }
