@@ -34,6 +34,7 @@ public enum ParticipateKey: String, Codable {
     case quoted
     case recasted
     case reported
+    case farming
 }
 
 public class Participate: NSObject {
@@ -42,6 +43,7 @@ public class Participate: NSObject {
     public var quoted: Bool = false
     public var recasted: Bool = false
     public var reported: Bool = false
+    public var farming: Bool = false
     
     public override init() {
         // MARK: - Init
@@ -53,5 +55,6 @@ public class Participate: NSObject {
         self.quoted = json[ParticipateKey.quoted.rawValue].boolValue
         self.recasted = json[ParticipateKey.recasted.rawValue].boolValue
         self.reported = json[ParticipateKey.reported.rawValue].boolValue
+        self.farming = json[ParticipateKey.farming.rawValue].boolValue
     }
 }

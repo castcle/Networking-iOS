@@ -33,6 +33,7 @@ public enum MetricKey: String, Codable {
     case commentCount
     case quoteCount
     case recastCount
+    case farmCount
 }
 
 public class Metric: NSObject {
@@ -40,6 +41,7 @@ public class Metric: NSObject {
     public var commentCount: Int = 0
     public var quoteCount: Int = 0
     public var recastCount: Int = 0
+    public var farmCount: Int = 0
     
     public override init() {
         // MARK: - Init
@@ -50,5 +52,6 @@ public class Metric: NSObject {
         self.commentCount = json[MetricKey.commentCount.rawValue].intValue
         self.quoteCount = json[MetricKey.quoteCount.rawValue].intValue
         self.recastCount = json[MetricKey.recastCount.rawValue].intValue
+        self.farmCount = json[MetricKey.farmCount.rawValue].intValue
     }
 }
