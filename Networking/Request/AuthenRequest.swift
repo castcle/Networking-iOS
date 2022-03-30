@@ -58,6 +58,8 @@ public struct AuthenRequest {
         case displayName
         case avatar
         case email
+        case overview
+        case cover
         case authToken
         case password
     }
@@ -72,6 +74,8 @@ public struct AuthenRequest {
     public var displayName: String = ""
     public var avatar: String = ""
     public var email: String = ""
+    public var overview: String = ""
+    public var cover: String = ""
     public var authToken: String = ""
     
     public init() {
@@ -135,6 +139,8 @@ public struct AuthenRequest {
             AuthenRequestKey.displayName.rawValue: self.displayName,
             AuthenRequestKey.avatar.rawValue: self.avatar,
             AuthenRequestKey.email.rawValue: self.email,
+            AuthenRequestKey.overview.rawValue: self.overview,
+            AuthenRequestKey.cover.rawValue: self.cover,
             AuthenRequestKey.authToken.rawValue: self.authToken
         ]
     }
