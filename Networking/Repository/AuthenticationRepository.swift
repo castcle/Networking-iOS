@@ -60,6 +60,7 @@ public enum AuthenticationApiKey: String {
     case profile
     case pages
     case code
+    case registered
 }
 
 public final class AuthenticationRepositoryImpl: AuthenticationRepository {
