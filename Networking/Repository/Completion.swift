@@ -53,7 +53,7 @@ public class CompletionHelper {
                     print("\(response.request!)")
                     print("\(String(describing: response.request?.headers))")
                     print("###########################")
-                    ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
+                    ApiHelper.displayError(code: "\(code)", error: "\(json[ResponseErrorKey.message.rawValue].stringValue)")
                     completion(false, response, false)
                 }
             } catch {

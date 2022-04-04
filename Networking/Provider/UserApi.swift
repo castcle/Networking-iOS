@@ -42,6 +42,7 @@ enum UserApi {
     case getUserFollowing(String, UserFollowRequest)
     case follow(UserRequest)
     case unfollow(String)
+    case syncSocial(String, PageSocial)
 }
 
 extension UserApi: TargetType {
@@ -73,6 +74,8 @@ extension UserApi: TargetType {
             return "/users/\(userId)"
         case .updateCover(let userId, _):
             return "/users/\(userId)"
+        case .syncSocial(let userId, _):
+            return "/v2/users/\(userId)/sync-social"
         default:
             return "/users/me"
         }
@@ -84,7 +87,7 @@ extension UserApi: TargetType {
             return .get
         case .updateInfo, .updateAvatar, .updateMobile, .updateCover:
             return .put
-        case .follow:
+        case .follow, .syncSocial:
             return .post
         case .delateUser, .unfollow:
             return .delete
@@ -125,12 +128,19 @@ extension UserApi: TargetType {
             return .requestParameters(parameters: userFollowRequest.paramGetFollowUser, encoding: URLEncoding.queryString)
         case .getUserFollowing(_, let userFollowRequest):
             return .requestParameters(parameters: userFollowRequest.paramGetFollowUser, encoding: URLEncoding.queryString)
+        case .syncSocial(_, let pageSocial):
+            return .requestParameters(parameters: pageSocial.paramConnectSocial, encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }
     }
     
     var headers: [String : String]? {
-        return ApiHelper.header(version: "1.0")
+        switch self {
+        case .syncSocial:
+            return ApiHelper.header()
+        default:
+            return ApiHelper.header(version: "1.0")
+        }
     }
 }

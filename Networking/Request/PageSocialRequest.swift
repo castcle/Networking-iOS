@@ -26,6 +26,7 @@
 //
 
 import RealmSwift
+import SwiftyJSON
 
 public enum ProviderCreatePage: String {
     case facebook
@@ -81,6 +82,18 @@ public struct PageSocial {
     
     public init() {
         // Init PageSocial
+    }
+    
+    public init(json: JSON) {
+        self.provider = ProviderCreatePage(rawValue: json[PageSocialKey.provider.rawValue].stringValue) ?? .none
+        self.socialId = json[PageSocialKey.socialId.rawValue].stringValue
+        self.userName = json[PageSocialKey.userName.rawValue].stringValue
+        self.displayName = json[PageSocialKey.displayName.rawValue].stringValue
+        self.overview = json[PageSocialKey.overview.rawValue].stringValue
+        self.avatar = json[PageSocialKey.avatar.rawValue].stringValue
+        self.cover = json[PageSocialKey.cover.rawValue].stringValue
+        self.link = json[PageSocialKey.link.rawValue].stringValue
+        self.authToken = json[PageSocialKey.authToken.rawValue].stringValue
     }
     
     public var paramPageSocial: [String: Any] {

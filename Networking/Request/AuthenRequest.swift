@@ -56,6 +56,7 @@ public struct AuthenRequest {
         case provider
         case socialId
         case displayName
+        case userName
         case avatar
         case email
         case overview
@@ -72,6 +73,7 @@ public struct AuthenRequest {
     public var provider: SocialProvider = .none
     public var socialId: String = ""
     public var displayName: String = ""
+    public var userName: String = ""
     public var avatar: String = ""
     public var email: String = ""
     public var overview: String = ""
@@ -137,6 +139,7 @@ public struct AuthenRequest {
             AuthenRequestKey.provider.rawValue: self.provider.rawValue,
             AuthenRequestKey.socialId.rawValue: self.socialId,
             AuthenRequestKey.displayName.rawValue: self.displayName,
+            AuthenRequestKey.userName.rawValue: self.userName,
             AuthenRequestKey.avatar.rawValue: self.avatar,
             AuthenRequestKey.email.rawValue: self.email,
             AuthenRequestKey.overview.rawValue: self.overview,
