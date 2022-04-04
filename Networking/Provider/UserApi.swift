@@ -129,7 +129,7 @@ extension UserApi: TargetType {
         case .getUserFollowing(_, let userFollowRequest):
             return .requestParameters(parameters: userFollowRequest.paramGetFollowUser, encoding: URLEncoding.queryString)
         case .syncSocial(_, let pageSocial):
-            return .requestParameters(parameters: pageSocial.paramConnectSocial, encoding: JSONEncoding.default)
+            return .requestParameters(parameters: pageSocial.paramPageSocial, encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }
