@@ -25,6 +25,8 @@
 //  Created by Castcle Co., Ltd. on 28/9/2564 BE.
 //
 
+import Core
+
 public struct ContentRequest {
     enum ContentKey: String {
         case type

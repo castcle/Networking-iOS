@@ -27,19 +27,35 @@
 
 import Core
 import SwiftyJSON
+import RealmSwift
 
 // MARK: - Comment Payload
-public enum CommentPayloadKey: String, Codable {
-    case payload
-}
-
 public class CommentPayload: NSObject {
     public let payload: [Comment]
     
     public init(json: JSON) {
-        
+        print(json)
         // MARK: - Comment
-        let commentJsonArr = json[CommentPayloadKey.payload.rawValue].arrayValue
+        let commentJsonArr = json[JsonKey.payload.rawValue].arrayValue
+        let includes = JSON(json[JsonKey.includes.rawValue].dictionaryValue)
+        let comments = includes[JsonKey.comments.rawValue].arrayValue
+        let users = includes[JsonKey.users.rawValue].arrayValue
+        
+        let realm = try! Realm()
+        comments.forEach { comment in
+            try! realm.write {
+                let commentRef = CommentRef().initCustom(json: comment)
+                realm.add(commentRef, update: .modified)
+            }
+        }
+        users.forEach { user in
+            try! realm.write {
+                let authorRef = AuthorRef().initCustom(json: user)
+                realm.add(authorRef, update: .modified)
+            }
+        }
+        
+        
         var commentArr: [Comment] = []
         for index in (0..<commentJsonArr.count) {
             if index == 0 {
@@ -59,23 +75,11 @@ public class CommentPayload: NSObject {
 }
 
 // MARK: - Comment
-public enum CommentKey: String, Codable {
-    case id
-    case message
-    case like
-    case author
-    case reply
-    case metrics
-    case participate
-    case createdAt
-    case updatedAt
-}
-
 public class Comment: NSObject {
     public let id: String
     public let message: String
-    public let author: Author
-    public let reply: [ReplyComment]
+    public let authorId: String
+    public let reply: [String]
     public var metrics: Metric = Metric()
     public var participate: Participate = Participate()
     public let createdAt: String
@@ -84,59 +88,23 @@ public class Comment: NSObject {
     public var isLast: Bool
     
     public init(json: JSON, isFirst: Bool = false, isLast: Bool = false) {
-        self.id = json[CommentKey.id.rawValue].stringValue
-        self.message = json[CommentKey.message.rawValue].stringValue
-        self.createdAt = json[CommentKey.createdAt.rawValue].stringValue
-        self.updatedAt = json[CommentKey.updatedAt.rawValue].stringValue
+        self.id = json[JsonKey.id.rawValue].stringValue
+        self.authorId = json[JsonKey.author.rawValue].stringValue
+        self.message = json[JsonKey.message.rawValue].stringValue
+        self.createdAt = json[JsonKey.createdAt.rawValue].stringValue
+        self.updatedAt = json[JsonKey.updatedAt.rawValue].stringValue
         self.isFirst = isFirst
         self.isLast = isLast
         
         // MARK: - Object
-        self.author = Author(json: JSON(json[CommentKey.author.rawValue].dictionaryObject ?? [:]))
-        self.metrics = Metric(json: JSON(json[CommentKey.metrics.rawValue].dictionaryObject ?? [:]))
-        self.participate = Participate(json: JSON(json[CommentKey.participate.rawValue].dictionaryObject ?? [:]))
+        self.metrics = Metric(json: JSON(json[JsonKey.metrics.rawValue].dictionaryObject ?? [:]))
+        self.participate = Participate(json: JSON(json[JsonKey.participate.rawValue].dictionaryObject ?? [:]))
         
         // MARK: - Reply
-        self.reply = (json[CommentKey.reply.rawValue].arrayValue).map { ReplyComment(json: $0) }
+        self.reply = (json[JsonKey.reply.rawValue].arrayValue).map { $0.stringValue }
     }
     
     public var commentDate: Date {
-        return Date.stringToDate(str: self.createdAt)
-    }
-}
-
-// MARK: - Reply Comment
-public enum ReplyCommentKey: String, Codable {
-    case id
-    case message
-    case like
-    case author
-    case createdAt
-    case updatedAt
-}
-
-public class ReplyComment: NSObject {
-    public let id: String
-    public let message: String
-    public let author: Author
-    public var metrics: Metric = Metric()
-    public var participate: Participate = Participate()
-    public let createdAt: String
-    public let updatedAt: String
-    
-    public init(json: JSON) {
-        self.id = json[ReplyCommentKey.id.rawValue].stringValue
-        self.message = json[ReplyCommentKey.message.rawValue].stringValue
-        self.createdAt = json[ReplyCommentKey.createdAt.rawValue].stringValue
-        self.updatedAt = json[ReplyCommentKey.updatedAt.rawValue].stringValue
-        
-        // MARK: - Object
-        self.author = Author(json: JSON(json[ReplyCommentKey.author.rawValue].dictionaryObject ?? [:]))
-        self.metrics = Metric(json: JSON(json[CommentKey.metrics.rawValue].dictionaryObject ?? [:]))
-        self.participate = Participate(json: JSON(json[CommentKey.participate.rawValue].dictionaryObject ?? [:]))
-    }
-    
-    public var replyDate: Date {
         return Date.stringToDate(str: self.createdAt)
     }
 }

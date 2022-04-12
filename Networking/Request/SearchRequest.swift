@@ -25,6 +25,8 @@
 //  Created by Castcle Co., Ltd. on 12/10/2564 BE.
 //
 
+import Core
+
 public struct SearchRequest {
     enum SearchKey: String {
         case page

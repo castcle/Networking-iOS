@@ -25,20 +25,9 @@
 //  Created by Castcle Co., Ltd. on 7/10/2564 BE.
 //
 
-public enum UserFields: String {
-    case relationships
-    case none
-}
+import Core
 
 public struct FeedRequest {
-    enum ContentKey: String {
-        case maxResults
-        case untilId
-        case hashtag
-        case type
-        case userFields
-    }
-
     public var untilId: String = ""
     public var maxResults: Int = 25
     public var hashtag: String = ""
@@ -51,23 +40,23 @@ public struct FeedRequest {
     
     public var paramGetFeed: [String: Any] {
         var param: [String: Any] = [
-            ContentKey.maxResults.rawValue: self.maxResults
+            JsonKey.maxResults.rawValue: self.maxResults
         ]
         
         if self.userFields != .none {
-            param[ContentKey.userFields.rawValue] = self.userFields.rawValue
+            param[JsonKey.userFields.rawValue] = self.userFields.rawValue
         }
         
         if !self.untilId.isEmpty {
-            param[ContentKey.untilId.rawValue] = self.untilId
+            param[JsonKey.untilId.rawValue] = self.untilId
         }
         
         if !self.hashtag.isEmpty {
-            param[ContentKey.hashtag.rawValue] = self.hashtag
+            param[JsonKey.hashtag.rawValue] = self.hashtag
         }
         
         if self.type != .unknow {
-            param[ContentKey.type.rawValue] = self.type.rawValue
+            param[JsonKey.type.rawValue] = self.type.rawValue
         }
         
         return param
@@ -75,15 +64,15 @@ public struct FeedRequest {
     
     public var paramGetSuggestionUser: [String: Any] {
         var param: [String: Any] = [
-            ContentKey.maxResults.rawValue: self.maxResults
+            JsonKey.maxResults.rawValue: self.maxResults
         ]
         
         if self.userFields != .none {
-            param[ContentKey.userFields.rawValue] = self.userFields.rawValue
+            param[JsonKey.userFields.rawValue] = self.userFields.rawValue
         }
         
         if !self.untilId.isEmpty {
-            param[ContentKey.untilId.rawValue] = self.untilId
+            param[JsonKey.untilId.rawValue] = self.untilId
         }
         
         return param

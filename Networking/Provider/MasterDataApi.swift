@@ -62,8 +62,8 @@ extension MasterDataApi: TargetType {
         switch self {
         case .getMentions(let keyword):
             let param = [
-                "keyword": keyword,
-                "userFields": "relationships"
+                JsonKey.keyword.rawValue: keyword,
+                JsonKey.userFields.rawValue: "relationships"
             ]
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .getHashtag(let keyword):

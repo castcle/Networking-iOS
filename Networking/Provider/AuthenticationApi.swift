@@ -56,7 +56,7 @@ extension AuthenticationApi: TargetType {
         case .guestLogin:
             return "/authentications/guestLogin"
         case .login:
-            return "/authentications/login"
+            return "/v2/authentications/login-with-email"
         case .checkEmailExists:
             return "/authentications/checkEmailExists"
         case .suggestCastcleId:
@@ -127,6 +127,8 @@ extension AuthenticationApi: TargetType {
     
     var headers: [String : String]? {
         switch self {
+        case .login:
+            return ApiHelper.header()
         case .refreshToken:
             return ApiHelper.headerRefreshToken(version: "1.0")
         default:

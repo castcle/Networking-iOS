@@ -43,7 +43,9 @@ extension CommentApi: TargetType {
     
     var path: String {
         switch self {
-        case .getComments(let contentId), .createComment(let contentId, _):
+        case .getComments(let contentId):
+            return "/v2/contents/\(contentId)/comments"
+        case .createComment(let contentId, _):
             return "/contents/\(contentId)/comments"
         case .replyComment(let contentId, let commentId, _):
             return "/contents/\(contentId)/comments/\(commentId)/reply"
@@ -71,6 +73,11 @@ extension CommentApi: TargetType {
     
     var task: Task {
         switch self {
+        case .getComments:
+            let param = [
+                JsonKey.userFields.rawValue: UserFields.relationships.rawValue
+            ]
+            return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .createComment(_ , let commentRequest):
             return .requestParameters(parameters: commentRequest.paramCreateComment, encoding: JSONEncoding.default)
         case .replyComment(_, _, let commentRequest):
@@ -79,12 +86,15 @@ extension CommentApi: TargetType {
             return .requestParameters(parameters: commentRequest.paramLikedComment, encoding: JSONEncoding.default)
         case .unlikedComment(_, _, let commentRequest):
             return .requestParameters(parameters: commentRequest.paramUnlikedComment, encoding: JSONEncoding.default)
-        default:
-            return .requestPlain
         }
     }
     
     var headers: [String : String]? {
-        return ApiHelper.header(version: "1.0")
+        switch self {
+        case .getComments:
+            return ApiHelper.header()
+        default:
+            return ApiHelper.header(version: "1.0")
+        }
     }
 }
