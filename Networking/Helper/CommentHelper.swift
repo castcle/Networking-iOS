@@ -19,28 +19,28 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  LoginRequest.swift
+//  CommentHelper.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 12/8/2564 BE.
+//  Created by Castcle Co., Ltd. on 12/4/2565 BE.
 //
 
 import Core
+import RealmSwift
 
-public struct LoginRequest {
+public class CommentHelper {
+    public static let shared = CommentHelper()
     
-    public var email: String
-    public var password: String
-    
-    public init() {
-        self.email = ""
-        self.password = ""
-    }
-    
-    public var paramLogin: [String: Any] {
-        return [
-            JsonKey.email.rawValue: self.email,
-            JsonKey.password.rawValue: self.password
-        ]
+    public func getCommentRef(id: String) -> CommentRef? {
+        if id.isEmpty {
+            return nil
+        } else {
+            let realm = try! Realm()
+            if let commentRef = realm.objects(CommentRef.self).filter("id = '\(id)'").first {
+                return commentRef
+            } else {
+                return nil
+            }
+        }
     }
 }

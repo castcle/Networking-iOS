@@ -84,6 +84,7 @@
 		B7C2530E26D5409A00ACBB84 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C2530D26D5409A00ACBB84 /* Language.swift */; };
 		B7E64EC6275F578700FFD78E /* ReportApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E64EC5275F578700FFD78E /* ReportApi.swift */; };
 		B7E64EC8275F5A3B00FFD78E /* ReportRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E64EC7275F5A3B00FFD78E /* ReportRepository.swift */; };
+		B7E924C028058E6600F9D75D /* CommentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E924BF28058E6600F9D75D /* CommentHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -171,6 +172,7 @@
 		B7C2530D26D5409A00ACBB84 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		B7E64EC5275F578700FFD78E /* ReportApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportApi.swift; sourceTree = "<group>"; };
 		B7E64EC7275F5A3B00FFD78E /* ReportRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRepository.swift; sourceTree = "<group>"; };
+		B7E924BF28058E6600F9D75D /* CommentHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +219,7 @@
 				B7189ADD26EF489100CB9719 /* EngagementHelper.swift */,
 				B7AF660426F06EE400BDE9C4 /* UserHelper.swift */,
 				B786633927478B7000B13EEF /* ContentHelper.swift */,
+				B7E924BF28058E6600F9D75D /* CommentHelper.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -544,6 +547,7 @@
 				B7AC1E41271597EF002FC176 /* Follow.swift in Sources */,
 				B7C2530E26D5409A00ACBB84 /* Language.swift in Sources */,
 				B7684A5C26C5061C00C438C5 /* Link.swift in Sources */,
+				B7E924C028058E6600F9D75D /* CommentHelper.swift in Sources */,
 				B77364822759C92F00E8E74D /* Participate.swift in Sources */,
 				B797241527FAE33C00111F24 /* FacebookPage.swift in Sources */,
 				B7189AD026EF24A000CB9719 /* EngagementApi.swift in Sources */,
