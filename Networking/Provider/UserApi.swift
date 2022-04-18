@@ -54,8 +54,10 @@ extension UserApi: TargetType {
         switch self {
         case .getAllUser:
             return "/users"
+        case .getMe:
+            return "/v2/users/me"
         case .getUser(let userId):
-            return "/users/\(userId)"
+            return "/v2/users/\(userId)"
         case .getUserContents(let userId, _):
             return "/users/\(userId)/contents"
         case .getUserFollower(let userId, _):
@@ -102,7 +104,7 @@ extension UserApi: TargetType {
         switch self {
         case .getMe:
             let param = [
-                JsonKey.userFields.rawValue: "link-social"
+                JsonKey.userFields.rawValue: "relationships,sync-social,link-social"
             ]
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .getUser:
