@@ -25,25 +25,10 @@
 //  Created by Castcle Co., Ltd. on 15/10/2564 BE.
 //
 
+import Core
 import SwiftyJSON
 
 // MARK: - PageInfo
-public enum PageInfoKey: String, Codable {
-    case id
-    case castcleId
-    case displayName
-    case overview
-    case images
-    case following
-    case followers
-    case links
-    case followed
-    case blocking
-    case blocked
-    case verified
-    case syncSocial
-}
-
 public class PageInfo: NSObject {
     public var id: String = ""
     public var castcleId: String = ""
@@ -64,21 +49,21 @@ public class PageInfo: NSObject {
     }
     
     public init(json: JSON) {
-        self.id = json[PageInfoKey.id.rawValue].stringValue
-        self.castcleId = json[PageInfoKey.castcleId.rawValue].stringValue
-        self.displayName = json[PageInfoKey.displayName.rawValue].stringValue
-        self.overview = json[PageInfoKey.overview.rawValue].stringValue
-        self.followed = json[PageInfoKey.followed.rawValue].boolValue
-        self.blocking = json[PageInfoKey.blocking.rawValue].boolValue
-        self.blocked = json[PageInfoKey.blocked.rawValue].boolValue
+        self.id = json[JsonKey.id.rawValue].stringValue
+        self.castcleId = json[JsonKey.castcleId.rawValue].stringValue
+        self.displayName = json[JsonKey.displayName.rawValue].stringValue
+        self.overview = json[JsonKey.overview.rawValue].stringValue
+        self.followed = json[JsonKey.followed.rawValue].boolValue
+        self.blocking = json[JsonKey.blocking.rawValue].boolValue
+        self.blocked = json[JsonKey.blocked.rawValue].boolValue
         
         // MARK: - Object
-        self.images = UserImage(json: JSON(json[PageInfoKey.images.rawValue].dictionaryValue))
-        self.following = Following(json: JSON(json[PageInfoKey.following.rawValue].dictionaryValue))
-        self.followers = Followers(json: JSON(json[PageInfoKey.followers.rawValue].dictionaryValue))
-        self.links = Social(json: JSON(json[PageInfoKey.links.rawValue].dictionaryValue))
-        self.verified = Verified(json: JSON(json[PageInfoKey.verified.rawValue].dictionaryObject ?? [:]))
-        self.syncSocial = SyncSocial(json: JSON(json[PageInfoKey.syncSocial.rawValue].dictionaryObject ?? [:]))
+        self.images = UserImage(json: JSON(json[JsonKey.images.rawValue].dictionaryValue))
+        self.following = Following(json: JSON(json[JsonKey.following.rawValue].dictionaryValue))
+        self.followers = Followers(json: JSON(json[JsonKey.followers.rawValue].dictionaryValue))
+        self.links = Social(json: JSON(json[JsonKey.links.rawValue].dictionaryValue))
+        self.verified = Verified(json: JSON(json[JsonKey.verified.rawValue].dictionaryObject ?? [:]))
+        self.syncSocial = SyncSocial(json: JSON(json[JsonKey.syncSocial.rawValue].dictionaryObject ?? [:]))
     }
     
     public init(displayName: String, avatar: String, castcleId: String) {
@@ -106,10 +91,6 @@ public class Followers: NSObject {
 }
 
 // MARK: - Following
-public enum FollowingKey: String, Codable {
-    case count
-}
-
 public class Following: NSObject {
     public var count: Int = 0
     
@@ -118,19 +99,11 @@ public class Following: NSObject {
     }
     
     public init(json: JSON) {
-        self.count = json[FollowingKey.count.rawValue].intValue
+        self.count = json[JsonKey.count.rawValue].intValue
     }
 }
 
 // MARK: - Social
-public enum SocialKey: String, Codable {
-    case facebook
-    case twitter
-    case youtube
-    case medium
-    case website
-}
-
 public class Social: NSObject {
     public var facebook: String = ""
     public var twitter: String = ""
@@ -143,26 +116,15 @@ public class Social: NSObject {
     }
     
     public init(json: JSON) {
-        self.facebook = json[SocialKey.facebook.rawValue].stringValue
-        self.twitter = json[SocialKey.twitter.rawValue].stringValue
-        self.youtube = json[SocialKey.youtube.rawValue].stringValue
-        self.medium = json[SocialKey.medium.rawValue].stringValue
-        self.website = json[SocialKey.website.rawValue].stringValue
+        self.facebook = json[JsonKey.facebook.rawValue].stringValue
+        self.twitter = json[JsonKey.twitter.rawValue].stringValue
+        self.youtube = json[JsonKey.youtube.rawValue].stringValue
+        self.medium = json[JsonKey.medium.rawValue].stringValue
+        self.website = json[JsonKey.website.rawValue].stringValue
     }
 }
 
 // MARK: - SyncSocial
-public enum SyncSocialKey: String, Codable {
-    case id
-    case provider
-    case socialId
-    case userName
-    case displayName
-    case avatar
-    case active
-    case autoPost
-}
-
 public class SyncSocial: NSObject {
     public var id: String = ""
     public var provider: String = ""
@@ -178,13 +140,13 @@ public class SyncSocial: NSObject {
     }
     
     public init(json: JSON) {
-        self.id = json[SyncSocialKey.id.rawValue].stringValue
-        self.provider = json[SyncSocialKey.provider.rawValue].stringValue
-        self.socialId = json[SyncSocialKey.socialId.rawValue].stringValue
-        self.userName = json[SyncSocialKey.userName.rawValue].stringValue
-        self.displayName = json[SyncSocialKey.displayName.rawValue].stringValue
-        self.avatar = json[SyncSocialKey.avatar.rawValue].stringValue
-        self.active = json[SyncSocialKey.active.rawValue].boolValue
-        self.autoPost = json[SyncSocialKey.autoPost.rawValue].boolValue
+        self.id = json[JsonKey.id.rawValue].stringValue
+        self.provider = json[JsonKey.provider.rawValue].stringValue
+        self.socialId = json[JsonKey.socialId.rawValue].stringValue
+        self.userName = json[JsonKey.userName.rawValue].stringValue
+        self.displayName = json[JsonKey.displayName.rawValue].stringValue
+        self.avatar = json[JsonKey.avatar.rawValue].stringValue
+        self.active = json[JsonKey.active.rawValue].boolValue
+        self.autoPost = json[JsonKey.autoPost.rawValue].boolValue
     }
 }
