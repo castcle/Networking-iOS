@@ -63,7 +63,7 @@ public class Comment: NSObject {
     public let id: String
     public let message: String
     public let authorId: String
-    public let reply: [String]
+    public var reply: [String]
     public var metrics: Metric = Metric()
     public var participate: Participate = Participate()
     public let createdAt: String
