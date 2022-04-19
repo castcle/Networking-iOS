@@ -32,11 +32,12 @@ import RealmSwift
 // MARK: - Comment Payload
 public class CommentPayload: NSObject {
     public let payload: [Comment]
+    public var meta: Meta = Meta()
     
     public init(json: JSON) {
-        print(json)
         // MARK: - Comment
-        let commentJsonArr = json[JsonKey.payload.rawValue].arrayValue
+        self.payload = (json[JsonKey.payload.rawValue].arrayValue).map { Comment(json: $0) }
+        self.meta = Meta(json: JSON(json[JsonKey.meta.rawValue].dictionaryValue))
         let includes = JSON(json[JsonKey.includes.rawValue].dictionaryValue)
         let comments = includes[JsonKey.comments.rawValue].arrayValue
         let users = includes[JsonKey.users.rawValue].arrayValue
@@ -54,23 +55,6 @@ public class CommentPayload: NSObject {
                 realm.add(authorRef, update: .modified)
             }
         }
-        
-        
-        var commentArr: [Comment] = []
-        for index in (0..<commentJsonArr.count) {
-            if index == 0 {
-                if commentJsonArr.count == 1 {
-                    commentArr.append(Comment(json: commentJsonArr[index], isLast: true))
-                } else {
-                    commentArr.append(Comment(json: commentJsonArr[index], isFirst: true))
-                }
-            } else if index == (commentJsonArr.count - 1) {
-                commentArr.append(Comment(json: commentJsonArr[index], isLast: true))
-            } else {
-                commentArr.append(Comment(json: commentJsonArr[index]))
-            }
-        }
-        self.payload = commentArr
     }
 }
 

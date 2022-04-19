@@ -29,7 +29,7 @@ import Core
 import Moya
 
 enum CommentApi {
-    case getComments(String)
+    case getComments(String, CommentRequest)
     case createComment(String, CommentRequest)
     case replyComment(String, String, CommentRequest)
     case likedComment(String, String, CommentRequest)
@@ -43,12 +43,12 @@ extension CommentApi: TargetType {
     
     var path: String {
         switch self {
-        case .getComments(let contentId):
+        case .getComments(let contentId, _):
             return "/v2/contents/\(contentId)/comments"
-        case .createComment(let contentId, _):
-            return "/contents/\(contentId)/comments"
-        case .replyComment(let contentId, let commentId, _):
-            return "/contents/\(contentId)/comments/\(commentId)/reply"
+        case .createComment(let castcleId, _):
+            return "/v2/users/\(castcleId)/comments"
+        case .replyComment(let castcleId, let commentId, _):
+            return "/v2/users/\(castcleId)/comments/\(commentId)/reply"
         case .likedComment(let contentId, let commentId, _):
             return "/contents/\(contentId)/comments/\(commentId)/liked"
         case .unlikedComment(let contentId, let commentId, _):
@@ -73,11 +73,8 @@ extension CommentApi: TargetType {
     
     var task: Task {
         switch self {
-        case .getComments:
-            let param = [
-                JsonKey.userFields.rawValue: UserFields.relationships.rawValue
-            ]
-            return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
+        case .getComments(_ , let commentRequest):
+            return .requestParameters(parameters: commentRequest.paramGetComment, encoding: URLEncoding.queryString)
         case .createComment(_ , let commentRequest):
             return .requestParameters(parameters: commentRequest.paramCreateComment, encoding: JSONEncoding.default)
         case .replyComment(_, _, let commentRequest):
