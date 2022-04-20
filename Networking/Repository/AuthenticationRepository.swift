@@ -87,8 +87,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                         UserManager.shared.setRefreshToken(token: refreshToken)
                         completion(true)
                     } else {
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        ApiHelper.displayError(code: "\(code)", error: "\(json[ResponseErrorKey.message.rawValue].stringValue)")
+                        let code = json[JsonKey.code.rawValue].stringValue
+                        ApiHelper.displayError(code: "\(code)", error: "\(json[JsonKey.message.rawValue].stringValue)")
                         completion(false)
                     }
                 } catch {
@@ -127,7 +127,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                         let exist = payload[AuthenticationApiKey.exist.rawValue].boolValue
                         completion(true, exist)
                     } else {
-                        ApiHelper.displayError(code: "\(json[ResponseErrorKey.code.rawValue].stringValue)", error: "\(json[ResponseErrorKey.message.rawValue].stringValue)")
+                        ApiHelper.displayError(code: "\(json[JsonKey.code.rawValue].stringValue)", error: "\(json[JsonKey.message.rawValue].stringValue)")
                         completion(false, false)
                     }
                 } catch {
@@ -195,7 +195,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                     if response.statusCode < 300 {
                         completion(true)
                     } else {
-                        ApiHelper.displayError(code: "\(json[ResponseErrorKey.code.rawValue].stringValue)", error: "\(json[ResponseErrorKey.message.rawValue].stringValue)")
+                        ApiHelper.displayError(code: "\(json[JsonKey.code.rawValue].stringValue)", error: "\(json[JsonKey.message.rawValue].stringValue)")
                         completion(false)
                     }
                 } catch {
@@ -258,11 +258,11 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                         UserManager.shared.setAccessToken(token: accessToken)
                         completion(true, false)
                     } else {
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
+                        let code = json[JsonKey.code.rawValue].stringValue
                         if code == errorRefreshTokenExpired {
                             completion(false, true)
                         } else {
-                            ApiHelper.displayError(code: "\(code)", error: "\(json[ResponseErrorKey.message.rawValue].stringValue)")
+                            ApiHelper.displayError(code: "\(code)", error: "\(json[JsonKey.message.rawValue].stringValue)")
                             completion(false, false)
                         }
                     }

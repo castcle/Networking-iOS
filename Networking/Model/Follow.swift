@@ -25,20 +25,10 @@
 //  Created by Castcle Co., Ltd. on 12/10/2564 BE.
 //
 
+import Core
 import SwiftyJSON
 
 // MARK: - Follow
-public enum FollowKey: String, Codable {
-    case id
-    case castcleId
-    case displayName
-    case avatar
-    case overview
-    case verified
-    case type
-    case count
-}
-
 public class Follow: NSObject {
     public let id: String
     public let castcleId: String
@@ -50,15 +40,15 @@ public class Follow: NSObject {
     public let count: Int
     
     public init(json: JSON) {
-        self.id = json[FollowKey.id.rawValue].stringValue
-        self.castcleId = json[FollowKey.castcleId.rawValue].stringValue
-        self.displayName = json[FollowKey.displayName.rawValue].stringValue
-        self.overview = json[FollowKey.overview.rawValue].stringValue
-        self.type = AuthorType(rawValue: json[FollowKey.type.rawValue].stringValue) ?? .people
-        self.count = json[FollowKey.count.rawValue].intValue
+        self.id = json[JsonKey.id.rawValue].stringValue
+        self.castcleId = json[JsonKey.castcleId.rawValue].stringValue
+        self.displayName = json[JsonKey.displayName.rawValue].stringValue
+        self.overview = json[JsonKey.overview.rawValue].stringValue
+        self.type = AuthorType(rawValue: json[JsonKey.type.rawValue].stringValue) ?? .people
+        self.count = json[JsonKey.count.rawValue].intValue
         
         // MARK: - Object
-        self.verified = Verified(json: JSON(json[FollowKey.verified.rawValue].dictionaryObject ?? [:]))
-        self.avatar = ImageInfo(json: JSON(json[FollowKey.avatar.rawValue].dictionaryObject ?? [:]))
+        self.verified = Verified(json: JSON(json[JsonKey.verified.rawValue].dictionaryObject ?? [:]))
+        self.avatar = ImageInfo(json: JSON(json[JsonKey.avatar.rawValue].dictionaryObject ?? [:]))
     }
 }

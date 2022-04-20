@@ -25,15 +25,10 @@
 //  Created by Castcle Co., Ltd. on 14/7/2564 BE.
 //
 
+import Core
 import SwiftyJSON
 
 // MARK: - Feature
-public enum FeatureKey: String, Codable {
-    case slug
-    case name
-    case key
-}
-
 public class Feature: NSObject {
     public var slug: String = ""
     public var name: String = ""
@@ -44,8 +39,8 @@ public class Feature: NSObject {
     }
     
     public init(json: JSON) {
-        self.slug = json[FeatureKey.slug.rawValue].stringValue
-        self.name = json[FeatureKey.name.rawValue].stringValue
-        self.key = json[FeatureKey.key.rawValue].stringValue
+        self.slug = json[JsonKey.slug.rawValue].stringValue
+        self.name = json[JsonKey.name.rawValue].stringValue
+        self.key = json[JsonKey.key.rawValue].stringValue
     }
 }

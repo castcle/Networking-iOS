@@ -30,14 +30,6 @@ import SwiftyJSON
 import RealmSwift
 
 // MARK: - Hashtag List
-public enum FeedShelfKey: String, Codable {
-    case payload
-    case includes
-    case users
-    case casts
-    case meta
-}
-
 public class FeedShelf: NSObject {
     public var feeds: [Feed] = []
     public var meta: Meta = Meta()
@@ -47,12 +39,12 @@ public class FeedShelf: NSObject {
     }
     
     public init(json: JSON) {
-        self.feeds = (json[FeedShelfKey.payload.rawValue].arrayValue).map { Feed(json: $0) }.filter { $0.content.participate.reported == false }
-        self.meta = Meta(json: JSON(json[FeedShelfKey.meta.rawValue].dictionaryValue))
+        self.feeds = (json[JsonKey.payload.rawValue].arrayValue).map { Feed(json: $0) }.filter { $0.content.participate.reported == false }
+        self.meta = Meta(json: JSON(json[JsonKey.meta.rawValue].dictionaryValue))
         
-        let includes = JSON(json[FeedShelfKey.includes.rawValue].dictionaryValue)
-        let casts = includes[ContentShelfKey.casts.rawValue].arrayValue
-        let users = includes[FeedShelfKey.users.rawValue].arrayValue
+        let includes = JSON(json[JsonKey.includes.rawValue].dictionaryValue)
+        let casts = includes[JsonKey.casts.rawValue].arrayValue
+        let users = includes[JsonKey.users.rawValue].arrayValue
         
         let realm = try! Realm()
         casts.forEach { cast in

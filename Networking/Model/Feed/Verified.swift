@@ -25,16 +25,10 @@
 //  Created by Castcle Co., Ltd. on 4/10/2564 BE.
 //
 
+import Core
 import SwiftyJSON
 
-// MARK: - Circle
-public enum VerifiedKey: String, Codable {
-    case email
-    case mobile
-    case official
-    case social
-}
-
+// MARK: - Verified
 public class Verified {
     public var email: Bool = false
     public var mobile: Bool = false
@@ -46,9 +40,9 @@ public class Verified {
     }
     
     public init(json: JSON) {
-        self.email = json[VerifiedKey.email.rawValue].boolValue
-        self.mobile = json[VerifiedKey.mobile.rawValue].boolValue
-        self.official = json[VerifiedKey.official.rawValue].boolValue
-        self.social = json[VerifiedKey.social.rawValue].boolValue
+        self.email = json[JsonKey.email.rawValue].boolValue
+        self.mobile = json[JsonKey.mobile.rawValue].boolValue
+        self.official = json[JsonKey.official.rawValue].boolValue
+        self.social = json[JsonKey.social.rawValue].boolValue
     }
 }

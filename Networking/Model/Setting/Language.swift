@@ -25,15 +25,10 @@
 //  Created by Castcle Co., Ltd. on 24/8/2564 BE.
 //
 
+import Core
 import SwiftyJSON
 
-// MARK: - Feature
-public enum LanguageKey: String, Codable {
-    case code
-    case title
-    case display
-}
-
+// MARK: - Language
 public class Language: NSObject {
     public let code: String
     public let title: String
@@ -55,9 +50,9 @@ public class Language: NSObject {
     }
     
     public init(json: JSON) {
-        self.code = json[LanguageKey.code.rawValue].stringValue
-        self.title = json[LanguageKey.title.rawValue].stringValue
-        self.display = json[LanguageKey.display.rawValue].stringValue
+        self.code = json[JsonKey.code.rawValue].stringValue
+        self.title = json[JsonKey.title.rawValue].stringValue
+        self.display = json[JsonKey.display.rawValue].stringValue
         self.isSelected = false
     }
 }
