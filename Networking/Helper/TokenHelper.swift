@@ -43,7 +43,7 @@ public class TokenHelper {
                 self.delegate?.didRefreshTokenFinish()
             } else {
                 if refreshTokenExpired {
-                    UserHelper().clearUserData()
+                    UserHelper.shared.clearUserData()
                     self.guestLogin()
                     print("refreshTokenExpired")
                 }

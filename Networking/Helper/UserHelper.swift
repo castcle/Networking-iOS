@@ -27,10 +27,26 @@
 
 import Core
 import Defaults
+import RealmSwift
 
 public class UserHelper {
+    public static let shared = UserHelper()
+    
     public init() {
         // Init UserHelper
+    }
+    
+    public func isMyAccount(id: String) -> Bool {
+        if id == UserManager.shared.id {
+            return true
+        } else {
+            let realm = try! Realm()
+            if realm.objects(Page.self).filter("id = '\(id)'").first != nil {
+                return true
+            } else {
+                return false
+            }
+        }
     }
     
     public func updateLocalProfile(user: UserInfo) {

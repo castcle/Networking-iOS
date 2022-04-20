@@ -34,6 +34,8 @@ enum CommentApi {
     case replyComment(String, String, CommentRequest)
     case likedComment(String, String, CommentRequest)
     case unlikedComment(String, String, CommentRequest)
+    case deleteComment(String, String)
+    case deleteReplyComment(String, String, String)
 }
 
 extension CommentApi: TargetType {
@@ -53,6 +55,10 @@ extension CommentApi: TargetType {
             return "/contents/\(contentId)/comments/\(commentId)/liked"
         case .unlikedComment(let contentId, let commentId, _):
             return "/contents/\(contentId)/comments/\(commentId)/unliked"
+        case .deleteComment(let castcleId, let commentId):
+            return "/v2/users/\(castcleId)/comments/\(commentId)"
+        case .deleteReplyComment(let castcleId, let commentId, let replyId):
+            return "/v2/users/\(castcleId)/comments/\(commentId)/reply/\(replyId)"
         }
     }
     
@@ -64,6 +70,8 @@ extension CommentApi: TargetType {
             return .post
         case .likedComment, .unlikedComment:
             return .put
+        case .deleteComment, .deleteReplyComment:
+            return .delete
         }
     }
     
@@ -83,12 +91,14 @@ extension CommentApi: TargetType {
             return .requestParameters(parameters: commentRequest.paramLikedComment, encoding: JSONEncoding.default)
         case .unlikedComment(_, _, let commentRequest):
             return .requestParameters(parameters: commentRequest.paramUnlikedComment, encoding: JSONEncoding.default)
+        default:
+            return .requestPlain
         }
     }
     
     var headers: [String : String]? {
         switch self {
-        case .getComments:
+        case .getComments, .createComment, .replyComment, .deleteComment, .deleteReplyComment:
             return ApiHelper.header()
         default:
             return ApiHelper.header(version: "1.0")

@@ -49,19 +49,6 @@ public class ContentHelper {
         }
     }
     
-    public func isMyAccount(id: String) -> Bool {
-        if id == UserManager.shared.id {
-            return true
-        } else {
-            let realm = try! Realm()
-            if realm.objects(Page.self).filter("id = '\(id)'").first != nil {
-                return true
-            } else {
-                return false
-            }
-        }
-    }
-    
     public func getContentRef(id: String) -> Content? {
         if id.isEmpty {
             return nil
