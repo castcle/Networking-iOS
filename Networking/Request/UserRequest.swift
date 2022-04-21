@@ -25,26 +25,12 @@
 //  Created by Castcle Co., Ltd. on 31/8/2564 BE.
 //
 
-public enum UserChannelKey: String {
-    case email
-    case social
-}
+import Core
 
 public struct UserRequest {
-    enum UserRequestKey: String {
-        case channel
-        case payload
-        case targetCastcleId
-        case objective
-        case refCode
-        case countryCode
-        case mobileNumber
-    }
-    
     public var channel: UserChannelKey
     public var payload: UserPayloadRequest
     public var targetCastcleId: String
-    
     public var objective: AuthenObjective
     public var refCode: String
     public var countryCode: String
@@ -62,43 +48,34 @@ public struct UserRequest {
     
     public var paramDeleteUser: [String: Any] {
         return [
-            UserRequestKey.channel.rawValue: self.channel.rawValue,
-            UserRequestKey.payload.rawValue: self.payload.paramDeleteUserWithEmail
+            JsonKey.channel.rawValue: self.channel.rawValue,
+            JsonKey.payload.rawValue: self.payload.paramDeleteUserWithEmail
         ]
     }
     
     public var paramFollowUser: [String: Any] {
         return [
-            UserRequestKey.targetCastcleId.rawValue: self.targetCastcleId
+            JsonKey.targetCastcleId.rawValue: self.targetCastcleId
         ]
     }
     
     public var paramUpdateMobile: [String: Any] {
         return [
-            UserRequestKey.objective.rawValue: self.objective.rawValue,
-            UserRequestKey.refCode.rawValue: self.refCode,
-            UserRequestKey.countryCode.rawValue: self.countryCode,
-            UserRequestKey.mobileNumber.rawValue: self.mobileNumber
+            JsonKey.objective.rawValue: self.objective.rawValue,
+            JsonKey.refCode.rawValue: self.refCode,
+            JsonKey.countryCode.rawValue: self.countryCode,
+            JsonKey.mobileNumber.rawValue: self.mobileNumber
         ]
     }
 }
 
 public struct UserPayloadRequest {
-    enum UserPlayloadKey: String {
-        case password
-        case castcleId
-        case displayName
-        case overview
-        case dob
-        case images
-        case links
-    }
-    
     public var password: String
     public var castcleId: String
     public var displayName: String
     public var overview: String
     public var dob: String
+    public var contact: ContactRequest
     public var images: UserImageRequest
     public var links: UserLinkRequest
     
@@ -108,56 +85,63 @@ public struct UserPayloadRequest {
         self.displayName = ""
         self.overview = ""
         self.dob = ""
+        self.contact = ContactRequest()
         self.images = UserImageRequest()
         self.links = UserLinkRequest()
     }
     
     public var paramDeleteUserWithEmail: [String: Any] {
         return [
-            UserPlayloadKey.password.rawValue: self.password
+            JsonKey.password.rawValue: self.password
         ]
     }
     
     public var paramEditUserProfile: [String: Any] {
-        var param: [String: Any] = [
-            UserPlayloadKey.overview.rawValue: self.overview,
-            UserPlayloadKey.dob.rawValue: self.dob,
-            UserPlayloadKey.links.rawValue: self.links.paramEditUserLink
-        ]
+        var param: [String: Any] = [:]
+        if !self.overview.isEmpty {
+            param[JsonKey.overview.rawValue] = self.overview
+        }
+        
+        if !self.dob.isEmpty {
+            param[JsonKey.dob.rawValue] = self.dob
+        }
+        
+        if !self.links.facebook.isEmpty || !self.links.twitter.isEmpty || !self.links.youtube.isEmpty || !self.links.medium.isEmpty || !self.links.website.isEmpty {
+            param[JsonKey.links.rawValue] = self.links.paramEditUserLink
+        }
         
         if !self.castcleId.isEmpty {
-            param[UserPlayloadKey.castcleId.rawValue] = self.castcleId
+            param[JsonKey.castcleId.rawValue] = self.castcleId
         }
         
         if !self.displayName.isEmpty {
-            param[UserPlayloadKey.displayName.rawValue] = self.displayName
+            param[JsonKey.displayName.rawValue] = self.displayName
         }
         
         if !self.images.avatar.isEmpty || !self.images.cover.isEmpty {
-            param[UserPlayloadKey.images.rawValue] = self.images.paramEditUserInfo
+            param[JsonKey.images.rawValue] = self.images.paramEditUserInfo
+        }
+        
+        if !self.contact.phone.isEmpty || !self.contact.email.isEmpty {
+            param[JsonKey.contact.rawValue] = self.contact.paramEditContact
         }
         return param
     }
     
     public var paramEditUserAvatar: [String: Any] {
         return [
-            UserPlayloadKey.images.rawValue: self.images.paramEditUserAvatar
+            JsonKey.images.rawValue: self.images.paramEditUserAvatar
         ]
     }
     
     public var paramEditUserCover: [String: Any] {
         return [
-            UserPlayloadKey.images.rawValue: self.images.paramEditUserCover
+            JsonKey.images.rawValue: self.images.paramEditUserCover
         ]
     }
 }
 
 public struct UserImageRequest {
-    enum UserImageRequestKey: String {
-        case avatar
-        case cover
-    }
-    
     public var avatar: String
     public var cover: String
     
@@ -169,36 +153,28 @@ public struct UserImageRequest {
     public var paramEditUserInfo: [String: Any] {
         var param: [String: Any] = [:]
         if !self.avatar.isEmpty {
-            param[UserImageRequestKey.avatar.rawValue] = self.avatar
+            param[JsonKey.avatar.rawValue] = self.avatar
         }
         if !self.cover.isEmpty {
-            param[UserImageRequestKey.cover.rawValue] = self.cover
+            param[JsonKey.cover.rawValue] = self.cover
         }
         return param
     }
     
     public var paramEditUserAvatar: [String: Any] {
         return [
-            UserImageRequestKey.avatar.rawValue: self.avatar
+            JsonKey.avatar.rawValue: self.avatar
         ]
     }
     
     public var paramEditUserCover: [String: Any] {
         return [
-            UserImageRequestKey.cover.rawValue: self.cover
+            JsonKey.cover.rawValue: self.cover
         ]
     }
 }
 
 public struct UserLinkRequest {
-    enum UserLinkRequestKey: String {
-        case facebook
-        case twitter
-        case youtube
-        case medium
-        case website
-    }
-    
     public var facebook: String
     public var twitter: String
     public var youtube: String
@@ -215,11 +191,28 @@ public struct UserLinkRequest {
     
     public var paramEditUserLink: [String: Any] {
         return [
-            UserLinkRequestKey.facebook.rawValue: self.facebook,
-            UserLinkRequestKey.twitter.rawValue: self.twitter,
-            UserLinkRequestKey.youtube.rawValue: self.youtube,
-            UserLinkRequestKey.medium.rawValue: self.medium,
-            UserLinkRequestKey.website.rawValue: self.website
+            JsonKey.facebook.rawValue: self.facebook,
+            JsonKey.twitter.rawValue: self.twitter,
+            JsonKey.youtube.rawValue: self.youtube,
+            JsonKey.medium.rawValue: self.medium,
+            JsonKey.website.rawValue: self.website
+        ]
+    }
+}
+
+public struct ContactRequest {
+    public var phone: String
+    public var email: String
+    
+    public init() {
+        self.phone = ""
+        self.email = ""
+    }
+    
+    public var paramEditContact: [String: Any] {
+        return [
+            JsonKey.phone.rawValue: self.phone,
+            JsonKey.email.rawValue: self.email
         ]
     }
 }

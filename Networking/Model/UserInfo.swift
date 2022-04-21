@@ -37,6 +37,7 @@ public class UserInfo {
     public var email: String = ""
     public var overview: String = ""
     public var dob: String = ""
+    public var contact: Contact = Contact()
     public var images: UserImage = UserImage()
     public var links: UserLink = UserLink()
     public var following: UserFollowing = UserFollowing()
@@ -72,6 +73,7 @@ public class UserInfo {
         
         // MARK: - Object
         self.images = UserImage(json: JSON(json[JsonKey.images.rawValue].dictionaryObject ?? [:]))
+        self.contact = Contact(json: JSON(json[JsonKey.contact.rawValue].dictionaryObject ?? [:]))
         self.links = UserLink(json: JSON(json[JsonKey.links.rawValue].dictionaryObject ?? [:]))
         self.following = UserFollowing(json: JSON(json[JsonKey.following.rawValue].dictionaryObject ?? [:]))
         self.followers = UserFollowers(json: JSON(json[JsonKey.followers.rawValue].dictionaryObject ?? [:]))
@@ -101,6 +103,21 @@ public class UserImage {
     public init(json: JSON) {
         self.cover = ImageInfo(json: JSON(json[JsonKey.cover.rawValue].dictionaryObject ?? [:]))
         self.avatar = ImageInfo(json: JSON(json[JsonKey.avatar.rawValue].dictionaryObject ?? [:]))
+    }
+}
+
+// MARK: - Contact
+public class Contact {
+    public var phone: String = ""
+    public var email: String = ""
+    
+    public init() {
+        // Init Contact
+    }
+    
+    public init(json: JSON) {
+        self.phone = json[JsonKey.phone.rawValue].stringValue
+        self.email = json[JsonKey.email.rawValue].stringValue
     }
 }
 

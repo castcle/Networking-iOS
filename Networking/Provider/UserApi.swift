@@ -71,7 +71,7 @@ extension UserApi: TargetType {
         case .updateMobile:
             return "/users/me/mobile"
         case .updateInfo(let userId, _):
-            return "/users/\(userId)"
+            return "/v2/users/\(userId)"
         case .updateAvatar(let userId, _):
             return "/users/\(userId)"
         case .updateCover(let userId, _):
@@ -139,7 +139,7 @@ extension UserApi: TargetType {
     
     var headers: [String : String]? {
         switch self {
-        case .syncSocial:
+        case .getMe, .getUser, .syncSocial, .updateInfo:
             return ApiHelper.header()
         default:
             return ApiHelper.header(version: "1.0")
