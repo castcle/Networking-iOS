@@ -30,8 +30,7 @@ import Core
 public struct CommentRequest {
     public var message: String = ""
     public var contentId: String = ""
-    public var castcleId: String = ""
-    public var feedItemId: String = ""
+    public var commentId: String = ""
     public var untilId: String = ""
     public var maxResults: Int = 25
     public var userFields: UserFields = .relationships
@@ -68,15 +67,7 @@ public struct CommentRequest {
     
     public var paramLikedComment: [String: Any] {
         return [
-            JsonKey.feedItemId.rawValue: self.feedItemId,
-            JsonKey.castcleId.rawValue: self.castcleId
-        ]
-    }
-    
-    public var paramUnlikedComment: [String: Any] {
-        return [
-            JsonKey.feedItemId.rawValue: self.feedItemId,
-            JsonKey.castcleId.rawValue: self.castcleId
+            JsonKey.commentId.rawValue: self.commentId
         ]
     }
 }
