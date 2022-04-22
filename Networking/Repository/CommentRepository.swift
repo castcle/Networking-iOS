@@ -30,11 +30,13 @@ import Moya
 import SwiftyJSON
 
 public protocol CommentRepository {
-    func getComments(contentId: String, _ completion: @escaping complate)
-    func createComment(contentId: String, commentRequest: CommentRequest, _ completion: @escaping complate)
-    func replyComment(contentId: String, commentId: String, commentRequest: CommentRequest, _ completion: @escaping complate)
-    func likedComment(contentId: String, commentId: String, commentRequest: CommentRequest, _ completion: @escaping complate)
-    func unlikedComment(contentId: String, commentId: String, commentRequest: CommentRequest, _ completion: @escaping complate)
+    func getComments(contentId: String, commentRequest: CommentRequest, _ completion: @escaping complate)
+    func createComment(castcleId: String, commentRequest: CommentRequest, _ completion: @escaping complate)
+    func replyComment(castcleId: String, commentId: String, commentRequest: CommentRequest, _ completion: @escaping complate)
+    func likedComment(castcleId: String, commentRequest: CommentRequest, _ completion: @escaping complate)
+    func unlikedComment(castcleId: String, commentId: String, _ completion: @escaping complate)
+    func deleteComment(castcleId: String, commentId: String, _ completion: @escaping complate)
+    func deleteReplyComment(castcleId: String, commentId: String, replyId: String, _ completion: @escaping complate)
 }
 
 public final class CommentRepositoryImpl: CommentRepository {
@@ -45,8 +47,8 @@ public final class CommentRepositoryImpl: CommentRepository {
         // MARK: - Init
     }
     
-    public func getComments(contentId: String, _ completion: @escaping complate) {
-        self.commentProvider.request(.getComments(contentId)) { result in
+    public func getComments(contentId: String, commentRequest: CommentRequest, _ completion: @escaping complate) {
+        self.commentProvider.request(.getComments(contentId, commentRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -58,8 +60,8 @@ public final class CommentRepositoryImpl: CommentRepository {
         }
     }
     
-    public func createComment(contentId: String, commentRequest: CommentRequest, _ completion: @escaping complate) {
-        self.commentProvider.request(.createComment(contentId, commentRequest)) { result in
+    public func createComment(castcleId: String, commentRequest: CommentRequest, _ completion: @escaping complate) {
+        self.commentProvider.request(.createComment(castcleId, commentRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -71,8 +73,8 @@ public final class CommentRepositoryImpl: CommentRepository {
         }
     }
     
-    public func replyComment(contentId: String, commentId: String, commentRequest: CommentRequest, _ completion: @escaping complate) {
-        self.commentProvider.request(.replyComment(contentId, commentId, commentRequest)) { result in
+    public func replyComment(castcleId: String, commentId: String, commentRequest: CommentRequest, _ completion: @escaping complate) {
+        self.commentProvider.request(.replyComment(castcleId, commentId, commentRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -84,8 +86,8 @@ public final class CommentRepositoryImpl: CommentRepository {
         }
     }
     
-    public func likedComment(contentId: String, commentId: String, commentRequest: CommentRequest, _ completion: @escaping complate) {
-        self.commentProvider.request(.likedComment(contentId, commentId, commentRequest)) { result in
+    public func likedComment(castcleId: String, commentRequest: CommentRequest, _ completion: @escaping complate) {
+        self.commentProvider.request(.likedComment(castcleId, commentRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -97,8 +99,34 @@ public final class CommentRepositoryImpl: CommentRepository {
         }
     }
     
-    public func unlikedComment(contentId: String, commentId: String, commentRequest: CommentRequest, _ completion: @escaping complate) {
-        self.commentProvider.request(.unlikedComment(contentId, commentId, commentRequest)) { result in
+    public func unlikedComment(castcleId: String, commentId: String, _ completion: @escaping complate) {
+        self.commentProvider.request(.unlikedComment(castcleId, commentId)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func deleteComment(castcleId: String, commentId: String, _ completion: @escaping complate) {
+        self.commentProvider.request(.deleteComment(castcleId, commentId)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func deleteReplyComment(castcleId: String, commentId: String, replyId: String, _ completion: @escaping complate) {
+        self.commentProvider.request(.deleteReplyComment(castcleId, commentId, replyId)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

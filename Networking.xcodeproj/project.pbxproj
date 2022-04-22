@@ -68,14 +68,12 @@
 		B7A71D73270304060092F318 /* ContentApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A71D72270304060092F318 /* ContentApi.swift */; };
 		B7A71D752703059E0092F318 /* ContentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A71D742703059E0092F318 /* ContentRequest.swift */; };
 		B7A71D77270308910092F318 /* ContentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A71D76270308910092F318 /* ContentRepository.swift */; };
-		B7A71D792704192E0092F318 /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A71D782704192E0092F318 /* Pagination.swift */; };
 		B7A71D7B27041F1F0092F318 /* ContentShelf.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A71D7A27041F1F0092F318 /* ContentShelf.swift */; };
 		B7AC1E3627158B27002FC176 /* SearchApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC1E3527158B27002FC176 /* SearchApi.swift */; };
 		B7AC1E3827158BAE002FC176 /* SearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC1E3727158BAE002FC176 /* SearchRequest.swift */; };
 		B7AC1E3A27158D1A002FC176 /* SearchRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC1E3927158D1A002FC176 /* SearchRepository.swift */; };
 		B7AC1E3F27159243002FC176 /* TopTrend.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC1E3E27159243002FC176 /* TopTrend.swift */; };
 		B7AC1E41271597EF002FC176 /* Follow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC1E40271597EF002FC176 /* Follow.swift */; };
-		B7AC87F8271934FF00500F81 /* PageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC87F7271934FF00500F81 /* PageInfo.swift */; };
 		B7AF660326F0611C00BDE9C4 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF660226F0611C00BDE9C4 /* UserInfo.swift */; };
 		B7AF660526F06EE400BDE9C4 /* UserHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF660426F06EE400BDE9C4 /* UserHelper.swift */; };
 		B7AF661826F2FA1200BDE9C4 /* PageApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF661726F2FA1200BDE9C4 /* PageApi.swift */; };
@@ -156,14 +154,12 @@
 		B7A71D72270304060092F318 /* ContentApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentApi.swift; sourceTree = "<group>"; };
 		B7A71D742703059E0092F318 /* ContentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentRequest.swift; sourceTree = "<group>"; };
 		B7A71D76270308910092F318 /* ContentRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentRepository.swift; sourceTree = "<group>"; };
-		B7A71D782704192E0092F318 /* Pagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pagination.swift; sourceTree = "<group>"; };
 		B7A71D7A27041F1F0092F318 /* ContentShelf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentShelf.swift; sourceTree = "<group>"; };
 		B7AC1E3527158B27002FC176 /* SearchApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchApi.swift; sourceTree = "<group>"; };
 		B7AC1E3727158BAE002FC176 /* SearchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRequest.swift; sourceTree = "<group>"; };
 		B7AC1E3927158D1A002FC176 /* SearchRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRepository.swift; sourceTree = "<group>"; };
 		B7AC1E3E27159243002FC176 /* TopTrend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopTrend.swift; sourceTree = "<group>"; };
 		B7AC1E40271597EF002FC176 /* Follow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Follow.swift; sourceTree = "<group>"; };
-		B7AC87F7271934FF00500F81 /* PageInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageInfo.swift; sourceTree = "<group>"; };
 		B7AF660226F0611C00BDE9C4 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		B7AF660426F06EE400BDE9C4 /* UserHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHelper.swift; sourceTree = "<group>"; };
 		B7AF661726F2FA1200BDE9C4 /* PageApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageApi.swift; sourceTree = "<group>"; };
@@ -295,7 +291,6 @@
 				B7684A3D26C5061B00C438C5 /* Hashtag.swift */,
 				B7AC1E40271597EF002FC176 /* Follow.swift */,
 				B710693627189D8A00D53527 /* Keyword.swift */,
-				B7AC87F7271934FF00500F81 /* PageInfo.swift */,
 				B70EDBD827BB7BE000EA53E2 /* Ads.swift */,
 				B779CCF127EC4EF300B432F8 /* RemoteConfig.swift */,
 				B797241427FAE33C00111F24 /* FacebookPage.swift */,
@@ -315,7 +310,6 @@
 				B7684A4926C5061B00C438C5 /* Circle.swift */,
 				B7684A4A26C5061B00C438C5 /* Feed.swift */,
 				B7684A4B26C5061B00C438C5 /* ContentPayload.swift */,
-				B7A71D782704192E0092F318 /* Pagination.swift */,
 				B79DF1A9270AB34300A40502 /* Verified.swift */,
 				B773647D2759C60600E8E74D /* ReferencedCast.swift */,
 				B773647F2759C81500E8E74D /* Metric.swift */,
@@ -514,7 +508,6 @@
 			files = (
 				B7684A6626C5061C00C438C5 /* FeedShelf.swift in Sources */,
 				B7AF660526F06EE400BDE9C4 /* UserHelper.swift in Sources */,
-				B7A71D792704192E0092F318 /* Pagination.swift in Sources */,
 				B7167F9027ACEC6300067DBD /* PageSocialRequest.swift in Sources */,
 				B7684A5726C5061C00C438C5 /* AuthenticationRepository.swift in Sources */,
 				B7A71D7B27041F1F0092F318 /* ContentShelf.swift in Sources */,
@@ -551,7 +544,6 @@
 				B77364822759C92F00E8E74D /* Participate.swift in Sources */,
 				B797241527FAE33C00111F24 /* FacebookPage.swift in Sources */,
 				B7189AD026EF24A000CB9719 /* EngagementApi.swift in Sources */,
-				B7AC87F8271934FF00500F81 /* PageInfo.swift in Sources */,
 				B79DF1B0270EF30C00A40502 /* FeedRequest.swift in Sources */,
 				B7A71D0726FC64700092F318 /* NotificationRepository.swift in Sources */,
 				B7642C5E26E10F8000CDCE95 /* CommentApi.swift in Sources */,

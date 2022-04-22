@@ -25,15 +25,10 @@
 //  Created by Castcle Co., Ltd. on 3/12/2564 BE.
 //
 
+import Core
 import SwiftyJSON
 
-// MARK: - Circle
-public enum MetaKey: String, Codable {
-    case oldestId
-    case newestId
-    case resultCount
-}
-
+// MARK: - Meta
 public class Meta: NSObject {
     public var oldestId: String = ""
     public var newestId: String = ""
@@ -44,8 +39,8 @@ public class Meta: NSObject {
     }
     
     public init(json: JSON) {
-        self.oldestId = json[MetaKey.oldestId.rawValue].stringValue
-        self.newestId = json[MetaKey.newestId.rawValue].stringValue
-        self.resultCount = json[MetaKey.resultCount.rawValue].intValue
+        self.oldestId = json[JsonKey.oldestId.rawValue].stringValue
+        self.newestId = json[JsonKey.newestId.rawValue].stringValue
+        self.resultCount = json[JsonKey.resultCount.rawValue].intValue
     }
 }

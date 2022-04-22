@@ -54,8 +54,10 @@ extension UserApi: TargetType {
         switch self {
         case .getAllUser:
             return "/users"
+        case .getMe:
+            return "/v2/users/me"
         case .getUser(let userId):
-            return "/users/\(userId)"
+            return "/v2/users/\(userId)"
         case .getUserContents(let userId, _):
             return "/users/\(userId)/contents"
         case .getUserFollower(let userId, _):
@@ -69,7 +71,7 @@ extension UserApi: TargetType {
         case .updateMobile:
             return "/users/me/mobile"
         case .updateInfo(let userId, _):
-            return "/users/\(userId)"
+            return "/v2/users/\(userId)"
         case .updateAvatar(let userId, _):
             return "/users/\(userId)"
         case .updateCover(let userId, _):
@@ -102,7 +104,7 @@ extension UserApi: TargetType {
         switch self {
         case .getMe:
             let param = [
-                JsonKey.userFields.rawValue: "link-social"
+                JsonKey.userFields.rawValue: "relationships,sync-social,link-social"
             ]
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .getUser:
@@ -137,7 +139,7 @@ extension UserApi: TargetType {
     
     var headers: [String : String]? {
         switch self {
-        case .syncSocial:
+        case .getMe, .getUser, .syncSocial, .updateInfo:
             return ApiHelper.header()
         default:
             return ApiHelper.header(version: "1.0")

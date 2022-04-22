@@ -87,8 +87,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                         UserManager.shared.setRefreshToken(token: refreshToken)
                         completion(true)
                     } else {
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        ApiHelper.displayError(code: "\(code)", error: "\(json[ResponseErrorKey.message.rawValue].stringValue)")
+                        let code = json[JsonKey.code.rawValue].stringValue
+                        ApiHelper.displayError(code: "\(code)", error: "\(json[JsonKey.message.rawValue].stringValue)")
                         completion(false)
                     }
                 } catch {
@@ -127,7 +127,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                         let exist = payload[AuthenticationApiKey.exist.rawValue].boolValue
                         completion(true, exist)
                     } else {
-                        ApiHelper.displayError(code: "\(json[ResponseErrorKey.code.rawValue].stringValue)", error: "\(json[ResponseErrorKey.message.rawValue].stringValue)")
+                        ApiHelper.displayError(code: "\(json[JsonKey.code.rawValue].stringValue)", error: "\(json[JsonKey.message.rawValue].stringValue)")
                         completion(false, false)
                     }
                 } catch {
@@ -195,7 +195,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                     if response.statusCode < 300 {
                         completion(true)
                     } else {
-                        ApiHelper.displayError(code: "\(json[ResponseErrorKey.code.rawValue].stringValue)", error: "\(json[ResponseErrorKey.message.rawValue].stringValue)")
+                        ApiHelper.displayError(code: "\(json[JsonKey.code.rawValue].stringValue)", error: "\(json[JsonKey.message.rawValue].stringValue)")
                         completion(false)
                     }
                 } catch {
@@ -233,15 +233,14 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                         let accessToken = json[AuthenticationApiKey.accessToken.rawValue].stringValue
                         let profile = JSON(json[AuthenticationApiKey.profile.rawValue].dictionaryValue)
                         let pages = json[AuthenticationApiKey.pages.rawValue].arrayValue
-                        let userHelper = UserHelper()
-                        userHelper.updateLocalProfile(user: UserInfo(json: profile))
+                        UserHelper.shared.updateLocalProfile(user: UserInfo(json: profile))
                         let pageRealm = self.realm.objects(Page.self)
                         try! self.realm.write {
                             self.realm.delete(pageRealm)
                         }
                         
                         pages.forEach { page in
-                            let pageInfo = PageInfo(json: page)
+                            let pageInfo = UserInfo(json: page)
                             try! self.realm.write {
                                 let pageTemp = Page()
                                 pageTemp.id = pageInfo.id
@@ -251,20 +250,19 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                                 pageTemp.cover = pageInfo.images.cover.fullHd
                                 pageTemp.overview = pageInfo.overview
                                 pageTemp.official = pageInfo.verified.official
-                                pageTemp.socialProvider = pageInfo.syncSocial.provider
-                                pageTemp.socialActive = pageInfo.syncSocial.active
-                                pageTemp.socialAutoPost = pageInfo.syncSocial.autoPost
+                                pageTemp.isSyncTwitter = !pageInfo.syncSocial.twitter.socialId.isEmpty
+                                pageTemp.isSyncFacebook = !pageInfo.syncSocial.facebook.socialId.isEmpty
                                 self.realm.add(pageTemp, update: .modified)
                             }
                         }
                         UserManager.shared.setAccessToken(token: accessToken)
                         completion(true, false)
                     } else {
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
+                        let code = json[JsonKey.code.rawValue].stringValue
                         if code == errorRefreshTokenExpired {
                             completion(false, true)
                         } else {
-                            ApiHelper.displayError(code: "\(code)", error: "\(json[ResponseErrorKey.message.rawValue].stringValue)")
+                            ApiHelper.displayError(code: "\(code)", error: "\(json[JsonKey.message.rawValue].stringValue)")
                             completion(false, false)
                         }
                     }

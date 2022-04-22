@@ -25,20 +25,16 @@
 //  Created by Castcle Co., Ltd. on 15/10/2564 BE.
 //
 
+import Core
 import SwiftyJSON
 
 // MARK: - Keyword
-public enum KeywordKey: String, Codable {
-    case text
-    case isTrending
-}
-
 public class Keyword: NSObject {
     public let text: String
     public let isTrending: Bool
     
     public init(json: JSON) {
-        self.text = json[KeywordKey.text.rawValue].stringValue
-        self.isTrending = json[KeywordKey.isTrending.rawValue].boolValue
+        self.text = json[JsonKey.text.rawValue].stringValue
+        self.isTrending = json[JsonKey.isTrending.rawValue].boolValue
     }
 }

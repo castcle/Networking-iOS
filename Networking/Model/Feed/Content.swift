@@ -29,44 +29,6 @@ import Core
 import SwiftyJSON
 
 // MARK: - Content
-public enum ContentKey: String, Codable {
-    case id
-    case authorId
-    case type
-    case message
-    case photo
-    case link
-    case referencedCasts
-    case metrics
-    case participate
-    case createdAt
-    case updatedAt
-    case contents
-}
-
-public enum ContentType: String, Codable {
-    case short
-    case long
-    case blog
-    case image
-    case shortClip
-    case clip
-    case live
-    case unknow = ""
-}
-
-public enum FeedDisplayType: String {
-    case postText
-    case postLink
-    case postLinkPreview
-    case postImageX1
-    case postImageX2
-    case postImageX3
-    case postImageXMore
-    case blogImage
-    case blogNoImage
-}
-
 public class Content {
     public var id: String = ""
     public var authorId: String = ""
@@ -141,23 +103,23 @@ public class Content {
     }
     
     public init(json: JSON) {
-        self.id = json[ContentKey.id.rawValue].stringValue
-        self.authorId = json[ContentKey.authorId.rawValue].stringValue
-        self.type = ContentType(rawValue: json[ContentKey.type.rawValue].stringValue) ?? .short
-        self.message = json[ContentKey.message.rawValue].stringValue
-        self.createdAt = json[ContentKey.createdAt.rawValue].stringValue
-        self.updatedAt = json[ContentKey.updatedAt.rawValue].stringValue
+        self.id = json[JsonKey.id.rawValue].stringValue
+        self.authorId = json[JsonKey.authorId.rawValue].stringValue
+        self.type = ContentType(rawValue: json[JsonKey.type.rawValue].stringValue) ?? .short
+        self.message = json[JsonKey.message.rawValue].stringValue
+        self.createdAt = json[JsonKey.createdAt.rawValue].stringValue
+        self.updatedAt = json[JsonKey.updatedAt.rawValue].stringValue
         
         // MARK: - Object
-        self.referencedCasts = ReferencedCast(json: JSON(json[ContentKey.referencedCasts.rawValue].dictionaryObject ?? [:]))
-        self.metrics = Metric(json: JSON(json[ContentKey.metrics.rawValue].dictionaryObject ?? [:]))
-        self.participate = Participate(json: JSON(json[ContentKey.participate.rawValue].dictionaryObject ?? [:]))
+        self.referencedCasts = ReferencedCast(json: JSON(json[JsonKey.referencedCasts.rawValue].dictionaryObject ?? [:]))
+        self.metrics = Metric(json: JSON(json[JsonKey.metrics.rawValue].dictionaryObject ?? [:]))
+        self.participate = Participate(json: JSON(json[JsonKey.participate.rawValue].dictionaryObject ?? [:]))
         
         // MARK: - Photo
-        let photoJson = JSON(json[ContentKey.photo.rawValue].dictionaryValue)
-        self.photo = (photoJson[ContentKey.contents.rawValue].arrayValue).map { ImageInfo(json: $0) }
+        let photoJson = JSON(json[JsonKey.photo.rawValue].dictionaryValue)
+        self.photo = (photoJson[JsonKey.contents.rawValue].arrayValue).map { ImageInfo(json: $0) }
 
         // MARK: - Link
-        self.link = (json[ContentPayloadKey.link.rawValue].arrayValue).map { Link(json: $0) }
+        self.link = (json[JsonKey.link.rawValue].arrayValue).map { Link(json: $0) }
     }
 }

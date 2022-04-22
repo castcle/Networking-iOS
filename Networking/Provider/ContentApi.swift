@@ -31,8 +31,8 @@ import Moya
 enum ContentApi {
     case getMeContents(ContentRequest)
     case createContent(String, ContentRequest)
-    case likeContent(String)
-    case unlikeContent(String)
+    case likeContent(String, String)
+    case unlikeContent(String, String)
     case deleteContent(String)
     case recastContent(ContentRequest)
     case unrecastContent(ContentRequest)
@@ -50,10 +50,10 @@ extension ContentApi: TargetType {
             return "/users/me/contents"
         case .createContent(let feature, _):
             return "/contents/\(feature)"
-        case .likeContent:
-            return "/users/me/likes"
-        case .unlikeContent(let contentId):
-            return "users/me/likes/\(contentId)"
+        case .likeContent(let castcleId, _):
+            return "/v2/users/\(castcleId)/likes-casts"
+        case .unlikeContent(let castcleId, let contentId):
+            return "/v2/users/\(castcleId)/likes-casts/\(contentId)"
         case .deleteContent(let contentId):
             return "/contents/\(contentId)"
         case .recastContent(let contentRequest):
@@ -90,9 +90,9 @@ extension ContentApi: TargetType {
             return .requestParameters(parameters: contentRequest.paramRecastContent, encoding: JSONEncoding.default)
         case .quotecastContent(let contentRequest):
             return .requestParameters(parameters: contentRequest.paramQuotecastContent, encoding: JSONEncoding.default)
-        case .likeContent(let contentId):
+        case .likeContent(_, let contentId):
             let param = [
-                "contentId": contentId
+                JsonKey.contentId.rawValue: contentId
             ]
             return .requestParameters(parameters: param, encoding: JSONEncoding.default)
         default:
@@ -101,6 +101,11 @@ extension ContentApi: TargetType {
     }
     
     var headers: [String : String]? {
-        return ApiHelper.header(version: "1.0")
+        switch self {
+        case .likeContent, .unlikeContent:
+            return ApiHelper.header()
+        default:
+            return ApiHelper.header(version: "1.0")
+        }
     }
 }

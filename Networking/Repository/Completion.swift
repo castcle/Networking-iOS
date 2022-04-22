@@ -43,7 +43,7 @@ public class CompletionHelper {
             do {
                 let rawJson = try response.mapJSON()
                 let json = JSON(rawJson)
-                let code = json[ResponseErrorKey.code.rawValue].stringValue
+                let code = json[JsonKey.code.rawValue].stringValue
                 if code == errorRefreshToken {
                     completion(false, response, true)
                 } else if isSocialLogin && code == errorEmailIsAlreadyInCastcle {
@@ -53,7 +53,7 @@ public class CompletionHelper {
                     print("\(response.request!)")
                     print("\(String(describing: response.request?.headers))")
                     print("###########################")
-                    ApiHelper.displayError(code: "\(code)", error: "\(json[ResponseErrorKey.message.rawValue].stringValue)")
+                    ApiHelper.displayError(code: "\(code)", error: "\(json[JsonKey.message.rawValue].stringValue)")
                     completion(false, response, false)
                 }
             } catch {
