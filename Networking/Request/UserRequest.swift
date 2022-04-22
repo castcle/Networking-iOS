@@ -28,22 +28,16 @@
 import Core
 
 public struct UserRequest {
-    public var channel: UserChannelKey
-    public var payload: UserPayloadRequest
-    public var targetCastcleId: String
-    public var objective: AuthenObjective
-    public var refCode: String
-    public var countryCode: String
-    public var mobileNumber: String
+    public var channel: UserChannelKey = .email
+    public var payload: UserPayloadRequest = UserPayloadRequest()
+    public var targetCastcleId: String = ""
+    public var objective: AuthenObjective = .none
+    public var refCode: String = ""
+    public var countryCode: String = ""
+    public var mobileNumber: String = ""
     
     public init() {
-        self.channel = .email
-        self.payload = UserPayloadRequest()
-        self.targetCastcleId = ""
-        self.objective = .none
-        self.refCode = ""
-        self.countryCode = ""
-        self.mobileNumber = ""
+        // Init
     }
     
     public var paramDeleteUser: [String: Any] {
@@ -70,24 +64,17 @@ public struct UserRequest {
 }
 
 public struct UserPayloadRequest {
-    public var password: String
-    public var castcleId: String
-    public var displayName: String
-    public var overview: String
-    public var dob: String
-    public var contact: ContactRequest
-    public var images: UserImageRequest
-    public var links: UserLinkRequest
+    public var password: String = ""
+    public var castcleId: String = ""
+    public var displayName: String = ""
+    public var overview: String = ""
+    public var dob: String = ""
+    public var contact: ContactRequest = ContactRequest()
+    public var images: UserImageRequest = UserImageRequest()
+    public var links: UserLinkRequest = UserLinkRequest()
     
     public init() {
-        self.password = ""
-        self.castcleId = ""
-        self.displayName = ""
-        self.overview = ""
-        self.dob = ""
-        self.contact = ContactRequest()
-        self.images = UserImageRequest()
-        self.links = UserLinkRequest()
+        // Init
     }
     
     public var paramDeleteUserWithEmail: [String: Any] {
@@ -142,12 +129,11 @@ public struct UserPayloadRequest {
 }
 
 public struct UserImageRequest {
-    public var avatar: String
-    public var cover: String
+    public var avatar: String = ""
+    public var cover: String = ""
     
     public init() {
-        self.avatar = ""
-        self.cover = ""
+        // Init
     }
     
     public var paramEditUserInfo: [String: Any] {
@@ -175,18 +161,14 @@ public struct UserImageRequest {
 }
 
 public struct UserLinkRequest {
-    public var facebook: String
-    public var twitter: String
-    public var youtube: String
-    public var medium: String
-    public var website: String
+    public var facebook: String = ""
+    public var twitter: String = ""
+    public var youtube: String = ""
+    public var medium: String = ""
+    public var website: String = ""
     
     public init() {
-        self.facebook = ""
-        self.twitter = ""
-        self.youtube = ""
-        self.medium = ""
-        self.website = ""
+        // Init
     }
     
     public var paramEditUserLink: [String: Any] {
@@ -201,16 +183,17 @@ public struct UserLinkRequest {
 }
 
 public struct ContactRequest {
-    public var phone: String
-    public var email: String
+    public var countryCode: String = ""
+    public var phone: String = ""
+    public var email: String = ""
     
     public init() {
-        self.phone = ""
-        self.email = ""
+        // Init
     }
     
     public var paramEditContact: [String: Any] {
         return [
+            JsonKey.countryCode.rawValue: self.countryCode,
             JsonKey.phone.rawValue: self.phone,
             JsonKey.email.rawValue: self.email
         ]

@@ -108,6 +108,7 @@ public class UserImage {
 
 // MARK: - Contact
 public class Contact {
+    public var countryCode: String = ""
     public var phone: String = ""
     public var email: String = ""
     
@@ -116,6 +117,7 @@ public class Contact {
     }
     
     public init(json: JSON) {
+        self.countryCode = json[JsonKey.countryCode.rawValue].stringValue
         self.phone = json[JsonKey.phone.rawValue].stringValue
         self.email = json[JsonKey.email.rawValue].stringValue
     }
