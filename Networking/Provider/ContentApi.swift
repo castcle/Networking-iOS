@@ -30,6 +30,7 @@ import Moya
 
 enum ContentApi {
     case getMeContents(ContentRequest)
+    case getContentDetail(String)
     case createContent(String, ContentRequest)
     case likeContent(String, String)
     case unlikeContent(String, String)
@@ -48,6 +49,8 @@ extension ContentApi: TargetType {
         switch self {
         case .getMeContents:
             return "/users/me/contents"
+        case.getContentDetail(let contentId):
+            return "/contents/\(contentId)"
         case .createContent(let feature, _):
             return "/contents/\(feature)"
         case .likeContent(let castcleId, _):
@@ -67,7 +70,7 @@ extension ContentApi: TargetType {
     
     var method: Moya.Method {
         switch self {
-        case .getMeContents:
+        case .getMeContents, .getContentDetail:
             return .get
         case .createContent, .likeContent, .recastContent, .quotecastContent:
             return .post
@@ -84,6 +87,11 @@ extension ContentApi: TargetType {
         switch self {
         case .getMeContents(let contentRequest):
             return .requestParameters(parameters: contentRequest.paramGetContent, encoding: URLEncoding.queryString)
+        case .getContentDetail:
+            let param = [
+                JsonKey.userFields.rawValue: UserFields.relationships.rawValue
+            ]
+            return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .createContent(_, let contentRequest):
             return .requestParameters(parameters: contentRequest.paramCreateContent, encoding: JSONEncoding.default)
         case .recastContent(let contentRequest):

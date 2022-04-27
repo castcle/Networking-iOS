@@ -31,6 +31,7 @@ import SwiftyJSON
 
 public protocol ContentRepository {
     func getMeContents(contentRequest: ContentRequest, _ completion: @escaping complate)
+    func getContentDetail(contentId: String, _ completion: @escaping complate)
     func createContent(featureSlug: String, contentRequest: ContentRequest, _ completion: @escaping complate)
     func likeContent(castcleId: String, contentId: String, _ completion: @escaping complate)
     func unlikeContent(castcleId: String, contentId: String, _ completion: @escaping complate)
@@ -50,6 +51,19 @@ public final class ContentRepositoryImpl: ContentRepository {
     
     public func getMeContents(contentRequest: ContentRequest, _ completion: @escaping complate) {
         self.contentProvider.request(.getMeContents(contentRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func getContentDetail(contentId: String, _ completion: @escaping complate) {
+        self.contentProvider.request(.getContentDetail(contentId)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
