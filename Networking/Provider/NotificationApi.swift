@@ -45,7 +45,7 @@ extension NotificationApi: TargetType {
         case .registerToken, .unregisterToken:
             return "/authentications/register-token"
         case .getBadges:
-            return "/notifications/badges"
+            return "/v2/notifications/badges"
         case .getNotification:
             return "/notifications"
         }
@@ -79,6 +79,11 @@ extension NotificationApi: TargetType {
     }
     
     var headers: [String : String]? {
-        return ApiHelper.header(version: "1.0")
+        switch self {
+        case .getBadges:
+            return ApiHelper.header()
+        default:
+            return ApiHelper.header(version: "1.0")
+        }
     }
 }

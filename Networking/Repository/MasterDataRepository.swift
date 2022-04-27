@@ -47,7 +47,6 @@ public final class MasterDataRepositoryImpl: MasterDataRepository {
         self.masterDataProvider.request(.getCountry) { result in
             switch result {
             case .success(let response):
-                completion(true, response, false)
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
@@ -61,7 +60,6 @@ public final class MasterDataRepositoryImpl: MasterDataRepository {
         self.masterDataProvider.request(.getMentions(keyword)) { result in
             switch result {
             case .success(let response):
-                completion(true, response, false)
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
@@ -75,7 +73,6 @@ public final class MasterDataRepositoryImpl: MasterDataRepository {
         self.masterDataProvider.request(.getHashtag(keyword)) { result in
             switch result {
             case .success(let response):
-                completion(true, response, false)
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }

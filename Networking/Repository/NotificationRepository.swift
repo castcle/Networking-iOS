@@ -28,6 +28,7 @@
 import Core
 import Moya
 import SwiftyJSON
+import Defaults
 
 public protocol NotificationRepository {
     func registerToken(notificationRequest: NotificationRequest, _ completion: @escaping complate)
@@ -70,8 +71,18 @@ public final class NotificationRepositoryImpl: NotificationRepository {
         self.notificationProvider.request(.getBadges) { result in
             switch result {
             case .success(let response):
-                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
-                    completion(success, response, isRefreshToken)
+                do {
+                    let rawJson = try response.mapJSON()
+                    let json = JSON(rawJson)
+                    let page: Int = json[JsonKey.page.rawValue].intValue
+                    let profile: Int = json[JsonKey.profile.rawValue].intValue
+                    let system: Int = json[JsonKey.system.rawValue].intValue
+                    Defaults[.notificationBadges] = (page + profile + system)
+                    self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                        completion(success, response, isRefreshToken)
+                    }
+                } catch {
+                    completion(false, response, false)
                 }
             case .failure(let error):
                 completion(false, error as! Response, false)
