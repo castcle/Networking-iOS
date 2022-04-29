@@ -95,11 +95,13 @@ public class UserHelper {
         Defaults[.websiteLink] = ""
         Defaults[.avatar] = ""
         Defaults[.cover] = ""
-        Defaults[.notificationBadges] = 0
         Defaults[.passwordNotSet] = true
         Defaults[.canUpdateCastcleId] = false
         Defaults[.mobileCountryCode] = ""
         Defaults[.mobileNumber] = ""
+        Defaults[.badgePage] = 0
+        Defaults[.badgeProfile] = 0
+        Defaults[.badgeSystem] = 0
     }
     
     public func clearSeenContent() {

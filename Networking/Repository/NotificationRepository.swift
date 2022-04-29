@@ -74,10 +74,9 @@ public final class NotificationRepositoryImpl: NotificationRepository {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-                    let page: Int = json[JsonKey.page.rawValue].intValue
-                    let profile: Int = json[JsonKey.profile.rawValue].intValue
-                    let system: Int = json[JsonKey.system.rawValue].intValue
-                    Defaults[.notificationBadges] = (page + profile + system)
+                    Defaults[.badgePage] = json[JsonKey.page.rawValue].intValue
+                    Defaults[.badgeProfile] = json[JsonKey.profile.rawValue].intValue
+                    Defaults[.badgeSystem] = json[JsonKey.system.rawValue].intValue
                     self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                         completion(success, response, isRefreshToken)
                     }
