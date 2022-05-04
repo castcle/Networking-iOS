@@ -25,16 +25,13 @@
 //  Created by Castcle Co., Ltd. on 23/9/2564 BE.
 //
 
+import Core
+
 public struct NotificationRequest {
-    enum NotificationKey: String {
-        case uuid
-        case firebaseToken
-        case platform
-    }
-    
     public var uuid: String = ""
     public var firebaseToken: String = ""
     public var platform: String = "ios"
+    public var source: NotificationSection = .profile
     
     public init() {
         // Init NotificationRequest
@@ -42,9 +39,15 @@ public struct NotificationRequest {
     
     public var paramRegisterToken: [String: Any] {
         return [
-            NotificationKey.uuid.rawValue: self.uuid,
-            NotificationKey.firebaseToken.rawValue: self.firebaseToken,
-            NotificationKey.platform.rawValue: self.platform
+            JsonKey.uuid.rawValue: self.uuid,
+            JsonKey.firebaseToken.rawValue: self.firebaseToken,
+            JsonKey.platform.rawValue: self.platform
+        ]
+    }
+    
+    public var paramGetNotifications: [String: Any] {
+        return [
+            JsonKey.source.rawValue: self.source.rawValue
         ]
     }
 }

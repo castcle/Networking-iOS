@@ -34,7 +34,7 @@ public protocol NotificationRepository {
     func registerToken(notificationRequest: NotificationRequest, _ completion: @escaping complate)
     func unregisterToken(notificationRequest: NotificationRequest, _ completion: @escaping complate)
     func getBadges(_ completion: @escaping complate)
-    //case getNotification(NotificationRequest)
+    func getNotification(notificationRequest: NotificationRequest, _ completion: @escaping complate)
 }
 
 public final class NotificationRepositoryImpl: NotificationRepository {
@@ -83,6 +83,17 @@ public final class NotificationRepositoryImpl: NotificationRepository {
                 } catch {
                     completion(false, response, false)
                 }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func getNotification(notificationRequest: NotificationRequest, _ completion: @escaping complate) {
+        self.notificationProvider.request(.getNotification(notificationRequest)) { result in
+            switch result {
+            case .success(let response):
+                completion(true, response, false)
             case .failure(let error):
                 completion(false, error as! Response, false)
             }

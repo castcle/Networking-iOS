@@ -47,7 +47,7 @@ extension NotificationApi: TargetType {
         case .getBadges:
             return "/v2/notifications/badges"
         case .getNotification:
-            return "/notifications"
+            return "/v2/notifications"
         }
     }
     
@@ -73,6 +73,8 @@ extension NotificationApi: TargetType {
             return .requestParameters(parameters: notificationRequest.paramRegisterToken, encoding: JSONEncoding.default)
         case .unregisterToken(let notificationRequest):
             return .requestParameters(parameters: notificationRequest.paramRegisterToken, encoding: JSONEncoding.default)
+        case .getNotification(let notificationRequest):
+            return .requestParameters(parameters: notificationRequest.paramGetNotifications, encoding: URLEncoding.queryString)
         default:
             return .requestPlain
         }
@@ -80,7 +82,7 @@ extension NotificationApi: TargetType {
     
     var headers: [String : String]? {
         switch self {
-        case .getBadges:
+        case .getBadges, .getNotification:
             return ApiHelper.header()
         default:
             return ApiHelper.header(version: "1.0")
