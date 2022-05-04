@@ -35,7 +35,7 @@ public class Notify: NSObject {
     public var read: Bool = true
     public var type: NotificationType = .none
     public var message: String = ""
-    public var landingPage: String = ""
+    public var landingPage: LandingPage = .none
     public var avatar: ImageInfo = ImageInfo()
     public var commentId: String = ""
     public var contentId: String = ""
@@ -56,7 +56,6 @@ public class Notify: NSObject {
         self.source = json[JsonKey.source.rawValue].stringValue
         self.read = json[JsonKey.read.rawValue].boolValue
         self.message = json[JsonKey.message.rawValue].stringValue
-        self.landingPage = json[JsonKey.landingPage.rawValue].stringValue
         self.commentId = json[JsonKey.commentId.rawValue].stringValue
         self.contentId = json[JsonKey.contentId.rawValue].stringValue
         self.profileId = json[JsonKey.profileId.rawValue].stringValue
@@ -65,6 +64,7 @@ public class Notify: NSObject {
         
         // MARK: - Object
         self.type = NotificationType(rawValue: json[JsonKey.type.rawValue].stringValue) ?? .none
+        self.landingPage = LandingPage(rawValue: json[JsonKey.landingPage.rawValue].stringValue) ?? .none
         self.avatar = ImageInfo(json: JSON(json[JsonKey.avatar.rawValue].dictionaryValue))
     }
 }

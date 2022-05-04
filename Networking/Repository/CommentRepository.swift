@@ -31,6 +31,7 @@ import SwiftyJSON
 
 public protocol CommentRepository {
     func getComments(contentId: String, commentRequest: CommentRequest, _ completion: @escaping complate)
+    func getCommentDetail(contentId: String, commentId: String, commentRequest: CommentRequest, _ completion: @escaping complate)
     func createComment(castcleId: String, commentRequest: CommentRequest, _ completion: @escaping complate)
     func replyComment(castcleId: String, commentId: String, commentRequest: CommentRequest, _ completion: @escaping complate)
     func likedComment(castcleId: String, commentRequest: CommentRequest, _ completion: @escaping complate)
@@ -49,6 +50,19 @@ public final class CommentRepositoryImpl: CommentRepository {
     
     public func getComments(contentId: String, commentRequest: CommentRequest, _ completion: @escaping complate) {
         self.commentProvider.request(.getComments(contentId, commentRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func getCommentDetail(contentId: String, commentId: String, commentRequest: CommentRequest, _ completion: @escaping complate) {
+        self.commentProvider.request(.getCommentDetail(contentId, commentId, commentRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

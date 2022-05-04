@@ -30,6 +30,7 @@ import Moya
 
 enum CommentApi {
     case getComments(String, CommentRequest)
+    case getCommentDetail(String, String, CommentRequest)
     case createComment(String, CommentRequest)
     case replyComment(String, String, CommentRequest)
     case likedComment(String, CommentRequest)
@@ -47,6 +48,8 @@ extension CommentApi: TargetType {
         switch self {
         case .getComments(let contentId, _):
             return "/v2/contents/\(contentId)/comments"
+        case .getCommentDetail(let contentId, let commentId, _):
+            return "/v2/contents/\(contentId)/comments/\(commentId)"
         case .createComment(let castcleId, _):
             return "/v2/users/\(castcleId)/comments"
         case .replyComment(let castcleId, let commentId, _):
@@ -64,7 +67,7 @@ extension CommentApi: TargetType {
     
     var method: Moya.Method {
         switch self {
-        case .getComments:
+        case .getComments, .getCommentDetail:
             return .get
         case .createComment, .replyComment, .likedComment:
             return .post
@@ -80,6 +83,8 @@ extension CommentApi: TargetType {
     var task: Task {
         switch self {
         case .getComments(_ , let commentRequest):
+            return .requestParameters(parameters: commentRequest.paramGetComment, encoding: URLEncoding.queryString)
+        case .getCommentDetail(_, _, let commentRequest):
             return .requestParameters(parameters: commentRequest.paramGetComment, encoding: URLEncoding.queryString)
         case .createComment(_ , let commentRequest):
             return .requestParameters(parameters: commentRequest.paramCreateComment, encoding: JSONEncoding.default)

@@ -31,8 +31,12 @@ import RealmSwift
 
 // MARK: - Comment Payload
 public class CommentPayload: NSObject {
-    public let payload: [Comment]
+    public var payload: [Comment] = []
     public var meta: Meta = Meta()
+    
+    public override init() {
+        // Init CommentPayload
+    }
     
     public init(json: JSON) {
         // MARK: - Comment
@@ -60,16 +64,20 @@ public class CommentPayload: NSObject {
 
 // MARK: - Comment
 public class Comment: NSObject {
-    public let id: String
-    public let message: String
-    public let authorId: String
-    public var reply: [String]
+    public var id: String = ""
+    public var message: String = ""
+    public var authorId: String = ""
+    public var reply: [String] = []
     public var metrics: Metric = Metric()
     public var participate: Participate = Participate()
-    public let createdAt: String
-    public let updatedAt: String
-    public var isFirst: Bool
-    public var isLast: Bool
+    public var createdAt: String = ""
+    public var updatedAt: String = ""
+    public var isFirst: Bool = false
+    public var isLast: Bool = false
+    
+    public override init() {
+        // Init Comment
+    }
     
     public init(json: JSON, isFirst: Bool = false, isLast: Bool = false) {
         self.id = json[JsonKey.id.rawValue].stringValue
