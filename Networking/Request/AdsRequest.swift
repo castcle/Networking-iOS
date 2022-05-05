@@ -25,12 +25,9 @@
 //  Created by Castcle Co., Ltd. on 15/2/2565 BE.
 //
 
-public struct AdsRequest {
-    enum AdsKey: String {
-        case untilId
-        case maxResults
-    }
+import Core
 
+public struct AdsRequest {
     public var untilId: String = ""
     public var maxResults: Int = 25
     
@@ -40,11 +37,11 @@ public struct AdsRequest {
     
     public var paramGetAds: [String: Any] {
         var param: [String: Any] = [
-            AdsKey.maxResults.rawValue: self.maxResults
+            JsonKey.maxResults.rawValue: self.maxResults
         ]
         
         if !self.untilId.isEmpty {
-            param[AdsKey.untilId.rawValue] = self.untilId
+            param[JsonKey.untilId.rawValue] = self.untilId
         }
         
         return param

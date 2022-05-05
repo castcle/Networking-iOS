@@ -28,7 +28,6 @@
 import Core
 
 public struct LoginRequest {
-    
     public var email: String
     public var password: String
     

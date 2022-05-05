@@ -25,22 +25,9 @@
 //  Created by Castcle Co., Ltd. on 13/9/2564 BE.
 //
 
+import Core
+
 public struct EngagementRequest {
-    enum EngagementKey: String {
-        case platform
-        case client
-        case accountId
-        case uxSessionId
-        case screenId
-        case screenInstance
-        case feedItemId
-        case target
-        case targetId
-        case eventType
-        case eventData
-        case timestamp
-    }
-    
     public var platform: String = "iOS"
     public var client: String = ""
     public var accountId: String = ""
@@ -60,18 +47,18 @@ public struct EngagementRequest {
     
     public var paramEngagement: [String: Any] {
         return [
-            EngagementKey.platform.rawValue: self.platform,
-            EngagementKey.client.rawValue: self.client,
-            EngagementKey.accountId.rawValue: self.accountId,
-            EngagementKey.uxSessionId.rawValue: self.uxSessionId,
-            EngagementKey.screenId.rawValue: self.screenId,
-            EngagementKey.screenInstance.rawValue: self.screenInstance,
-            EngagementKey.feedItemId.rawValue: self.feedItemId,
-            EngagementKey.target.rawValue: self.target,
-            EngagementKey.targetId.rawValue: self.targetId,
-            EngagementKey.eventType.rawValue: self.eventType,
-            EngagementKey.eventData.rawValue: self.eventData,
-            EngagementKey.timestamp.rawValue: self.timestamp
+            JsonKey.platform.rawValue: self.platform,
+            JsonKey.client.rawValue: self.client,
+            JsonKey.accountId.rawValue: self.accountId,
+            JsonKey.uxSessionId.rawValue: self.uxSessionId,
+            JsonKey.screenId.rawValue: self.screenId,
+            JsonKey.screenInstance.rawValue: self.screenInstance,
+            JsonKey.feedItemId.rawValue: self.feedItemId,
+            JsonKey.target.rawValue: self.target,
+            JsonKey.targetId.rawValue: self.targetId,
+            JsonKey.eventType.rawValue: self.eventType,
+            JsonKey.eventData.rawValue: self.eventData,
+            JsonKey.timestamp.rawValue: self.timestamp
         ]
     }
 }

@@ -27,34 +27,13 @@
 
 import Core
 
-public enum AuthenChannelKey: String {
-    case mobile
-    case email
-}
-
-public enum AuthenObjective: String {
-    case forgotPassword = "forgot_password"
-    case changePassword = "change_password"
-    case verifyMobile = "verify_mobile"
-    case mergeAccount = "merge_account"
-    case none
-}
-
-public enum SocialProvider: String {
-    case facebook
-    case twitter
-    case google
-    case apple = "apple id"
-    case none
-}
-
 public struct AuthenRequest {
     public var objective: AuthenObjective
     public var channel: AuthenChannelKey
     public var payload: AuthenPayloadRequest
     
     // Login with Social
-    public var provider: SocialProvider = .none
+    public var provider: AuthenSocialProvider = .none
     public var socialId: String = ""
     public var displayName: String = ""
     public var userName: String = ""

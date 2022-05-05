@@ -25,19 +25,9 @@
 //  Created by Castcle Co., Ltd. on 16/9/2564 BE.
 //
 
+import Core
+
 public struct PageRequest {
-    enum PageKey: String {
-        case payload
-        case castcleId
-        case displayName
-        case images
-        case avatar
-        case cover
-        case overview
-        case links
-        case password
-    }
-    
     public var castcleId: String = ""
     public var displayName: String = ""
     public var avatar: String = ""
@@ -52,50 +42,42 @@ public struct PageRequest {
     
     public var paramCreatePage: [String: Any] {
         return [
-            PageKey.castcleId.rawValue: self.castcleId,
-            PageKey.displayName.rawValue: self.displayName
+            JsonKey.castcleId.rawValue: self.castcleId,
+            JsonKey.displayName.rawValue: self.displayName
         ]
     }
     
     public var paramUpdatePageAvatar: [String: Any] {
         return [
-            PageKey.images.rawValue: [
-                PageKey.avatar.rawValue: self.avatar
+            JsonKey.images.rawValue: [
+                JsonKey.avatar.rawValue: self.avatar
             ]
         ]
     }
     
     public var paramUpdatePageCover: [String: Any] {
         return [
-            PageKey.images.rawValue: [
-                PageKey.cover.rawValue: self.cover
+            JsonKey.images.rawValue: [
+                JsonKey.cover.rawValue: self.cover
             ]
         ]
     }
     
     public var paramUpdatePage: [String: Any] {
         return [
-            PageKey.overview.rawValue: self.overview,
-            PageKey.links.rawValue: self.links.paramEditPageLink
+            JsonKey.overview.rawValue: self.overview,
+            JsonKey.links.rawValue: self.links.paramEditPageLink
         ]
     }
     
     public var paramDeletePage: [String: Any] {
         return [
-            PageKey.password.rawValue: self.password
+            JsonKey.password.rawValue: self.password
         ]
     }
 }
 
 public struct PageLinkRequest {
-    enum PageLinkRequestKey: String {
-        case facebook
-        case twitter
-        case youtube
-        case medium
-        case website
-    }
-    
     public var facebook: String
     public var twitter: String
     public var youtube: String
@@ -112,11 +94,11 @@ public struct PageLinkRequest {
     
     public var paramEditPageLink: [String: Any] {
         return [
-            PageLinkRequestKey.facebook.rawValue: self.facebook,
-            PageLinkRequestKey.twitter.rawValue: self.twitter,
-            PageLinkRequestKey.youtube.rawValue: self.youtube,
-            PageLinkRequestKey.medium.rawValue: self.medium,
-            PageLinkRequestKey.website.rawValue: self.website
+            JsonKey.facebook.rawValue: self.facebook,
+            JsonKey.twitter.rawValue: self.twitter,
+            JsonKey.youtube.rawValue: self.youtube,
+            JsonKey.medium.rawValue: self.medium,
+            JsonKey.website.rawValue: self.website
         ]
     }
 }
