@@ -25,6 +25,7 @@
 //  Created by Castcle Co., Ltd. on 14/9/2564 BE.
 //
 
+import UIKit
 import Core
 import Defaults
 import RealmSwift
@@ -102,6 +103,7 @@ public class UserHelper {
         Defaults[.badgePage] = 0
         Defaults[.badgeProfile] = 0
         Defaults[.badgeSystem] = 0
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
     
     public func clearSeenContent() {
