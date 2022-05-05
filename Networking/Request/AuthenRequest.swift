@@ -100,6 +100,13 @@ public struct AuthenRequest {
         return param
     }
     
+    public var paramRequestOtpWithEmail: [String: Any] {
+        return [
+            JsonKey.objective.rawValue: self.objective.rawValue,
+            JsonKey.email.rawValue: self.email,
+        ]
+    }
+    
     public var paramVerifyOtp: [String: Any] {
         var param: [String: Any] = [
             JsonKey.objective.rawValue: self.objective.rawValue,

@@ -44,23 +44,10 @@ public protocol AuthenticationRepository {
     func verifyPassword(authenRequest: AuthenRequest, _ completion: @escaping complate)
     func changePasswordSubmit(authenRequest: AuthenRequest, _ completion: @escaping complate)
     func requestOtp(authenRequest: AuthenRequest, _ completion: @escaping complate)
+    func requestOtpWithEmail(authenRequest: AuthenRequest, _ completion: @escaping complate)
     func verificationOtp(authenRequest: AuthenRequest, _ completion: @escaping complate)
     func loginWithSocial(authenRequest: AuthenRequest, _ completion: @escaping complate)
     func connectWithSocial(authenRequest: AuthenRequest, _ completion: @escaping complate)
-}
-
-public enum AuthenticationApiKey: String {
-    case uuid = "deviceUUID"
-    case accessToken
-    case refreshToken
-    case exist
-    case suggestCastcleId
-    case payload
-    case refCode
-    case profile
-    case pages
-    case code
-    case registered
 }
 
 public final class AuthenticationRepositoryImpl: AuthenticationRepository {
@@ -80,8 +67,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     if response.statusCode < 300 {
-                        let accessToken = json[AuthenticationApiKey.accessToken.rawValue].stringValue
-                        let refreshToken = json[AuthenticationApiKey.refreshToken.rawValue].stringValue
+                        let accessToken = json[JsonKey.accessToken.rawValue].stringValue
+                        let refreshToken = json[JsonKey.refreshToken.rawValue].stringValue
                         UserManager.shared.setUserRole(userRole: .guest)
                         UserManager.shared.setAccessToken(token: accessToken)
                         UserManager.shared.setRefreshToken(token: refreshToken)
@@ -123,8 +110,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     if response.statusCode < 300 {
-                        let payload = JSON(json[AuthenticationApiKey.payload.rawValue].dictionaryValue)
-                        let exist = payload[AuthenticationApiKey.exist.rawValue].boolValue
+                        let payload = JSON(json[JsonKey.payload.rawValue].dictionaryValue)
+                        let exist = payload[JsonKey.exist.rawValue].boolValue
                         completion(true, exist)
                     } else {
                         ApiHelper.displayError(code: "\(json[JsonKey.code.rawValue].stringValue)", error: "\(json[JsonKey.message.rawValue].stringValue)")
@@ -230,9 +217,9 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     if response.statusCode < 300 {
-                        let accessToken = json[AuthenticationApiKey.accessToken.rawValue].stringValue
-                        let profile = JSON(json[AuthenticationApiKey.profile.rawValue].dictionaryValue)
-                        let pages = json[AuthenticationApiKey.pages.rawValue].arrayValue
+                        let accessToken = json[JsonKey.accessToken.rawValue].stringValue
+                        let profile = JSON(json[JsonKey.profile.rawValue].dictionaryValue)
+                        let pages = json[JsonKey.pages.rawValue].arrayValue
                         UserHelper.shared.updateLocalProfile(user: UserInfo(json: profile))
                         let pageRealm = self.realm.objects(Page.self)
                         try! self.realm.write {
@@ -305,6 +292,19 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
     
     public func requestOtp(authenRequest: AuthenRequest, _ completion: @escaping complate) {
         self.authenticationProvider.request(.requestOtp(authenRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func requestOtpWithEmail(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+        self.authenticationProvider.request(.requestOtpWithEmail(authenRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
