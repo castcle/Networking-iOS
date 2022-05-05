@@ -32,6 +32,8 @@ public struct NotificationRequest {
     public var firebaseToken: String = ""
     public var platform: String = "ios"
     public var source: NotificationSection = .profile
+    public var untilId: String = ""
+    public var maxResults: Int = 25
     
     public init() {
         // Init NotificationRequest
@@ -46,8 +48,13 @@ public struct NotificationRequest {
     }
     
     public var paramGetNotifications: [String: Any] {
-        return [
-            JsonKey.source.rawValue: self.source.rawValue
+        var param: [String: Any] = [
+            JsonKey.source.rawValue: self.source.rawValue,
+            JsonKey.maxResults.rawValue: self.maxResults
         ]
+        if !self.untilId.isEmpty {
+            param[JsonKey.untilId.rawValue] = self.untilId
+        }
+        return param
     }
 }
