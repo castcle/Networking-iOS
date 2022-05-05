@@ -34,9 +34,9 @@ import RealmSwift
 public protocol AuthenticationRepository {
     func guestLogin(uuid: String, _ completion: @escaping (Bool) -> ())
     func login(loginRequest: LoginRequest, _ completion: @escaping complate)
-    func checkEmailExists(authenRequest: AuthenRequest, _ completion: @escaping (Bool, Bool) -> ())
+    func checkEmail(authenRequest: AuthenRequest, _ completion: @escaping (Bool, Bool) -> ())
     func suggestCastcleId(authenRequest: AuthenRequest, _ completion: @escaping complate)
-    func checkCastcleIdExists(authenRequest: AuthenRequest, _ completion: @escaping complate)
+    func checkCastcleId(authenRequest: AuthenRequest, _ completion: @escaping complate)
     func register(authenRequest: AuthenRequest, _ completion: @escaping complate)
     func verificationEmail(_ completion: @escaping (Bool) -> ())
     func requestLinkVerify(_ completion: @escaping complate)
@@ -115,8 +115,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
         }
     }
     
-    public func checkEmailExists(authenRequest: AuthenRequest, _ completion: @escaping (Bool, Bool) -> ()) {
-        self.authenticationProvider.request(.checkEmailExists(authenRequest)) { result in
+    public func checkEmail(authenRequest: AuthenRequest, _ completion: @escaping (Bool, Bool) -> ()) {
+        self.authenticationProvider.request(.checkEmail(authenRequest)) { result in
             switch result {
             case .success(let response):
                 do {
@@ -155,8 +155,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
         }
     }
     
-    public func checkCastcleIdExists(authenRequest: AuthenRequest, _ completion: @escaping complate) {
-        self.authenticationProvider.request(.checkCastcleIdExists(authenRequest)) { result in
+    public func checkCastcleId(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+        self.authenticationProvider.request(.checkCastcleId(authenRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

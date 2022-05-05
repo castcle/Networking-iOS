@@ -31,9 +31,9 @@ import Moya
 enum AuthenticationApi {
     case guestLogin(String)
     case login(LoginRequest)
-    case checkEmailExists(AuthenRequest)
+    case checkEmail(AuthenRequest)
     case suggestCastcleId(AuthenRequest)
-    case checkCastcleIdExists(AuthenRequest)
+    case checkCastcleId(AuthenRequest)
     case register(AuthenRequest)
     case verificationEmail
     case requestLinkVerify
@@ -57,12 +57,12 @@ extension AuthenticationApi: TargetType {
             return "/authentications/guestLogin"
         case .login:
             return "/v2/authentications/login-with-email"
-        case .checkEmailExists:
-            return "/authentications/checkEmailExists"
+        case .checkEmail:
+            return "/v2/authentications/exists/email"
         case .suggestCastcleId:
             return "/authentications/suggestCastcleId"
-        case .checkCastcleIdExists:
-            return "/authentications/checkCastcleIdExists"
+        case .checkCastcleId:
+            return "/v2/authentications/exists/castcle-id"
         case .register:
             return "/authentications/register"
         case .verificationEmail:
@@ -100,12 +100,12 @@ extension AuthenticationApi: TargetType {
             return .requestParameters(parameters: [AuthenticationApiKey.uuid.rawValue: uuid], encoding: JSONEncoding.default)
         case .login(let loginRequest):
             return .requestParameters(parameters: loginRequest.paramLogin, encoding: JSONEncoding.default)
-        case .checkEmailExists(let authenRequest):
-            return .requestParameters(parameters: authenRequest.payload.paramCheckEmailExists, encoding: JSONEncoding.default)
+        case .checkEmail(let authenRequest):
+            return .requestParameters(parameters: authenRequest.payload.paramCheckEmail, encoding: JSONEncoding.default)
         case .suggestCastcleId(let authenRequest):
             return .requestParameters(parameters: authenRequest.payload.paramSuggestCastcleId, encoding: JSONEncoding.default)
-        case .checkCastcleIdExists(let authenRequest):
-            return .requestParameters(parameters: authenRequest.payload.paramCheckCastcleIdExists, encoding: JSONEncoding.default)
+        case .checkCastcleId(let authenRequest):
+            return .requestParameters(parameters: authenRequest.payload.paramCheckCastcleId, encoding: JSONEncoding.default)
         case .register(let authenRequest):
             return .requestParameters(parameters: authenRequest.paramRegister, encoding: JSONEncoding.default)
         case .verificationPassword(let authenRequest):
@@ -127,7 +127,7 @@ extension AuthenticationApi: TargetType {
     
     var headers: [String : String]? {
         switch self {
-        case .login:
+        case .login, .checkEmail, .checkCastcleId:
             return ApiHelper.header()
         case .refreshToken:
             return ApiHelper.headerRefreshToken(version: "1.0")
