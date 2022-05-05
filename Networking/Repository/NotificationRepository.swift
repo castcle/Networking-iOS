@@ -35,6 +35,8 @@ public protocol NotificationRepository {
     func unregisterToken(notificationRequest: NotificationRequest, _ completion: @escaping complate)
     func getBadges(_ completion: @escaping complate)
     func getNotification(notificationRequest: NotificationRequest, _ completion: @escaping complate)
+    func deleteNotification(notifyId: String, _ completion: @escaping complate)
+    func readNotification(notifyId: String, _ completion: @escaping complate)
 }
 
 public final class NotificationRepositoryImpl: NotificationRepository {
@@ -93,7 +95,35 @@ public final class NotificationRepositoryImpl: NotificationRepository {
         self.notificationProvider.request(.getNotification(notificationRequest)) { result in
             switch result {
             case .success(let response):
-                completion(true, response, false)
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func deleteNotification(notifyId: String, _ completion: @escaping complate) {
+        self.notificationProvider.request(.deleteNotification(notifyId)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure(let error):
+                completion(false, error as! Response, false)
+            }
+        }
+    }
+    
+    public func readNotification(notifyId: String, _ completion: @escaping complate) {
+        self.notificationProvider.request(.readNotification(notifyId)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
             case .failure(let error):
                 completion(false, error as! Response, false)
             }

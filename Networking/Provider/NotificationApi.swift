@@ -33,6 +33,8 @@ enum NotificationApi {
     case unregisterToken(NotificationRequest)
     case getBadges
     case getNotification(NotificationRequest)
+    case deleteNotification(String)
+    case readNotification(String)
 }
 
 extension NotificationApi: TargetType {
@@ -48,14 +50,18 @@ extension NotificationApi: TargetType {
             return "/v2/notifications/badges"
         case .getNotification:
             return "/v2/notifications"
+        case .deleteNotification(let notifyId):
+            return "/v2/notifications/\(notifyId)"
+        case .readNotification(let notifyId):
+            return "/v2/notifications/\(notifyId)/reads"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .registerToken:
+        case .registerToken, .readNotification:
             return .post
-        case .unregisterToken:
+        case .unregisterToken, .deleteNotification:
             return .delete
         case .getBadges, .getNotification:
             return .get
@@ -82,7 +88,7 @@ extension NotificationApi: TargetType {
     
     var headers: [String : String]? {
         switch self {
-        case .getBadges, .getNotification:
+        case .getBadges, .getNotification, .deleteNotification, .readNotification:
             return ApiHelper.header()
         default:
             return ApiHelper.header(version: "1.0")

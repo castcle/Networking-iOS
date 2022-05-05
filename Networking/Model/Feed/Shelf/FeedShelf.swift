@@ -41,7 +41,6 @@ public class FeedShelf: NSObject {
     public init(json: JSON) {
         self.feeds = (json[JsonKey.payload.rawValue].arrayValue).map { Feed(json: $0) }.filter { $0.content.participate.reported == false }
         self.meta = Meta(json: JSON(json[JsonKey.meta.rawValue].dictionaryValue))
-        
         let includes = JSON(json[JsonKey.includes.rawValue].dictionaryValue)
         let casts = includes[JsonKey.casts.rawValue].arrayValue
         let users = includes[JsonKey.users.rawValue].arrayValue
