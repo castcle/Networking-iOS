@@ -52,8 +52,8 @@ public final class NotificationRepositoryImpl: NotificationRepository {
             switch result {
             case .success(let response):
                 completion(true, response, false)
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
@@ -63,8 +63,8 @@ public final class NotificationRepositoryImpl: NotificationRepository {
             switch result {
             case .success(let response):
                 completion(true, response, false)
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
@@ -85,8 +85,8 @@ public final class NotificationRepositoryImpl: NotificationRepository {
                 } catch {
                     completion(false, response, false)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
@@ -98,8 +98,8 @@ public final class NotificationRepositoryImpl: NotificationRepository {
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
@@ -111,8 +111,8 @@ public final class NotificationRepositoryImpl: NotificationRepository {
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
@@ -124,8 +124,8 @@ public final class NotificationRepositoryImpl: NotificationRepository {
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }

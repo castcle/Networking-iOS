@@ -96,8 +96,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
@@ -136,8 +136,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
@@ -149,8 +149,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
@@ -162,8 +162,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
@@ -203,8 +203,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
@@ -271,8 +271,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
@@ -284,8 +284,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
@@ -297,8 +297,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
@@ -310,8 +310,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
@@ -323,8 +323,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
@@ -336,8 +336,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                 self.completionHelper.handleNetworingResponse(isSocialLogin: true, response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
@@ -349,8 +349,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }

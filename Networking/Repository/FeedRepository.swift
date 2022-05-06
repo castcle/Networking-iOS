@@ -25,6 +25,7 @@
 //  Created by Castcle Co., Ltd. on 13/7/2564 BE.
 //
 
+import Core
 import Moya
 import SwiftyJSON
 
@@ -68,8 +69,8 @@ public final class FeedRepositoryImpl: FeedRepository {
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
@@ -81,8 +82,8 @@ public final class FeedRepositoryImpl: FeedRepository {
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
@@ -94,8 +95,8 @@ public final class FeedRepositoryImpl: FeedRepository {
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
