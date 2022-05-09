@@ -35,6 +35,7 @@ enum NotificationApi {
     case getNotification(NotificationRequest)
     case deleteNotification(String)
     case readNotification(String)
+    case readAllNotification(NotificationRequest)
 }
 
 extension NotificationApi: TargetType {
@@ -54,12 +55,14 @@ extension NotificationApi: TargetType {
             return "/v2/notifications/\(notifyId)"
         case .readNotification(let notifyId):
             return "/v2/notifications/\(notifyId)/reads"
+        case.readAllNotification:
+            return "/v2/notifications/reads"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .registerToken, .readNotification:
+        case .registerToken, .readNotification, .readAllNotification:
             return .post
         case .unregisterToken, .deleteNotification:
             return .delete
@@ -81,6 +84,8 @@ extension NotificationApi: TargetType {
             return .requestParameters(parameters: notificationRequest.paramRegisterToken, encoding: JSONEncoding.default)
         case .getNotification(let notificationRequest):
             return .requestParameters(parameters: notificationRequest.paramGetNotifications, encoding: URLEncoding.queryString)
+        case .readAllNotification(let notificationRequest):
+            return .requestParameters(parameters: notificationRequest.paramReadAllNotifications, encoding: URLEncoding.queryString)
         default:
             return .requestPlain
         }
@@ -88,7 +93,7 @@ extension NotificationApi: TargetType {
     
     var headers: [String : String]? {
         switch self {
-        case .getBadges, .getNotification, .deleteNotification, .readNotification:
+        case .getBadges, .getNotification, .deleteNotification, .readNotification, .readAllNotification:
             return ApiHelper.header()
         default:
             return ApiHelper.header(version: "1.0")

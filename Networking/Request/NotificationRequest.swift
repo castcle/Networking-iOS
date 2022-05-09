@@ -57,4 +57,10 @@ public struct NotificationRequest {
         }
         return param
     }
+    
+    public var paramReadAllNotifications: [String: Any] {
+        return [
+            JsonKey.source.rawValue: self.source.rawValue
+        ]
+    }
 }
