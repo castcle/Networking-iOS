@@ -29,6 +29,7 @@ import UIKit
 import Core
 import Defaults
 import RealmSwift
+import SwiftyJSON
 
 public class UserHelper {
     public static let shared = UserHelper()
@@ -112,5 +113,27 @@ public class UserHelper {
 
     public func clearSeenContent() {
         Defaults[.seenId] = ""
+    }
+
+    public func updatePage(pages: [JSON]) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                pages.forEach { page in
+                    let pageInfo = UserInfo(json: page)
+                    let pageTemp = Page()
+                    pageTemp.id = pageInfo.id
+                    pageTemp.castcleId = pageInfo.castcleId
+                    pageTemp.displayName = pageInfo.displayName
+                    pageTemp.avatar = pageInfo.images.avatar.thumbnail
+                    pageTemp.cover = pageInfo.images.cover.fullHd
+                    pageTemp.overview = pageInfo.overview
+                    pageTemp.official = pageInfo.verified.official
+                    pageTemp.isSyncTwitter = !pageInfo.syncSocial.twitter.socialId.isEmpty
+                    pageTemp.isSyncFacebook = !pageInfo.syncSocial.facebook.socialId.isEmpty
+                    realm.add(pageTemp, update: .modified)
+                }
+            }
+        } catch {}
     }
 }
