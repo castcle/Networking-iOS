@@ -38,7 +38,7 @@ public class Follow: NSObject {
     public let verified: Verified
     public let type: AuthorType
     public let count: Int
-    
+
     public init(json: JSON) {
         self.id = json[JsonKey.id.rawValue].stringValue
         self.castcleId = json[JsonKey.castcleId.rawValue].stringValue
@@ -46,7 +46,7 @@ public class Follow: NSObject {
         self.overview = json[JsonKey.overview.rawValue].stringValue
         self.type = AuthorType(rawValue: json[JsonKey.type.rawValue].stringValue) ?? .people
         self.count = json[JsonKey.count.rawValue].intValue
-        
+
         // MARK: - Object
         self.verified = Verified(json: JSON(json[JsonKey.verified.rawValue].dictionaryObject ?? [:]))
         self.avatar = ImageInfo(json: JSON(json[JsonKey.avatar.rawValue].dictionaryObject ?? [:]))

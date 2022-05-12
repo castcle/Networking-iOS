@@ -43,7 +43,7 @@ extension CommentApi: TargetType {
     var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }
-    
+
     var path: String {
         switch self {
         case .getComments(let contentId, _):
@@ -64,7 +64,7 @@ extension CommentApi: TargetType {
             return "/v2/users/\(castcleId)/comments/\(commentId)/reply/\(replyId)"
         }
     }
-    
+
     var method: Moya.Method {
         switch self {
         case .getComments, .getCommentDetail:
@@ -75,18 +75,18 @@ extension CommentApi: TargetType {
             return .delete
         }
     }
-    
+
     var sampleData: Data {
         return Data()
     }
-    
+
     var task: Task {
         switch self {
-        case .getComments(_ , let commentRequest):
+        case .getComments(_, let commentRequest):
             return .requestParameters(parameters: commentRequest.paramGetComment, encoding: URLEncoding.queryString)
         case .getCommentDetail(_, _, let commentRequest):
             return .requestParameters(parameters: commentRequest.paramGetComment, encoding: URLEncoding.queryString)
-        case .createComment(_ , let commentRequest):
+        case .createComment(_, let commentRequest):
             return .requestParameters(parameters: commentRequest.paramCreateComment, encoding: JSONEncoding.default)
         case .replyComment(_, _, let commentRequest):
             return .requestParameters(parameters: commentRequest.paramReplyComment, encoding: JSONEncoding.default)
@@ -96,8 +96,8 @@ extension CommentApi: TargetType {
             return .requestPlain
         }
     }
-    
-    var headers: [String : String]? {
+
+    var headers: [String: String]? {
         return ApiHelper.header()
     }
 }

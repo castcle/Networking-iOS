@@ -30,38 +30,50 @@ import RealmSwift
 
 public class ContentHelper {
     public static let shared = ContentHelper()
-    
+
     public func getAuthorRef(id: String) -> AuthorRef? {
         if id.isEmpty {
             return nil
         } else {
-            let realm = try! Realm()
-            return realm.objects(AuthorRef.self).filter("id = '\(id)'").first
-        }
-    }
-    
-    public func getAuthorRef(castcleId: String) -> AuthorRef? {
-        if castcleId.isEmpty {
-            return nil
-        } else {
-            let realm = try! Realm()
-            return realm.objects(AuthorRef.self).filter("castcleId = '\(castcleId)'").first
-        }
-    }
-    
-    public func getContentRef(id: String) -> Content? {
-        if id.isEmpty {
-            return nil
-        } else {
-            let realm = try! Realm()
-            if let contentRef = realm.objects(ContentRef.self).filter("id = '\(id)'").first {
-                return self.contentRefToContent(contentRef: contentRef)
-            } else {
+            do {
+                let realm = try Realm()
+                return realm.objects(AuthorRef.self).filter("id = '\(id)'").first
+            } catch {
                 return nil
             }
         }
     }
-    
+
+    public func getAuthorRef(castcleId: String) -> AuthorRef? {
+        if castcleId.isEmpty {
+            return nil
+        } else {
+            do {
+                let realm = try Realm()
+                return realm.objects(AuthorRef.self).filter("castcleId = '\(castcleId)'").first
+            } catch {
+                return nil
+            }
+        }
+    }
+
+    public func getContentRef(id: String) -> Content? {
+        if id.isEmpty {
+            return nil
+        } else {
+            do {
+                let realm = try Realm()
+                if let contentRef = realm.objects(ContentRef.self).filter("id = '\(id)'").first {
+                    return self.contentRefToContent(contentRef: contentRef)
+                } else {
+                    return nil
+                }
+            } catch {
+                return nil
+            }
+        }
+    }
+
     public func authorRefToAuthor(authorRef: AuthorRef) -> Author {
         let author: Author = Author()
         author.id = authorRef.id
@@ -77,7 +89,7 @@ public class ContentHelper {
         author.aggregator.message = ""
         return author
     }
-    
+
     private func contentRefToContent(contentRef: ContentRef) -> Content {
         let content: Content = Content()
         content.id = contentRef.id
@@ -86,26 +98,26 @@ public class ContentHelper {
         content.message = contentRef.message
         content.createdAt = contentRef.createdAt
         content.updatedAt = contentRef.updatedAt
-        
+
         // MARK: - Metric
         content.metrics.likeCount = contentRef.likeCount
         content.metrics.commentCount = contentRef.commentCount
         content.metrics.quoteCount = contentRef.quoteCount
         content.metrics.recastCount = contentRef.recastCount
-        
+
         // MARK: - Participate
         content.participate.liked = contentRef.liked
         content.participate.commented = contentRef.commented
         content.participate.quoted = contentRef.quoted
         content.participate.recasted = contentRef.recasted
         content.participate.reported = contentRef.reported
-        
+
         // MARK: - Photo
         if !contentRef.photoThumbnail.isEmpty {
-            for i in 0..<contentRef.photoThumbnail.count {
+            for index in 0..<contentRef.photoThumbnail.count {
                 let photo: ImageInfo = ImageInfo()
-                photo.thumbnail = contentRef.photoThumbnail[i]
-                photo.fullHd = contentRef.photoFullHd[i]
+                photo.thumbnail = contentRef.photoThumbnail[index]
+                photo.fullHd = contentRef.photoFullHd[index]
                 content.photo.append(photo)
             }
         }
@@ -120,7 +132,6 @@ public class ContentHelper {
             link.imagePreview = contentRef.linkImagePreview
             content.link.append(link)
         }
-        
         return content
     }
 }

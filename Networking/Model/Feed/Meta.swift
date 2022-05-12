@@ -33,11 +33,11 @@ public class Meta: NSObject {
     public var oldestId: String = ""
     public var newestId: String = ""
     public var resultCount: Int = 5
-    
+
     public override init() {
         // MARK: - Init
     }
-    
+
     public init(json: JSON) {
         self.oldestId = json[JsonKey.oldestId.rawValue].stringValue
         self.newestId = json[JsonKey.newestId.rawValue].stringValue

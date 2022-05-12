@@ -31,7 +31,7 @@ public struct AuthenRequest {
     public var objective: AuthenObjective
     public var channel: AuthenChannelKey
     public var payload: AuthenPayloadRequest
-    
+
     // Login with Social
     public var provider: AuthenSocialProvider = .none
     public var socialId: String = ""
@@ -42,50 +42,49 @@ public struct AuthenRequest {
     public var overview: String = ""
     public var cover: String = ""
     public var authToken: String = ""
-    
+
     public init() {
         self.objective = .none
         self.channel = .email
         self.payload = AuthenPayloadRequest()
     }
-    
+
     public var paramRegister: [String: Any] {
         return [
             JsonKey.channel.rawValue: self.channel.rawValue,
             JsonKey.payload.rawValue: self.payload.param
         ]
     }
-    
+
     public var paramVerificationPassword: [String: Any] {
         return [
             JsonKey.objective.rawValue: self.objective.rawValue,
             JsonKey.password.rawValue: self.payload.password
         ]
     }
-    
+
     public var paramRequestOtp: [String: Any] {
         var param: [String: Any] = [
             JsonKey.objective.rawValue: self.objective.rawValue,
-            JsonKey.channel.rawValue: self.channel.rawValue,
-            
+            JsonKey.channel.rawValue: self.channel.rawValue
         ]
-        
+
         if self.channel == .email {
             param[JsonKey.payload.rawValue] = self.payload.paramRequestOtpEmail
         } else {
             param[JsonKey.payload.rawValue] = self.payload.paramRequestOtpMobile
         }
-        
+
         return param
     }
-    
+
     public var paramRequestOtpWithEmail: [String: Any] {
         return [
             JsonKey.objective.rawValue: self.objective.rawValue,
-            JsonKey.email.rawValue: self.email,
+            JsonKey.email.rawValue: self.email
         ]
     }
-    
+
     public var paramVerifyOtp: [String: Any] {
         var param: [String: Any] = [
             JsonKey.objective.rawValue: self.objective.rawValue,
@@ -93,16 +92,16 @@ public struct AuthenRequest {
             JsonKey.refCode.rawValue: self.payload.refCode,
             JsonKey.otp.rawValue: self.payload.otp
         ]
-        
+
         if self.channel == .email {
             param[JsonKey.payload.rawValue] = self.payload.paramRequestOtpEmail
         } else {
             param[JsonKey.payload.rawValue] = self.payload.paramRequestOtpMobile
         }
-        
+
         return param
     }
-    
+
     public var paramLoginWithSocial: [String: Any] {
         return [
             JsonKey.provider.rawValue: self.provider.rawValue,
@@ -129,7 +128,7 @@ public struct AuthenPayloadRequest {
     public var castcleId: String
     public var refCode: String
     public var otp: String
-    
+
     public init() {
         self.objective = .none
         self.email = ""
@@ -142,25 +141,25 @@ public struct AuthenPayloadRequest {
         self.refCode = ""
         self.otp = ""
     }
-    
+
     public var paramCheckEmail: [String: Any] {
         return [
             JsonKey.email.rawValue: self.email
         ]
     }
-    
+
     public var paramSuggestCastcleId: [String: Any] {
         return [
             JsonKey.displayName.rawValue: self.displayName
         ]
     }
-    
+
     public var paramCheckCastcleId: [String: Any] {
         return [
             JsonKey.castcleId.rawValue: self.castcleId
         ]
     }
-    
+
     public var param: [String: Any] {
         return [
             JsonKey.email.rawValue: self.email,
@@ -171,7 +170,7 @@ public struct AuthenPayloadRequest {
             JsonKey.castcleId.rawValue: self.castcleId
         ]
     }
-    
+
     public var paramChangePasswordSubmit: [String: Any] {
         return [
             JsonKey.objective.rawValue: self.objective.rawValue,
@@ -179,13 +178,13 @@ public struct AuthenPayloadRequest {
             JsonKey.newPassword.rawValue: self.newPassword
         ]
     }
-    
+
     public var paramRequestOtpEmail: [String: Any] {
         return [
             JsonKey.email.rawValue: self.email
         ]
     }
-    
+
     public var paramRequestOtpMobile: [String: Any] {
         return [
             JsonKey.countryCode.rawValue: self.countryCode,

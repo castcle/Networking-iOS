@@ -35,23 +35,23 @@ public class ContentPayload: NSObject {
     public var cover: ImageInfo = ImageInfo()
     public var photo: [ImageInfo] = []
     public var link: [Link] = []
-    
+
     public override init() {
         // Init
     }
-    
+
     public init(json: JSON) {
         self.header = json[JsonKey.header.rawValue].stringValue
         self.message = json[JsonKey.message.rawValue].stringValue
-        
+
         // MARK: - Photo
         let photoJson = JSON(json[JsonKey.photo.rawValue].dictionaryValue)
         self.photo = (photoJson[JsonKey.contents.rawValue].arrayValue).map { ImageInfo(json: $0) }
-        
+
         // MARK: - Cover
         let photoCoverJson = JSON(photoJson[JsonKey.cover.rawValue].dictionaryValue)
         self.cover = ImageInfo(json: photoCoverJson)
-        
+
         // MARK: - Link
         self.link = (json[JsonKey.link.rawValue].arrayValue).map { Link(json: $0) }
     }

@@ -35,7 +35,7 @@ public struct FacebookPage {
     public var about: String = ""
     public var accessToken: String = ""
     public var cover: String = ""
-    
+
     public init(json: JSON) {
         self.id = json["id"].string ?? ""
         self.name = json["name"].string ?? ""

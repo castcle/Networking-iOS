@@ -31,25 +31,25 @@ public struct ReportRequest {
     public var message: String = " "
     public var targetCastcleId: String = ""
     public var targetContentId: String = ""
-    
+
     public init() {
         // Init CommentRequest
     }
-    
+
     public var paramReportUser: [String: Any] {
         return [
             JsonKey.message.rawValue: self.message,
             JsonKey.targetCastcleId.rawValue: self.targetCastcleId
         ]
     }
-    
+
     public var paramReportContent: [String: Any] {
         return [
             JsonKey.message.rawValue: self.message,
             JsonKey.targetContentId.rawValue: self.targetContentId
         ]
     }
-    
+
     public var paramBlockUser: [String: Any] {
         return [
             JsonKey.targetCastcleId.rawValue: self.targetCastcleId

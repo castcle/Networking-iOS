@@ -38,18 +38,18 @@ public class Feed: NSObject {
     public let userToFollow: [Author]
     public let createdAt: String
     public let updatedAt: String
-    
+
     public init(json: JSON) {
         self.id = json[JsonKey.id.rawValue].stringValue
         self.type = FeedType(rawValue: json[JsonKey.type.rawValue].stringValue) ?? .content
         self.createdAt = json[JsonKey.createdAt.rawValue].stringValue
         self.updatedAt = json[JsonKey.updatedAt.rawValue].stringValue
-        
+
         // MARK: - Object
         self.feature = Feature(json: JSON(json[JsonKey.feature.rawValue].dictionaryObject ?? [:]))
         self.circle = Circle(json: JSON(json[JsonKey.circle.rawValue].dictionaryObject ?? [:]))
         self.content = Content(json: JSON(json[JsonKey.payload.rawValue].dictionaryObject ?? [:]))
-        
+
         // MARK: - User to Follow
         self.userToFollow = (json[JsonKey.payload.rawValue].arrayValue).map { Author(json: $0) }
     }

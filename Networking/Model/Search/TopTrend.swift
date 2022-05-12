@@ -32,11 +32,11 @@ import SwiftyJSON
 public class TopTrend: NSObject {
     public var hashtags: [Hashtag] = []
     public var follows: [Follow] = []
-    
+
     public override init() {
         // Init TopTrend
     }
-    
+
     public init(json: JSON) {
         self.hashtags = (json[JsonKey.hashtags.rawValue].arrayValue).map { Hashtag(json: $0) }
         self.follows = (json[JsonKey.follows.rawValue].arrayValue).map { Follow(json: $0) }

@@ -35,24 +35,24 @@ public struct UserRequest {
     public var refCode: String = ""
     public var countryCode: String = ""
     public var mobileNumber: String = ""
-    
+
     public init() {
         // Init
     }
-    
+
     public var paramDeleteUser: [String: Any] {
         return [
             JsonKey.channel.rawValue: self.channel.rawValue,
             JsonKey.payload.rawValue: self.payload.paramDeleteUserWithEmail
         ]
     }
-    
+
     public var paramFollowUser: [String: Any] {
         return [
             JsonKey.targetCastcleId.rawValue: self.targetCastcleId
         ]
     }
-    
+
     public var paramUpdateMobile: [String: Any] {
         return [
             JsonKey.objective.rawValue: self.objective.rawValue,
@@ -72,55 +72,55 @@ public struct UserPayloadRequest {
     public var contact: ContactRequest = ContactRequest()
     public var images: UserImageRequest = UserImageRequest()
     public var links: UserLinkRequest = UserLinkRequest()
-    
+
     public init() {
         // Init
     }
-    
+
     public var paramDeleteUserWithEmail: [String: Any] {
         return [
             JsonKey.password.rawValue: self.password
         ]
     }
-    
+
     public var paramEditUserProfile: [String: Any] {
         var param: [String: Any] = [:]
         if !self.overview.isEmpty {
             param[JsonKey.overview.rawValue] = self.overview
         }
-        
+
         if !self.dob.isEmpty {
             param[JsonKey.dob.rawValue] = self.dob
         }
-        
+
         if !self.links.facebook.isEmpty || !self.links.twitter.isEmpty || !self.links.youtube.isEmpty || !self.links.medium.isEmpty || !self.links.website.isEmpty {
             param[JsonKey.links.rawValue] = self.links.paramEditUserLink
         }
-        
+
         if !self.castcleId.isEmpty {
             param[JsonKey.castcleId.rawValue] = self.castcleId
         }
-        
+
         if !self.displayName.isEmpty {
             param[JsonKey.displayName.rawValue] = self.displayName
         }
-        
+
         if !self.images.avatar.isEmpty || !self.images.cover.isEmpty {
             param[JsonKey.images.rawValue] = self.images.paramEditUserInfo
         }
-        
+
         if !self.contact.phone.isEmpty || !self.contact.email.isEmpty {
             param[JsonKey.contact.rawValue] = self.contact.paramEditContact
         }
         return param
     }
-    
+
     public var paramEditUserAvatar: [String: Any] {
         return [
             JsonKey.images.rawValue: self.images.paramEditUserAvatar
         ]
     }
-    
+
     public var paramEditUserCover: [String: Any] {
         return [
             JsonKey.images.rawValue: self.images.paramEditUserCover
@@ -131,11 +131,11 @@ public struct UserPayloadRequest {
 public struct UserImageRequest {
     public var avatar: String = ""
     public var cover: String = ""
-    
+
     public init() {
         // Init
     }
-    
+
     public var paramEditUserInfo: [String: Any] {
         var param: [String: Any] = [:]
         if !self.avatar.isEmpty {
@@ -146,13 +146,13 @@ public struct UserImageRequest {
         }
         return param
     }
-    
+
     public var paramEditUserAvatar: [String: Any] {
         return [
             JsonKey.avatar.rawValue: self.avatar
         ]
     }
-    
+
     public var paramEditUserCover: [String: Any] {
         return [
             JsonKey.cover.rawValue: self.cover
@@ -166,11 +166,11 @@ public struct UserLinkRequest {
     public var youtube: String = ""
     public var medium: String = ""
     public var website: String = ""
-    
+
     public init() {
         // Init
     }
-    
+
     public var paramEditUserLink: [String: Any] {
         return [
             JsonKey.facebook.rawValue: self.facebook,
@@ -186,11 +186,11 @@ public struct ContactRequest {
     public var countryCode: String = ""
     public var phone: String = ""
     public var email: String = ""
-    
+
     public init() {
         // Init
     }
-    
+
     public var paramEditContact: [String: Any] {
         return [
             JsonKey.countryCode.rawValue: self.countryCode,

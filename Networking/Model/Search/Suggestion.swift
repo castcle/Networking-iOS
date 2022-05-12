@@ -32,13 +32,12 @@ import SwiftyJSON
 public class Suggestion: NSObject {
     public var keyword: [Keyword] = []
     public var hashtags: [Hashtag] = []
-//    public var topics: [Topics] = []
     public var follows: [Follow] = []
-    
+
     public override init() {
         // Init TopTrend
     }
-    
+
     public init(json: JSON) {
         self.keyword = (json[JsonKey.keyword.rawValue].arrayValue).map { Keyword(json: $0) }
         self.hashtags = (json[JsonKey.hashtags.rawValue].arrayValue).map { Hashtag(json: $0) }

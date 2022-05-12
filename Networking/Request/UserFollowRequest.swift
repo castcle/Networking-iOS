@@ -31,24 +31,24 @@ public struct UserFollowRequest {
     public var untilId: String = ""
     public var maxResults: Int = 25
     public var userFields: UserFields = .relationships
-    
+
     public init() {
         // Init UserFollowRequest
     }
-    
+
     public var paramGetFollowUser: [String: Any] {
         var param: [String: Any] = [
             JsonKey.maxResults.rawValue: self.maxResults
         ]
-        
+
         if self.userFields != .none {
             param[JsonKey.userFields.rawValue] = self.userFields.rawValue
         }
-        
+
         if !self.untilId.isEmpty {
             param[JsonKey.untilId.rawValue] = self.untilId
         }
-        
+
         return param
     }
 }

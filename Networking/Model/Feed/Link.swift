@@ -36,11 +36,11 @@ public class Link: NSObject {
     public var title: String = ""
     public var desc: String = ""
     public var imagePreview: String = ""
-    
+
     public override init() {
         // Init Link
     }
-    
+
     public init(json: JSON) {
         self.type = LinkType(rawValue: json[JsonKey.type.rawValue].stringValue) ?? .other
         self.url = json[JsonKey.url.rawValue].stringValue

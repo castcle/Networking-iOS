@@ -31,11 +31,11 @@ import SwiftyJSON
 // MARK: - Hashtag List
 public class HashtagShelf: NSObject {
     public var hashtags: [Hashtag] = []
-    
+
     public override init() {
         // MARK: - Init
     }
-    
+
     public init(json: JSON) {
         self.hashtags = (json[JsonKey.payload.rawValue].arrayValue).map { Hashtag(json: $0) }
     }

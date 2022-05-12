@@ -32,11 +32,11 @@ import SwiftyJSON
 public class ReferencedCast: NSObject {
     public var type: ReferencedCastType = .unknown
     public var id: String = ""
-    
+
     public override init() {
         // MARK: - Init
     }
-    
+
     public init(json: JSON) {
         self.type = ReferencedCastType(rawValue: json[JsonKey.type.rawValue].stringValue) ?? .unknown
         self.id = json[JsonKey.id.rawValue].stringValue

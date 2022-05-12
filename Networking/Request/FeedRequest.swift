@@ -33,48 +33,48 @@ public struct FeedRequest {
     public var hashtag: String = ""
     public var type: ContentType = .unknow
     public var userFields: UserFields = .none
-    
+
     public init() {
         // Init FeedRequest
     }
-    
+
     public var paramGetFeed: [String: Any] {
         var param: [String: Any] = [
             JsonKey.maxResults.rawValue: self.maxResults
         ]
-        
+
         if self.userFields != .none {
             param[JsonKey.userFields.rawValue] = self.userFields.rawValue
         }
-        
+
         if !self.untilId.isEmpty {
             param[JsonKey.untilId.rawValue] = self.untilId
         }
-        
+
         if !self.hashtag.isEmpty {
             param[JsonKey.hashtag.rawValue] = self.hashtag
         }
-        
+
         if self.type != .unknow {
             param[JsonKey.type.rawValue] = self.type.rawValue
         }
-        
+
         return param
     }
-    
+
     public var paramGetSuggestionUser: [String: Any] {
         var param: [String: Any] = [
             JsonKey.maxResults.rawValue: self.maxResults
         ]
-        
+
         if self.userFields != .none {
             param[JsonKey.userFields.rawValue] = self.userFields.rawValue
         }
-        
+
         if !self.untilId.isEmpty {
             param[JsonKey.untilId.rawValue] = self.untilId
         }
-        
+
         return param
     }
 }

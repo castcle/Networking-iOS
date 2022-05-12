@@ -39,7 +39,7 @@ extension FeedApi: TargetType {
     var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }
-    
+
     var path: String {
         switch self {
         case .getHashtags:
@@ -52,11 +52,11 @@ extension FeedApi: TargetType {
             return "/users/me/suggestion-follow"
         }
     }
-    
+
     var method: Moya.Method {
         return .get
     }
-    
+
     var sampleData: Data {
         switch self {
         case .getHashtags:
@@ -74,7 +74,7 @@ extension FeedApi: TargetType {
             return Data()
         }
     }
-    
+
     var task: Task {
         switch self {
         case .getFeedsGuests(let feedRequest):
@@ -87,8 +87,8 @@ extension FeedApi: TargetType {
             return .requestPlain
         }
     }
-    
-    var headers: [String : String]? {
+
+    var headers: [String: String]? {
         return ApiHelper.header(version: "1.0")
     }
 }

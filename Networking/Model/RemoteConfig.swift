@@ -33,11 +33,11 @@ public class RemoteConfig: NSObject {
     public var ios: PlatformData = PlatformData()
     public var android: PlatformData = PlatformData()
     public var meta: ConfigMeta = ConfigMeta()
-    
+
     public override init() {
         // Init RemoteConfig
     }
-    
+
     public init(json: JSON) {
         // MARK: - Object
         self.ios = PlatformData(json: JSON(json[JsonKey.ios.rawValue].dictionaryValue))
@@ -50,11 +50,11 @@ public class RemoteConfig: NSObject {
 public class PlatformData: NSObject {
     public var url: String = ""
     public var version: String = ""
-    
+
     public override init() {
         // Init PlatformData
     }
-    
+
     public init(json: JSON) {
         self.url = json[JsonKey.url.rawValue].stringValue
         self.version = json[JsonKey.version.rawValue].stringValue
@@ -66,11 +66,11 @@ public class ConfigMeta: NSObject {
     public var button: MetaLanguage = MetaLanguage()
     public var title: MetaLanguage = MetaLanguage()
     public var message: MetaLanguage = MetaLanguage()
-    
+
     public override init() {
         // Init PlatformData
     }
-    
+
     public init(json: JSON) {
         // MARK: - Object
         self.button = MetaLanguage(json: JSON(json[JsonKey.button.rawValue].dictionaryValue))
@@ -81,15 +81,15 @@ public class ConfigMeta: NSObject {
 
 // MARK: - MetaLanguage
 public class MetaLanguage: NSObject {
-    public var en: String = ""
-    public var th: String = ""
-    
+    public var eng: String = ""
+    public var tha: String = ""
+
     public override init() {
         // Init MetaLanguage
     }
-    
+
     public init(json: JSON) {
-        self.en = json[JsonKey.en.rawValue].stringValue
-        self.th = json[JsonKey.th.rawValue].stringValue
+        self.eng = json[JsonKey.eng.rawValue].stringValue
+        self.tha = json[JsonKey.tha.rawValue].stringValue
     }
 }

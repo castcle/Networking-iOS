@@ -46,11 +46,11 @@ public class Ads: NSObject {
     public var payment: AdsPaymentType = .adCredit
     public var createdAt: String = ""
     public var updatedAt: String = ""
-    
+
     public override init() {
         // Init Ads
     }
-    
+
     public init(json: JSON) {
         self.campaignName = json[JsonKey.campaignName.rawValue].stringValue
         self.campaignMessage = json[JsonKey.campaignMessage.rawValue].stringValue
@@ -63,7 +63,7 @@ public class Ads: NSObject {
         self.boostType = BoostType(rawValue: json[JsonKey.boostType.rawValue].stringValue) ?? .page
         self.createdAt = json[JsonKey.createdAt.rawValue].stringValue
         self.updatedAt = json[JsonKey.updatedAt.rawValue].stringValue
-        
+
         // MARK: - Object
         self.statistics = Statistics(json: JSON(json[JsonKey.statistics.rawValue].dictionaryValue))
         self.engagement = Engagement(json: JSON(json[JsonKey.engagement.rawValue].dictionaryValue))
@@ -76,15 +76,15 @@ public class Statistics: NSObject {
     public var impression: StatisticsReach = StatisticsReach()
     public var reach: StatisticsReach = StatisticsReach()
     public var cpm: Double = 0
-    
+
     public override init() {
         // Init Statistics
     }
-    
+
     public init(json: JSON) {
         self.budgetSpent = json[JsonKey.budgetSpent.rawValue].doubleValue
         self.cpm = json[JsonKey.cpm.rawValue].doubleValue
-        
+
         // MARK: - Object
         self.impression = StatisticsReach(json: JSON(json[JsonKey.impression.rawValue].dictionaryValue))
         self.reach = StatisticsReach(json: JSON(json[JsonKey.reach.rawValue].dictionaryValue))
@@ -95,11 +95,11 @@ public class Statistics: NSObject {
 public class StatisticsReach: NSObject {
     public var organic: Int = 0
     public var paid: Int = 0
-    
+
     public override init() {
         // Init StatisticsReach
     }
-    
+
     public init(json: JSON) {
         self.organic = json[JsonKey.organic.rawValue].intValue
         self.paid = json[JsonKey.paid.rawValue].intValue
@@ -117,11 +117,11 @@ public class Engagement: NSObject {
     public var farm: Int = 0
     public var saved: Int = 0
     public var rewardDistributed: Int = 0
-    
+
     public override init() {
         // Init Engagement
     }
-    
+
     public init(json: JSON) {
         self.likes = json[JsonKey.likes.rawValue].intValue
         self.comments = json[JsonKey.comments.rawValue].intValue

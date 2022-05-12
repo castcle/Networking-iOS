@@ -31,11 +31,11 @@ import SwiftyJSON
 
 public struct PageSocialRequest {
     public var payload: [PageSocial] = []
-    
+
     public init() {
         // Init PageRequest
     }
-    
+
     public var paramCreatePageWithSocial: [String: Any] {
         var payloadArr: [[String: Any]] = []
         self.payload.forEach { page in
@@ -57,11 +57,11 @@ public struct PageSocial {
     public var cover: String = ""
     public var link: String = ""
     public var authToken: String = ""
-    
+
     public init() {
         // Init PageSocial
     }
-    
+
     public init(json: JSON) {
         self.provider = SocialType(rawValue: json[JsonKey.provider.rawValue].stringValue) ?? .unknow
         self.socialId = json[JsonKey.socialId.rawValue].stringValue
@@ -73,7 +73,7 @@ public struct PageSocial {
         self.link = json[JsonKey.link.rawValue].stringValue
         self.authToken = json[JsonKey.authToken.rawValue].stringValue
     }
-    
+
     public var paramPageSocial: [String: Any] {
         return [
             JsonKey.provider.rawValue: self.provider.rawValue,
@@ -87,7 +87,7 @@ public struct PageSocial {
             JsonKey.authToken.rawValue: self.authToken
         ]
     }
-    
+
     public var paramConnectSocial: [String: Any] {
         return [
             JsonKey.payload.rawValue: [

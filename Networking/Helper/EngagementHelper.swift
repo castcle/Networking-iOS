@@ -56,21 +56,20 @@ public enum ScreenId: String {
 }
 
 public class EngagementHelper {
-
     private var engagementRepository: EngagementRepository = EngagementRepositoryImpl()
-    
+
     public init() {
         // Init EngagementHelper
     }
-    
+
     public func seenContent(feedId: String) {
         self.engagementRepository.seenContent(feedId: feedId)
     }
-    
+
     public func castOffView(feedId: String) {
         self.engagementRepository.castOffView(feedId: feedId)
     }
-    
+
     public func sendCastcleAnalytic(event: EventType, screen: ScreenId) {
         DispatchQueue.background(background: {
             let systemVersion = UIDevice.current.systemVersion
@@ -82,13 +81,13 @@ public class EngagementHelper {
             engagementRequest.eventType = event.rawValue
             engagementRequest.timestamp = "\(Date.currentTimeStamp)"
             self.engagementRepository.engagement(engagementRequest: engagementRequest)
-            
+
             if event == .onScreenView {
                 self.sendFirebaseAnalytic(screen: screen)
             }
         })
     }
-    
+
     private func sendFirebaseAnalytic(screen: ScreenId) {
         Analytics.logEvent(AnalyticsEventScreenView, parameters: [AnalyticsParameterScreenName: screen.rawValue])
     }

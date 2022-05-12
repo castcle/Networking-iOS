@@ -33,31 +33,32 @@ import RealmSwift
 public class ContentShelf: NSObject {
     public var contents: [Content] = []
     public var meta: Meta = Meta()
-    
+
     public override init() {
         // MARK: - Init
     }
-    
+
     public init(json: JSON) {
         self.contents = (json[JsonKey.payload.rawValue].arrayValue).map { Content(json: $0) }.filter { $0.participate.reported == false }
         self.meta = Meta(json: JSON(json[JsonKey.meta.rawValue].dictionaryValue))
-        
+
         let includes = JSON(json[JsonKey.includes.rawValue].dictionaryValue)
         let casts = includes[JsonKey.casts.rawValue].arrayValue
         let users = includes[JsonKey.users.rawValue].arrayValue
-        
-        let realm = try! Realm()
-        casts.forEach { cast in
-            try! realm.write {
-                let contentRef = ContentRef().initCustom(json: cast)
-                realm.add(contentRef, update: .modified)
+        do {
+            let realm = try Realm()
+            try realm.write {
+                casts.forEach { cast in
+                    let contentRef = ContentRef().initCustom(json: cast)
+                    realm.add(contentRef, update: .modified)
+                }
             }
-        }
-        users.forEach { user in
-            try! realm.write {
-                let authorRef = AuthorRef().initCustom(json: user)
-                realm.add(authorRef, update: .modified)
+            try realm.write {
+                users.forEach { user in
+                    let authorRef = AuthorRef().initCustom(json: user)
+                    realm.add(authorRef, update: .modified)
+                }
             }
-        }
+        } catch {}
     }
 }

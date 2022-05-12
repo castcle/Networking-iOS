@@ -31,24 +31,24 @@ import SwiftyJSON
 import Defaults
 
 public protocol NotificationRepository {
-    func registerToken(notificationRequest: NotificationRequest, _ completion: @escaping complate)
-    func unregisterToken(notificationRequest: NotificationRequest, _ completion: @escaping complate)
-    func getBadges(_ completion: @escaping complate)
-    func getNotification(notificationRequest: NotificationRequest, _ completion: @escaping complate)
-    func deleteNotification(notifyId: String, _ completion: @escaping complate)
-    func readNotification(notifyId: String, _ completion: @escaping complate)
-    func readAllNotification(notificationRequest: NotificationRequest, _ completion: @escaping complate)
+    func registerToken(notificationRequest: NotificationRequest, _ completion: @escaping ResponseHandle)
+    func unregisterToken(notificationRequest: NotificationRequest, _ completion: @escaping ResponseHandle)
+    func getBadges(_ completion: @escaping ResponseHandle)
+    func getNotification(notificationRequest: NotificationRequest, _ completion: @escaping ResponseHandle)
+    func deleteNotification(notifyId: String, _ completion: @escaping ResponseHandle)
+    func readNotification(notifyId: String, _ completion: @escaping ResponseHandle)
+    func readAllNotification(notificationRequest: NotificationRequest, _ completion: @escaping ResponseHandle)
 }
 
 public final class NotificationRepositoryImpl: NotificationRepository {
     private let notificationProvider = MoyaProvider<NotificationApi>()
     private let completionHelper: CompletionHelper = CompletionHelper()
-    
+
     public init() {
         // MARK: - Init
     }
-    
-    public func registerToken(notificationRequest: NotificationRequest, _ completion: @escaping complate) {
+
+    public func registerToken(notificationRequest: NotificationRequest, _ completion: @escaping ResponseHandle) {
         self.notificationProvider.request(.registerToken(notificationRequest)) { result in
             switch result {
             case .success(let response):
@@ -58,8 +58,8 @@ public final class NotificationRepositoryImpl: NotificationRepository {
             }
         }
     }
-    
-    public func unregisterToken(notificationRequest: NotificationRequest, _ completion: @escaping complate) {
+
+    public func unregisterToken(notificationRequest: NotificationRequest, _ completion: @escaping ResponseHandle) {
         self.notificationProvider.request(.unregisterToken(notificationRequest)) { result in
             switch result {
             case .success(let response):
@@ -69,8 +69,8 @@ public final class NotificationRepositoryImpl: NotificationRepository {
             }
         }
     }
-    
-    public func getBadges(_ completion: @escaping complate) {
+
+    public func getBadges(_ completion: @escaping ResponseHandle) {
         self.notificationProvider.request(.getBadges) { result in
             switch result {
             case .success(let response):
@@ -91,8 +91,8 @@ public final class NotificationRepositoryImpl: NotificationRepository {
             }
         }
     }
-    
-    public func getNotification(notificationRequest: NotificationRequest, _ completion: @escaping complate) {
+
+    public func getNotification(notificationRequest: NotificationRequest, _ completion: @escaping ResponseHandle) {
         self.notificationProvider.request(.getNotification(notificationRequest)) { result in
             switch result {
             case .success(let response):
@@ -104,8 +104,8 @@ public final class NotificationRepositoryImpl: NotificationRepository {
             }
         }
     }
-    
-    public func deleteNotification(notifyId: String, _ completion: @escaping complate) {
+
+    public func deleteNotification(notifyId: String, _ completion: @escaping ResponseHandle) {
         self.notificationProvider.request(.deleteNotification(notifyId)) { result in
             switch result {
             case .success(let response):
@@ -117,8 +117,8 @@ public final class NotificationRepositoryImpl: NotificationRepository {
             }
         }
     }
-    
-    public func readNotification(notifyId: String, _ completion: @escaping complate) {
+
+    public func readNotification(notifyId: String, _ completion: @escaping ResponseHandle) {
         self.notificationProvider.request(.readNotification(notifyId)) { result in
             switch result {
             case .success(let response):
@@ -130,8 +130,8 @@ public final class NotificationRepositoryImpl: NotificationRepository {
             }
         }
     }
-    
-    public func readAllNotification(notificationRequest: NotificationRequest, _ completion: @escaping complate) {
+
+    public func readAllNotification(notificationRequest: NotificationRequest, _ completion: @escaping ResponseHandle) {
         self.notificationProvider.request(.readAllNotification(notificationRequest)) { result in
             switch result {
             case .success(let response):

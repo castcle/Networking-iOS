@@ -30,12 +30,12 @@ import Core
 public struct LoginRequest {
     public var email: String
     public var password: String
-    
+
     public init() {
         self.email = ""
         self.password = ""
     }
-    
+
     public var paramLogin: [String: Any] {
         return [
             JsonKey.email.rawValue: self.email,

@@ -34,7 +34,7 @@ public class Circle: NSObject {
     public let slug: String
     public let name: String
     public let key: String
-    
+
     public init(json: JSON) {
         self.id = json[JsonKey.id.rawValue].stringValue
         self.slug = json[JsonKey.slug.rawValue].stringValue

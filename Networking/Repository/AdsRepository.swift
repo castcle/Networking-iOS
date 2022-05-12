@@ -30,18 +30,18 @@ import Moya
 import SwiftyJSON
 
 public protocol AdsRepository {
-    func getAds(adsRequest: AdsRequest, _ completion: @escaping complate)
+    func getAds(adsRequest: AdsRequest, _ completion: @escaping ResponseHandle)
 }
 
 public final class AdsRepositoryImpl: AdsRepository {
     private let adsProvider = MoyaProvider<AdsApi>()
     private let completionHelper: CompletionHelper = CompletionHelper()
-    
+
     public init() {
         // MARK: - Init
     }
-    
-    public func getAds(adsRequest: AdsRequest, _ completion: @escaping complate) {
+
+    public func getAds(adsRequest: AdsRequest, _ completion: @escaping ResponseHandle) {
         self.adsProvider.request(.getAds(adsRequest)) { result in
             switch result {
             case .success(let response):

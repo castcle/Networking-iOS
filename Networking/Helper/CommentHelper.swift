@@ -30,15 +30,19 @@ import RealmSwift
 
 public class CommentHelper {
     public static let shared = CommentHelper()
-    
+
     public func getCommentRef(id: String) -> CommentRef? {
         if id.isEmpty {
             return nil
         } else {
-            let realm = try! Realm()
-            if let commentRef = realm.objects(CommentRef.self).filter("id = '\(id)'").first {
-                return commentRef
-            } else {
+            do {
+              let realm = try Realm()
+                if let commentRef = realm.objects(CommentRef.self).filter("id = '\(id)'").first {
+                    return commentRef
+                } else {
+                    return nil
+                }
+            } catch {
                 return nil
             }
         }

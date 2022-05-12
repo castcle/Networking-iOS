@@ -41,48 +41,48 @@ public struct SearchRequest {
     public var maxResults: Int = 25
     public var type: SearchContentType = .none
     public var userFields: UserFields = .relationships
-    
+
     public init() {
         // Init SearchRequest
     }
-    
+
     public var paramGetTopTrends: [String: Any] {
         return [
             JsonKey.limit.rawValue: self.limit
         ]
     }
-    
+
     public var paramSuggestion: [String: Any] {
         return [
             JsonKey.keyword.rawValue: self.keyword
         ]
     }
-    
+
     public var paramSearch: [String: Any] {
         var param: [String: Any] = [
             JsonKey.keyword.rawValue: self.keyword,
             JsonKey.maxResults.rawValue: self.maxResults,
             JsonKey.userFields.rawValue: self.userFields.rawValue
         ]
-        
+
         if !self.untilId.isEmpty {
             param[JsonKey.untilId.rawValue] = self.untilId
         }
-        
+
         if self.type != .none {
             param[JsonKey.contentType.rawValue] = self.type.rawValue
         }
-        
+
         return param
     }
-    
+
     public var paramSearchUser: [String: Any] {
         var param: [String: Any] = [
             JsonKey.keyword.rawValue: self.keyword,
             JsonKey.maxResults.rawValue: self.maxResults,
             JsonKey.userFields.rawValue: self.userFields.rawValue
         ]
-        
+
         if !self.untilId.isEmpty {
             param[JsonKey.untilId.rawValue] = self.untilId
         }

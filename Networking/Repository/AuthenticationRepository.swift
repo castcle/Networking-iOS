@@ -32,34 +32,33 @@ import Defaults
 import RealmSwift
 
 public protocol AuthenticationRepository {
-    func guestLogin(uuid: String, _ completion: @escaping (Bool) -> ())
-    func login(loginRequest: LoginRequest, _ completion: @escaping complate)
-    func checkEmail(authenRequest: AuthenRequest, _ completion: @escaping (Bool, Bool) -> ())
-    func suggestCastcleId(authenRequest: AuthenRequest, _ completion: @escaping complate)
-    func checkCastcleId(authenRequest: AuthenRequest, _ completion: @escaping complate)
-    func register(authenRequest: AuthenRequest, _ completion: @escaping complate)
-    func verificationEmail(_ completion: @escaping (Bool) -> ())
-    func requestLinkVerify(_ completion: @escaping complate)
-    func refreshToken(_ completion: @escaping (Bool, Bool) -> ())
-    func verifyPassword(authenRequest: AuthenRequest, _ completion: @escaping complate)
-    func changePasswordSubmit(authenRequest: AuthenRequest, _ completion: @escaping complate)
-    func requestOtp(authenRequest: AuthenRequest, _ completion: @escaping complate)
-    func requestOtpWithEmail(authenRequest: AuthenRequest, _ completion: @escaping complate)
-    func verificationOtp(authenRequest: AuthenRequest, _ completion: @escaping complate)
-    func loginWithSocial(authenRequest: AuthenRequest, _ completion: @escaping complate)
-    func connectWithSocial(authenRequest: AuthenRequest, _ completion: @escaping complate)
+    func guestLogin(uuid: String, _ completion: @escaping (Bool) -> Void)
+    func login(loginRequest: LoginRequest, _ completion: @escaping ResponseHandle)
+    func checkEmail(authenRequest: AuthenRequest, _ completion: @escaping (Bool, Bool) -> Void)
+    func suggestCastcleId(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func checkCastcleId(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func register(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func verificationEmail(_ completion: @escaping (Bool) -> Void)
+    func requestLinkVerify(_ completion: @escaping ResponseHandle)
+    func refreshToken(_ completion: @escaping (Bool, Bool) -> Void)
+    func verifyPassword(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func changePasswordSubmit(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func requestOtp(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func requestOtpWithEmail(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func verificationOtp(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func loginWithSocial(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func connectWithSocial(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
 }
 
 public final class AuthenticationRepositoryImpl: AuthenticationRepository {
     private let authenticationProvider = MoyaProvider<AuthenticationApi>()
     private let completionHelper: CompletionHelper = CompletionHelper()
-    private let realm = try! Realm()
-    
+
     public init() {
         // MARK: - Init
     }
-    
-    public func guestLogin(uuid: String, _ completion: @escaping (Bool) -> ()) {
+
+    public func guestLogin(uuid: String, _ completion: @escaping (Bool) -> Void) {
         self.authenticationProvider.request(.guestLogin(uuid)) { result in
             switch result {
             case .success(let response):
@@ -88,8 +87,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             }
         }
     }
-    
-    public func login(loginRequest: LoginRequest, _ completion: @escaping complate) {
+
+    public func login(loginRequest: LoginRequest, _ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.login(loginRequest)) { result in
             switch result {
             case .success(let response):
@@ -101,8 +100,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             }
         }
     }
-    
-    public func checkEmail(authenRequest: AuthenRequest, _ completion: @escaping (Bool, Bool) -> ()) {
+
+    public func checkEmail(authenRequest: AuthenRequest, _ completion: @escaping (Bool, Bool) -> Void) {
         self.authenticationProvider.request(.checkEmail(authenRequest)) { result in
             switch result {
             case .success(let response):
@@ -120,7 +119,6 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                 } catch {
                     ApiHelper.displayError()
                     completion(false, false)
-                    
                 }
             case .failure:
                 ApiHelper.displayError()
@@ -128,8 +126,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             }
         }
     }
-    
-    public func suggestCastcleId(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+
+    public func suggestCastcleId(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.suggestCastcleId(authenRequest)) { result in
             switch result {
             case .success(let response):
@@ -141,8 +139,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             }
         }
     }
-    
-    public func checkCastcleId(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+
+    public func checkCastcleId(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.checkCastcleId(authenRequest)) { result in
             switch result {
             case .success(let response):
@@ -154,8 +152,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             }
         }
     }
-    
-    public func register(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+
+    public func register(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.register(authenRequest)) { result in
             switch result {
             case .success(let response):
@@ -167,8 +165,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             }
         }
     }
-    
-    public func verificationEmail(_ completion: @escaping (Bool) -> ()) {
+
+    public func verificationEmail(_ completion: @escaping (Bool) -> Void) {
         self.authenticationProvider.request(.requestLinkVerify) { result in
             switch result {
             case .success(let response):
@@ -176,7 +174,6 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                     if response.statusCode <= 204 {
                         completion(true)
                     }
-                    
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     if response.statusCode < 300 {
@@ -195,8 +192,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             }
         }
     }
-    
-    public func requestLinkVerify(_ completion: @escaping complate) {
+
+    public func requestLinkVerify(_ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.requestLinkVerify) { result in
             switch result {
             case .success(let response):
@@ -208,12 +205,13 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             }
         }
     }
-    
-    public func refreshToken(_ completion: @escaping (Bool, Bool) -> ()) {
+
+    public func refreshToken(_ completion: @escaping (Bool, Bool) -> Void) {
         self.authenticationProvider.request(.refreshToken) { result in
             switch result {
             case .success(let response):
                 do {
+                    let realm = try Realm()
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     if response.statusCode < 300 {
@@ -221,14 +219,13 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                         let profile = JSON(json[JsonKey.profile.rawValue].dictionaryValue)
                         let pages = json[JsonKey.pages.rawValue].arrayValue
                         UserHelper.shared.updateLocalProfile(user: UserInfo(json: profile))
-                        let pageRealm = self.realm.objects(Page.self)
-                        try! self.realm.write {
-                            self.realm.delete(pageRealm)
+                        let pageRealm = realm.objects(Page.self)
+                        try realm.write {
+                            realm.delete(pageRealm)
                         }
-                        
-                        pages.forEach { page in
-                            let pageInfo = UserInfo(json: page)
-                            try! self.realm.write {
+                        try realm.write {
+                            pages.forEach { page in
+                                let pageInfo = UserInfo(json: page)
                                 let pageTemp = Page()
                                 pageTemp.id = pageInfo.id
                                 pageTemp.castcleId = pageInfo.castcleId
@@ -239,7 +236,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                                 pageTemp.official = pageInfo.verified.official
                                 pageTemp.isSyncTwitter = !pageInfo.syncSocial.twitter.socialId.isEmpty
                                 pageTemp.isSyncFacebook = !pageInfo.syncSocial.facebook.socialId.isEmpty
-                                self.realm.add(pageTemp, update: .modified)
+                                realm.add(pageTemp, update: .modified)
                             }
                         }
                         UserManager.shared.setAccessToken(token: accessToken)
@@ -263,8 +260,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             }
         }
     }
-    
-    public func verifyPassword(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+
+    public func verifyPassword(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.verificationPassword(authenRequest)) { result in
             switch result {
             case .success(let response):
@@ -276,8 +273,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             }
         }
     }
-    
-    public func changePasswordSubmit(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+
+    public func changePasswordSubmit(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.changePasswordSubmit(authenRequest)) { result in
             switch result {
             case .success(let response):
@@ -289,8 +286,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             }
         }
     }
-    
-    public func requestOtp(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+
+    public func requestOtp(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.requestOtp(authenRequest)) { result in
             switch result {
             case .success(let response):
@@ -302,8 +299,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             }
         }
     }
-    
-    public func requestOtpWithEmail(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+
+    public func requestOtpWithEmail(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.requestOtpWithEmail(authenRequest)) { result in
             switch result {
             case .success(let response):
@@ -315,8 +312,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             }
         }
     }
-    
-    public func verificationOtp(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+
+    public func verificationOtp(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.verificationOtp(authenRequest)) { result in
             switch result {
             case .success(let response):
@@ -328,8 +325,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             }
         }
     }
-    
-    public func loginWithSocial(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+
+    public func loginWithSocial(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.loginWithSocial(authenRequest)) { result in
             switch result {
             case .success(let response):
@@ -341,8 +338,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             }
         }
     }
-    
-    public func connectWithSocial(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+
+    public func connectWithSocial(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.connectWithSocial(authenRequest)) { result in
             switch result {
             case .success(let response):

@@ -36,11 +36,11 @@ public class Participate: NSObject {
     public var recasted: Bool = false
     public var reported: Bool = false
     public var farming: Bool = false
-    
+
     public override init() {
         // MARK: - Init
     }
-    
+
     public init(json: JSON) {
         self.liked = json[JsonKey.liked.rawValue].boolValue
         self.commented = json[JsonKey.commented.rawValue].boolValue

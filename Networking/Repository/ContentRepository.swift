@@ -30,26 +30,26 @@ import Moya
 import SwiftyJSON
 
 public protocol ContentRepository {
-    func getMeContents(contentRequest: ContentRequest, _ completion: @escaping complate)
-    func getContentDetail(contentId: String, _ completion: @escaping complate)
-    func createContent(featureSlug: String, contentRequest: ContentRequest, _ completion: @escaping complate)
-    func likeContent(castcleId: String, contentId: String, _ completion: @escaping complate)
-    func unlikeContent(castcleId: String, contentId: String, _ completion: @escaping complate)
-    func deleteContent(contentId: String, _ completion: @escaping complate)
-    func recastContent(contentRequest: ContentRequest, _ completion: @escaping complate)
-    func unrecastContent(contentRequest: ContentRequest, _ completion: @escaping complate)
-    func quotecastContent(contentRequest: ContentRequest, _ completion: @escaping complate)
+    func getMeContents(contentRequest: ContentRequest, _ completion: @escaping ResponseHandle)
+    func getContentDetail(contentId: String, _ completion: @escaping ResponseHandle)
+    func createContent(featureSlug: String, contentRequest: ContentRequest, _ completion: @escaping ResponseHandle)
+    func likeContent(castcleId: String, contentId: String, _ completion: @escaping ResponseHandle)
+    func unlikeContent(castcleId: String, contentId: String, _ completion: @escaping ResponseHandle)
+    func deleteContent(contentId: String, _ completion: @escaping ResponseHandle)
+    func recastContent(contentRequest: ContentRequest, _ completion: @escaping ResponseHandle)
+    func unrecastContent(contentRequest: ContentRequest, _ completion: @escaping ResponseHandle)
+    func quotecastContent(contentRequest: ContentRequest, _ completion: @escaping ResponseHandle)
 }
 
 public final class ContentRepositoryImpl: ContentRepository {
     private let contentProvider = MoyaProvider<ContentApi>()
     private let completionHelper: CompletionHelper = CompletionHelper()
-    
+
     public init() {
         // MARK: - Init
     }
-    
-    public func getMeContents(contentRequest: ContentRequest, _ completion: @escaping complate) {
+
+    public func getMeContents(contentRequest: ContentRequest, _ completion: @escaping ResponseHandle) {
         self.contentProvider.request(.getMeContents(contentRequest)) { result in
             switch result {
             case .success(let response):
@@ -61,8 +61,8 @@ public final class ContentRepositoryImpl: ContentRepository {
             }
         }
     }
-    
-    public func getContentDetail(contentId: String, _ completion: @escaping complate) {
+
+    public func getContentDetail(contentId: String, _ completion: @escaping ResponseHandle) {
         self.contentProvider.request(.getContentDetail(contentId)) { result in
             switch result {
             case .success(let response):
@@ -74,8 +74,8 @@ public final class ContentRepositoryImpl: ContentRepository {
             }
         }
     }
-    
-    public func createContent(featureSlug: String, contentRequest: ContentRequest, _ completion: @escaping complate) {
+
+    public func createContent(featureSlug: String, contentRequest: ContentRequest, _ completion: @escaping ResponseHandle) {
         self.contentProvider.request(.createContent(featureSlug, contentRequest)) { result in
             switch result {
             case .success(let response):
@@ -87,8 +87,8 @@ public final class ContentRepositoryImpl: ContentRepository {
             }
         }
     }
-    
-    public func likeContent(castcleId: String, contentId: String, _ completion: @escaping complate) {
+
+    public func likeContent(castcleId: String, contentId: String, _ completion: @escaping ResponseHandle) {
         self.contentProvider.request(.likeContent(castcleId, contentId)) { result in
             switch result {
             case .success(let response):
@@ -100,8 +100,8 @@ public final class ContentRepositoryImpl: ContentRepository {
             }
         }
     }
-    
-    public func unlikeContent(castcleId: String, contentId: String, _ completion: @escaping complate) {
+
+    public func unlikeContent(castcleId: String, contentId: String, _ completion: @escaping ResponseHandle) {
         self.contentProvider.request(.unlikeContent(castcleId, contentId)) { result in
             switch result {
             case .success(let response):
@@ -113,8 +113,8 @@ public final class ContentRepositoryImpl: ContentRepository {
             }
         }
     }
-    
-    public func deleteContent(contentId: String, _ completion: @escaping complate) {
+
+    public func deleteContent(contentId: String, _ completion: @escaping ResponseHandle) {
         self.contentProvider.request(.deleteContent(contentId)) { result in
             switch result {
             case .success(let response):
@@ -126,8 +126,8 @@ public final class ContentRepositoryImpl: ContentRepository {
             }
         }
     }
-    
-    public func recastContent(contentRequest: ContentRequest, _ completion: @escaping complate) {
+
+    public func recastContent(contentRequest: ContentRequest, _ completion: @escaping ResponseHandle) {
         self.contentProvider.request(.recastContent(contentRequest)) { result in
             switch result {
             case .success(let response):
@@ -139,8 +139,8 @@ public final class ContentRepositoryImpl: ContentRepository {
             }
         }
     }
-    
-    public func unrecastContent(contentRequest: ContentRequest, _ completion: @escaping complate) {
+
+    public func unrecastContent(contentRequest: ContentRequest, _ completion: @escaping ResponseHandle) {
         self.contentProvider.request(.unrecastContent(contentRequest)) { result in
             switch result {
             case .success(let response):
@@ -152,8 +152,8 @@ public final class ContentRepositoryImpl: ContentRepository {
             }
         }
     }
-    
-    public func quotecastContent(contentRequest: ContentRequest, _ completion: @escaping complate) {
+
+    public func quotecastContent(contentRequest: ContentRequest, _ completion: @escaping ResponseHandle) {
         self.contentProvider.request(.quotecastContent(contentRequest)) { result in
             switch result {
             case .success(let response):

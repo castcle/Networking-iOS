@@ -44,7 +44,7 @@ extension ContentApi: TargetType {
     var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }
-    
+
     var path: String {
         switch self {
         case .getMeContents:
@@ -67,7 +67,7 @@ extension ContentApi: TargetType {
             return "/users/\(contentRequest.castcleId)/quotecast"
         }
     }
-    
+
     var method: Moya.Method {
         switch self {
         case .getMeContents, .getContentDetail:
@@ -78,11 +78,11 @@ extension ContentApi: TargetType {
             return .delete
         }
     }
-    
+
     var sampleData: Data {
         return Data()
     }
-    
+
     var task: Task {
         switch self {
         case .getMeContents(let contentRequest):
@@ -107,8 +107,8 @@ extension ContentApi: TargetType {
             return.requestPlain
         }
     }
-    
-    var headers: [String : String]? {
+
+    var headers: [String: String]? {
         switch self {
         case .likeContent, .unlikeContent:
             return ApiHelper.header()

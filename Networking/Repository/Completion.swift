@@ -29,14 +29,14 @@ import Core
 import Moya
 import SwiftyJSON
 
-public typealias complate = (_ complate: Bool, _ response: Response, _ isRefreshToken: Bool) -> ()
+public typealias ResponseHandle = (_ complate: Bool, _ response: Response, _ isRefreshToken: Bool) -> Void
 
 public let errorRefreshToken: String = "1003"
 public let errorRefreshTokenExpired: String = "1004"
 public let errorEmailIsAlreadyInCastcle: String = "3021"
 
 public class CompletionHelper {
-    func handleNetworingResponse(isSocialLogin: Bool = false, response: Response,_ completion: @escaping complate) {
+    func handleNetworingResponse(isSocialLogin: Bool = false, response: Response, _ completion: @escaping ResponseHandle) {
         if response.statusCode < 300 {
             completion(true, response, false)
         } else {

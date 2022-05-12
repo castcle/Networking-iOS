@@ -52,11 +52,11 @@ public class UserInfo {
     public var mobile: Mobile = Mobile()
     public var syncSocial: SyncSocial = SyncSocial()
     public var canUpdateCastcleId: Bool = false
-    
+
     public init() {
         // Init UserInfo
     }
-    
+
     public init(json: JSON) {
         self.type = AuthorType(rawValue: json[JsonKey.type.rawValue].stringValue) ?? .people
         self.id = json[JsonKey.id.rawValue].stringValue
@@ -70,7 +70,7 @@ public class UserInfo {
         self.blocked = json[JsonKey.blocked.rawValue].boolValue
         self.passwordNotSet = json[JsonKey.passwordNotSet.rawValue].boolValue
         self.canUpdateCastcleId = json[JsonKey.canUpdateCastcleId.rawValue].boolValue
-        
+
         // MARK: - Object
         self.images = UserImage(json: JSON(json[JsonKey.images.rawValue].dictionaryObject ?? [:]))
         self.contact = Contact(json: JSON(json[JsonKey.contact.rawValue].dictionaryObject ?? [:]))
@@ -83,7 +83,7 @@ public class UserInfo {
         self.mobile = Mobile(json: JSON(json[JsonKey.mobile.rawValue].dictionaryObject ?? [:]))
         self.syncSocial = SyncSocial(json: JSON(json[JsonKey.syncSocial.rawValue].dictionaryObject ?? [:]))
     }
-    
+
     public init(displayName: String, avatar: String, castcleId: String) {
         self.castcleId = castcleId
         self.displayName = displayName
@@ -95,11 +95,11 @@ public class UserInfo {
 public class UserImage {
     public var cover: ImageInfo = ImageInfo()
     public var avatar: ImageInfo = ImageInfo()
-    
+
     public init() {
         // Init User Image
     }
-    
+
     public init(json: JSON) {
         self.cover = ImageInfo(json: JSON(json[JsonKey.cover.rawValue].dictionaryObject ?? [:]))
         self.avatar = ImageInfo(json: JSON(json[JsonKey.avatar.rawValue].dictionaryObject ?? [:]))
@@ -111,11 +111,11 @@ public class Contact {
     public var countryCode: String = ""
     public var phone: String = ""
     public var email: String = ""
-    
+
     public init() {
         // Init Contact
     }
-    
+
     public init(json: JSON) {
         self.countryCode = json[JsonKey.countryCode.rawValue].stringValue
         self.phone = json[JsonKey.phone.rawValue].stringValue
@@ -129,11 +129,11 @@ public class ImageInfo {
     public var thumbnail: String = ""
     public var fullHd: String = ""
     public var large: String = ""
-    
+
     public init() {
         // Init Profile Image
     }
-    
+
     public init(json: JSON) {
         self.original = json[JsonKey.original.rawValue].stringValue
         self.thumbnail = json[JsonKey.thumbnail.rawValue].stringValue
@@ -149,11 +149,11 @@ public class UserLink {
     public var youtube: String = ""
     public var medium: String = ""
     public var website: String = ""
-    
+
     public init() {
         // Init User Link
     }
-    
+
     public init(json: JSON) {
         self.facebook = json[JsonKey.facebook.rawValue].stringValue
         self.twitter = json[JsonKey.twitter.rawValue].stringValue
@@ -166,11 +166,11 @@ public class UserLink {
 // MARK: - User Following
 public class UserFollowing {
     public var count: Int = 0
-    
+
     public init() {
         // Init User Following
     }
-    
+
     public init(json: JSON) {
         self.count = json[JsonKey.count.rawValue].intValue
     }
@@ -179,11 +179,11 @@ public class UserFollowing {
 // MARK: - User Following
 public class UserFollowers {
     public var count: Int = 0
-    
+
     public init() {
         // Init User Followers
     }
-    
+
     public init(json: JSON) {
         self.count = json[JsonKey.count.rawValue].intValue
     }
@@ -195,11 +195,11 @@ public class LinkSocial {
     public var twitter: SocialUser = SocialUser()
     public var google: SocialUser = SocialUser()
     public var apple: SocialUser = SocialUser()
-    
+
     public init() {
         // Init Link Social
     }
-    
+
     public init(json: JSON) {
         self.facebook = SocialUser(json: JSON(json[JsonKey.facebook.rawValue].dictionaryObject ?? [:]))
         self.twitter = SocialUser(json: JSON(json[JsonKey.twitter.rawValue].dictionaryObject ?? [:]))
@@ -212,11 +212,11 @@ public class LinkSocial {
 public class SocialUser {
     public var socialId: String = ""
     public var displayName: String = ""
-    
+
     public init() {
         // Init SocialUser
     }
-    
+
     public init(json: JSON) {
         self.socialId = json[JsonKey.socialId.rawValue].stringValue
         self.displayName = json[JsonKey.displayName.rawValue].stringValue
@@ -227,11 +227,11 @@ public class SocialUser {
 public class Mobile {
     public var countryCode: String = ""
     public var number: String = ""
-    
+
     public init() {
         // Init Mobile
     }
-    
+
     public init(json: JSON) {
         self.countryCode = json[JsonKey.countryCode.rawValue].stringValue
         self.number = json[JsonKey.number.rawValue].stringValue
@@ -242,11 +242,11 @@ public class Mobile {
 public class SyncSocial: NSObject {
     public var twitter: SyncDetail = SyncDetail()
     public var facebook: SyncDetail = SyncDetail()
-    
+
     public override init() {
         // Init Social
     }
-    
+
     public init(json: JSON) {
         self.twitter = SyncDetail(json: JSON(json[JsonKey.twitter.rawValue].dictionaryObject ?? [:]))
         self.facebook = SyncDetail(json: JSON(json[JsonKey.facebook.rawValue].dictionaryObject ?? [:]))
@@ -263,11 +263,11 @@ public class SyncDetail: NSObject {
     public var avatar: String = ""
     public var active: Bool = false
     public var autoPost: Bool = false
-    
+
     public override init() {
         // Init Social
     }
-    
+
     public init(json: JSON) {
         self.id = json[JsonKey.id.rawValue].stringValue
         self.provider = SocialType(rawValue: json[JsonKey.provider.rawValue].stringValue) ?? .unknow

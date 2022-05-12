@@ -39,7 +39,7 @@ public class Hashtag: NSObject {
     public let count: Int
     public let createdAt: String
     public let updatedAt: String
-    
+
     public init(json: JSON) {
         self.id = json[JsonKey.id.rawValue].stringValue
         self.slug = json[JsonKey.slug.rawValue].stringValue

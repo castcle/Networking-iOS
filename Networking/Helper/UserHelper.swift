@@ -32,24 +32,28 @@ import RealmSwift
 
 public class UserHelper {
     public static let shared = UserHelper()
-    
+
     public init() {
         // Init UserHelper
     }
-    
+
     public func isMyAccount(id: String) -> Bool {
         if id == UserManager.shared.id {
             return true
         } else {
-            let realm = try! Realm()
-            if realm.objects(Page.self).filter("id = '\(id)'").first != nil {
-                return true
-            } else {
+            do {
+                let realm = try Realm()
+                if realm.objects(Page.self).filter("id = '\(id)'").first != nil {
+                    return true
+                } else {
+                    return false
+                }
+            } catch {
                 return false
             }
         }
     }
-    
+
     public func updateLocalProfile(user: UserInfo) {
         Defaults[.userId] = user.id
         Defaults[.castcleId] = user.castcleId
@@ -75,7 +79,7 @@ public class UserHelper {
         Defaults[.mobileCountryCode] = user.mobile.countryCode
         Defaults[.mobileNumber] = user.mobile.number
     }
-    
+
     public func clearUserData() {
         Defaults[.userId] = ""
         Defaults[.castcleId] = ""
@@ -105,7 +109,7 @@ public class UserHelper {
         Defaults[.badgeSystem] = 0
         UIApplication.shared.applicationIconBadgeNumber = 0
     }
-    
+
     public func clearSeenContent() {
         Defaults[.seenId] = ""
     }

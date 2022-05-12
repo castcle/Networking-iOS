@@ -33,11 +33,11 @@ public class Feature: NSObject {
     public var slug: String = ""
     public var name: String = ""
     public var key: String = ""
-    
+
     public override init() {
         // Init
     }
-    
+
     public init(json: JSON) {
         self.slug = json[JsonKey.slug.rawValue].stringValue
         self.name = json[JsonKey.name.rawValue].stringValue

@@ -51,7 +51,7 @@ extension AuthenticationApi: TargetType {
     var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }
-    
+
     var path: String {
         switch self {
         case .guestLogin:
@@ -88,15 +88,15 @@ extension AuthenticationApi: TargetType {
             return "/authentications/connect-with-social"
         }
     }
-    
+
     var method: Moya.Method {
         return .post
     }
-    
+
     var sampleData: Data {
         return "{\"message\": \"success message\"}".dataEncoded
     }
-    
+
     var task: Task {
         switch self {
         case .guestLogin(let uuid):
@@ -129,8 +129,8 @@ extension AuthenticationApi: TargetType {
             return .requestPlain
         }
     }
-    
-    var headers: [String : String]? {
+
+    var headers: [String: String]? {
         switch self {
         case .login, .checkEmail, .checkCastcleId, .loginWithSocial, .requestOtpWithEmail:
             return ApiHelper.header()

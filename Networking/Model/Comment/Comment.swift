@@ -33,11 +33,11 @@ import RealmSwift
 public class CommentPayload: NSObject {
     public var payload: [Comment] = []
     public var meta: Meta = Meta()
-    
+
     public override init() {
         // Init CommentPayload
     }
-    
+
     public init(json: JSON) {
         // MARK: - Comment
         self.payload = (json[JsonKey.payload.rawValue].arrayValue).map { Comment(json: $0) }
@@ -45,19 +45,22 @@ public class CommentPayload: NSObject {
         let includes = JSON(json[JsonKey.includes.rawValue].dictionaryValue)
         let comments = includes[JsonKey.comments.rawValue].arrayValue
         let users = includes[JsonKey.users.rawValue].arrayValue
-        
-        let realm = try! Realm()
-        comments.forEach { comment in
-            try! realm.write {
-                let commentRef = CommentRef().initCustom(json: comment)
-                realm.add(commentRef, update: .modified)
+        do {
+            let realm = try Realm()
+            try realm.write {
+                comments.forEach { comment in
+                    let commentRef = CommentRef().initCustom(json: comment)
+                    realm.add(commentRef, update: .modified)
+                }
             }
-        }
-        users.forEach { user in
-            try! realm.write {
-                let authorRef = AuthorRef().initCustom(json: user)
-                realm.add(authorRef, update: .modified)
+            try realm.write {
+                users.forEach { user in
+                    let authorRef = AuthorRef().initCustom(json: user)
+                    realm.add(authorRef, update: .modified)
+                }
             }
+        } catch let error as NSError {
+            print(error)
         }
     }
 }
@@ -74,11 +77,11 @@ public class Comment: NSObject {
     public var updatedAt: String = ""
     public var isFirst: Bool = false
     public var isLast: Bool = false
-    
+
     public override init() {
         // Init Comment
     }
-    
+
     public init(json: JSON, isFirst: Bool = false, isLast: Bool = false) {
         self.id = json[JsonKey.id.rawValue].stringValue
         self.authorId = json[JsonKey.author.rawValue].stringValue
@@ -87,15 +90,15 @@ public class Comment: NSObject {
         self.updatedAt = json[JsonKey.updatedAt.rawValue].stringValue
         self.isFirst = isFirst
         self.isLast = isLast
-        
+
         // MARK: - Object
         self.metrics = Metric(json: JSON(json[JsonKey.metrics.rawValue].dictionaryObject ?? [:]))
         self.participate = Participate(json: JSON(json[JsonKey.participate.rawValue].dictionaryObject ?? [:]))
-        
+
         // MARK: - Reply
         self.reply = (json[JsonKey.reply.rawValue].arrayValue).map { $0.stringValue }
     }
-    
+
     public var commentDate: Date {
         return Date.stringToDate(str: self.createdAt)
     }

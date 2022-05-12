@@ -37,11 +37,11 @@ public protocol EngagementRepository {
 
 public final class EngagementRepositoryImpl: EngagementRepository {
     private let engagementProvider = MoyaProvider<EngagementApi>()
-    
+
     public init() {
         // MARK: - Init
     }
-    
+
     public func engagement(engagementRequest: EngagementRequest) {
         self.engagementProvider.request(.engagement(engagementRequest)) { result in
             switch result {
@@ -52,7 +52,7 @@ public final class EngagementRepositoryImpl: EngagementRepository {
             }
         }
     }
-    
+
     public func seenContent(feedId: String) {
         self.engagementProvider.request(.seenContent(feedId)) { result in
             switch result {
@@ -63,7 +63,7 @@ public final class EngagementRepositoryImpl: EngagementRepository {
             }
         }
     }
-    
+
     public func castOffView(feedId: String) {
         self.engagementProvider.request(.castOffView(feedId)) { result in
             switch result {

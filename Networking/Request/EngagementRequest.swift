@@ -40,11 +40,11 @@ public struct EngagementRequest {
     public var eventType: String = ""
     public var eventData: String = ""
     public var timestamp: String = ""
-    
+
     public init() {
         // Init EngagementRequest
     }
-    
+
     public var paramEngagement: [String: Any] {
         return [
             JsonKey.platform.rawValue: self.platform,

@@ -32,7 +32,7 @@ import SwiftyJSON
 public class Keyword: NSObject {
     public let text: String
     public let isTrending: Bool
-    
+
     public init(json: JSON) {
         self.text = json[JsonKey.text.rawValue].stringValue
         self.isTrending = json[JsonKey.isTrending.rawValue].boolValue

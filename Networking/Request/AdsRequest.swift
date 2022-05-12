@@ -30,20 +30,20 @@ import Core
 public struct AdsRequest {
     public var untilId: String = ""
     public var maxResults: Int = 25
-    
+
     public init() {
         // Init AdsRequest
     }
-    
+
     public var paramGetAds: [String: Any] {
         var param: [String: Any] = [
             JsonKey.maxResults.rawValue: self.maxResults
         ]
-        
+
         if !self.untilId.isEmpty {
             param[JsonKey.untilId.rawValue] = self.untilId
         }
-        
+
         return param
     }
 }

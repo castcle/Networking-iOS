@@ -35,18 +35,18 @@ public struct PageRequest {
     public var overview: String = ""
     public var links: PageLinkRequest = PageLinkRequest()
     public var password: String = ""
-    
+
     public init() {
         // Init PageRequest
     }
-    
+
     public var paramCreatePage: [String: Any] {
         return [
             JsonKey.castcleId.rawValue: self.castcleId,
             JsonKey.displayName.rawValue: self.displayName
         ]
     }
-    
+
     public var paramUpdatePageAvatar: [String: Any] {
         return [
             JsonKey.images.rawValue: [
@@ -54,7 +54,7 @@ public struct PageRequest {
             ]
         ]
     }
-    
+
     public var paramUpdatePageCover: [String: Any] {
         return [
             JsonKey.images.rawValue: [
@@ -62,14 +62,14 @@ public struct PageRequest {
             ]
         ]
     }
-    
+
     public var paramUpdatePage: [String: Any] {
         return [
             JsonKey.overview.rawValue: self.overview,
             JsonKey.links.rawValue: self.links.paramEditPageLink
         ]
     }
-    
+
     public var paramDeletePage: [String: Any] {
         return [
             JsonKey.password.rawValue: self.password
@@ -83,7 +83,7 @@ public struct PageLinkRequest {
     public var youtube: String
     public var medium: String
     public var website: String
-    
+
     public init() {
         self.facebook = ""
         self.twitter = ""
@@ -91,7 +91,7 @@ public struct PageLinkRequest {
         self.medium = ""
         self.website = ""
     }
-    
+
     public var paramEditPageLink: [String: Any] {
         return [
             JsonKey.facebook.rawValue: self.facebook,

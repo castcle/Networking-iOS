@@ -42,7 +42,7 @@ extension NotificationApi: TargetType {
     var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }
-    
+
     var path: String {
         switch self {
         case .registerToken, .unregisterToken:
@@ -59,7 +59,7 @@ extension NotificationApi: TargetType {
             return "/v2/notifications/reads"
         }
     }
-    
+
     var method: Moya.Method {
         switch self {
         case .registerToken, .readNotification, .readAllNotification:
@@ -69,13 +69,12 @@ extension NotificationApi: TargetType {
         case .getBadges, .getNotification:
             return .get
         }
-        
     }
-    
+
     var sampleData: Data {
         return Data()
     }
-    
+
     var task: Task {
         switch self {
         case .registerToken(let notificationRequest):
@@ -90,8 +89,8 @@ extension NotificationApi: TargetType {
             return .requestPlain
         }
     }
-    
-    var headers: [String : String]? {
+
+    var headers: [String: String]? {
         switch self {
         case .getBadges, .getNotification, .deleteNotification, .readNotification, .readAllNotification:
             return ApiHelper.header()

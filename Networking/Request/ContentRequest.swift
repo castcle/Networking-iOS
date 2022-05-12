@@ -37,25 +37,25 @@ public struct ContentRequest {
     public var contentId: String = ""
     public var message: String = ""
     public var userFields: UserFields = .relationships
-    
+
     public init() {
         // Init ContentRequest
     }
-    
+
     public var paramGetContent: [String: Any] {
         var param: [String: Any] = [
             JsonKey.type.rawValue: self.type.rawValue,
             JsonKey.maxResults.rawValue: self.maxResults,
             JsonKey.userFields.rawValue: self.userFields.rawValue
         ]
-        
+
         if !self.untilId.isEmpty {
             param[JsonKey.untilId.rawValue] = self.untilId
         }
-        
+
         return param
     }
-    
+
     public var paramCreateContent: [String: Any] {
         return [
             JsonKey.type.rawValue: self.type.rawValue,
@@ -63,13 +63,13 @@ public struct ContentRequest {
             JsonKey.castcleId.rawValue: self.castcleId
         ]
     }
-    
+
     public var paramRecastContent: [String: Any] {
         return [
             JsonKey.contentId.rawValue: self.contentId
         ]
     }
-    
+
     public var paramQuotecastContent: [String: Any] {
         return [
             JsonKey.contentId.rawValue: self.contentId,
@@ -81,11 +81,11 @@ public struct ContentRequest {
 public struct ContentPayloadRequest {
     public var message: String = ""
     public var image: [String] = []
-    
+
     public init() {
         // Init ContentPayloadRequest
     }
-    
+
     public var paramCreateShotContent: [String: Any] {
         return [
             JsonKey.message.rawValue: self.message,
@@ -94,7 +94,7 @@ public struct ContentPayloadRequest {
             ]
         ]
     }
-    
+
     private var photoParam: [[String: String]] {
         var temp: [[String: String]] = []
         self.image.forEach { imageBase64 in

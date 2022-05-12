@@ -36,27 +36,27 @@ extension AdsApi: TargetType {
     var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }
-    
+
     var path: String {
         switch self {
         case .getAds:
             return "/users/me/advertise"
         }
     }
-    
+
     var method: Moya.Method {
         return .get
     }
-    
+
     var sampleData: Data {
         return Data()
     }
-    
+
     var task: Task {
         return .requestPlain
     }
-    
-    var headers: [String : String]? {
+
+    var headers: [String: String]? {
         return ApiHelper.header(version: "1.0")
     }
 }

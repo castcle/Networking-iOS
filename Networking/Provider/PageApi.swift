@@ -43,7 +43,7 @@ extension PageApi: TargetType {
     var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }
-    
+
     var path: String {
         switch self {
         case .createPage, .getMyPage:
@@ -62,7 +62,7 @@ extension PageApi: TargetType {
             return "/users/me/pages/sync-social/\(syncSocialId)/connect"
         }
     }
-    
+
     var method: Moya.Method {
         switch self {
         case .createPage, .createPageWithSocial, .setAutoPost, .reconnectSyncSocial:
@@ -73,11 +73,11 @@ extension PageApi: TargetType {
             return .delete
         }
     }
-    
+
     var sampleData: Data {
         return Data()
     }
-    
+
     var task: Task {
         switch self {
         case .createPage(let pageRequest):
@@ -92,8 +92,8 @@ extension PageApi: TargetType {
             return .requestPlain
         }
     }
-    
-    var headers: [String : String]? {
+
+    var headers: [String: String]? {
         return ApiHelper.header(version: "1.0")
     }
 }

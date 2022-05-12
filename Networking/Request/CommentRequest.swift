@@ -34,37 +34,37 @@ public struct CommentRequest {
     public var untilId: String = ""
     public var maxResults: Int = 25
     public var userFields: UserFields = .relationships
-    
+
     public init() {
         // Init CommentRequest
     }
-    
+
     public var paramGetComment: [String: Any] {
         var param: [String: Any] = [
             JsonKey.maxResults.rawValue: self.maxResults,
             JsonKey.userFields.rawValue: self.userFields.rawValue
         ]
-        
+
         if !self.untilId.isEmpty {
             param[JsonKey.untilId.rawValue] = self.untilId
         }
-        
+
         return param
     }
-    
+
     public var paramCreateComment: [String: Any] {
         return [
             JsonKey.message.rawValue: self.message,
             JsonKey.contentId.rawValue: self.contentId
         ]
     }
-    
+
     public var paramReplyComment: [String: Any] {
         return [
             JsonKey.message.rawValue: self.message
         ]
     }
-    
+
     public var paramLikedComment: [String: Any] {
         return [
             JsonKey.commentId.rawValue: self.commentId

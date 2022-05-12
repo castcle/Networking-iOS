@@ -41,23 +41,23 @@ public class Author: NSObject {
     public var followed: Bool = false
     public var blocking: Bool = false
     public var blocked: Bool = false
-    
+
     public override init() {
         // Init
     }
-    
+
     public init(authorRef: AuthorRef) {
         self.id = authorRef.id
         self.type = AuthorType(rawValue: authorRef.type) ?? .people
         self.castcleId = authorRef.castcleId
         self.displayName = authorRef.displayName
         self.followed = authorRef.followed
-        
+
         // MARK: - Object
         self.verified.official = authorRef.official
         self.avatar.thumbnail = authorRef.avatar
     }
-    
+
     public init(json: JSON) {
         self.id = json[JsonKey.id.rawValue].stringValue
         self.type = AuthorType(rawValue: json[JsonKey.type.rawValue].stringValue) ?? .people
@@ -67,7 +67,7 @@ public class Author: NSObject {
         self.followed = json[JsonKey.followed.rawValue].boolValue
         self.blocking = json[JsonKey.blocking.rawValue].boolValue
         self.blocked = json[JsonKey.blocked.rawValue].boolValue
-        
+
         // MARK: - Object
         self.verified = Verified(json: JSON(json[JsonKey.verified.rawValue].dictionaryObject ?? [:]))
         self.avatar = ImageInfo(json: JSON(json[JsonKey.avatar.rawValue].dictionaryObject ?? [:]))

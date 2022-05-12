@@ -34,11 +34,11 @@ public class Verified {
     public var mobile: Bool = false
     public var official: Bool = false
     public var social: Bool = false
-    
+
     public init() {
         // MARK: - Init
     }
-    
+
     public init(json: JSON) {
         self.email = json[JsonKey.email.rawValue].boolValue
         self.mobile = json[JsonKey.mobile.rawValue].boolValue

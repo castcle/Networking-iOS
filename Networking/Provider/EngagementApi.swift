@@ -38,7 +38,7 @@ extension EngagementApi: TargetType {
     var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }
-    
+
     var path: String {
         switch self {
         case .engagement:
@@ -49,15 +49,15 @@ extension EngagementApi: TargetType {
             return "feeds/\(feedId)/off-view"
         }
     }
-    
+
     var method: Moya.Method {
         return .post
     }
-    
+
     var sampleData: Data {
         return Data()
     }
-    
+
     var task: Task {
         switch self {
         case .engagement(let engagementRequest):
@@ -66,8 +66,8 @@ extension EngagementApi: TargetType {
             return .requestPlain
         }
     }
-    
-    var headers: [String : String]? {
+
+    var headers: [String: String]? {
         return ApiHelper.header(version: "1.0")
     }
 }

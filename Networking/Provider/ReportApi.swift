@@ -39,7 +39,7 @@ extension ReportApi: TargetType {
     var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }
-    
+
     var path: String {
         switch self {
         case .reportUser(let userId, _):
@@ -52,7 +52,7 @@ extension ReportApi: TargetType {
             return "/users/\(userId)/unblocking/\(targetCastcleId)"
         }
     }
-    
+
     var method: Moya.Method {
         switch self {
         case.unblockUser:
@@ -61,11 +61,11 @@ extension ReportApi: TargetType {
             return .post
         }
     }
-    
+
     var sampleData: Data {
         return Data()
     }
-    
+
     var task: Task {
         switch self {
         case .reportUser(_, let reportRequest):
@@ -78,8 +78,8 @@ extension ReportApi: TargetType {
             return .requestPlain
         }
     }
-    
-    var headers: [String : String]? {
+
+    var headers: [String: String]? {
         return ApiHelper.header(version: "1.0")
     }
 }

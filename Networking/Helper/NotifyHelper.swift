@@ -34,11 +34,11 @@ public class NotifyHelper {
     private var notificationRepository: NotificationRepository = NotificationRepositoryImpl()
     private let tokenHelper: TokenHelper = TokenHelper()
     private var state: State = .none
-    
+
     public func getBadges() {
         self.state = .getBadges
         self.tokenHelper.delegate = self
-        self.notificationRepository.getBadges() { (success, response, isRefreshToken) in
+        self.notificationRepository.getBadges { (success, _, isRefreshToken) in
             if success {
                 UIApplication.shared.applicationIconBadgeNumber = UserManager.shared.badgeCount
             } else {

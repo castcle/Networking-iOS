@@ -42,15 +42,15 @@ public class Notify: NSObject {
     public var profileId: String = ""
     public var createdAt: String = ""
     public var updatedAt: String = ""
-    
+
     public var notifyDate: Date {
         return Date.stringToDate(str: self.updatedAt)
     }
-    
+
     public override init() {
         // Init Notification
     }
-    
+
     public init(json: JSON) {
         self.id = json[JsonKey.id.rawValue].stringValue
         self.source = json[JsonKey.source.rawValue].stringValue
@@ -61,7 +61,7 @@ public class Notify: NSObject {
         self.profileId = json[JsonKey.profileId.rawValue].stringValue
         self.createdAt = json[JsonKey.createdAt.rawValue].stringValue
         self.updatedAt = json[JsonKey.updatedAt.rawValue].stringValue
-        
+
         // MARK: - Object
         self.type = NotificationType(rawValue: json[JsonKey.type.rawValue].stringValue) ?? .none
         self.landingPage = LandingPage(rawValue: json[JsonKey.landingPage.rawValue].stringValue) ?? .none

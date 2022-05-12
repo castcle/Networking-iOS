@@ -30,25 +30,25 @@ import Moya
 import SwiftyJSON
 
 public protocol PageRepository {
-    func createPage(pageRequest: PageRequest, _ completion: @escaping complate)
-    func getMyPage(_ completion: @escaping complate)
-    func deletePage(pageId: String, pageRequest: PageRequest, _ completion: @escaping complate)
-    func createPageWithSocial(pageSocialRequest: PageSocialRequest, _ completion: @escaping complate)
-    func setAutoPost(syncSocialId: String, _ completion: @escaping complate)
-    func cancelAutoPost(syncSocialId: String, _ completion: @escaping complate)
-    func reconnectSyncSocial(syncSocialId: String, pageSocial: PageSocial, _ completion: @escaping complate)
-    func disconnectSyncSocial(syncSocialId: String, _ completion: @escaping complate)
+    func createPage(pageRequest: PageRequest, _ completion: @escaping ResponseHandle)
+    func getMyPage(_ completion: @escaping ResponseHandle)
+    func deletePage(pageId: String, pageRequest: PageRequest, _ completion: @escaping ResponseHandle)
+    func createPageWithSocial(pageSocialRequest: PageSocialRequest, _ completion: @escaping ResponseHandle)
+    func setAutoPost(syncSocialId: String, _ completion: @escaping ResponseHandle)
+    func cancelAutoPost(syncSocialId: String, _ completion: @escaping ResponseHandle)
+    func reconnectSyncSocial(syncSocialId: String, pageSocial: PageSocial, _ completion: @escaping ResponseHandle)
+    func disconnectSyncSocial(syncSocialId: String, _ completion: @escaping ResponseHandle)
 }
 
 public final class PageRepositoryImpl: PageRepository {
     private let pageProvider = MoyaProvider<PageApi>()
     private let completionHelper: CompletionHelper = CompletionHelper()
-    
+
     public init() {
         // MARK: - Init
     }
-    
-    public func createPage(pageRequest: PageRequest, _ completion: @escaping complate) {
+
+    public func createPage(pageRequest: PageRequest, _ completion: @escaping ResponseHandle) {
         self.pageProvider.request(.createPage(pageRequest)) { result in
             switch result {
             case .success(let response):
@@ -60,8 +60,8 @@ public final class PageRepositoryImpl: PageRepository {
             }
         }
     }
-    
-    public func getMyPage(_ completion: @escaping complate) {
+
+    public func getMyPage(_ completion: @escaping ResponseHandle) {
         self.pageProvider.request(.getMyPage) { result in
             switch result {
             case .success(let response):
@@ -73,8 +73,8 @@ public final class PageRepositoryImpl: PageRepository {
             }
         }
     }
-    
-    public func deletePage(pageId: String, pageRequest: PageRequest, _ completion: @escaping complate) {
+
+    public func deletePage(pageId: String, pageRequest: PageRequest, _ completion: @escaping ResponseHandle) {
         self.pageProvider.request(.deletePage(pageId, pageRequest)) { result in
             switch result {
             case .success(let response):
@@ -86,8 +86,8 @@ public final class PageRepositoryImpl: PageRepository {
             }
         }
     }
-    
-    public func createPageWithSocial(pageSocialRequest: PageSocialRequest, _ completion: @escaping complate) {
+
+    public func createPageWithSocial(pageSocialRequest: PageSocialRequest, _ completion: @escaping ResponseHandle) {
         self.pageProvider.request(.createPageWithSocial(pageSocialRequest)) { result in
             switch result {
             case .success(let response):
@@ -99,8 +99,8 @@ public final class PageRepositoryImpl: PageRepository {
             }
         }
     }
-    
-    public func setAutoPost(syncSocialId: String, _ completion: @escaping complate) {
+
+    public func setAutoPost(syncSocialId: String, _ completion: @escaping ResponseHandle) {
         self.pageProvider.request(.setAutoPost(syncSocialId)) { result in
             switch result {
             case .success(let response):
@@ -112,8 +112,8 @@ public final class PageRepositoryImpl: PageRepository {
             }
         }
     }
-    
-    public func cancelAutoPost(syncSocialId: String, _ completion: @escaping complate) {
+
+    public func cancelAutoPost(syncSocialId: String, _ completion: @escaping ResponseHandle) {
         self.pageProvider.request(.cancelAutoPost(syncSocialId)) { result in
             switch result {
             case .success(let response):
@@ -125,8 +125,8 @@ public final class PageRepositoryImpl: PageRepository {
             }
         }
     }
-    
-    public func reconnectSyncSocial(syncSocialId: String, pageSocial: PageSocial, _ completion: @escaping complate) {
+
+    public func reconnectSyncSocial(syncSocialId: String, pageSocial: PageSocial, _ completion: @escaping ResponseHandle) {
         self.pageProvider.request(.reconnectSyncSocial(syncSocialId, pageSocial)) { result in
             switch result {
             case .success(let response):
@@ -138,8 +138,8 @@ public final class PageRepositoryImpl: PageRepository {
             }
         }
     }
-    
-    public func disconnectSyncSocial(syncSocialId: String, _ completion: @escaping complate) {
+
+    public func disconnectSyncSocial(syncSocialId: String, _ completion: @escaping ResponseHandle) {
         self.pageProvider.request(.disconnectSyncSocial(syncSocialId)) { result in
             switch result {
             case .success(let response):

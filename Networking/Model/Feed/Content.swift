@@ -43,11 +43,11 @@ public class Content {
     public var updatedAt: String = "2021-11-19T06:41:33.179Z"
     public var isExpand: Bool = false
     public var isOriginalExpand: Bool = false
-    
+
     public var postDate: Date {
         return Date.stringToDate(str: self.createdAt)
     }
-    
+
     public var feedDisplayType: FeedDisplayType {
         if self.type == .short || self.type == .long {
             if !self.photo.isEmpty {
@@ -97,11 +97,11 @@ public class Content {
             return .postText
         }
     }
-    
+
     public init() {
         // Init
     }
-    
+
     public init(json: JSON) {
         self.id = json[JsonKey.id.rawValue].stringValue
         self.authorId = json[JsonKey.authorId.rawValue].stringValue
@@ -109,12 +109,12 @@ public class Content {
         self.message = json[JsonKey.message.rawValue].stringValue
         self.createdAt = json[JsonKey.createdAt.rawValue].stringValue
         self.updatedAt = json[JsonKey.updatedAt.rawValue].stringValue
-        
+
         // MARK: - Object
         self.referencedCasts = ReferencedCast(json: JSON(json[JsonKey.referencedCasts.rawValue].dictionaryObject ?? [:]))
         self.metrics = Metric(json: JSON(json[JsonKey.metrics.rawValue].dictionaryObject ?? [:]))
         self.participate = Participate(json: JSON(json[JsonKey.participate.rawValue].dictionaryObject ?? [:]))
-        
+
         // MARK: - Photo
         let photoJson = JSON(json[JsonKey.photo.rawValue].dictionaryValue)
         self.photo = (photoJson[JsonKey.contents.rawValue].arrayValue).map { ImageInfo(json: $0) }

@@ -34,11 +34,11 @@ public struct NotificationRequest {
     public var source: NotificationSection = .profile
     public var untilId: String = ""
     public var maxResults: Int = 25
-    
+
     public init() {
         // Init NotificationRequest
     }
-    
+
     public var paramRegisterToken: [String: Any] {
         return [
             JsonKey.uuid.rawValue: self.uuid,
@@ -46,7 +46,7 @@ public struct NotificationRequest {
             JsonKey.platform.rawValue: self.platform
         ]
     }
-    
+
     public var paramGetNotifications: [String: Any] {
         var param: [String: Any] = [
             JsonKey.source.rawValue: self.source.rawValue,
@@ -57,7 +57,7 @@ public struct NotificationRequest {
         }
         return param
     }
-    
+
     public var paramReadAllNotifications: [String: Any] {
         return [
             JsonKey.source.rawValue: self.source.rawValue

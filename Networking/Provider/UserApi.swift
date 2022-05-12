@@ -49,7 +49,7 @@ extension UserApi: TargetType {
     var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }
-    
+
     var path: String {
         switch self {
         case .getAllUser:
@@ -82,7 +82,7 @@ extension UserApi: TargetType {
             return "/users/me"
         }
     }
-    
+
     var method: Moya.Method {
         switch self {
         case .getAllUser, .getMe, .getUser, .getUserContents, .getUserFollower, .getUserFollowing:
@@ -95,11 +95,11 @@ extension UserApi: TargetType {
             return .delete
         }
     }
-    
+
     var sampleData: Data {
         return "{\"message\": \"success message\"}".dataEncoded
     }
-    
+
     var task: Task {
         switch self {
         case .getMe:
@@ -136,8 +136,8 @@ extension UserApi: TargetType {
             return .requestPlain
         }
     }
-    
-    var headers: [String : String]? {
+
+    var headers: [String: String]? {
         switch self {
         case .getMe, .getUser, .syncSocial, .updateInfo:
             return ApiHelper.header()

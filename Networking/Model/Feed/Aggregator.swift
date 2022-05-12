@@ -32,11 +32,11 @@ import SwiftyJSON
 public class Aggregator: NSObject {
     public var type: String = ""
     public var message: String = ""
-    
+
     public override init() {
         // Init Aggregator
     }
-    
+
     public init(json: JSON) {
         self.type = json[JsonKey.type.rawValue].stringValue
         self.message = json[JsonKey.message.rawValue].stringValue

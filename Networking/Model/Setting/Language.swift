@@ -34,21 +34,21 @@ public class Language: NSObject {
     public let title: String
     public let display: String
     public var isSelected: Bool
-    
+
     public override init() {
         self.code = ""
         self.title = ""
         self.display = ""
         self.isSelected = false
     }
-    
+
     public init(code: String, title: String, display: String) {
         self.code = code
         self.title = title
         self.display = display
         self.isSelected = false
     }
-    
+
     public init(json: JSON) {
         self.code = json[JsonKey.code.rawValue].stringValue
         self.title = json[JsonKey.title.rawValue].stringValue
@@ -73,7 +73,7 @@ public extension Language {
             Language(code: "fr", title: "French", display: "français"),
             Language(code: "uk", title: "Ukrainian", display: "Українська"),
             Language(code: "it", title: "Italian", display: "Italiano"),
-            Language(code: "ko", title: "Korean", display: "한국어")  
+            Language(code: "ko", title: "Korean", display: "한국어")
         ]
     }
 }
