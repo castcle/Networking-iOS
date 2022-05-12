@@ -28,9 +28,9 @@
 import Core
 
 public struct AuthenRequest {
-    public var objective: AuthenObjective
-    public var channel: AuthenChannelKey
-    public var payload: AuthenPayloadRequest
+    public var objective: AuthenObjective = .none
+    public var channel: AuthenChannelKey = .email
+    public var payload: AuthenPayloadRequest = AuthenPayloadRequest()
 
     // Login with Social
     public var provider: AuthenSocialProvider = .none
@@ -42,17 +42,39 @@ public struct AuthenRequest {
     public var overview: String = ""
     public var cover: String = ""
     public var authToken: String = ""
+    public var referral: String = ""
+    public var password: String = ""
+    public var castcleId: String = ""
 
     public init() {
-        self.objective = .none
-        self.channel = .email
-        self.payload = AuthenPayloadRequest()
+        // Inti AuthenRequest
+    }
+
+    public var paramCheckEmail: [String: Any] {
+        return [
+            JsonKey.email.rawValue: self.email
+        ]
+    }
+
+    public var paramSuggestCastcleId: [String: Any] {
+        return [
+            JsonKey.displayName.rawValue: self.displayName
+        ]
+    }
+
+    public var paramCheckCastcleId: [String: Any] {
+        return [
+            JsonKey.castcleId.rawValue: self.castcleId
+        ]
     }
 
     public var paramRegister: [String: Any] {
         return [
-            JsonKey.channel.rawValue: self.channel.rawValue,
-            JsonKey.payload.rawValue: self.payload.param
+            JsonKey.email.rawValue: self.email,
+            JsonKey.password.rawValue: self.password,
+            JsonKey.displayName.rawValue: self.displayName,
+            JsonKey.castcleId.rawValue: self.castcleId,
+            JsonKey.referral.rawValue: self.referral
         ]
     }
 
@@ -118,57 +140,17 @@ public struct AuthenRequest {
 }
 
 public struct AuthenPayloadRequest {
-    public var objective: AuthenObjective
-    public var email: String
-    public var password: String
-    public var newPassword: String
-    public var countryCode: String
-    public var mobileNumber: String
-    public var displayName: String
-    public var castcleId: String
-    public var refCode: String
-    public var otp: String
+    public var objective: AuthenObjective = .none
+    public var email: String = ""
+    public var password: String = ""
+    public var newPassword: String = ""
+    public var countryCode: String = ""
+    public var mobileNumber: String = ""
+    public var refCode: String = ""
+    public var otp: String = ""
 
     public init() {
-        self.objective = .none
-        self.email = ""
-        self.password = ""
-        self.newPassword = ""
-        self.countryCode = ""
-        self.mobileNumber = ""
-        self.displayName = ""
-        self.castcleId = ""
-        self.refCode = ""
-        self.otp = ""
-    }
-
-    public var paramCheckEmail: [String: Any] {
-        return [
-            JsonKey.email.rawValue: self.email
-        ]
-    }
-
-    public var paramSuggestCastcleId: [String: Any] {
-        return [
-            JsonKey.displayName.rawValue: self.displayName
-        ]
-    }
-
-    public var paramCheckCastcleId: [String: Any] {
-        return [
-            JsonKey.castcleId.rawValue: self.castcleId
-        ]
-    }
-
-    public var param: [String: Any] {
-        return [
-            JsonKey.email.rawValue: self.email,
-            JsonKey.password.rawValue: self.password,
-            JsonKey.countryCode.rawValue: self.countryCode,
-            JsonKey.mobileNumber.rawValue: self.mobileNumber,
-            JsonKey.displayName.rawValue: self.displayName,
-            JsonKey.castcleId.rawValue: self.castcleId
-        ]
+        // Init AuthenPayloadRequest
     }
 
     public var paramChangePasswordSubmit: [String: Any] {

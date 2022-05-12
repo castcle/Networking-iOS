@@ -65,7 +65,7 @@ extension AuthenticationApi: TargetType {
         case .checkCastcleId:
             return "/v2/authentications/exists/castcle-id"
         case .register:
-            return "/authentications/register"
+            return "/v2/authentications/register-with-email"
         case .verificationEmail:
             return "/authentications/verificationEmail"
         case .requestLinkVerify:
@@ -104,11 +104,11 @@ extension AuthenticationApi: TargetType {
         case .login(let loginRequest):
             return .requestParameters(parameters: loginRequest.paramLogin, encoding: JSONEncoding.default)
         case .checkEmail(let authenRequest):
-            return .requestParameters(parameters: authenRequest.payload.paramCheckEmail, encoding: JSONEncoding.default)
+            return .requestParameters(parameters: authenRequest.paramCheckEmail, encoding: JSONEncoding.default)
         case .suggestCastcleId(let authenRequest):
-            return .requestParameters(parameters: authenRequest.payload.paramSuggestCastcleId, encoding: JSONEncoding.default)
+            return .requestParameters(parameters: authenRequest.paramSuggestCastcleId, encoding: JSONEncoding.default)
         case .checkCastcleId(let authenRequest):
-            return .requestParameters(parameters: authenRequest.payload.paramCheckCastcleId, encoding: JSONEncoding.default)
+            return .requestParameters(parameters: authenRequest.paramCheckCastcleId, encoding: JSONEncoding.default)
         case .register(let authenRequest):
             return .requestParameters(parameters: authenRequest.paramRegister, encoding: JSONEncoding.default)
         case .verificationPassword(let authenRequest):
