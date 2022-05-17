@@ -216,6 +216,7 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                     let json = JSON(rawJson)
                     if response.statusCode < 300 {
                         let accessToken = json[JsonKey.accessToken.rawValue].stringValue
+                        let refreshToken = json[JsonKey.refreshToken.rawValue].stringValue
                         let profile = JSON(json[JsonKey.profile.rawValue].dictionaryValue)
                         let pages = json[JsonKey.pages.rawValue].arrayValue
                         UserHelper.shared.updateLocalProfile(user: UserInfo(json: profile))
@@ -225,6 +226,9 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                         }
                         UserHelper.shared.updatePage(pages: pages)
                         UserManager.shared.setAccessToken(token: accessToken)
+                        if !refreshToken.isEmpty {
+                            UserManager.shared.setRefreshToken(token: refreshToken)
+                        }
                         completion(true, false)
                     } else {
                         let code = json[JsonKey.code.rawValue].stringValue

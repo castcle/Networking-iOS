@@ -39,6 +39,7 @@ public protocol ContentRepository {
     func recastContent(contentRequest: ContentRequest, _ completion: @escaping ResponseHandle)
     func unrecastContent(contentRequest: ContentRequest, _ completion: @escaping ResponseHandle)
     func quotecastContent(contentRequest: ContentRequest, _ completion: @escaping ResponseHandle)
+    func getQuoteCast(contentId: String, contentRequest: ContentRequest, _ completion: @escaping ResponseHandle)
 }
 
 public final class ContentRepositoryImpl: ContentRepository {
@@ -155,6 +156,19 @@ public final class ContentRepositoryImpl: ContentRepository {
 
     public func quotecastContent(contentRequest: ContentRequest, _ completion: @escaping ResponseHandle) {
         self.contentProvider.request(.quotecastContent(contentRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func getQuoteCast(contentId: String, contentRequest: ContentRequest, _ completion: @escaping ResponseHandle) {
+        self.contentProvider.request(.getQuoteCast(contentId, contentRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

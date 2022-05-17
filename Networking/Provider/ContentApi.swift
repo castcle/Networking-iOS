@@ -38,6 +38,7 @@ enum ContentApi {
     case recastContent(ContentRequest)
     case unrecastContent(ContentRequest)
     case quotecastContent(ContentRequest)
+    case getQuoteCast(String, ContentRequest)
 }
 
 extension ContentApi: TargetType {
@@ -65,12 +66,14 @@ extension ContentApi: TargetType {
             return "/users/\(contentRequest.castcleId)/recast/\(contentRequest.contentId)"
         case .quotecastContent(let contentRequest):
             return "/users/\(contentRequest.castcleId)/quotecast"
+        case .getQuoteCast(let contentId, _):
+            return "/v2/contents/\(contentId)/quotecasts"
         }
     }
 
     var method: Moya.Method {
         switch self {
-        case .getMeContents, .getContentDetail:
+        case .getMeContents, .getContentDetail, .getQuoteCast:
             return .get
         case .createContent, .likeContent, .recastContent, .quotecastContent:
             return .post
@@ -103,6 +106,8 @@ extension ContentApi: TargetType {
                 JsonKey.contentId.rawValue: contentId
             ]
             return .requestParameters(parameters: param, encoding: JSONEncoding.default)
+        case .getQuoteCast(_, let contentRequest):
+            return .requestParameters(parameters: contentRequest.paramGetQuoteCast, encoding: URLEncoding.queryString)
         default:
             return.requestPlain
         }
@@ -110,7 +115,7 @@ extension ContentApi: TargetType {
 
     var headers: [String: String]? {
         switch self {
-        case .likeContent, .unlikeContent:
+        case .likeContent, .unlikeContent, .getQuoteCast:
             return ApiHelper.header()
         default:
             return ApiHelper.header(version: "1.0")

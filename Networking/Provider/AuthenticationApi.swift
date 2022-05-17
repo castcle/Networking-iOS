@@ -71,7 +71,7 @@ extension AuthenticationApi: TargetType {
         case .requestLinkVerify:
             return "/authentications/requestLinkVerify"
         case .refreshToken:
-            return "/authentications/refreshToken"
+            return "/v2/authentications/refresh-token"
         case .verificationPassword:
             return "/authentications/verificationPassword"
         case .changePasswordSubmit:
@@ -135,7 +135,7 @@ extension AuthenticationApi: TargetType {
         case .login, .checkEmail, .checkCastcleId, .loginWithSocial, .requestOtpWithEmail:
             return ApiHelper.header()
         case .refreshToken:
-            return ApiHelper.headerRefreshToken(version: "1.0")
+            return ApiHelper.headerRefreshToken()
         default:
             return ApiHelper.header(version: "1.0")
         }
