@@ -30,6 +30,7 @@ import Moya
 
 enum AdsApi {
     case getAds(AdsRequest)
+    case createAds(AdsRequest)
 }
 
 extension AdsApi: TargetType {
@@ -39,13 +40,18 @@ extension AdsApi: TargetType {
 
     var path: String {
         switch self {
-        case .getAds:
+        case .getAds, .createAds:
             return "/users/me/advertise"
         }
     }
 
     var method: Moya.Method {
-        return .get
+        switch self {
+        case .getAds:
+            return .get
+        case .createAds:
+            return .post
+        }
     }
 
     var sampleData: Data {
@@ -53,7 +59,12 @@ extension AdsApi: TargetType {
     }
 
     var task: Task {
-        return .requestPlain
+        switch self {
+        case .createAds(let adsRequest):
+            return .requestParameters(parameters: adsRequest.paramCreateAds, encoding: JSONEncoding.default)
+        default:
+            return .requestPlain
+        }
     }
 
     var headers: [String: String]? {

@@ -31,6 +31,7 @@ import SwiftyJSON
 
 public protocol AdsRepository {
     func getAds(adsRequest: AdsRequest, _ completion: @escaping ResponseHandle)
+    func createAds(adsRequest: AdsRequest, _ completion: @escaping ResponseHandle)
 }
 
 public final class AdsRepositoryImpl: AdsRepository {
@@ -43,6 +44,20 @@ public final class AdsRepositoryImpl: AdsRepository {
 
     public func getAds(adsRequest: AdsRequest, _ completion: @escaping ResponseHandle) {
         self.adsProvider.request(.getAds(adsRequest)) { result in
+            switch result {
+            case .success(let response):
+                completion(true, response, false)
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func createAds(adsRequest: AdsRequest, _ completion: @escaping ResponseHandle) {
+        self.adsProvider.request(.createAds(adsRequest)) { result in
             switch result {
             case .success(let response):
                 completion(true, response, false)
