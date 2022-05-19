@@ -30,59 +30,22 @@ import Core
 import SwiftyJSON
 
 // MARK: - Link
-public enum LinkKey: String, Codable {
-    case type
-    case url
-    case title
-    case description
-    case imagePreview
-}
-
-public enum LinkType: String, Codable {
-    case twitter
-    case youtube
-    case rssfeed
-    case medium
-    case facebook
-    case reddit
-    case other
-    
-    public var image: UIImage {
-        switch self {
-        case .twitter:
-            return UIImage.Asset.twitter
-        case .youtube:
-            return UIImage.Asset.youtube
-        case .rssfeed:
-            return UIImage.Asset.rssfeed
-        case .medium:
-            return UIImage.Asset.medium
-        case .facebook:
-            return UIImage.Asset.facebook
-        case .reddit:
-            return UIImage.Asset.reddit
-        default:
-            return UIImage.Asset.web
-        }
-    }
-}
-
 public class Link: NSObject {
     public var type: LinkType = .other
     public var url: String = ""
     public var title: String = ""
     public var desc: String = ""
     public var imagePreview: String = ""
-    
+
     public override init() {
         // Init Link
     }
-    
+
     public init(json: JSON) {
-        self.type = LinkType(rawValue: json[LinkKey.type.rawValue].stringValue) ?? .other
-        self.url = json[LinkKey.url.rawValue].stringValue
-        self.title = json[LinkKey.title.rawValue].stringValue
-        self.desc = json[LinkKey.description.rawValue].stringValue
-        self.imagePreview = json[LinkKey.imagePreview.rawValue].stringValue
+        self.type = LinkType(rawValue: json[JsonKey.type.rawValue].stringValue) ?? .other
+        self.url = json[JsonKey.url.rawValue].stringValue
+        self.title = json[JsonKey.title.rawValue].stringValue
+        self.desc = json[JsonKey.description.rawValue].stringValue
+        self.imagePreview = json[JsonKey.imagePreview.rawValue].stringValue
     }
 }

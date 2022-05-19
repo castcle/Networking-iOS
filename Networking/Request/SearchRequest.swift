@@ -25,17 +25,9 @@
 //  Created by Castcle Co., Ltd. on 12/10/2564 BE.
 //
 
+import Core
+
 public struct SearchRequest {
-    enum SearchKey: String {
-        case page
-        case limit
-        case keyword
-        case maxResults
-        case untilId
-        case contentType
-        case userFields
-    }
-    
     public enum SearchContentType: String {
         case photo
         case video
@@ -49,54 +41,51 @@ public struct SearchRequest {
     public var maxResults: Int = 25
     public var type: SearchContentType = .none
     public var userFields: UserFields = .relationships
-    
+
     public init() {
         // Init SearchRequest
     }
-    
+
     public var paramGetTopTrends: [String: Any] {
         return [
-            SearchKey.limit.rawValue: self.limit
+            JsonKey.limit.rawValue: self.limit
         ]
     }
-    
+
     public var paramSuggestion: [String: Any] {
         return [
-            SearchKey.keyword.rawValue: self.keyword
+            JsonKey.keyword.rawValue: self.keyword
         ]
     }
-    
+
     public var paramSearch: [String: Any] {
         var param: [String: Any] = [
-            SearchKey.keyword.rawValue: self.keyword,
-            SearchKey.maxResults.rawValue: self.maxResults,
-            SearchKey.userFields.rawValue: self.userFields.rawValue
+            JsonKey.keyword.rawValue: self.keyword,
+            JsonKey.maxResults.rawValue: self.maxResults,
+            JsonKey.userFields.rawValue: self.userFields.rawValue
         ]
-        
+
         if !self.untilId.isEmpty {
-            param[SearchKey.untilId.rawValue] = self.untilId
+            param[JsonKey.untilId.rawValue] = self.untilId
         }
-        
+
         if self.type != .none {
-            param[SearchKey.contentType.rawValue] = self.type.rawValue
+            param[JsonKey.contentType.rawValue] = self.type.rawValue
         }
-        
+
         return param
-        
     }
-    
+
     public var paramSearchUser: [String: Any] {
         var param: [String: Any] = [
-            SearchKey.keyword.rawValue: self.keyword,
-            SearchKey.maxResults.rawValue: self.maxResults,
-            SearchKey.userFields.rawValue: self.userFields.rawValue
+            JsonKey.keyword.rawValue: self.keyword,
+            JsonKey.maxResults.rawValue: self.maxResults,
+            JsonKey.userFields.rawValue: self.userFields.rawValue
         ]
-        
+
         if !self.untilId.isEmpty {
-            param[SearchKey.untilId.rawValue] = self.untilId
+            param[JsonKey.untilId.rawValue] = self.untilId
         }
-        
         return param
-        
     }
 }

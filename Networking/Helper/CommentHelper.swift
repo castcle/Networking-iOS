@@ -19,30 +19,32 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Verified.swift
+//  CommentHelper.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 4/10/2564 BE.
+//  Created by Castcle Co., Ltd. on 12/4/2565 BE.
 //
 
 import Core
-import SwiftyJSON
+import RealmSwift
 
-// MARK: - Verified
-public class Verified {
-    public var email: Bool = false
-    public var mobile: Bool = false
-    public var official: Bool = false
-    public var social: Bool = false
+public class CommentHelper {
+    public static let shared = CommentHelper()
 
-    public init() {
-        // MARK: - Init
-    }
-
-    public init(json: JSON) {
-        self.email = json[JsonKey.email.rawValue].boolValue
-        self.mobile = json[JsonKey.mobile.rawValue].boolValue
-        self.official = json[JsonKey.official.rawValue].boolValue
-        self.social = json[JsonKey.social.rawValue].boolValue
+    public func getCommentRef(id: String) -> CommentRef? {
+        if id.isEmpty {
+            return nil
+        } else {
+            do {
+              let realm = try Realm()
+                if let commentRef = realm.objects(CommentRef.self).filter("id = '\(id)'").first {
+                    return commentRef
+                } else {
+                    return nil
+                }
+            } catch {
+                return nil
+            }
+        }
     }
 }

@@ -25,18 +25,9 @@
 //  Created by Castcle Co., Ltd. on 28/9/2564 BE.
 //
 
+import Core
+
 public struct ContentRequest {
-    enum ContentKey: String {
-        case type
-        case payload
-        case castcleId
-        case feedItemId
-        case contentId
-        case message
-        case maxResults
-        case untilId
-        case userFields
-    }
     public var type: ContentType = .unknow
     public var untilId: String = ""
     public var maxResults: Int = 25
@@ -46,75 +37,90 @@ public struct ContentRequest {
     public var contentId: String = ""
     public var message: String = ""
     public var userFields: UserFields = .relationships
-    
+
     public init() {
         // Init ContentRequest
     }
-    
+
     public var paramGetContent: [String: Any] {
         var param: [String: Any] = [
-            ContentKey.type.rawValue: self.type.rawValue,
-            ContentKey.maxResults.rawValue: self.maxResults,
-            ContentKey.userFields.rawValue: self.userFields.rawValue
+            JsonKey.maxResults.rawValue: self.maxResults,
+            JsonKey.userFields.rawValue: self.userFields.rawValue
         ]
-        
+
         if !self.untilId.isEmpty {
-            param[ContentKey.untilId.rawValue] = self.untilId
+            param[JsonKey.untilId.rawValue] = self.untilId
         }
-        
+
         return param
     }
-    
+
     public var paramCreateContent: [String: Any] {
         return [
-            ContentKey.type.rawValue: self.type.rawValue,
-            ContentKey.payload.rawValue: self.payload.paramCreateShotContent,
-            ContentKey.castcleId.rawValue: self.castcleId
+            JsonKey.type.rawValue: self.type.rawValue,
+            JsonKey.payload.rawValue: self.payload.paramCreateShotContent,
+            JsonKey.castcleId.rawValue: self.castcleId
         ]
     }
-    
+
     public var paramRecastContent: [String: Any] {
         return [
-            ContentKey.contentId.rawValue: self.contentId
+            JsonKey.contentId.rawValue: self.contentId
         ]
     }
-    
+
     public var paramQuotecastContent: [String: Any] {
         return [
-            ContentKey.contentId.rawValue: self.contentId,
-            ContentKey.message.rawValue: self.message
+            JsonKey.contentId.rawValue: self.contentId,
+            JsonKey.message.rawValue: self.message
         ]
+    }
+
+    public var paramGetQuoteCast: [String: Any] {
+        var param: [String: Any] = [
+            JsonKey.type.rawValue: self.type.rawValue,
+            JsonKey.maxResults.rawValue: self.maxResults,
+            JsonKey.userFields.rawValue: self.userFields.rawValue
+        ]
+        if !self.untilId.isEmpty {
+            param[JsonKey.untilId.rawValue] = self.untilId
+        }
+        return param
+    }
+
+    public var paramGetUserSeaction: [String: Any] {
+        var param: [String: Any] = [
+            JsonKey.maxResults.rawValue: self.maxResults,
+            JsonKey.userFields.rawValue: self.userFields.rawValue
+        ]
+        if !self.untilId.isEmpty {
+            param[JsonKey.untilId.rawValue] = self.untilId
+        }
+        return param
     }
 }
 
 public struct ContentPayloadRequest {
-    enum ContentPayloadKey: String {
-        case message
-        case photo
-        case contents
-        case image
-    }
-    
     public var message: String = ""
     public var image: [String] = []
-    
+
     public init() {
         // Init ContentPayloadRequest
     }
-    
+
     public var paramCreateShotContent: [String: Any] {
         return [
-            ContentPayloadKey.message.rawValue: self.message,
-            ContentPayloadKey.photo.rawValue: [
-                ContentPayloadKey.contents.rawValue: self.photoParam
+            JsonKey.message.rawValue: self.message,
+            JsonKey.photo.rawValue: [
+                JsonKey.contents.rawValue: self.photoParam
             ]
         ]
     }
-    
+
     private var photoParam: [[String: String]] {
         var temp: [[String: String]] = []
         self.image.forEach { imageBase64 in
-            temp.append([ContentPayloadKey.image.rawValue: imageBase64])
+            temp.append([JsonKey.image.rawValue: imageBase64])
         }
         return temp
     }

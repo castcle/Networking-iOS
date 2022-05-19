@@ -30,19 +30,19 @@ import Moya
 import SwiftyJSON
 
 public protocol AdsRepository {
-    func getAds(adsRequest: AdsRequest, _ completion: @escaping complate)
-    func createAds(adsRequest: AdsRequest, _ completion: @escaping complate)
+    func getAds(adsRequest: AdsRequest, _ completion: @escaping ResponseHandle)
+    func createAds(adsRequest: AdsRequest, _ completion: @escaping ResponseHandle)
 }
 
 public final class AdsRepositoryImpl: AdsRepository {
     private let adsProvider = MoyaProvider<AdsApi>()
     private let completionHelper: CompletionHelper = CompletionHelper()
-    
+
     public init() {
         // MARK: - Init
     }
-    
-    public func getAds(adsRequest: AdsRequest, _ completion: @escaping complate) {
+
+    public func getAds(adsRequest: AdsRequest, _ completion: @escaping ResponseHandle) {
         self.adsProvider.request(.getAds(adsRequest)) { result in
             switch result {
             case .success(let response):
@@ -50,13 +50,13 @@ public final class AdsRepositoryImpl: AdsRepository {
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func createAds(adsRequest: AdsRequest, _ completion: @escaping complate) {
+
+    public func createAds(adsRequest: AdsRequest, _ completion: @escaping ResponseHandle) {
         self.adsProvider.request(.createAds(adsRequest)) { result in
             switch result {
             case .success(let response):
@@ -64,8 +64,8 @@ public final class AdsRepositoryImpl: AdsRepository {
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }

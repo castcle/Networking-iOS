@@ -28,33 +28,32 @@
 import Core
 import Defaults
 
-public protocol TokenHelperDelegate {
+public protocol TokenHelperDelegate: AnyObject {
     func didRefreshTokenFinish()
 }
 
 public class TokenHelper {
-    
+
     public var delegate: TokenHelperDelegate?
     public var authenticationRepository: AuthenticationRepository = AuthenticationRepositoryImpl()
-
     public func refreshToken() {
-        self.authenticationRepository.refreshToken() { (success, refreshTokenExpired) in
+        self.authenticationRepository.refreshToken { (success, refreshTokenExpired) in
             if success {
                 self.delegate?.didRefreshTokenFinish()
             } else {
                 if refreshTokenExpired {
-                    UserHelper().clearUserData()
+                    UserHelper.shared.clearUserData()
                     self.guestLogin()
                     print("refreshTokenExpired")
                 }
             }
         }
     }
-    
+
     public init() {
         // Init helper
     }
-    
+
     private func guestLogin() {
         self.authenticationRepository.guestLogin(uuid: Defaults[.deviceUuid]) { (success) in
             if success {

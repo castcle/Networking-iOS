@@ -25,21 +25,18 @@
 //  Created by Castcle Co., Ltd. on 14/7/2564 BE.
 //
 
+import Core
 import SwiftyJSON
 
 // MARK: - Hashtag List
-public enum HashtagShelfKey: String, Codable {
-    case payload
-}
-
 public class HashtagShelf: NSObject {
     public var hashtags: [Hashtag] = []
-    
+
     public override init() {
         // MARK: - Init
     }
-    
+
     public init(json: JSON) {
-        self.hashtags = (json[HashtagShelfKey.payload.rawValue].arrayValue).map { Hashtag(json: $0) }
+        self.hashtags = (json[JsonKey.payload.rawValue].arrayValue).map { Hashtag(json: $0) }
     }
 }

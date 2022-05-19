@@ -25,24 +25,21 @@
 //  Created by Castcle Co., Ltd. on 12/8/2564 BE.
 //
 
+import Core
+
 public struct LoginRequest {
-    enum LoginRequestKey: String {
-        case username
-        case password
-    }
-    
-    public var username: String
+    public var email: String
     public var password: String
-    
+
     public init() {
-        self.username = ""
+        self.email = ""
         self.password = ""
     }
-    
+
     public var paramLogin: [String: Any] {
         return [
-            LoginRequestKey.username.rawValue: self.username,
-            LoginRequestKey.password.rawValue: self.password
+            JsonKey.email.rawValue: self.email,
+            JsonKey.password.rawValue: self.password
         ]
     }
 }

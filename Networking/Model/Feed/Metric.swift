@@ -25,30 +25,26 @@
 //  Created by Castcle Co., Ltd. on 3/12/2564 BE.
 //
 
+import Core
 import SwiftyJSON
 
-// MARK: - Circle
-public enum MetricKey: String, Codable {
-    case likeCount
-    case commentCount
-    case quoteCount
-    case recastCount
-}
-
+// MARK: - Metric
 public class Metric: NSObject {
     public var likeCount: Int = 0
     public var commentCount: Int = 0
     public var quoteCount: Int = 0
     public var recastCount: Int = 0
-    
+    public var farmCount: Int = 0
+
     public override init() {
         // MARK: - Init
     }
-    
+
     public init(json: JSON) {
-        self.likeCount = json[MetricKey.likeCount.rawValue].intValue
-        self.commentCount = json[MetricKey.commentCount.rawValue].intValue
-        self.quoteCount = json[MetricKey.quoteCount.rawValue].intValue
-        self.recastCount = json[MetricKey.recastCount.rawValue].intValue
+        self.likeCount = json[JsonKey.likeCount.rawValue].intValue
+        self.commentCount = json[JsonKey.commentCount.rawValue].intValue
+        self.quoteCount = json[JsonKey.quoteCount.rawValue].intValue
+        self.recastCount = json[JsonKey.recastCount.rawValue].intValue
+        self.farmCount = json[JsonKey.farmCount.rawValue].intValue
     }
 }

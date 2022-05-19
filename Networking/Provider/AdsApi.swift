@@ -37,14 +37,14 @@ extension AdsApi: TargetType {
     var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }
-    
+
     var path: String {
         switch self {
         case .getAds, .createAds:
             return "/users/me/advertise"
         }
     }
-    
+
     var method: Moya.Method {
         switch self {
         case .getAds:
@@ -53,11 +53,11 @@ extension AdsApi: TargetType {
             return .post
         }
     }
-    
+
     var sampleData: Data {
         return Data()
     }
-    
+
     var task: Task {
         switch self {
         case .createAds(let adsRequest):
@@ -66,8 +66,8 @@ extension AdsApi: TargetType {
             return .requestPlain
         }
     }
-    
-    var headers: [String : String]? {
-        return ApiHelper.header
+
+    var headers: [String: String]? {
+        return ApiHelper.header(version: "1.0")
     }
 }

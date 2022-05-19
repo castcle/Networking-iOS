@@ -30,21 +30,21 @@ import Moya
 import SwiftyJSON
 
 public protocol ReportRepository {
-    func reportUser(userId: String, reportRequest: ReportRequest, _ completion: @escaping complate)
-    func reportContent(userId: String, reportRequest: ReportRequest, _ completion: @escaping complate)
-    func blockUser(userId: String, reportRequest: ReportRequest, _ completion: @escaping complate)
-    func unblockUser(userId: String, targetCastcleId: String, _ completion: @escaping complate)
+    func reportUser(userId: String, reportRequest: ReportRequest, _ completion: @escaping ResponseHandle)
+    func reportContent(userId: String, reportRequest: ReportRequest, _ completion: @escaping ResponseHandle)
+    func blockUser(userId: String, reportRequest: ReportRequest, _ completion: @escaping ResponseHandle)
+    func unblockUser(userId: String, targetCastcleId: String, _ completion: @escaping ResponseHandle)
 }
 
 public final class ReportRepositoryImpl: ReportRepository {
     private let reportProvider = MoyaProvider<ReportApi>()
     private let completionHelper: CompletionHelper = CompletionHelper()
-    
+
     public init() {
         // MARK: - Init
     }
-    
-    public func reportUser(userId: String, reportRequest: ReportRequest, _ completion: @escaping complate) {
+
+    public func reportUser(userId: String, reportRequest: ReportRequest, _ completion: @escaping ResponseHandle) {
         self.reportProvider.request(.reportUser(userId, reportRequest)) { result in
             switch result {
             case .success(let response):
@@ -52,47 +52,47 @@ public final class ReportRepositoryImpl: ReportRepository {
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func reportContent(userId: String, reportRequest: ReportRequest, _ completion: @escaping complate) {
+
+    public func reportContent(userId: String, reportRequest: ReportRequest, _ completion: @escaping ResponseHandle) {
         self.reportProvider.request(.reportContent(userId, reportRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func blockUser(userId: String, reportRequest: ReportRequest, _ completion: @escaping complate) {
+
+    public func blockUser(userId: String, reportRequest: ReportRequest, _ completion: @escaping ResponseHandle) {
         self.reportProvider.request(.blockUser(userId, reportRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func unblockUser(userId: String, targetCastcleId: String, _ completion: @escaping complate) {
+
+    public func unblockUser(userId: String, targetCastcleId: String, _ completion: @escaping ResponseHandle) {
         self.reportProvider.request(.unblockUser(userId, targetCastcleId)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }

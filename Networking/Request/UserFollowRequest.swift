@@ -25,36 +25,30 @@
 //  Created by Castcle Co., Ltd. on 28/2/2565 BE.
 //
 
-public struct UserFollowRequest {
-    enum ContentKey: String {
-        case maxResults
-        case untilId
-        case hashtag
-        case type
-        case userFields
-    }
+import Core
 
+public struct UserFollowRequest {
     public var untilId: String = ""
     public var maxResults: Int = 25
     public var userFields: UserFields = .relationships
-    
+
     public init() {
         // Init UserFollowRequest
     }
-    
+
     public var paramGetFollowUser: [String: Any] {
         var param: [String: Any] = [
-            ContentKey.maxResults.rawValue: self.maxResults
+            JsonKey.maxResults.rawValue: self.maxResults
         ]
-        
+
         if self.userFields != .none {
-            param[ContentKey.userFields.rawValue] = self.userFields.rawValue
+            param[JsonKey.userFields.rawValue] = self.userFields.rawValue
         }
-        
+
         if !self.untilId.isEmpty {
-            param[ContentKey.untilId.rawValue] = self.untilId
+            param[JsonKey.untilId.rawValue] = self.untilId
         }
-        
+
         return param
     }
 }

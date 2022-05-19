@@ -25,26 +25,27 @@
 //  Created by Castcle Co., Ltd. on 13/7/2564 BE.
 //
 
+import Core
 import Moya
 import SwiftyJSON
 
 public protocol FeedRepository {
-    func getHashtags(_ completion: @escaping (Bool, HashtagShelf) -> ())
-    func getFeedsGuests(feedRequest: FeedRequest, _ completion: @escaping complate)
-    func getFeedsMembers(featureSlug: String, circleSlug: String, feedRequest: FeedRequest, _ completion: @escaping complate)
-    func getSuggestionFollow(feedRequest: FeedRequest, _ completion: @escaping complate)
+    func getHashtags(_ completion: @escaping (Bool, HashtagShelf) -> Void)
+    func getFeedsGuests(feedRequest: FeedRequest, _ completion: @escaping ResponseHandle)
+    func getFeedsMembers(featureSlug: String, circleSlug: String, feedRequest: FeedRequest, _ completion: @escaping ResponseHandle)
+    func getSuggestionFollow(feedRequest: FeedRequest, _ completion: @escaping ResponseHandle)
 }
 
 public final class FeedRepositoryImpl: FeedRepository {
     private let feedProviderMock = MoyaProvider<FeedApi>(stubClosure: MoyaProvider.delayedStub(1.0))
     private let feedProvider = MoyaProvider<FeedApi>()
     private let completionHelper: CompletionHelper = CompletionHelper()
-    
+
     public init() {
         // MARK: - Init
     }
-    
-    public func getHashtags(_ completion: @escaping (Bool, HashtagShelf) -> ()) {
+
+    public func getHashtags(_ completion: @escaping (Bool, HashtagShelf) -> Void) {
         self.feedProviderMock.request(.getHashtags) { result in
             switch result {
             case .success(let response):
@@ -60,42 +61,42 @@ public final class FeedRepositoryImpl: FeedRepository {
             }
         }
     }
-    
-    public func getFeedsGuests(feedRequest: FeedRequest, _ completion: @escaping complate) {
+
+    public func getFeedsGuests(feedRequest: FeedRequest, _ completion: @escaping ResponseHandle) {
         self.feedProvider.request(.getFeedsGuests(feedRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func getFeedsMembers(featureSlug: String, circleSlug: String, feedRequest: FeedRequest, _ completion: @escaping complate) {
+
+    public func getFeedsMembers(featureSlug: String, circleSlug: String, feedRequest: FeedRequest, _ completion: @escaping ResponseHandle) {
         self.feedProvider.request(.getFeedsMembers(featureSlug, circleSlug, feedRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func getSuggestionFollow(feedRequest: FeedRequest, _ completion: @escaping complate) {
+
+    public func getSuggestionFollow(feedRequest: FeedRequest, _ completion: @escaping ResponseHandle) {
         self.feedProvider.request(.getSuggestionFollow(feedRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }

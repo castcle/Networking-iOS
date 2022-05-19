@@ -19,33 +19,32 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Pagination.swift
+//  FacebookPage.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 29/9/2564 BE.
+//  Created by Castcle Co., Ltd. on 4/4/2565 BE.
 //
 
-import SwiftyJSON
+import Swifter
 
-// MARK: - Circle
-public enum PaginationKey: String, Codable {
-    case now = "self"
-    case next
-    case limit
-}
+public struct FacebookPage {
+    public var id: String = ""
+    public var name: String = ""
+    public var avatar: String = ""
+    public var userName: String = ""
+    public var about: String = ""
+    public var accessToken: String = ""
+    public var cover: String = ""
 
-public class Pagination: NSObject {
-    public var now: Int = 1
-    public var next: Int = 0
-    public var limit: Int = 25
-    
-    public override init() {
-        // MARK: - Init
-    }
-    
     public init(json: JSON) {
-        self.now = json[PaginationKey.now.rawValue].intValue
-        self.next = json[PaginationKey.next.rawValue].intValue
-        self.limit = json[PaginationKey.limit.rawValue].intValue
+        self.id = json["id"].string ?? ""
+        self.name = json["name"].string ?? ""
+        self.userName = json["username"].string ?? ""
+        self.about = json["about"].string ?? ""
+        self.accessToken = json["access_token"].string ?? ""
+        self.avatar = "https://graph.facebook.com/\(self.id)/picture?type=large&access_token=\(self.accessToken)"
+        if let cover = json["cover"].object {
+            self.cover = cover["source"]?.string ?? ""
+        }
     }
 }

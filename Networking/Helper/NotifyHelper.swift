@@ -19,30 +19,39 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Verified.swift
+//  NotifyHelper.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 4/10/2564 BE.
+//  Created by Castcle Co., Ltd. on 5/5/2565 BE.
 //
 
+import UIKit
 import Core
-import SwiftyJSON
+import RealmSwift
 
-// MARK: - Verified
-public class Verified {
-    public var email: Bool = false
-    public var mobile: Bool = false
-    public var official: Bool = false
-    public var social: Bool = false
+public class NotifyHelper {
+    public static let shared = NotifyHelper()
+    private var notificationRepository: NotificationRepository = NotificationRepositoryImpl()
+    private let tokenHelper: TokenHelper = TokenHelper()
+    private var state: State = .none
 
-    public init() {
-        // MARK: - Init
+    public func getBadges() {
+        self.state = .getBadges
+        self.tokenHelper.delegate = self
+        self.notificationRepository.getBadges { (success, _, isRefreshToken) in
+            if success {
+                UIApplication.shared.applicationIconBadgeNumber = UserManager.shared.badgeCount
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                }
+            }
+        }
     }
+}
 
-    public init(json: JSON) {
-        self.email = json[JsonKey.email.rawValue].boolValue
-        self.mobile = json[JsonKey.mobile.rawValue].boolValue
-        self.official = json[JsonKey.official.rawValue].boolValue
-        self.social = json[JsonKey.social.rawValue].boolValue
+extension NotifyHelper: TokenHelperDelegate {
+    public func didRefreshTokenFinish() {
+        self.getBadges()
     }
 }

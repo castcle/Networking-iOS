@@ -25,14 +25,36 @@
 //  Created by Castcle Co., Ltd. on 14/9/2564 BE.
 //
 
+import UIKit
 import Core
 import Defaults
+import RealmSwift
+import SwiftyJSON
 
 public class UserHelper {
+    public static let shared = UserHelper()
+
     public init() {
         // Init UserHelper
     }
-    
+
+    public func isMyAccount(id: String) -> Bool {
+        if id == UserManager.shared.id {
+            return true
+        } else {
+            do {
+                let realm = try Realm()
+                if realm.objects(Page.self).filter("id = '\(id)'").first != nil {
+                    return true
+                } else {
+                    return false
+                }
+            } catch {
+                return false
+            }
+        }
+    }
+
     public func updateLocalProfile(user: UserInfo) {
         Defaults[.userId] = user.id
         Defaults[.castcleId] = user.castcleId
@@ -54,10 +76,11 @@ public class UserHelper {
         Defaults[.avatar] = user.images.avatar.thumbnail
         Defaults[.cover] = user.images.cover.fullHd
         Defaults[.passwordNotSet] = user.passwordNotSet
+        Defaults[.canUpdateCastcleId] = user.canUpdateCastcleId
         Defaults[.mobileCountryCode] = user.mobile.countryCode
         Defaults[.mobileNumber] = user.mobile.number
     }
-    
+
     public func clearUserData() {
         Defaults[.userId] = ""
         Defaults[.castcleId] = ""
@@ -78,13 +101,39 @@ public class UserHelper {
         Defaults[.websiteLink] = ""
         Defaults[.avatar] = ""
         Defaults[.cover] = ""
-        Defaults[.notificationBadges] = 0
         Defaults[.passwordNotSet] = true
+        Defaults[.canUpdateCastcleId] = false
         Defaults[.mobileCountryCode] = ""
         Defaults[.mobileNumber] = ""
+        Defaults[.badgePage] = 0
+        Defaults[.badgeProfile] = 0
+        Defaults[.badgeSystem] = 0
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
-    
+
     public func clearSeenContent() {
         Defaults[.seenId] = ""
+    }
+
+    public func updatePage(pages: [JSON]) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                pages.forEach { page in
+                    let pageInfo = UserInfo(json: page)
+                    let pageTemp = Page()
+                    pageTemp.id = pageInfo.id
+                    pageTemp.castcleId = pageInfo.castcleId
+                    pageTemp.displayName = pageInfo.displayName
+                    pageTemp.avatar = pageInfo.images.avatar.thumbnail
+                    pageTemp.cover = pageInfo.images.cover.fullHd
+                    pageTemp.overview = pageInfo.overview
+                    pageTemp.official = pageInfo.verified.official
+                    pageTemp.isSyncTwitter = !pageInfo.syncSocial.twitter.socialId.isEmpty
+                    pageTemp.isSyncFacebook = !pageInfo.syncSocial.facebook.socialId.isEmpty
+                    realm.add(pageTemp, update: .modified)
+                }
+            }
+        } catch {}
     }
 }

@@ -28,26 +28,7 @@
 import Core
 import SwiftyJSON
 
-// MARK: - Liked
-public enum AuthorKey: String, Codable {
-    case id
-    case type
-    case castcleId
-    case displayName
-    case overview
-    case avatar
-    case verified
-    case aggregator
-    case followed
-    case blocking
-    case blocked
-}
-
-public enum AuthorType: String, Codable {
-    case people
-    case page
-}
-
+// MARK: - Author
 public class Author: NSObject {
     public var type: AuthorType = .people
     public var id: String = ""
@@ -60,36 +41,36 @@ public class Author: NSObject {
     public var followed: Bool = false
     public var blocking: Bool = false
     public var blocked: Bool = false
-    
+
     public override init() {
         // Init
     }
-    
+
     public init(authorRef: AuthorRef) {
         self.id = authorRef.id
         self.type = AuthorType(rawValue: authorRef.type) ?? .people
         self.castcleId = authorRef.castcleId
         self.displayName = authorRef.displayName
         self.followed = authorRef.followed
-        
+
         // MARK: - Object
         self.verified.official = authorRef.official
         self.avatar.thumbnail = authorRef.avatar
     }
-    
+
     public init(json: JSON) {
-        self.id = json[AuthorKey.id.rawValue].stringValue
-        self.type = AuthorType(rawValue: json[AuthorKey.type.rawValue].stringValue) ?? .people
-        self.castcleId = json[AuthorKey.castcleId.rawValue].stringValue
-        self.displayName = json[AuthorKey.displayName.rawValue].stringValue
-        self.overview = json[AuthorKey.overview.rawValue].stringValue
-        self.followed = json[AuthorKey.followed.rawValue].boolValue
-        self.blocking = json[AuthorKey.blocking.rawValue].boolValue
-        self.blocked = json[AuthorKey.blocked.rawValue].boolValue
-        
+        self.id = json[JsonKey.id.rawValue].stringValue
+        self.type = AuthorType(rawValue: json[JsonKey.type.rawValue].stringValue) ?? .people
+        self.castcleId = json[JsonKey.castcleId.rawValue].stringValue
+        self.displayName = json[JsonKey.displayName.rawValue].stringValue
+        self.overview = json[JsonKey.overview.rawValue].stringValue
+        self.followed = json[JsonKey.followed.rawValue].boolValue
+        self.blocking = json[JsonKey.blocking.rawValue].boolValue
+        self.blocked = json[JsonKey.blocked.rawValue].boolValue
+
         // MARK: - Object
-        self.verified = Verified(json: JSON(json[AuthorKey.verified.rawValue].dictionaryObject ?? [:]))
-        self.avatar = ImageInfo(json: JSON(json[AuthorKey.avatar.rawValue].dictionaryObject ?? [:]))
-        self.aggregator = Aggregator(json: JSON(json[AuthorKey.aggregator.rawValue].dictionaryObject ?? [:]))
+        self.verified = Verified(json: JSON(json[JsonKey.verified.rawValue].dictionaryObject ?? [:]))
+        self.avatar = ImageInfo(json: JSON(json[JsonKey.avatar.rawValue].dictionaryObject ?? [:]))
+        self.aggregator = Aggregator(json: JSON(json[JsonKey.aggregator.rawValue].dictionaryObject ?? [:]))
     }
 }

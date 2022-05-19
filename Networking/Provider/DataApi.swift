@@ -19,7 +19,7 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  MasterDataApi.swift
+//  DataApi.swift
 //  Networking
 //
 //  Created by Castcle Co., Ltd. on 10/2/2565 BE.
@@ -28,17 +28,17 @@
 import Core
 import Moya
 
-enum MasterDataApi {
+enum DataApi {
     case getCountry
     case getMentions(String)
     case getHashtag(String)
 }
 
-extension MasterDataApi: TargetType {
+extension DataApi: TargetType {
     var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }
-    
+
     var path: String {
         switch self {
         case .getCountry:
@@ -49,21 +49,21 @@ extension MasterDataApi: TargetType {
             return "/metadata/hashtag/search"
         }
     }
-    
+
     var method: Moya.Method {
         return .get
     }
-    
+
     var sampleData: Data {
         return Data()
     }
-    
+
     var task: Task {
         switch self {
         case .getMentions(let keyword):
             let param = [
-                "keyword": keyword,
-                "userFields": "relationships"
+                JsonKey.keyword.rawValue: keyword,
+                JsonKey.userFields.rawValue: "relationships"
             ]
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .getHashtag(let keyword):
@@ -75,8 +75,8 @@ extension MasterDataApi: TargetType {
             return .requestPlain
         }
     }
-    
-    var headers: [String : String]? {
-        return ApiHelper.header
+
+    var headers: [String: String]? {
+        return ApiHelper.header(version: "1.0")
     }
 }

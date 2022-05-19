@@ -40,7 +40,7 @@ extension SearchApi: TargetType {
     var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }
-    
+
     var path: String {
         switch self {
         case .getTopTrends:
@@ -55,15 +55,15 @@ extension SearchApi: TargetType {
             return "/users/search"
         }
     }
-    
+
     var method: Moya.Method {
         return .get
     }
-    
+
     var sampleData: Data {
         return Data()
     }
-    
+
     var task: Task {
         switch self {
         case .getTopTrends(let searchRequest):
@@ -78,8 +78,8 @@ extension SearchApi: TargetType {
             return .requestParameters(parameters: searchRequest.paramSearchUser, encoding: URLEncoding.queryString)
         }
     }
-    
-    var headers: [String : String]? {
-        return ApiHelper.header
+
+    var headers: [String: String]? {
+        return ApiHelper.header(version: "1.0")
     }
 }

@@ -25,20 +25,9 @@
 //  Created by Castcle Co., Ltd. on 15/2/2565 BE.
 //
 
-public struct AdsRequest {
-    enum AdsKey: String {
-        case untilId
-        case maxResults
-        case campaignName
-        case campaignMessage
-        case objective
-        case dailyBudget
-        case duration
-        case paymentMethod
-        case contentId
-        case userId
-    }
+import Core
 
+public struct AdsRequest {
     public var untilId: String = ""
     public var maxResults: Int = 25
     public var campaignName: String = ""
@@ -49,41 +38,38 @@ public struct AdsRequest {
     public var paymentMethod: AdsPaymentType = .token
     public var contentId: String = ""
     public var userId: String = ""
-    
+
     public init() {
         // Init AdsRequest
     }
-    
+
     public var paramGetAds: [String: Any] {
         var param: [String: Any] = [
-            AdsKey.maxResults.rawValue: self.maxResults
+            JsonKey.maxResults.rawValue: self.maxResults
         ]
-        
+
         if !self.untilId.isEmpty {
-            param[AdsKey.untilId.rawValue] = self.untilId
+            param[JsonKey.untilId.rawValue] = self.untilId
         }
-        
+
         return param
     }
-    
+
     public var paramCreateAds: [String: Any] {
         var param: [String: Any] = [
-            AdsKey.campaignName.rawValue: self.campaignName,
-            AdsKey.objective.rawValue: self.objective.rawValue,
-            AdsKey.dailyBudget.rawValue: self.dailyBudget,
-            AdsKey.duration.rawValue: self.duration,
-            AdsKey.paymentMethod.rawValue: self.paymentMethod.rawValue,
-            AdsKey.userId.rawValue: self.userId
+            JsonKey.campaignName.rawValue: self.campaignName,
+            JsonKey.objective.rawValue: self.objective.rawValue,
+            JsonKey.dailyBudget.rawValue: self.dailyBudget,
+            JsonKey.duration.rawValue: self.duration,
+            JsonKey.paymentMethod.rawValue: self.paymentMethod.rawValue,
+            JsonKey.userId.rawValue: self.userId
         ]
-        
         if !self.campaignMessage.isEmpty {
-            param[AdsKey.campaignMessage.rawValue] = self.campaignMessage
+            param[JsonKey.campaignMessage.rawValue] = self.campaignMessage
         }
-        
         if !self.contentId.isEmpty {
-            param[AdsKey.contentId.rawValue] = self.campaignMessage
+            param[JsonKey.contentId.rawValue] = self.campaignMessage
         }
-        
         return param
     }
 }

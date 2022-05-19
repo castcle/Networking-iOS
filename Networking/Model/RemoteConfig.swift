@@ -29,89 +29,67 @@ import Core
 import SwiftyJSON
 
 // MARK: - RemoteConfig
-public enum RemoteConfigKey: String, Codable {
-    case ios
-    case android
-    case meta
-}
-
 public class RemoteConfig: NSObject {
     public var ios: PlatformData = PlatformData()
     public var android: PlatformData = PlatformData()
     public var meta: ConfigMeta = ConfigMeta()
-    
+
     public override init() {
         // Init RemoteConfig
     }
-    
+
     public init(json: JSON) {
         // MARK: - Object
-        self.ios = PlatformData(json: JSON(json[RemoteConfigKey.ios.rawValue].dictionaryValue))
-        self.android = PlatformData(json: JSON(json[RemoteConfigKey.android.rawValue].dictionaryValue))
-        self.meta = ConfigMeta(json: JSON(json[RemoteConfigKey.meta.rawValue].dictionaryValue))
+        self.ios = PlatformData(json: JSON(json[JsonKey.ios.rawValue].dictionaryValue))
+        self.android = PlatformData(json: JSON(json[JsonKey.android.rawValue].dictionaryValue))
+        self.meta = ConfigMeta(json: JSON(json[JsonKey.meta.rawValue].dictionaryValue))
     }
 }
 
 // MARK: - PlatformData
-public enum PlatformDataKey: String, Codable {
-    case url
-    case version
-}
-
 public class PlatformData: NSObject {
     public var url: String = ""
     public var version: String = ""
-    
+
     public override init() {
         // Init PlatformData
     }
-    
+
     public init(json: JSON) {
-        self.url = json[PlatformDataKey.url.rawValue].stringValue
-        self.version = json[PlatformDataKey.version.rawValue].stringValue
+        self.url = json[JsonKey.url.rawValue].stringValue
+        self.version = json[JsonKey.version.rawValue].stringValue
     }
 }
 
 // MARK: - ConfigMeta
-public enum ConfigMetaKey: String, Codable {
-    case button
-    case title
-    case message
-}
-
 public class ConfigMeta: NSObject {
     public var button: MetaLanguage = MetaLanguage()
     public var title: MetaLanguage = MetaLanguage()
     public var message: MetaLanguage = MetaLanguage()
-    
+
     public override init() {
         // Init PlatformData
     }
-    
+
     public init(json: JSON) {
         // MARK: - Object
-        self.button = MetaLanguage(json: JSON(json[ConfigMetaKey.button.rawValue].dictionaryValue))
-        self.title = MetaLanguage(json: JSON(json[ConfigMetaKey.title.rawValue].dictionaryValue))
-        self.message = MetaLanguage(json: JSON(json[ConfigMetaKey.message.rawValue].dictionaryValue))
+        self.button = MetaLanguage(json: JSON(json[JsonKey.button.rawValue].dictionaryValue))
+        self.title = MetaLanguage(json: JSON(json[JsonKey.title.rawValue].dictionaryValue))
+        self.message = MetaLanguage(json: JSON(json[JsonKey.message.rawValue].dictionaryValue))
     }
 }
 
 // MARK: - MetaLanguage
-public enum MetaLanguageKey: String, Codable {
-    case en
-    case th
-}
-
 public class MetaLanguage: NSObject {
-    public var en: String = ""
-    public var th: String = ""
-    
+    public var eng: String = ""
+    public var tha: String = ""
+
     public override init() {
         // Init MetaLanguage
     }
-    
+
     public init(json: JSON) {
-        self.en = json[MetaLanguageKey.en.rawValue].stringValue
-        self.th = json[MetaLanguageKey.th.rawValue].stringValue
+        self.eng = json[JsonKey.eng.rawValue].stringValue
+        self.tha = json[JsonKey.tha.rawValue].stringValue
     }
 }

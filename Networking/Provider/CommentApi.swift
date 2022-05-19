@@ -29,62 +29,75 @@ import Core
 import Moya
 
 enum CommentApi {
-    case getComments(String)
+    case getComments(String, CommentRequest)
+    case getCommentDetail(String, String, CommentRequest)
     case createComment(String, CommentRequest)
     case replyComment(String, String, CommentRequest)
-    case likedComment(String, String, CommentRequest)
-    case unlikedComment(String, String, CommentRequest)
+    case likedComment(String, CommentRequest)
+    case unlikedComment(String, String)
+    case deleteComment(String, String)
+    case deleteReplyComment(String, String, String)
 }
 
 extension CommentApi: TargetType {
     var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }
-    
+
     var path: String {
         switch self {
-        case .getComments(let contentId), .createComment(let contentId, _):
-            return "/contents/\(contentId)/comments"
-        case .replyComment(let contentId, let commentId, _):
-            return "/contents/\(contentId)/comments/\(commentId)/reply"
-        case .likedComment(let contentId, let commentId, _):
-            return "/contents/\(contentId)/comments/\(commentId)/liked"
-        case .unlikedComment(let contentId, let commentId, _):
-            return "/contents/\(contentId)/comments/\(commentId)/unliked"
+        case .getComments(let contentId, _):
+            return "/v2/contents/\(contentId)/comments"
+        case .getCommentDetail(let contentId, let commentId, _):
+            return "/v2/contents/\(contentId)/comments/\(commentId)"
+        case .createComment(let castcleId, _):
+            return "/v2/users/\(castcleId)/comments"
+        case .replyComment(let castcleId, let commentId, _):
+            return "/v2/users/\(castcleId)/comments/\(commentId)/reply"
+        case .likedComment(let castcleId, _):
+            return "/v2/users/\(castcleId)/likes-comments"
+        case .unlikedComment(let castcleId, let commentId):
+            return "/v2/users/\(castcleId)/likes-comments/\(commentId)"
+        case .deleteComment(let castcleId, let commentId):
+            return "/v2/users/\(castcleId)/comments/\(commentId)"
+        case .deleteReplyComment(let castcleId, let commentId, let replyId):
+            return "/v2/users/\(castcleId)/comments/\(commentId)/reply/\(replyId)"
         }
     }
-    
+
     var method: Moya.Method {
         switch self {
-        case .getComments:
+        case .getComments, .getCommentDetail:
             return .get
-        case .createComment, .replyComment:
+        case .createComment, .replyComment, .likedComment:
             return .post
-        case .likedComment, .unlikedComment:
-            return .put
+        case .deleteComment, .deleteReplyComment, .unlikedComment:
+            return .delete
         }
     }
-    
+
     var sampleData: Data {
         return Data()
     }
-    
+
     var task: Task {
         switch self {
-        case .createComment(_ , let commentRequest):
+        case .getComments(_, let commentRequest):
+            return .requestParameters(parameters: commentRequest.paramGetComment, encoding: URLEncoding.queryString)
+        case .getCommentDetail(_, _, let commentRequest):
+            return .requestParameters(parameters: commentRequest.paramGetComment, encoding: URLEncoding.queryString)
+        case .createComment(_, let commentRequest):
             return .requestParameters(parameters: commentRequest.paramCreateComment, encoding: JSONEncoding.default)
         case .replyComment(_, _, let commentRequest):
             return .requestParameters(parameters: commentRequest.paramReplyComment, encoding: JSONEncoding.default)
-        case .likedComment(_, _, let commentRequest):
+        case .likedComment(_, let commentRequest):
             return .requestParameters(parameters: commentRequest.paramLikedComment, encoding: JSONEncoding.default)
-        case .unlikedComment(_, _, let commentRequest):
-            return .requestParameters(parameters: commentRequest.paramUnlikedComment, encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }
     }
-    
-    var headers: [String : String]? {
-        return ApiHelper.header
+
+    var headers: [String: String]? {
+        return ApiHelper.header()
     }
 }

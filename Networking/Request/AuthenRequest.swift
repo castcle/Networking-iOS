@@ -25,206 +25,152 @@
 //  Created by Castcle Co., Ltd. on 12/8/2564 BE.
 //
 
-public enum AuthenChannelKey: String {
-    case mobile
-    case email
-}
-
-public enum AuthenObjective: String {
-    case forgotPassword = "forgot_password"
-    case changePassword = "change_password"
-    case verifyMobile = "verify_mobile"
-    case mergeAccount = "merge_account"
-    case none
-}
-
-public enum SocialProvider: String {
-    case facebook
-    case twitter
-    case google
-    case apple = "apple id"
-    case none
-}
+import Core
 
 public struct AuthenRequest {
-    enum AuthenRequestKey: String {
-        case objective
-        case channel
-        case payload
-        case refCode
-        case otp
-        case provider
-        case socialId
-        case displayName
-        case avatar
-        case email
-        case authToken
-        case password
-    }
-    
-    public var objective: AuthenObjective
-    public var channel: AuthenChannelKey
-    public var payload: AuthenPayloadRequest
-    
+    public var objective: AuthenObjective = .none
+    public var channel: AuthenChannelKey = .email
+    public var payload: AuthenPayloadRequest = AuthenPayloadRequest()
+
     // Login with Social
-    public var provider: SocialProvider = .none
+    public var provider: AuthenSocialProvider = .none
     public var socialId: String = ""
     public var displayName: String = ""
+    public var userName: String = ""
     public var avatar: String = ""
     public var email: String = ""
+    public var overview: String = ""
+    public var cover: String = ""
     public var authToken: String = ""
-    
+    public var referral: String = ""
+    public var password: String = ""
+    public var castcleId: String = ""
+
     public init() {
-        self.objective = .none
-        self.channel = .email
-        self.payload = AuthenPayloadRequest()
+        // Inti AuthenRequest
     }
-    
+
+    public var paramCheckEmail: [String: Any] {
+        return [
+            JsonKey.email.rawValue: self.email
+        ]
+    }
+
+    public var paramSuggestCastcleId: [String: Any] {
+        return [
+            JsonKey.displayName.rawValue: self.displayName
+        ]
+    }
+
+    public var paramCheckCastcleId: [String: Any] {
+        return [
+            JsonKey.castcleId.rawValue: self.castcleId
+        ]
+    }
+
     public var paramRegister: [String: Any] {
         return [
-            AuthenRequestKey.channel.rawValue: self.channel.rawValue,
-            AuthenRequestKey.payload.rawValue: self.payload.param
+            JsonKey.email.rawValue: self.email,
+            JsonKey.password.rawValue: self.password,
+            JsonKey.displayName.rawValue: self.displayName,
+            JsonKey.castcleId.rawValue: self.castcleId,
+            JsonKey.referral.rawValue: self.referral
         ]
     }
-    
+
     public var paramVerificationPassword: [String: Any] {
         return [
-            AuthenRequestKey.objective.rawValue: self.objective.rawValue,
-            AuthenRequestKey.password.rawValue: self.payload.password
+            JsonKey.objective.rawValue: self.objective.rawValue,
+            JsonKey.password.rawValue: self.payload.password
         ]
     }
-    
+
     public var paramRequestOtp: [String: Any] {
         var param: [String: Any] = [
-            AuthenRequestKey.objective.rawValue: self.objective.rawValue,
-            AuthenRequestKey.channel.rawValue: self.channel.rawValue,
-            
+            JsonKey.objective.rawValue: self.objective.rawValue,
+            JsonKey.channel.rawValue: self.channel.rawValue
         ]
-        
+
         if self.channel == .email {
-            param[AuthenRequestKey.payload.rawValue] = self.payload.paramRequestOtpEmail
+            param[JsonKey.payload.rawValue] = self.payload.paramRequestOtpEmail
         } else {
-            param[AuthenRequestKey.payload.rawValue] = self.payload.paramRequestOtpMobile
+            param[JsonKey.payload.rawValue] = self.payload.paramRequestOtpMobile
         }
-        
+
         return param
     }
-    
+
+    public var paramRequestOtpWithEmail: [String: Any] {
+        return [
+            JsonKey.objective.rawValue: self.objective.rawValue,
+            JsonKey.email.rawValue: self.email
+        ]
+    }
+
     public var paramVerifyOtp: [String: Any] {
         var param: [String: Any] = [
-            AuthenRequestKey.objective.rawValue: self.objective.rawValue,
-            AuthenRequestKey.channel.rawValue: self.channel.rawValue,
-            AuthenRequestKey.refCode.rawValue: self.payload.refCode,
-            AuthenRequestKey.otp.rawValue: self.payload.otp
-            
+            JsonKey.objective.rawValue: self.objective.rawValue,
+            JsonKey.channel.rawValue: self.channel.rawValue,
+            JsonKey.refCode.rawValue: self.payload.refCode,
+            JsonKey.otp.rawValue: self.payload.otp
         ]
-        
+
         if self.channel == .email {
-            param[AuthenRequestKey.payload.rawValue] = self.payload.paramRequestOtpEmail
+            param[JsonKey.payload.rawValue] = self.payload.paramRequestOtpEmail
         } else {
-            param[AuthenRequestKey.payload.rawValue] = self.payload.paramRequestOtpMobile
+            param[JsonKey.payload.rawValue] = self.payload.paramRequestOtpMobile
         }
-        
+
         return param
     }
-    
+
     public var paramLoginWithSocial: [String: Any] {
         return [
-            AuthenRequestKey.provider.rawValue: self.provider.rawValue,
-            AuthenRequestKey.socialId.rawValue: self.socialId,
-            AuthenRequestKey.displayName.rawValue: self.displayName,
-            AuthenRequestKey.avatar.rawValue: self.avatar,
-            AuthenRequestKey.email.rawValue: self.email,
-            AuthenRequestKey.authToken.rawValue: self.authToken
+            JsonKey.provider.rawValue: self.provider.rawValue,
+            JsonKey.socialId.rawValue: self.socialId,
+            JsonKey.displayName.rawValue: self.displayName,
+            JsonKey.userName.rawValue: self.userName,
+            JsonKey.avatar.rawValue: self.avatar,
+            JsonKey.email.rawValue: self.email,
+            JsonKey.overview.rawValue: self.overview,
+            JsonKey.cover.rawValue: self.cover,
+            JsonKey.authToken.rawValue: self.authToken
         ]
     }
 }
 
 public struct AuthenPayloadRequest {
-    enum AuthenPayloadKey: String {
-        case objective
-        case email
-        case password
-        case countryCode
-        case mobileNumber
-        case displayName
-        case castcleId
-        case refCode
-        case newPassword
-        case otp
-    }
-    
-    public var objective: AuthenObjective
-    public var email: String
-    public var password: String
-    public var newPassword: String
-    public var countryCode: String
-    public var mobileNumber: String
-    public var displayName: String
-    public var castcleId: String
-    public var refCode: String
-    public var otp: String
-    
+    public var objective: AuthenObjective = .none
+    public var email: String = ""
+    public var password: String = ""
+    public var newPassword: String = ""
+    public var countryCode: String = ""
+    public var mobileNumber: String = ""
+    public var refCode: String = ""
+    public var otp: String = ""
+
     public init() {
-        self.objective = .none
-        self.email = ""
-        self.password = ""
-        self.newPassword = ""
-        self.countryCode = ""
-        self.mobileNumber = ""
-        self.displayName = ""
-        self.castcleId = ""
-        self.refCode = ""
-        self.otp = ""
+        // Init AuthenPayloadRequest
     }
-    
-    public var paramCheckEmailExists: [String: Any] {
-        return [
-            AuthenPayloadKey.email.rawValue: self.email
-        ]
-    }
-    
-    public var paramSuggestCastcleId: [String: Any] {
-        return [
-            AuthenPayloadKey.displayName.rawValue: self.displayName
-        ]
-    }
-    
-    public var paramCheckCastcleIdExists: [String: Any] {
-        return [
-            AuthenPayloadKey.castcleId.rawValue: self.castcleId
-        ]
-    }
-    
-    public var param: [String: Any] {
-        return [
-            AuthenPayloadKey.email.rawValue: self.email,
-            AuthenPayloadKey.password.rawValue: self.password,
-            AuthenPayloadKey.countryCode.rawValue: self.countryCode,
-            AuthenPayloadKey.mobileNumber.rawValue: self.mobileNumber,
-            AuthenPayloadKey.displayName.rawValue: self.displayName,
-            AuthenPayloadKey.castcleId.rawValue: self.castcleId
-        ]
-    }
-    
+
     public var paramChangePasswordSubmit: [String: Any] {
         return [
-            AuthenPayloadKey.objective.rawValue: self.objective.rawValue,
-            AuthenPayloadKey.refCode.rawValue: self.refCode,
-            AuthenPayloadKey.newPassword.rawValue: self.newPassword
+            JsonKey.objective.rawValue: self.objective.rawValue,
+            JsonKey.refCode.rawValue: self.refCode,
+            JsonKey.newPassword.rawValue: self.newPassword
         ]
     }
-    
+
     public var paramRequestOtpEmail: [String: Any] {
         return [
-            AuthenPayloadKey.email.rawValue: self.email
+            JsonKey.email.rawValue: self.email
         ]
     }
-    
+
     public var paramRequestOtpMobile: [String: Any] {
         return [
-            AuthenPayloadKey.countryCode.rawValue: self.countryCode,
-            AuthenPayloadKey.mobileNumber.rawValue: self.mobileNumber
+            JsonKey.countryCode.rawValue: self.countryCode,
+            JsonKey.mobileNumber.rawValue: self.mobileNumber
         ]
     }
 }

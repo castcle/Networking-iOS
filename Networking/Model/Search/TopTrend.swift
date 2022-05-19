@@ -29,23 +29,16 @@ import Core
 import SwiftyJSON
 
 // MARK: - Comment Payload
-public enum TopTrendKey: String, Codable {
-    case hashtags
-    case topics
-    case follows
-}
-
 public class TopTrend: NSObject {
     public var hashtags: [Hashtag] = []
-//    public var topics: [Topics] = []
     public var follows: [Follow] = []
-    
+
     public override init() {
         // Init TopTrend
     }
-    
+
     public init(json: JSON) {
-        self.hashtags = (json[TopTrendKey.hashtags.rawValue].arrayValue).map { Hashtag(json: $0) }
-        self.follows = (json[TopTrendKey.follows.rawValue].arrayValue).map { Follow(json: $0) }
+        self.hashtags = (json[JsonKey.hashtags.rawValue].arrayValue).map { Hashtag(json: $0) }
+        self.follows = (json[JsonKey.follows.rawValue].arrayValue).map { Follow(json: $0) }
     }
 }

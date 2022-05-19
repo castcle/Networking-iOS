@@ -30,82 +30,82 @@ import Moya
 import SwiftyJSON
 
 public protocol SearchRepository {
-    func getTopTrends(searchRequest: SearchRequest, _ completion: @escaping complate)
-    func getSuggestion(searchRequest: SearchRequest, _ completion: @escaping complate)
-    func searchTrend(searchRequest: SearchRequest, _ completion: @escaping complate)
-    func searchRecent(searchRequest: SearchRequest, _ completion: @escaping complate)
-    func searchUser(searchRequest: SearchRequest, _ completion: @escaping complate)
+    func getTopTrends(searchRequest: SearchRequest, _ completion: @escaping ResponseHandle)
+    func getSuggestion(searchRequest: SearchRequest, _ completion: @escaping ResponseHandle)
+    func searchTrend(searchRequest: SearchRequest, _ completion: @escaping ResponseHandle)
+    func searchRecent(searchRequest: SearchRequest, _ completion: @escaping ResponseHandle)
+    func searchUser(searchRequest: SearchRequest, _ completion: @escaping ResponseHandle)
 }
 
 public final class SearchRepositoryImpl: SearchRepository {
     private let searchProvider = MoyaProvider<SearchApi>()
     private let completionHelper: CompletionHelper = CompletionHelper()
-    
+
     public init() {
         // MARK: - Init
     }
-    
-    public func getTopTrends(searchRequest: SearchRequest, _ completion: @escaping complate) {
+
+    public func getTopTrends(searchRequest: SearchRequest, _ completion: @escaping ResponseHandle) {
         self.searchProvider.request(.getTopTrends(searchRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func getSuggestion(searchRequest: SearchRequest, _ completion: @escaping complate) {
+
+    public func getSuggestion(searchRequest: SearchRequest, _ completion: @escaping ResponseHandle) {
         self.searchProvider.request(.getSuggestion(searchRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func searchTrend(searchRequest: SearchRequest, _ completion: @escaping complate) {
+
+    public func searchTrend(searchRequest: SearchRequest, _ completion: @escaping ResponseHandle) {
         self.searchProvider.request(.searchTrend(searchRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func searchRecent(searchRequest: SearchRequest, _ completion: @escaping complate) {
+
+    public func searchRecent(searchRequest: SearchRequest, _ completion: @escaping ResponseHandle) {
         self.searchProvider.request(.searchRecent(searchRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func searchUser(searchRequest: SearchRequest, _ completion: @escaping complate) {
+
+    public func searchUser(searchRequest: SearchRequest, _ completion: @escaping ResponseHandle) {
         self.searchProvider.request(.searchUser(searchRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }

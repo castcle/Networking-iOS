@@ -25,26 +25,20 @@
 //  Created by Castcle Co., Ltd. on 21/7/2564 BE.
 //
 
+import Core
 import SwiftyJSON
 
 // MARK: - Circle
-public enum CircleKey: String, Codable {
-    case id
-    case slug
-    case name
-    case key
-}
-
 public class Circle: NSObject {
     public let id: String
     public let slug: String
     public let name: String
     public let key: String
-    
+
     public init(json: JSON) {
-        self.id = json[CircleKey.id.rawValue].stringValue
-        self.slug = json[CircleKey.slug.rawValue].stringValue
-        self.name = json[CircleKey.name.rawValue].stringValue
-        self.key = json[CircleKey.key.rawValue].stringValue
+        self.id = json[JsonKey.id.rawValue].stringValue
+        self.slug = json[JsonKey.slug.rawValue].stringValue
+        self.name = json[JsonKey.name.rawValue].stringValue
+        self.key = json[JsonKey.key.rawValue].stringValue
     }
 }

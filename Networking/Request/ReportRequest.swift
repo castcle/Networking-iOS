@@ -25,38 +25,34 @@
 //  Created by Castcle Co., Ltd. on 27/1/2565 BE.
 //
 
-public struct ReportRequest {
-    enum ReportKey: String {
-        case message
-        case targetCastcleId
-        case targetContentId
-    }
+import Core
 
+public struct ReportRequest {
     public var message: String = " "
     public var targetCastcleId: String = ""
     public var targetContentId: String = ""
-    
+
     public init() {
         // Init CommentRequest
     }
-    
+
     public var paramReportUser: [String: Any] {
         return [
-            ReportKey.message.rawValue: self.message,
-            ReportKey.targetCastcleId.rawValue: self.targetCastcleId
+            JsonKey.message.rawValue: self.message,
+            JsonKey.targetCastcleId.rawValue: self.targetCastcleId
         ]
     }
-    
+
     public var paramReportContent: [String: Any] {
         return [
-            ReportKey.message.rawValue: self.message,
-            ReportKey.targetContentId.rawValue: self.targetContentId
+            JsonKey.message.rawValue: self.message,
+            JsonKey.targetContentId.rawValue: self.targetContentId
         ]
     }
-    
+
     public var paramBlockUser: [String: Any] {
         return [
-            ReportKey.targetCastcleId.rawValue: self.targetCastcleId
+            JsonKey.targetCastcleId.rawValue: self.targetCastcleId
         ]
     }
 }

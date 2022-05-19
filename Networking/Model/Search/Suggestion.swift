@@ -29,26 +29,18 @@ import Core
 import SwiftyJSON
 
 // MARK: - Comment Payload
-public enum SuggestionKey: String, Codable {
-    case keyword
-    case hashtags
-    case topics
-    case follows
-}
-
 public class Suggestion: NSObject {
     public var keyword: [Keyword] = []
     public var hashtags: [Hashtag] = []
-//    public var topics: [Topics] = []
     public var follows: [Follow] = []
-    
+
     public override init() {
         // Init TopTrend
     }
-    
+
     public init(json: JSON) {
-        self.keyword = (json[SuggestionKey.keyword.rawValue].arrayValue).map { Keyword(json: $0) }
-        self.hashtags = (json[SuggestionKey.hashtags.rawValue].arrayValue).map { Hashtag(json: $0) }
-        self.follows = (json[SuggestionKey.follows.rawValue].arrayValue).map { Follow(json: $0) }
+        self.keyword = (json[JsonKey.keyword.rawValue].arrayValue).map { Keyword(json: $0) }
+        self.hashtags = (json[JsonKey.hashtags.rawValue].arrayValue).map { Hashtag(json: $0) }
+        self.follows = (json[JsonKey.follows.rawValue].arrayValue).map { Follow(json: $0) }
     }
 }

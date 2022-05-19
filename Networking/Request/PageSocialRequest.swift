@@ -25,51 +25,30 @@
 //  Created by Castcle Co., Ltd. on 4/2/2565 BE.
 //
 
+import Core
 import RealmSwift
-
-public enum ProviderCreatePage: String {
-    case facebook
-    case twitter
-    case none
-}
+import SwiftyJSON
 
 public struct PageSocialRequest {
-    enum PageSocialKey: String {
-        case payload
-    }
-    
     public var payload: [PageSocial] = []
-    
+
     public init() {
         // Init PageRequest
     }
-    
+
     public var paramCreatePageWithSocial: [String: Any] {
         var payloadArr: [[String: Any]] = []
         self.payload.forEach { page in
             payloadArr.append(page.paramPageSocial)
         }
         return [
-            PageSocialKey.payload.rawValue: payloadArr
+            JsonKey.payload.rawValue: payloadArr
         ]
     }
 }
 
 public struct PageSocial {
-    enum PageSocialKey: String {
-        case payload
-        case provider
-        case socialId
-        case userName
-        case displayName
-        case overview
-        case avatar
-        case cover
-        case link
-        case authToken
-    }
-    
-    public var provider: ProviderCreatePage = .none
+    public var provider: SocialType = .unknow
     public var socialId: String = ""
     public var userName: String = ""
     public var displayName: String = ""
@@ -78,35 +57,47 @@ public struct PageSocial {
     public var cover: String = ""
     public var link: String = ""
     public var authToken: String = ""
-    
+
     public init() {
         // Init PageSocial
     }
-    
+
+    public init(json: JSON) {
+        self.provider = SocialType(rawValue: json[JsonKey.provider.rawValue].stringValue) ?? .unknow
+        self.socialId = json[JsonKey.socialId.rawValue].stringValue
+        self.userName = json[JsonKey.userName.rawValue].stringValue
+        self.displayName = json[JsonKey.displayName.rawValue].stringValue
+        self.overview = json[JsonKey.overview.rawValue].stringValue
+        self.avatar = json[JsonKey.avatar.rawValue].stringValue
+        self.cover = json[JsonKey.cover.rawValue].stringValue
+        self.link = json[JsonKey.link.rawValue].stringValue
+        self.authToken = json[JsonKey.authToken.rawValue].stringValue
+    }
+
     public var paramPageSocial: [String: Any] {
         return [
-            PageSocialKey.provider.rawValue: self.provider.rawValue,
-            PageSocialKey.socialId.rawValue: self.socialId,
-            PageSocialKey.userName.rawValue: self.userName,
-            PageSocialKey.displayName.rawValue: self.displayName,
-            PageSocialKey.overview.rawValue: self.overview,
-            PageSocialKey.avatar.rawValue: self.avatar,
-            PageSocialKey.cover.rawValue: self.cover,
-            PageSocialKey.link.rawValue: self.link,
-            PageSocialKey.authToken.rawValue: self.authToken
+            JsonKey.provider.rawValue: self.provider.rawValue,
+            JsonKey.socialId.rawValue: self.socialId,
+            JsonKey.userName.rawValue: self.userName,
+            JsonKey.displayName.rawValue: self.displayName,
+            JsonKey.overview.rawValue: self.overview,
+            JsonKey.avatar.rawValue: self.avatar,
+            JsonKey.cover.rawValue: self.cover,
+            JsonKey.link.rawValue: self.link,
+            JsonKey.authToken.rawValue: self.authToken
         ]
     }
-    
+
     public var paramConnectSocial: [String: Any] {
         return [
-            PageSocialKey.payload.rawValue: [
-                PageSocialKey.provider.rawValue: self.provider.rawValue,
-                PageSocialKey.socialId.rawValue: self.socialId,
-                PageSocialKey.userName.rawValue: self.userName,
-                PageSocialKey.displayName.rawValue: self.displayName,
-                PageSocialKey.overview.rawValue: self.overview,
-                PageSocialKey.avatar.rawValue: self.avatar,
-                PageSocialKey.cover.rawValue: self.cover
+            JsonKey.payload.rawValue: [
+                JsonKey.provider.rawValue: self.provider.rawValue,
+                JsonKey.socialId.rawValue: self.socialId,
+                JsonKey.userName.rawValue: self.userName,
+                JsonKey.displayName.rawValue: self.displayName,
+                JsonKey.overview.rawValue: self.overview,
+                JsonKey.avatar.rawValue: self.avatar,
+                JsonKey.cover.rawValue: self.cover
             ]
         ]
     }

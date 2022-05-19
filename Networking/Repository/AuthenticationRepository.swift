@@ -32,46 +32,33 @@ import Defaults
 import RealmSwift
 
 public protocol AuthenticationRepository {
-    func guestLogin(uuid: String, _ completion: @escaping (Bool) -> ())
-    func login(loginRequest: LoginRequest, _ completion: @escaping complate)
-    func checkEmailExists(authenRequest: AuthenRequest, _ completion: @escaping (Bool, Bool) -> ())
-    func suggestCastcleId(authenRequest: AuthenRequest, _ completion: @escaping complate)
-    func checkCastcleIdExists(authenRequest: AuthenRequest, _ completion: @escaping complate)
-    func register(authenRequest: AuthenRequest, _ completion: @escaping complate)
-    func verificationEmail(_ completion: @escaping (Bool) -> ())
-    func requestLinkVerify(_ completion: @escaping complate)
-    func refreshToken(_ completion: @escaping (Bool, Bool) -> ())
-    func verifyPassword(authenRequest: AuthenRequest, _ completion: @escaping complate)
-    func changePasswordSubmit(authenRequest: AuthenRequest, _ completion: @escaping complate)
-    func requestOtp(authenRequest: AuthenRequest, _ completion: @escaping complate)
-    func verificationOtp(authenRequest: AuthenRequest, _ completion: @escaping complate)
-    func loginWithSocial(authenRequest: AuthenRequest, _ completion: @escaping complate)
-    func connectWithSocial(authenRequest: AuthenRequest, _ completion: @escaping complate)
-}
-
-public enum AuthenticationApiKey: String {
-    case uuid = "deviceUUID"
-    case accessToken
-    case refreshToken
-    case exist
-    case suggestCastcleId
-    case payload
-    case refCode
-    case profile
-    case pages
-    case code
+    func guestLogin(uuid: String, _ completion: @escaping (Bool) -> Void)
+    func login(loginRequest: LoginRequest, _ completion: @escaping ResponseHandle)
+    func checkEmail(authenRequest: AuthenRequest, _ completion: @escaping (Bool, Bool) -> Void)
+    func suggestCastcleId(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func checkCastcleId(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func register(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func verificationEmail(_ completion: @escaping (Bool) -> Void)
+    func requestLinkVerify(_ completion: @escaping ResponseHandle)
+    func refreshToken(_ completion: @escaping (Bool, Bool) -> Void)
+    func verifyPassword(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func changePasswordSubmit(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func requestOtp(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func requestOtpWithEmail(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func verificationOtp(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func loginWithSocial(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func connectWithSocial(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
 }
 
 public final class AuthenticationRepositoryImpl: AuthenticationRepository {
     private let authenticationProvider = MoyaProvider<AuthenticationApi>()
     private let completionHelper: CompletionHelper = CompletionHelper()
-    private let realm = try! Realm()
-    
+
     public init() {
         // MARK: - Init
     }
-    
-    public func guestLogin(uuid: String, _ completion: @escaping (Bool) -> ()) {
+
+    public func guestLogin(uuid: String, _ completion: @escaping (Bool) -> Void) {
         self.authenticationProvider.request(.guestLogin(uuid)) { result in
             switch result {
             case .success(let response):
@@ -79,15 +66,15 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     if response.statusCode < 300 {
-                        let accessToken = json[AuthenticationApiKey.accessToken.rawValue].stringValue
-                        let refreshToken = json[AuthenticationApiKey.refreshToken.rawValue].stringValue
+                        let accessToken = json[JsonKey.accessToken.rawValue].stringValue
+                        let refreshToken = json[JsonKey.refreshToken.rawValue].stringValue
                         UserManager.shared.setUserRole(userRole: .guest)
                         UserManager.shared.setAccessToken(token: accessToken)
                         UserManager.shared.setRefreshToken(token: refreshToken)
                         completion(true)
                     } else {
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
-                        ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
+                        let code = json[JsonKey.code.rawValue].stringValue
+                        ApiHelper.displayError(code: "\(code)", error: "\(json[JsonKey.message.rawValue].stringValue)")
                         completion(false)
                     }
                 } catch {
@@ -100,39 +87,38 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             }
         }
     }
-    
-    public func login(loginRequest: LoginRequest, _ completion: @escaping complate) {
+
+    public func login(loginRequest: LoginRequest, _ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.login(loginRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func checkEmailExists(authenRequest: AuthenRequest, _ completion: @escaping (Bool, Bool) -> ()) {
-        self.authenticationProvider.request(.checkEmailExists(authenRequest)) { result in
+
+    public func checkEmail(authenRequest: AuthenRequest, _ completion: @escaping (Bool, Bool) -> Void) {
+        self.authenticationProvider.request(.checkEmail(authenRequest)) { result in
             switch result {
             case .success(let response):
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     if response.statusCode < 300 {
-                        let payload = JSON(json[AuthenticationApiKey.payload.rawValue].dictionaryValue)
-                        let exist = payload[AuthenticationApiKey.exist.rawValue].boolValue
+                        let payload = JSON(json[JsonKey.payload.rawValue].dictionaryValue)
+                        let exist = payload[JsonKey.exist.rawValue].boolValue
                         completion(true, exist)
                     } else {
-                        ApiHelper.displayError(error: "\(json[ResponseErrorKey.code.rawValue].stringValue) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
+                        ApiHelper.displayError(code: "\(json[JsonKey.code.rawValue].stringValue)", error: "\(json[JsonKey.message.rawValue].stringValue)")
                         completion(false, false)
                     }
                 } catch {
                     ApiHelper.displayError()
                     completion(false, false)
-                    
                 }
             case .failure:
                 ApiHelper.displayError()
@@ -140,47 +126,47 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             }
         }
     }
-    
-    public func suggestCastcleId(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+
+    public func suggestCastcleId(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.suggestCastcleId(authenRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func checkCastcleIdExists(authenRequest: AuthenRequest, _ completion: @escaping complate) {
-        self.authenticationProvider.request(.checkCastcleIdExists(authenRequest)) { result in
+
+    public func checkCastcleId(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
+        self.authenticationProvider.request(.checkCastcleId(authenRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func register(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+
+    public func register(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.register(authenRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func verificationEmail(_ completion: @escaping (Bool) -> ()) {
+
+    public func verificationEmail(_ completion: @escaping (Bool) -> Void) {
         self.authenticationProvider.request(.requestLinkVerify) { result in
             switch result {
             case .success(let response):
@@ -188,13 +174,12 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                     if response.statusCode <= 204 {
                         completion(true)
                     }
-                    
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     if response.statusCode < 300 {
                         completion(true)
                     } else {
-                        ApiHelper.displayError(error: "\(json[ResponseErrorKey.code.rawValue].stringValue) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
+                        ApiHelper.displayError(code: "\(json[JsonKey.code.rawValue].stringValue)", error: "\(json[JsonKey.message.rawValue].stringValue)")
                         completion(false)
                     }
                 } catch {
@@ -207,63 +192,50 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             }
         }
     }
-    
-    public func requestLinkVerify(_ completion: @escaping complate) {
+
+    public func requestLinkVerify(_ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.requestLinkVerify) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func refreshToken(_ completion: @escaping (Bool, Bool) -> ()) {
+
+    public func refreshToken(_ completion: @escaping (Bool, Bool) -> Void) {
         self.authenticationProvider.request(.refreshToken) { result in
             switch result {
             case .success(let response):
                 do {
+                    let realm = try Realm()
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     if response.statusCode < 300 {
-                        let accessToken = json[AuthenticationApiKey.accessToken.rawValue].stringValue
-                        let profile = JSON(json[AuthenticationApiKey.profile.rawValue].dictionaryValue)
-                        let pages = json[AuthenticationApiKey.pages.rawValue].arrayValue
-                        let userHelper = UserHelper()
-                        userHelper.updateLocalProfile(user: UserInfo(json: profile))
-                        let pageRealm = self.realm.objects(Page.self)
-                        try! self.realm.write {
-                            self.realm.delete(pageRealm)
+                        let accessToken = json[JsonKey.accessToken.rawValue].stringValue
+                        let refreshToken = json[JsonKey.refreshToken.rawValue].stringValue
+                        let profile = JSON(json[JsonKey.profile.rawValue].dictionaryValue)
+                        let pages = json[JsonKey.pages.rawValue].arrayValue
+                        UserHelper.shared.updateLocalProfile(user: UserInfo(json: profile))
+                        let pageRealm = realm.objects(Page.self)
+                        try realm.write {
+                            realm.delete(pageRealm)
                         }
-                        
-                        pages.forEach { page in
-                            let pageInfo = PageInfo(json: page)
-                            try! self.realm.write {
-                                let pageTemp = Page()
-                                pageTemp.id = pageInfo.id
-                                pageTemp.castcleId = pageInfo.castcleId
-                                pageTemp.displayName = pageInfo.displayName
-                                pageTemp.avatar = pageInfo.images.avatar.thumbnail
-                                pageTemp.cover = pageInfo.images.cover.fullHd
-                                pageTemp.overview = pageInfo.overview
-                                pageTemp.official = pageInfo.verified.official
-                                pageTemp.socialProvider = pageInfo.syncSocial.provider
-                                pageTemp.socialActive = pageInfo.syncSocial.active
-                                pageTemp.socialAutoPost = pageInfo.syncSocial.autoPost
-                                self.realm.add(pageTemp, update: .modified)
-                            }
-                        }
+                        UserHelper.shared.updatePage(pages: pages)
                         UserManager.shared.setAccessToken(token: accessToken)
+                        if !refreshToken.isEmpty {
+                            UserManager.shared.setRefreshToken(token: refreshToken)
+                        }
                         completion(true, false)
                     } else {
-                        let code = json[ResponseErrorKey.code.rawValue].stringValue
+                        let code = json[JsonKey.code.rawValue].stringValue
                         if code == errorRefreshTokenExpired {
                             completion(false, true)
                         } else {
-                            ApiHelper.displayError(error: "\(code) : \(json[ResponseErrorKey.message.rawValue].stringValue)")
+                            ApiHelper.displayError(code: "\(code)", error: "\(json[JsonKey.message.rawValue].stringValue)")
                             completion(false, false)
                         }
                     }
@@ -277,81 +249,94 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             }
         }
     }
-    
-    public func verifyPassword(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+
+    public func verifyPassword(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.verificationPassword(authenRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func changePasswordSubmit(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+
+    public func changePasswordSubmit(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.changePasswordSubmit(authenRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func requestOtp(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+
+    public func requestOtp(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.requestOtp(authenRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func verificationOtp(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+
+    public func requestOtpWithEmail(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
+        self.authenticationProvider.request(.requestOtpWithEmail(authenRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func verificationOtp(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.verificationOtp(authenRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func loginWithSocial(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+
+    public func loginWithSocial(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.loginWithSocial(authenRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(isSocialLogin: true, response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func connectWithSocial(authenRequest: AuthenRequest, _ completion: @escaping complate) {
+
+    public func connectWithSocial(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.connectWithSocial(authenRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }

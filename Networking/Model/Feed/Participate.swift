@@ -25,33 +25,28 @@
 //  Created by Castcle Co., Ltd. on 3/12/2564 BE.
 //
 
+import Core
 import SwiftyJSON
 
-// MARK: - Circle
-public enum ParticipateKey: String, Codable {
-    case liked
-    case commented
-    case quoted
-    case recasted
-    case reported
-}
-
+// MARK: - Participate
 public class Participate: NSObject {
     public var liked: Bool = false
     public var commented: Bool = false
     public var quoted: Bool = false
     public var recasted: Bool = false
     public var reported: Bool = false
-    
+    public var farming: Bool = false
+
     public override init() {
         // MARK: - Init
     }
-    
+
     public init(json: JSON) {
-        self.liked = json[ParticipateKey.liked.rawValue].boolValue
-        self.commented = json[ParticipateKey.commented.rawValue].boolValue
-        self.quoted = json[ParticipateKey.quoted.rawValue].boolValue
-        self.recasted = json[ParticipateKey.recasted.rawValue].boolValue
-        self.reported = json[ParticipateKey.reported.rawValue].boolValue
+        self.liked = json[JsonKey.liked.rawValue].boolValue
+        self.commented = json[JsonKey.commented.rawValue].boolValue
+        self.quoted = json[JsonKey.quoted.rawValue].boolValue
+        self.recasted = json[JsonKey.recasted.rawValue].boolValue
+        self.reported = json[JsonKey.reported.rawValue].boolValue
+        self.farming = json[JsonKey.farming.rawValue].boolValue
     }
 }

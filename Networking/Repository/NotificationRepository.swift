@@ -28,41 +28,118 @@
 import Core
 import Moya
 import SwiftyJSON
+import Defaults
 
 public protocol NotificationRepository {
-    func registerToken(notificationRequest: NotificationRequest, _ completion: @escaping complate)
-    func getBadges(_ completion: @escaping complate)
-    //case getNotification(NotificationRequest)
+    func registerToken(notificationRequest: NotificationRequest, _ completion: @escaping ResponseHandle)
+    func unregisterToken(notificationRequest: NotificationRequest, _ completion: @escaping ResponseHandle)
+    func getBadges(_ completion: @escaping ResponseHandle)
+    func getNotification(notificationRequest: NotificationRequest, _ completion: @escaping ResponseHandle)
+    func deleteNotification(notifyId: String, _ completion: @escaping ResponseHandle)
+    func readNotification(notifyId: String, _ completion: @escaping ResponseHandle)
+    func readAllNotification(notificationRequest: NotificationRequest, _ completion: @escaping ResponseHandle)
 }
 
 public final class NotificationRepositoryImpl: NotificationRepository {
     private let notificationProvider = MoyaProvider<NotificationApi>()
     private let completionHelper: CompletionHelper = CompletionHelper()
-    
+
     public init() {
         // MARK: - Init
     }
-    
-    public func registerToken(notificationRequest: NotificationRequest, _ completion: @escaping complate) {
+
+    public func registerToken(notificationRequest: NotificationRequest, _ completion: @escaping ResponseHandle) {
         self.notificationProvider.request(.registerToken(notificationRequest)) { result in
             switch result {
             case .success(let response):
                 completion(true, response, false)
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func getBadges(_ completion: @escaping complate) {
+
+    public func unregisterToken(notificationRequest: NotificationRequest, _ completion: @escaping ResponseHandle) {
+        self.notificationProvider.request(.unregisterToken(notificationRequest)) { result in
+            switch result {
+            case .success(let response):
+                completion(true, response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func getBadges(_ completion: @escaping ResponseHandle) {
         self.notificationProvider.request(.getBadges) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let rawJson = try response.mapJSON()
+                    let json = JSON(rawJson)
+                    Defaults[.badgePage] = json[JsonKey.page.rawValue].intValue
+                    Defaults[.badgeProfile] = json[JsonKey.profile.rawValue].intValue
+                    Defaults[.badgeSystem] = json[JsonKey.system.rawValue].intValue
+                    self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                        completion(success, response, isRefreshToken)
+                    }
+                } catch {
+                    completion(false, response, false)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func getNotification(notificationRequest: NotificationRequest, _ completion: @escaping ResponseHandle) {
+        self.notificationProvider.request(.getNotification(notificationRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func deleteNotification(notifyId: String, _ completion: @escaping ResponseHandle) {
+        self.notificationProvider.request(.deleteNotification(notifyId)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func readNotification(notifyId: String, _ completion: @escaping ResponseHandle) {
+        self.notificationProvider.request(.readNotification(notifyId)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func readAllNotification(notificationRequest: NotificationRequest, _ completion: @escaping ResponseHandle) {
+        self.notificationProvider.request(.readAllNotification(notificationRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }

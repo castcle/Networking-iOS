@@ -27,116 +27,79 @@
 
 import Core
 import SwiftyJSON
+import RealmSwift
 
 // MARK: - Comment Payload
-public enum CommentPayloadKey: String, Codable {
-    case payload
-}
-
 public class CommentPayload: NSObject {
-    public let payload: [Comment]
-    
+    public var payload: [Comment] = []
+    public var meta: Meta = Meta()
+
+    public override init() {
+        // Init CommentPayload
+    }
+
     public init(json: JSON) {
-        
         // MARK: - Comment
-        let commentJsonArr = json[CommentPayloadKey.payload.rawValue].arrayValue
-        var commentArr: [Comment] = []
-        for index in (0..<commentJsonArr.count) {
-            if index == 0 {
-                if commentJsonArr.count == 1 {
-                    commentArr.append(Comment(json: commentJsonArr[index], isLast: true))
-                } else {
-                    commentArr.append(Comment(json: commentJsonArr[index], isFirst: true))
+        self.payload = (json[JsonKey.payload.rawValue].arrayValue).map { Comment(json: $0) }
+        self.meta = Meta(json: JSON(json[JsonKey.meta.rawValue].dictionaryValue))
+        let includes = JSON(json[JsonKey.includes.rawValue].dictionaryValue)
+        let comments = includes[JsonKey.comments.rawValue].arrayValue
+        let users = includes[JsonKey.users.rawValue].arrayValue
+        do {
+            let realm = try Realm()
+            try realm.write {
+                comments.forEach { comment in
+                    let commentRef = CommentRef().initCustom(json: comment)
+                    realm.add(commentRef, update: .modified)
                 }
-            } else if index == (commentJsonArr.count - 1) {
-                commentArr.append(Comment(json: commentJsonArr[index], isLast: true))
-            } else {
-                commentArr.append(Comment(json: commentJsonArr[index]))
             }
+            try realm.write {
+                users.forEach { user in
+                    let authorRef = AuthorRef().initCustom(json: user)
+                    realm.add(authorRef, update: .modified)
+                }
+            }
+        } catch let error as NSError {
+            print(error)
         }
-        self.payload = commentArr
     }
 }
 
 // MARK: - Comment
-public enum CommentKey: String, Codable {
-    case id
-    case message
-    case like
-    case author
-    case reply
-    case metrics
-    case participate
-    case createdAt
-    case updatedAt
-}
-
 public class Comment: NSObject {
-    public let id: String
-    public let message: String
-    public let author: Author
-    public let reply: [ReplyComment]
+    public var id: String = ""
+    public var message: String = ""
+    public var authorId: String = ""
+    public var reply: [String] = []
     public var metrics: Metric = Metric()
     public var participate: Participate = Participate()
-    public let createdAt: String
-    public let updatedAt: String
-    public var isFirst: Bool
-    public var isLast: Bool
-    
+    public var createdAt: String = ""
+    public var updatedAt: String = ""
+    public var isFirst: Bool = false
+    public var isLast: Bool = false
+
+    public override init() {
+        // Init Comment
+    }
+
     public init(json: JSON, isFirst: Bool = false, isLast: Bool = false) {
-        self.id = json[CommentKey.id.rawValue].stringValue
-        self.message = json[CommentKey.message.rawValue].stringValue
-        self.createdAt = json[CommentKey.createdAt.rawValue].stringValue
-        self.updatedAt = json[CommentKey.updatedAt.rawValue].stringValue
+        self.id = json[JsonKey.id.rawValue].stringValue
+        self.authorId = json[JsonKey.author.rawValue].stringValue
+        self.message = json[JsonKey.message.rawValue].stringValue
+        self.createdAt = json[JsonKey.createdAt.rawValue].stringValue
+        self.updatedAt = json[JsonKey.updatedAt.rawValue].stringValue
         self.isFirst = isFirst
         self.isLast = isLast
-        
+
         // MARK: - Object
-        self.author = Author(json: JSON(json[CommentKey.author.rawValue].dictionaryObject ?? [:]))
-        self.metrics = Metric(json: JSON(json[CommentKey.metrics.rawValue].dictionaryObject ?? [:]))
-        self.participate = Participate(json: JSON(json[CommentKey.participate.rawValue].dictionaryObject ?? [:]))
-        
+        self.metrics = Metric(json: JSON(json[JsonKey.metrics.rawValue].dictionaryObject ?? [:]))
+        self.participate = Participate(json: JSON(json[JsonKey.participate.rawValue].dictionaryObject ?? [:]))
+
         // MARK: - Reply
-        self.reply = (json[CommentKey.reply.rawValue].arrayValue).map { ReplyComment(json: $0) }
+        self.reply = (json[JsonKey.reply.rawValue].arrayValue).map { $0.stringValue }
     }
-    
+
     public var commentDate: Date {
-        return Date.stringToDate(str: self.createdAt)
-    }
-}
-
-// MARK: - Reply Comment
-public enum ReplyCommentKey: String, Codable {
-    case id
-    case message
-    case like
-    case author
-    case createdAt
-    case updatedAt
-}
-
-public class ReplyComment: NSObject {
-    public let id: String
-    public let message: String
-    public let author: Author
-    public var metrics: Metric = Metric()
-    public var participate: Participate = Participate()
-    public let createdAt: String
-    public let updatedAt: String
-    
-    public init(json: JSON) {
-        self.id = json[ReplyCommentKey.id.rawValue].stringValue
-        self.message = json[ReplyCommentKey.message.rawValue].stringValue
-        self.createdAt = json[ReplyCommentKey.createdAt.rawValue].stringValue
-        self.updatedAt = json[ReplyCommentKey.updatedAt.rawValue].stringValue
-        
-        // MARK: - Object
-        self.author = Author(json: JSON(json[ReplyCommentKey.author.rawValue].dictionaryObject ?? [:]))
-        self.metrics = Metric(json: JSON(json[CommentKey.metrics.rawValue].dictionaryObject ?? [:]))
-        self.participate = Participate(json: JSON(json[CommentKey.participate.rawValue].dictionaryObject ?? [:]))
-    }
-    
-    public var replyDate: Date {
         return Date.stringToDate(str: self.createdAt)
     }
 }

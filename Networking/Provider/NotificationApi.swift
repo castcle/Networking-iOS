@@ -30,50 +30,72 @@ import Moya
 
 enum NotificationApi {
     case registerToken(NotificationRequest)
+    case unregisterToken(NotificationRequest)
     case getBadges
     case getNotification(NotificationRequest)
+    case deleteNotification(String)
+    case readNotification(String)
+    case readAllNotification(NotificationRequest)
 }
 
 extension NotificationApi: TargetType {
     var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }
-    
+
     var path: String {
         switch self {
-        case .registerToken:
-            return "/notifications/registerToken"
+        case .registerToken, .unregisterToken:
+            return "/authentications/register-token"
         case .getBadges:
-            return "notifications/badges"
+            return "/v2/notifications/badges"
         case .getNotification:
-            return "notifications"
+            return "/v2/notifications"
+        case .deleteNotification(let notifyId):
+            return "/v2/notifications/\(notifyId)"
+        case .readNotification(let notifyId):
+            return "/v2/notifications/\(notifyId)/reads"
+        case.readAllNotification:
+            return "/v2/notifications/reads"
         }
     }
-    
+
     var method: Moya.Method {
         switch self {
-        case .registerToken:
+        case .registerToken, .readNotification, .readAllNotification:
             return .post
+        case .unregisterToken, .deleteNotification:
+            return .delete
         case .getBadges, .getNotification:
             return .get
         }
-        
     }
-    
+
     var sampleData: Data {
         return Data()
     }
-    
+
     var task: Task {
         switch self {
         case .registerToken(let notificationRequest):
             return .requestParameters(parameters: notificationRequest.paramRegisterToken, encoding: JSONEncoding.default)
+        case .unregisterToken(let notificationRequest):
+            return .requestParameters(parameters: notificationRequest.paramRegisterToken, encoding: JSONEncoding.default)
+        case .getNotification(let notificationRequest):
+            return .requestParameters(parameters: notificationRequest.paramGetNotifications, encoding: URLEncoding.queryString)
+        case .readAllNotification(let notificationRequest):
+            return .requestParameters(parameters: notificationRequest.paramReadAllNotifications, encoding: URLEncoding.queryString)
         default:
             return .requestPlain
         }
     }
-    
-    var headers: [String : String]? {
-        return ApiHelper.header
+
+    var headers: [String: String]? {
+        switch self {
+        case .getBadges, .getNotification, .deleteNotification, .readNotification, .readAllNotification:
+            return ApiHelper.header()
+        default:
+            return ApiHelper.header(version: "1.0")
+        }
     }
 }

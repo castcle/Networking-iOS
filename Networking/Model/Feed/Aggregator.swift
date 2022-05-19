@@ -25,24 +25,20 @@
 //  Created by Castcle Co., Ltd. on 14/7/2564 BE.
 //
 
+import Core
 import SwiftyJSON
 
 // MARK: - Aggregator
-public enum AggregatorKey: String, Codable {
-    case type
-    case message
-}
-
 public class Aggregator: NSObject {
     public var type: String = ""
     public var message: String = ""
-    
+
     public override init() {
         // Init Aggregator
     }
-    
+
     public init(json: JSON) {
-        self.type = json[AggregatorKey.type.rawValue].stringValue
-        self.message = json[AggregatorKey.message.rawValue].stringValue
+        self.type = json[JsonKey.type.rawValue].stringValue
+        self.message = json[JsonKey.message.rawValue].stringValue
     }
 }

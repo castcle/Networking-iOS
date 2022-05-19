@@ -42,19 +42,22 @@ enum UserApi {
     case getUserFollowing(String, UserFollowRequest)
     case follow(UserRequest)
     case unfollow(String)
+    case syncSocial(String, PageSocial)
 }
 
 extension UserApi: TargetType {
     var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }
-    
+
     var path: String {
         switch self {
         case .getAllUser:
             return "/users"
+        case .getMe:
+            return "/v2/users/me"
         case .getUser(let userId):
-            return "/users/\(userId)"
+            return "/v2/users/\(userId)"
         case .getUserContents(let userId, _):
             return "/users/\(userId)/contents"
         case .getUserFollower(let userId, _):
@@ -68,43 +71,45 @@ extension UserApi: TargetType {
         case .updateMobile:
             return "/users/me/mobile"
         case .updateInfo(let userId, _):
-            return "/users/\(userId)"
+            return "/v2/users/\(userId)"
         case .updateAvatar(let userId, _):
             return "/users/\(userId)"
         case .updateCover(let userId, _):
             return "/users/\(userId)"
+        case .syncSocial(let userId, _):
+            return "/v2/users/\(userId)/sync-social"
         default:
             return "/users/me"
         }
     }
-    
+
     var method: Moya.Method {
         switch self {
         case .getAllUser, .getMe, .getUser, .getUserContents, .getUserFollower, .getUserFollowing:
             return .get
         case .updateInfo, .updateAvatar, .updateMobile, .updateCover:
             return .put
-        case .follow:
+        case .follow, .syncSocial:
             return .post
         case .delateUser, .unfollow:
             return .delete
         }
     }
-    
+
     var sampleData: Data {
         return "{\"message\": \"success message\"}".dataEncoded
     }
-    
+
     var task: Task {
         switch self {
         case .getMe:
             let param = [
-                "userFields": "link-social"
+                JsonKey.userFields.rawValue: "relationships,sync-social,link-social"
             ]
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .getUser:
             let param = [
-                "userFields": "relationships,sync-social"
+                JsonKey.userFields.rawValue: "relationships,sync-social"
             ]
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .updateInfo(_, let userRequest):
@@ -125,12 +130,19 @@ extension UserApi: TargetType {
             return .requestParameters(parameters: userFollowRequest.paramGetFollowUser, encoding: URLEncoding.queryString)
         case .getUserFollowing(_, let userFollowRequest):
             return .requestParameters(parameters: userFollowRequest.paramGetFollowUser, encoding: URLEncoding.queryString)
+        case .syncSocial(_, let pageSocial):
+            return .requestParameters(parameters: pageSocial.paramPageSocial, encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }
     }
-    
-    var headers: [String : String]? {
-        return ApiHelper.header
+
+    var headers: [String: String]? {
+        switch self {
+        case .getMe, .getUser, .syncSocial, .updateInfo:
+            return ApiHelper.header()
+        default:
+            return ApiHelper.header(version: "1.0")
+        }
     }
 }

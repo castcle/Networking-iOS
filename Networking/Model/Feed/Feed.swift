@@ -29,24 +29,6 @@ import Core
 import SwiftyJSON
 
 // MARK: - Feed
-public enum FeedKey: String, Codable {
-    case id
-    case feature
-    case circle
-    case type
-    case payload
-    case createdAt
-    case updatedAt
-}
-
-public enum FeedType: String, Codable {
-    case content
-    case suggestion
-    case reminder
-    case ads
-    case suggestionFollow = "suggestion-follow"
-}
-
 public class Feed: NSObject {
     public let id: String
     public let feature: Feature
@@ -56,19 +38,19 @@ public class Feed: NSObject {
     public let userToFollow: [Author]
     public let createdAt: String
     public let updatedAt: String
-    
+
     public init(json: JSON) {
-        self.id = json[FeedKey.id.rawValue].stringValue
-        self.type = FeedType(rawValue: json[FeedKey.type.rawValue].stringValue) ?? .content
-        self.createdAt = json[FeedKey.createdAt.rawValue].stringValue
-        self.updatedAt = json[FeedKey.updatedAt.rawValue].stringValue
-        
+        self.id = json[JsonKey.id.rawValue].stringValue
+        self.type = FeedType(rawValue: json[JsonKey.type.rawValue].stringValue) ?? .content
+        self.createdAt = json[JsonKey.createdAt.rawValue].stringValue
+        self.updatedAt = json[JsonKey.updatedAt.rawValue].stringValue
+
         // MARK: - Object
-        self.feature = Feature(json: JSON(json[FeedKey.feature.rawValue].dictionaryObject ?? [:]))
-        self.circle = Circle(json: JSON(json[FeedKey.circle.rawValue].dictionaryObject ?? [:]))
-        self.content = Content(json: JSON(json[FeedKey.payload.rawValue].dictionaryObject ?? [:]))
-        
+        self.feature = Feature(json: JSON(json[JsonKey.feature.rawValue].dictionaryObject ?? [:]))
+        self.circle = Circle(json: JSON(json[JsonKey.circle.rawValue].dictionaryObject ?? [:]))
+        self.content = Content(json: JSON(json[JsonKey.payload.rawValue].dictionaryObject ?? [:]))
+
         // MARK: - User to Follow
-        self.userToFollow = (json[FeedKey.payload.rawValue].arrayValue).map { Author(json: $0) }
+        self.userToFollow = (json[JsonKey.payload.rawValue].arrayValue).map { Author(json: $0) }
     }
 }

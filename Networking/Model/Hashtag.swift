@@ -25,21 +25,10 @@
 //  Created by Castcle Co., Ltd. on 13/7/2564 BE.
 //
 
+import Core
 import SwiftyJSON
 
 // MARK: - Hashtag
-public enum HashtagKey: String, Codable {
-    case id
-    case slug
-    case name
-    case key
-    case rank
-    case trends
-    case count
-    case createdAt
-    case updatedAt
-}
-
 public class Hashtag: NSObject {
     public let id: String
     public let slug: String
@@ -50,16 +39,16 @@ public class Hashtag: NSObject {
     public let count: Int
     public let createdAt: String
     public let updatedAt: String
-    
+
     public init(json: JSON) {
-        self.id = json[HashtagKey.id.rawValue].stringValue
-        self.slug = json[HashtagKey.slug.rawValue].stringValue
-        self.name = json[HashtagKey.name.rawValue].stringValue
-        self.key = json[HashtagKey.key.rawValue].stringValue
-        self.rank = json[HashtagKey.rank.rawValue].intValue
-        self.trends = json[HashtagKey.trends.rawValue].stringValue
-        self.count = json[HashtagKey.count.rawValue].intValue
-        self.createdAt = json[HashtagKey.createdAt.rawValue].stringValue
-        self.updatedAt = json[HashtagKey.updatedAt.rawValue].stringValue
+        self.id = json[JsonKey.id.rawValue].stringValue
+        self.slug = json[JsonKey.slug.rawValue].stringValue
+        self.name = json[JsonKey.name.rawValue].stringValue
+        self.key = json[JsonKey.key.rawValue].stringValue
+        self.rank = json[JsonKey.rank.rawValue].intValue
+        self.trends = json[JsonKey.trends.rawValue].stringValue
+        self.count = json[JsonKey.count.rawValue].intValue
+        self.createdAt = json[JsonKey.createdAt.rawValue].stringValue
+        self.updatedAt = json[JsonKey.updatedAt.rawValue].stringValue
     }
 }

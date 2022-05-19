@@ -30,124 +30,180 @@ import Moya
 import SwiftyJSON
 
 public protocol ContentRepository {
-    func getMeContents(contentRequest: ContentRequest, _ completion: @escaping complate)
-    func createContent(featureSlug: String, contentRequest: ContentRequest, _ completion: @escaping complate)
-    func likeContent(contentId: String, _ completion: @escaping complate)
-    func unlikeContent(contentId: String, _ completion: @escaping complate)
-    func deleteContent(contentId: String, _ completion: @escaping complate)
-    func recastContent(contentRequest: ContentRequest, _ completion: @escaping complate)
-    func unrecastContent(contentRequest: ContentRequest, _ completion: @escaping complate)
-    func quotecastContent(contentRequest: ContentRequest, _ completion: @escaping complate)
+    func getMeContents(contentRequest: ContentRequest, _ completion: @escaping ResponseHandle)
+    func getContentDetail(contentId: String, _ completion: @escaping ResponseHandle)
+    func createContent(featureSlug: String, contentRequest: ContentRequest, _ completion: @escaping ResponseHandle)
+    func likeContent(castcleId: String, contentId: String, _ completion: @escaping ResponseHandle)
+    func unlikeContent(castcleId: String, contentId: String, _ completion: @escaping ResponseHandle)
+    func deleteContent(contentId: String, _ completion: @escaping ResponseHandle)
+    func recastContent(contentRequest: ContentRequest, _ completion: @escaping ResponseHandle)
+    func unrecastContent(contentRequest: ContentRequest, _ completion: @escaping ResponseHandle)
+    func quotecastContent(contentRequest: ContentRequest, _ completion: @escaping ResponseHandle)
+    func getQuoteCast(contentId: String, contentRequest: ContentRequest, _ completion: @escaping ResponseHandle)
+    func getUserLikeContent(contentId: String, contentRequest: ContentRequest, _ completion: @escaping ResponseHandle)
+    func getUserRecastContent(contentId: String, contentRequest: ContentRequest, _ completion: @escaping ResponseHandle)
 }
 
 public final class ContentRepositoryImpl: ContentRepository {
     private let contentProvider = MoyaProvider<ContentApi>()
     private let completionHelper: CompletionHelper = CompletionHelper()
-    
+
     public init() {
         // MARK: - Init
     }
-    
-    public func getMeContents(contentRequest: ContentRequest, _ completion: @escaping complate) {
+
+    public func getMeContents(contentRequest: ContentRequest, _ completion: @escaping ResponseHandle) {
         self.contentProvider.request(.getMeContents(contentRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func createContent(featureSlug: String, contentRequest: ContentRequest, _ completion: @escaping complate) {
+
+    public func getContentDetail(contentId: String, _ completion: @escaping ResponseHandle) {
+        self.contentProvider.request(.getContentDetail(contentId)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func createContent(featureSlug: String, contentRequest: ContentRequest, _ completion: @escaping ResponseHandle) {
         self.contentProvider.request(.createContent(featureSlug, contentRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func likeContent(contentId: String, _ completion: @escaping complate) {
-        self.contentProvider.request(.likeContent(contentId)) { result in
+
+    public func likeContent(castcleId: String, contentId: String, _ completion: @escaping ResponseHandle) {
+        self.contentProvider.request(.likeContent(castcleId, contentId)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func unlikeContent(contentId: String, _ completion: @escaping complate) {
-        self.contentProvider.request(.unlikeContent(contentId)) { result in
+
+    public func unlikeContent(castcleId: String, contentId: String, _ completion: @escaping ResponseHandle) {
+        self.contentProvider.request(.unlikeContent(castcleId, contentId)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func deleteContent(contentId: String, _ completion: @escaping complate) {
+
+    public func deleteContent(contentId: String, _ completion: @escaping ResponseHandle) {
         self.contentProvider.request(.deleteContent(contentId)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func recastContent(contentRequest: ContentRequest, _ completion: @escaping complate) {
+
+    public func recastContent(contentRequest: ContentRequest, _ completion: @escaping ResponseHandle) {
         self.contentProvider.request(.recastContent(contentRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func unrecastContent(contentRequest: ContentRequest, _ completion: @escaping complate) {
+
+    public func unrecastContent(contentRequest: ContentRequest, _ completion: @escaping ResponseHandle) {
         self.contentProvider.request(.unrecastContent(contentRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func quotecastContent(contentRequest: ContentRequest, _ completion: @escaping complate) {
+
+    public func quotecastContent(contentRequest: ContentRequest, _ completion: @escaping ResponseHandle) {
         self.contentProvider.request(.quotecastContent(contentRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func getQuoteCast(contentId: String, contentRequest: ContentRequest, _ completion: @escaping ResponseHandle) {
+        self.contentProvider.request(.getQuoteCast(contentId, contentRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func getUserLikeContent(contentId: String, contentRequest: ContentRequest, _ completion: @escaping ResponseHandle) {
+        self.contentProvider.request(.getUserLikeContent(contentId, contentRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func getUserRecastContent(contentId: String, contentRequest: ContentRequest, _ completion: @escaping ResponseHandle) {
+        self.contentProvider.request(.getUserRecastContent(contentId, contentRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }

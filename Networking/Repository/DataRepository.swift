@@ -19,7 +19,7 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  MasterDataRepository.swift
+//  DataRepository.swift
 //  Networking
 //
 //  Created by Castcle Co., Ltd. on 10/2/2565 BE.
@@ -29,58 +29,55 @@ import Core
 import Moya
 import SwiftyJSON
 
-public protocol MasterDataRepository {
-    func getCountry(_ completion: @escaping complate)
-    func getMentions(keyword: String, _ completion: @escaping complate)
-    func getHashtag(keyword: String, _ completion: @escaping complate)
+public protocol DataRepository {
+    func getCountry(_ completion: @escaping ResponseHandle)
+    func getMentions(keyword: String, _ completion: @escaping ResponseHandle)
+    func getHashtag(keyword: String, _ completion: @escaping ResponseHandle)
 }
 
-public final class MasterDataRepositoryImpl: MasterDataRepository {
-    private let masterDataProvider = MoyaProvider<MasterDataApi>()
+public final class DataRepositoryImpl: DataRepository {
+    private let dataProvider = MoyaProvider<DataApi>()
     private let completionHelper: CompletionHelper = CompletionHelper()
-    
+
     public init() {
         // MARK: - Init
     }
-    
-    public func getCountry(_ completion: @escaping complate) {
-        self.masterDataProvider.request(.getCountry) { result in
+
+    public func getCountry(_ completion: @escaping ResponseHandle) {
+        self.dataProvider.request(.getCountry) { result in
             switch result {
             case .success(let response):
-                completion(true, response, false)
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func getMentions(keyword: String, _ completion: @escaping complate) {
-        self.masterDataProvider.request(.getMentions(keyword)) { result in
+
+    public func getMentions(keyword: String, _ completion: @escaping ResponseHandle) {
+        self.dataProvider.request(.getMentions(keyword)) { result in
             switch result {
             case .success(let response):
-                completion(true, response, false)
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }
-    
-    public func getHashtag(keyword: String, _ completion: @escaping complate) {
-        self.masterDataProvider.request(.getHashtag(keyword)) { result in
+
+    public func getHashtag(keyword: String, _ completion: @escaping ResponseHandle) {
+        self.dataProvider.request(.getHashtag(keyword)) { result in
             switch result {
             case .success(let response):
-                completion(true, response, false)
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }
-            case .failure(let error):
-                completion(false, error as! Response, false)
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
             }
         }
     }

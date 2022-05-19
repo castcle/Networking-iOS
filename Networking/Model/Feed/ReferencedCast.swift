@@ -25,30 +25,20 @@
 //  Created by Castcle Co., Ltd. on 3/12/2564 BE.
 //
 
+import Core
 import SwiftyJSON
 
-// MARK: - Circle
-public enum ReferencedCastKey: String, Codable {
-    case type
-    case id
-}
-
-public enum ReferencedCastType: String, Codable {
-    case quoted
-    case recasted
-    case unknown
-}
-
+// MARK: - ReferencedCast
 public class ReferencedCast: NSObject {
     public var type: ReferencedCastType = .unknown
     public var id: String = ""
-    
+
     public override init() {
         // MARK: - Init
     }
-    
+
     public init(json: JSON) {
-        self.type = ReferencedCastType(rawValue: json[ReferencedCastKey.type.rawValue].stringValue) ?? .unknown
-        self.id = json[ReferencedCastKey.id.rawValue].stringValue
+        self.type = ReferencedCastType(rawValue: json[JsonKey.type.rawValue].stringValue) ?? .unknown
+        self.id = json[JsonKey.id.rawValue].stringValue
     }
 }

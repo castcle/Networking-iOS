@@ -31,9 +31,9 @@ import Moya
 enum AuthenticationApi {
     case guestLogin(String)
     case login(LoginRequest)
-    case checkEmailExists(AuthenRequest)
+    case checkEmail(AuthenRequest)
     case suggestCastcleId(AuthenRequest)
-    case checkCastcleIdExists(AuthenRequest)
+    case checkCastcleId(AuthenRequest)
     case register(AuthenRequest)
     case verificationEmail
     case requestLinkVerify
@@ -41,6 +41,7 @@ enum AuthenticationApi {
     case verificationPassword(AuthenRequest)
     case changePasswordSubmit(AuthenRequest)
     case requestOtp(AuthenRequest)
+    case requestOtpWithEmail(AuthenRequest)
     case verificationOtp(AuthenRequest)
     case loginWithSocial(AuthenRequest)
     case connectWithSocial(AuthenRequest)
@@ -50,62 +51,64 @@ extension AuthenticationApi: TargetType {
     var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }
-    
+
     var path: String {
         switch self {
         case .guestLogin:
             return "/authentications/guestLogin"
         case .login:
-            return "/authentications/login"
-        case .checkEmailExists:
-            return "/authentications/checkEmailExists"
+            return "/v2/authentications/login-with-email"
+        case .checkEmail:
+            return "/v2/authentications/exists/email"
         case .suggestCastcleId:
             return "/authentications/suggestCastcleId"
-        case .checkCastcleIdExists:
-            return "/authentications/checkCastcleIdExists"
+        case .checkCastcleId:
+            return "/v2/authentications/exists/castcle-id"
         case .register:
-            return "/authentications/register"
+            return "/v2/authentications/register-with-email"
         case .verificationEmail:
             return "/authentications/verificationEmail"
         case .requestLinkVerify:
             return "/authentications/requestLinkVerify"
         case .refreshToken:
-            return "/authentications/refreshToken"
+            return "/v2/authentications/refresh-token"
         case .verificationPassword:
             return "/authentications/verificationPassword"
         case .changePasswordSubmit:
             return "/authentications/changePasswordSubmit"
         case .requestOtp:
             return "/authentications/requestOTP"
+        case .requestOtpWithEmail:
+            return "/v2/authentications/request-otp/email"
         case .verificationOtp:
             return "/authentications/verificationOTP"
         case .loginWithSocial:
-            return "/authentications/login-with-social"
+            return "/v2/authentications/login-with-social"
         case .connectWithSocial:
             return "/authentications/connect-with-social"
         }
     }
-    
+
     var method: Moya.Method {
         return .post
     }
-    
+
     var sampleData: Data {
         return "{\"message\": \"success message\"}".dataEncoded
     }
-    
+
     var task: Task {
         switch self {
         case .guestLogin(let uuid):
-            return .requestParameters(parameters: [AuthenticationApiKey.uuid.rawValue: uuid], encoding: JSONEncoding.default)
+            return .requestParameters(parameters: [JsonKey.deviceUuid.rawValue: uuid], encoding: JSONEncoding.default)
         case .login(let loginRequest):
             return .requestParameters(parameters: loginRequest.paramLogin, encoding: JSONEncoding.default)
-        case .checkEmailExists(let authenRequest):
-            return .requestParameters(parameters: authenRequest.payload.paramCheckEmailExists, encoding: JSONEncoding.default)
+        case .checkEmail(let authenRequest):
+            return .requestParameters(parameters: authenRequest.paramCheckEmail, encoding: JSONEncoding.default)
         case .suggestCastcleId(let authenRequest):
-            return .requestParameters(parameters: authenRequest.payload.paramSuggestCastcleId, encoding: JSONEncoding.default)
-        case .checkCastcleIdExists(let authenRequest):
-            return .requestParameters(parameters: authenRequest.payload.paramCheckCastcleIdExists, encoding: JSONEncoding.default)
+            return .requestParameters(parameters: authenRequest.paramSuggestCastcleId, encoding: JSONEncoding.default)
+        case .checkCastcleId(let authenRequest):
+            return .requestParameters(parameters: authenRequest.paramCheckCastcleId, encoding: JSONEncoding.default)
         case .register(let authenRequest):
             return .requestParameters(parameters: authenRequest.paramRegister, encoding: JSONEncoding.default)
         case .verificationPassword(let authenRequest):
@@ -114,6 +117,8 @@ extension AuthenticationApi: TargetType {
             return .requestParameters(parameters: authenRequest.payload.paramChangePasswordSubmit, encoding: JSONEncoding.default)
         case .requestOtp(let authenRequest):
             return .requestParameters(parameters: authenRequest.paramRequestOtp, encoding: JSONEncoding.default)
+        case .requestOtpWithEmail(let authenRequest):
+            return .requestParameters(parameters: authenRequest.paramRequestOtpWithEmail, encoding: JSONEncoding.default)
         case .verificationOtp(let authenRequest):
             return .requestParameters(parameters: authenRequest.paramVerifyOtp, encoding: JSONEncoding.default)
         case .loginWithSocial(let authenRequest):
@@ -124,13 +129,15 @@ extension AuthenticationApi: TargetType {
             return .requestPlain
         }
     }
-    
-    var headers: [String : String]? {
+
+    var headers: [String: String]? {
         switch self {
+        case .login, .checkEmail, .checkCastcleId, .loginWithSocial, .requestOtpWithEmail:
+            return ApiHelper.header()
         case .refreshToken:
-            return ApiHelper.headerRefreshToken
+            return ApiHelper.headerRefreshToken()
         default:
-            return ApiHelper.header
+            return ApiHelper.header(version: "1.0")
         }
     }
 }
