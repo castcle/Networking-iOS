@@ -64,6 +64,8 @@ public class PlatformData: NSObject {
 // MARK: - ConfigMeta
 public class ConfigMeta: NSObject {
     public var button: MetaLanguage = MetaLanguage()
+    public var buttonOk: MetaLanguage = MetaLanguage()
+    public var buttonCancel: MetaLanguage = MetaLanguage()
     public var title: MetaLanguage = MetaLanguage()
     public var message: MetaLanguage = MetaLanguage()
 
@@ -74,6 +76,8 @@ public class ConfigMeta: NSObject {
     public init(json: JSON) {
         // MARK: - Object
         self.button = MetaLanguage(json: JSON(json[JsonKey.button.rawValue].dictionaryValue))
+        self.buttonOk = MetaLanguage(json: JSON(json[JsonKey.buttonOk.rawValue].dictionaryValue))
+        self.buttonCancel = MetaLanguage(json: JSON(json[JsonKey.buttonCancel.rawValue].dictionaryValue))
         self.title = MetaLanguage(json: JSON(json[JsonKey.title.rawValue].dictionaryValue))
         self.message = MetaLanguage(json: JSON(json[JsonKey.message.rawValue].dictionaryValue))
     }
