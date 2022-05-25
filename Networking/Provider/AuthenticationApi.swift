@@ -55,37 +55,37 @@ extension AuthenticationApi: TargetType {
     var path: String {
         switch self {
         case .guestLogin:
-            return "/v2/authentications/guest"
+            return APIs.guestLogin.path
         case .login:
-            return "/v2/authentications/login-with-email"
+            return APIs.login.path
         case .checkEmail:
-            return "/v2/authentications/exists/email"
+            return APIs.checkEmail.path
         case .suggestCastcleId:
-            return "/authentications/suggestCastcleId"
+            return APIs.suggestCastcleId.path
         case .checkCastcleId:
-            return "/v2/authentications/exists/castcle-id"
+            return APIs.checkCastcleId.path
         case .register:
-            return "/v2/authentications/register-with-email"
+            return APIs.register.path
         case .verificationEmail:
-            return "/authentications/verificationEmail"
+            return APIs.verificationEmail.path
         case .requestLinkVerify:
-            return "/authentications/requestLinkVerify"
+            return APIs.requestLinkVerify.path
         case .refreshToken:
-            return "/v2/authentications/refresh-token"
+            return APIs.refreshToken.path
         case .verificationPassword:
-            return "/authentications/verificationPassword"
+            return APIs.verificationPassword.path
         case .changePasswordSubmit:
-            return "/authentications/changePasswordSubmit"
+            return APIs.changePasswordSubmit.path
         case .requestOtp:
-            return "/authentications/requestOTP"
+            return APIs.requestOtp.path
         case .requestOtpWithEmail:
-            return "/v2/authentications/request-otp/email"
+            return APIs.requestOtpWithEmail.path
         case .verificationOtp:
-            return "/authentications/verificationOTP"
+            return APIs.verificationOtp.path
         case .loginWithSocial:
-            return "/v2/authentications/login-with-social"
+            return APIs.loginWithSocial.path
         case .connectWithSocial:
-            return "/authentications/connect-with-social"
+            return APIs.connectWithSocial.path
         }
     }
 
@@ -94,7 +94,7 @@ extension AuthenticationApi: TargetType {
     }
 
     var sampleData: Data {
-        return "{\"message\": \"success message\"}".dataEncoded
+        return Data()
     }
 
     var task: Task {
