@@ -27,7 +27,6 @@
 
 import Core
 import SwiftyJSON
-import RealmSwift
 
 // MARK: - Comment Payload
 public class CommentPayload: NSObject {
@@ -45,23 +44,8 @@ public class CommentPayload: NSObject {
         let includes = JSON(json[JsonKey.includes.rawValue].dictionaryValue)
         let comments = includes[JsonKey.comments.rawValue].arrayValue
         let users = includes[JsonKey.users.rawValue].arrayValue
-        do {
-            let realm = try Realm()
-            try realm.write {
-                comments.forEach { comment in
-                    let commentRef = CommentRef().initCustom(json: comment)
-                    realm.add(commentRef, update: .modified)
-                }
-            }
-            try realm.write {
-                users.forEach { user in
-                    let authorRef = AuthorRef().initCustom(json: user)
-                    realm.add(authorRef, update: .modified)
-                }
-            }
-        } catch let error as NSError {
-            print(error)
-        }
+        UserHelper.shared.updateAuthorRef(users: users)
+        CommentHelper.shared.updateCommentRefs(comments: comments)
     }
 }
 

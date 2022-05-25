@@ -136,4 +136,16 @@ public class UserHelper {
             }
         } catch {}
     }
+
+    public func updateAuthorRef(users: [JSON]) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                users.forEach { user in
+                    let authorRef = AuthorRef().initCustom(json: user)
+                    realm.add(authorRef, update: .modified)
+                }
+            }
+        } catch {}
+    }
 }

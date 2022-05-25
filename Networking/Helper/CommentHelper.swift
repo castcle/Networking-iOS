@@ -27,6 +27,7 @@
 
 import Core
 import RealmSwift
+import SwiftyJSON
 
 public class CommentHelper {
     public static let shared = CommentHelper()
@@ -46,5 +47,27 @@ public class CommentHelper {
                 return nil
             }
         }
+    }
+
+    public func updateCommentRef(commentJson: JSON) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                let commentRef = CommentRef().initCustom(json: commentJson)
+                realm.add(commentRef, update: .modified)
+            }
+        } catch {}
+    }
+
+    public func updateCommentRefs(comments: [JSON]) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                comments.forEach { comment in
+                    let commentRef = CommentRef().initCustom(json: comment)
+                    realm.add(commentRef, update: .modified)
+                }
+            }
+        } catch {}
     }
 }
