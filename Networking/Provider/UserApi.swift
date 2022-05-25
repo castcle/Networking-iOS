@@ -123,7 +123,7 @@ extension UserApi: TargetType {
         case .delateUser(let userRequest):
             return .requestParameters(parameters: userRequest.paramDeleteUser, encoding: JSONEncoding.default)
         case .getUserContents(_, let contentRequest):
-            return .requestParameters(parameters: contentRequest.paramGetContent, encoding: URLEncoding.queryString)
+            return .requestParameters(parameters: contentRequest.commonParamGetData, encoding: URLEncoding.queryString)
         case .follow(let userRequest):
             return .requestParameters(parameters: userRequest.paramFollowUser, encoding: JSONEncoding.default)
         case .getUserFollower(_, let userFollowRequest):

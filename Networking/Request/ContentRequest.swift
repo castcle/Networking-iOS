@@ -42,16 +42,14 @@ public struct ContentRequest {
         // Init ContentRequest
     }
 
-    public var paramGetContent: [String: Any] {
+    public var commonParamGetData: [String: Any] {
         var param: [String: Any] = [
             JsonKey.maxResults.rawValue: self.maxResults,
             JsonKey.userFields.rawValue: self.userFields.rawValue
         ]
-
         if !self.untilId.isEmpty {
             param[JsonKey.untilId.rawValue] = self.untilId
         }
-
         return param
     }
 
@@ -88,16 +86,16 @@ public struct ContentRequest {
         return param
     }
 
-    public var paramGetUserSeaction: [String: Any] {
-        var param: [String: Any] = [
-            JsonKey.maxResults.rawValue: self.maxResults,
-            JsonKey.userFields.rawValue: self.userFields.rawValue
-        ]
-        if !self.untilId.isEmpty {
-            param[JsonKey.untilId.rawValue] = self.untilId
-        }
-        return param
-    }
+//    public var paramGetUserSeaction: [String: Any] {
+//        var param: [String: Any] = [
+//            JsonKey.maxResults.rawValue: self.maxResults,
+//            JsonKey.userFields.rawValue: self.userFields.rawValue
+//        ]
+//        if !self.untilId.isEmpty {
+//            param[JsonKey.untilId.rawValue] = self.untilId
+//        }
+//        return param
+//    }
 }
 
 public struct ContentPayloadRequest {

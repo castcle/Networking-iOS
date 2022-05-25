@@ -87,12 +87,6 @@ public class Content {
                     return .postImageXMore
                 }
             }
-//        } else if self.type == .blog {
-//            if self.contentPayload.cover.large.isEmpty {
-//                return .blogNoImage
-//            } else {
-//                return .blogImage
-//            }
         } else {
             return .postText
         }

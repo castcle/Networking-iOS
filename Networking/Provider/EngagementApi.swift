@@ -62,7 +62,9 @@ extension EngagementApi: TargetType {
         switch self {
         case .engagement(let engagementRequest):
             return .requestParameters(parameters: engagementRequest.paramEngagement, encoding: JSONEncoding.default)
-        default:
+        case.seenContent:
+            return .requestPlain
+        case.castOffView:
             return .requestPlain
         }
     }

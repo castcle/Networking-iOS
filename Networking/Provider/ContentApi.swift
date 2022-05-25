@@ -95,7 +95,7 @@ extension ContentApi: TargetType {
     var task: Task {
         switch self {
         case .getMeContents(let contentRequest):
-            return .requestParameters(parameters: contentRequest.paramGetContent, encoding: URLEncoding.queryString)
+            return .requestParameters(parameters: contentRequest.commonParamGetData, encoding: URLEncoding.queryString)
         case .getContentDetail:
             let param = [
                 JsonKey.userFields.rawValue: UserFields.relationships.rawValue
@@ -115,9 +115,9 @@ extension ContentApi: TargetType {
         case .getQuoteCast(_, let contentRequest):
             return .requestParameters(parameters: contentRequest.paramGetQuoteCast, encoding: URLEncoding.queryString)
         case .getUserLikeContent(_, let contentRequest):
-            return .requestParameters(parameters: contentRequest.paramGetUserSeaction, encoding: URLEncoding.queryString)
+            return .requestParameters(parameters: contentRequest.commonParamGetData, encoding: URLEncoding.queryString)
         case .getUserRecastContent(_, let contentRequest):
-            return .requestParameters(parameters: contentRequest.paramGetUserSeaction, encoding: URLEncoding.queryString)
+            return .requestParameters(parameters: contentRequest.commonParamGetData, encoding: URLEncoding.queryString)
         default:
             return.requestPlain
         }

@@ -62,10 +62,10 @@ extension AdsApi: TargetType {
 
     var task: Task {
         switch self {
+        case .getAds:
+            return .requestPlain
         case .createAds(let adsRequest):
             return .requestParameters(parameters: adsRequest.paramCreateAds, encoding: JSONEncoding.default)
-        default:
-            return .requestPlain
         }
     }
 

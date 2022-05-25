@@ -55,10 +55,10 @@ extension ReportApi: TargetType {
 
     var method: Moya.Method {
         switch self {
+        case .reportUser, .reportContent, .blockUser:
+            return .post
         case.unblockUser:
             return .delete
-        default:
-            return .post
         }
     }
 
