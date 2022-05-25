@@ -42,11 +42,11 @@ extension EngagementApi: TargetType {
     var path: String {
         switch self {
         case .engagement:
-            return "/engagements"
+            return APIs.Engagement.engagement.path
         case.seenContent(let feedId):
-            return "feeds/\(feedId)/seen"
+            return APIs.Engagement.seenContent(feedId).path
         case.castOffView(let feedId):
-            return "feeds/\(feedId)/off-view"
+            return APIs.Engagement.castOffView(feedId).path
         }
     }
 

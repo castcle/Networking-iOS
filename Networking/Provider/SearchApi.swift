@@ -44,15 +44,15 @@ extension SearchApi: TargetType {
     var path: String {
         switch self {
         case .getTopTrends:
-            return "/searches/topTrends"
+            return APIs.Search.getTopTrends.path
         case .getSuggestion:
-            return "/searches"
+            return APIs.Search.getSuggestion.path
         case .searchTrend:
-            return "/feeds/search/trends"
+            return APIs.Search.searchTrend.path
         case .searchRecent:
-            return "/feeds/search/recent"
+            return APIs.Search.searchRecent.path
         case .searchUser:
-            return "/users/search"
+            return APIs.Search.searchUser.path
         }
     }
 

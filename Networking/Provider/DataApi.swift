@@ -42,11 +42,11 @@ extension DataApi: TargetType {
     var path: String {
         switch self {
         case .getCountry:
-            return "/metadata/country"
+            return APIs.Data.getCountry.path
         case .getMentions:
-            return "/users/me/mentions"
+            return APIs.Data.getMentions.path
         case .getHashtag:
-            return "/metadata/hashtag/search"
+            return APIs.Data.getHashtag.path
         }
     }
 
@@ -68,7 +68,7 @@ extension DataApi: TargetType {
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .getHashtag(let keyword):
             let param = [
-                "keyword": keyword
+                JsonKey.keyword.rawValue: keyword
             ]
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         default:

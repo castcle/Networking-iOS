@@ -46,20 +46,22 @@ extension PageApi: TargetType {
 
     var path: String {
         switch self {
-        case .createPage, .getMyPage:
-            return "/users/me/pages"
+        case .createPage:
+            return APIs.Page.createPage.path
+        case .getMyPage:
+            return APIs.Page.getMyPage.path
         case .deletePage(let pageId, _):
-            return "/pages/\(pageId)"
+            return APIs.Page.deletePage(pageId).path
         case .createPageWithSocial:
-            return "/users/me/pages/sync-social"
+            return APIs.Page.createPageWithSocial.path
         case .setAutoPost(let syncSocialId):
-            return "/users/me/pages/sync-social/\(syncSocialId)/auto-post"
+            return APIs.Page.setAutoPost(syncSocialId).path
         case .cancelAutoPost(let syncSocialId):
-            return "/users/me/pages/sync-social/\(syncSocialId)/auto-post"
+            return APIs.Page.cancelAutoPost(syncSocialId).path
         case .reconnectSyncSocial(let syncSocialId, _):
-            return "/users/me/pages/sync-social/\(syncSocialId)/connect"
+            return APIs.Page.reconnectSyncSocial(syncSocialId).path
         case .disconnectSyncSocial(let syncSocialId):
-            return "/users/me/pages/sync-social/\(syncSocialId)/connect"
+            return APIs.Page.disconnectSyncSocial(syncSocialId).path
         }
     }
 

@@ -43,13 +43,13 @@ extension FeedApi: TargetType {
     var path: String {
         switch self {
         case .getHashtags:
-            return "/hashtags"
+            return APIs.Feed.getHashtags.path
         case .getFeedsGuests:
-            return "/feeds/guests"
+            return APIs.Feed.getFeedsGuests.path
         case .getFeedsMembers(let featureSlug, let circleSlug, _):
-            return "/feeds/members/\(featureSlug)/\(circleSlug)"
+            return APIs.Feed.getFeedsMembers(featureSlug, circleSlug).path
         case .getSuggestionFollow:
-            return "/users/me/suggestion-follow"
+            return APIs.Feed.getSuggestionFollow.path
         }
     }
 

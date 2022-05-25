@@ -53,33 +53,33 @@ extension UserApi: TargetType {
     var path: String {
         switch self {
         case .getAllUser:
-            return "/users"
+            return APIs.User.getAllUser.path
         case .getMe:
-            return "/v2/users/me"
+            return APIs.User.getMe.path
         case .getUser(let userId):
-            return "/v2/users/\(userId)"
+            return APIs.User.getUser(userId).path
         case .getUserContents(let userId, _):
-            return "/users/\(userId)/contents"
+            return APIs.User.getUserContents(userId).path
         case .getUserFollower(let userId, _):
-            return "/users/\(userId)/followers"
+            return APIs.User.getUserFollower(userId).path
         case .getUserFollowing(let userId, _):
-            return "/users/\(userId)/following"
+            return APIs.User.getUserFollowing(userId).path
         case .follow:
-            return "/users/me/following"
+            return APIs.User.follow.path
         case .unfollow(let targetCastcleId):
-            return "/users/me/following/\(targetCastcleId)"
+            return APIs.User.unfollow(targetCastcleId).path
         case .updateMobile:
-            return "/users/me/mobile"
+            return APIs.User.updateMobile.path
+        case .delateUser:
+            return APIs.User.delateUser.path
         case .updateInfo(let userId, _):
-            return "/v2/users/\(userId)"
+            return APIs.User.updateInfo(userId).path
         case .updateAvatar(let userId, _):
-            return "/users/\(userId)"
+            return APIs.User.updateAvatar(userId).path
         case .updateCover(let userId, _):
-            return "/users/\(userId)"
+            return APIs.User.updateCover(userId).path
         case .syncSocial(let userId, _):
-            return "/v2/users/\(userId)/sync-social"
-        default:
-            return "/users/me"
+            return APIs.User.syncSocial(userId).path
         }
     }
 

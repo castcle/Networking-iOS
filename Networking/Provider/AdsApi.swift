@@ -40,8 +40,10 @@ extension AdsApi: TargetType {
 
     var path: String {
         switch self {
-        case .getAds, .createAds:
-            return "/users/me/advertise"
+        case .getAds:
+            return APIs.Ads.getAds.path
+        case .createAds:
+            return APIs.Ads.createAds.path
         }
     }
 

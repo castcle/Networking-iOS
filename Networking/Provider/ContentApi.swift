@@ -51,29 +51,29 @@ extension ContentApi: TargetType {
     var path: String {
         switch self {
         case .getMeContents:
-            return "/users/me/contents"
+            return APIs.Content.getMeContents.path
         case.getContentDetail(let contentId):
-            return "/v2/contents/\(contentId)"
+            return APIs.Content.getContentDetail(contentId).path
         case .createContent(let feature, _):
-            return "/v2/contents/\(feature)"
+            return APIs.Content.createContent(feature).path
         case .likeContent(let castcleId, _):
-            return "/v2/users/\(castcleId)/likes-casts"
+            return APIs.Content.likeContent(castcleId).path
         case .unlikeContent(let castcleId, let contentId):
-            return "/v2/users/\(castcleId)/likes-casts/\(contentId)"
+            return APIs.Content.unlikeContent(castcleId, contentId).path
         case .deleteContent(let contentId):
-            return "/v2/contents/\(contentId)"
+            return APIs.Content.deleteContent(contentId).path
         case .recastContent(let contentRequest):
-            return "/users/\(contentRequest.castcleId)/recast"
+            return APIs.Content.recastContent(contentRequest.castcleId).path
         case .unrecastContent(let contentRequest):
-            return "/users/\(contentRequest.castcleId)/recast/\(contentRequest.contentId)"
+            return APIs.Content.unrecastContent(contentRequest.castcleId, contentRequest.contentId).path
         case .quotecastContent(let contentRequest):
-            return "/users/\(contentRequest.castcleId)/quotecast"
+            return APIs.Content.quotecastContent(contentRequest.castcleId).path
         case .getQuoteCast(let contentId, _):
-            return "/v2/contents/\(contentId)/quotecasts"
+            return APIs.Content.getQuoteCast(contentId).path
         case .getUserLikeContent(let contentId, _):
-            return "/v2/contents/\(contentId)/liking-users"
+            return APIs.Content.getUserLikeContent(contentId).path
         case .getUserRecastContent(let contentId, _):
-            return "/v2/contents/\(contentId)/recasts"
+            return APIs.Content.getUserRecastContent(contentId).path
         }
     }
 

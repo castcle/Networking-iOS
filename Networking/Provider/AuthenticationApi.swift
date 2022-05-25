@@ -55,37 +55,37 @@ extension AuthenticationApi: TargetType {
     var path: String {
         switch self {
         case .guestLogin:
-            return APIs.guestLogin.path
+            return APIs.Authentication.guestLogin.path
         case .login:
-            return APIs.login.path
+            return APIs.Authentication.login.path
         case .checkEmail:
-            return APIs.checkEmail.path
+            return APIs.Authentication.checkEmail.path
         case .suggestCastcleId:
-            return APIs.suggestCastcleId.path
+            return APIs.Authentication.suggestCastcleId.path
         case .checkCastcleId:
-            return APIs.checkCastcleId.path
+            return APIs.Authentication.checkCastcleId.path
         case .register:
-            return APIs.register.path
+            return APIs.Authentication.register.path
         case .verificationEmail:
-            return APIs.verificationEmail.path
+            return APIs.Authentication.verificationEmail.path
         case .requestLinkVerify:
-            return APIs.requestLinkVerify.path
+            return APIs.Authentication.requestLinkVerify.path
         case .refreshToken:
-            return APIs.refreshToken.path
+            return APIs.Authentication.refreshToken.path
         case .verificationPassword:
-            return APIs.verificationPassword.path
+            return APIs.Authentication.verificationPassword.path
         case .changePasswordSubmit:
-            return APIs.changePasswordSubmit.path
+            return APIs.Authentication.changePasswordSubmit.path
         case .requestOtp:
-            return APIs.requestOtp.path
+            return APIs.Authentication.requestOtp.path
         case .requestOtpWithEmail:
-            return APIs.requestOtpWithEmail.path
+            return APIs.Authentication.requestOtpWithEmail.path
         case .verificationOtp:
-            return APIs.verificationOtp.path
+            return APIs.Authentication.verificationOtp.path
         case .loginWithSocial:
-            return APIs.loginWithSocial.path
+            return APIs.Authentication.loginWithSocial.path
         case .connectWithSocial:
-            return APIs.connectWithSocial.path
+            return APIs.Authentication.connectWithSocial.path
         }
     }
 
