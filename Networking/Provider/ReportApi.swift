@@ -47,9 +47,9 @@ extension ReportApi: TargetType {
         case .reportContent(let userId, _):
             return "/users/\(userId)/reporting"
         case .blockUser(let userId, _):
-            return "/users/\(userId)/blocking"
+            return "/v2/users/\(userId)/blocking"
         case .unblockUser(let userId, let targetCastcleId):
-            return "/users/\(userId)/unblocking/\(targetCastcleId)"
+            return "/v2/users/\(userId)/blocking/\(targetCastcleId)"
         }
     }
 
@@ -80,6 +80,11 @@ extension ReportApi: TargetType {
     }
 
     var headers: [String: String]? {
-        return ApiHelper.header(version: "1.0")
+        switch self {
+        case .blockUser, .unblockUser:
+            return ApiHelper.header()
+        default:
+            return ApiHelper.header(version: "1.0")
+        }
     }
 }

@@ -55,7 +55,7 @@ extension AuthenticationApi: TargetType {
     var path: String {
         switch self {
         case .guestLogin:
-            return "/authentications/guestLogin"
+            return "/v2/authentications/guest"
         case .login:
             return "/v2/authentications/login-with-email"
         case .checkEmail:
@@ -132,7 +132,7 @@ extension AuthenticationApi: TargetType {
 
     var headers: [String: String]? {
         switch self {
-        case .login, .checkEmail, .checkCastcleId, .loginWithSocial, .requestOtpWithEmail:
+        case .guestLogin, .login, .checkEmail, .checkCastcleId, .loginWithSocial, .requestOtpWithEmail:
             return ApiHelper.header()
         case .refreshToken:
             return ApiHelper.headerRefreshToken()

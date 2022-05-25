@@ -53,15 +53,15 @@ extension ContentApi: TargetType {
         case .getMeContents:
             return "/users/me/contents"
         case.getContentDetail(let contentId):
-            return "/contents/\(contentId)"
+            return "/v2/contents/\(contentId)"
         case .createContent(let feature, _):
-            return "/contents/\(feature)"
+            return "/v2/contents/\(feature)"
         case .likeContent(let castcleId, _):
             return "/v2/users/\(castcleId)/likes-casts"
         case .unlikeContent(let castcleId, let contentId):
             return "/v2/users/\(castcleId)/likes-casts/\(contentId)"
         case .deleteContent(let contentId):
-            return "/contents/\(contentId)"
+            return "/v2/contents/\(contentId)"
         case .recastContent(let contentRequest):
             return "/users/\(contentRequest.castcleId)/recast"
         case .unrecastContent(let contentRequest):
@@ -125,7 +125,7 @@ extension ContentApi: TargetType {
 
     var headers: [String: String]? {
         switch self {
-        case .likeContent, .unlikeContent, .getQuoteCast:
+        case .likeContent, .unlikeContent, .getQuoteCast, .createContent, .getContentDetail, .deleteContent:
             return ApiHelper.header()
         default:
             return ApiHelper.header(version: "1.0")
