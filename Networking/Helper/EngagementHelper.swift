@@ -28,7 +28,7 @@
 import UIKit
 import Core
 import SwiftyJSON
-import Firebase
+import FirebaseAnalytics
 
 public enum EventType: String {
     case startSession = "START_SESSION"
