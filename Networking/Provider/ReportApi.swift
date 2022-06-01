@@ -80,11 +80,6 @@ extension ReportApi: TargetType {
     }
 
     var headers: [String: String]? {
-        switch self {
-        case .blockUser, .unblockUser:
-            return ApiHelper.header()
-        default:
-            return ApiHelper.header(version: "1.0")
-        }
+        return ApiHelper.header()
     }
 }
