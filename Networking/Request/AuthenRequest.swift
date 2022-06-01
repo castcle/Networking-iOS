@@ -44,7 +44,10 @@ public struct AuthenRequest {
     public var authToken: String = ""
     public var referral: String = ""
     public var password: String = ""
+    public var newPassword: String = ""
     public var castcleId: String = ""
+    public var refCode: String = ""
+    public var otp: String = ""
 
     public init() {
         // Inti AuthenRequest
@@ -81,7 +84,8 @@ public struct AuthenRequest {
     public var paramVerificationPassword: [String: Any] {
         return [
             JsonKey.objective.rawValue: self.objective.rawValue,
-            JsonKey.password.rawValue: self.payload.password
+            JsonKey.email.rawValue: self.email,
+            JsonKey.password.rawValue: self.password
         ]
     }
 
@@ -124,6 +128,24 @@ public struct AuthenRequest {
         return param
     }
 
+    public var paramVerifyOtpWithEmail: [String: Any] {
+        return [
+            JsonKey.objective.rawValue: self.objective.rawValue,
+            JsonKey.email.rawValue: self.email,
+            JsonKey.refCode.rawValue: self.refCode,
+            JsonKey.otp.rawValue: self.otp
+        ]
+    }
+
+    public var paramChangePassword: [String: Any] {
+        return [
+            JsonKey.objective.rawValue: self.objective.rawValue,
+            JsonKey.email.rawValue: self.email,
+            JsonKey.refCode.rawValue: self.refCode,
+            JsonKey.newPassword.rawValue: self.newPassword
+        ]
+    }
+
     public var paramLoginWithSocial: [String: Any] {
         return [
             JsonKey.provider.rawValue: self.provider.rawValue,
@@ -151,14 +173,6 @@ public struct AuthenPayloadRequest {
 
     public init() {
         // Init AuthenPayloadRequest
-    }
-
-    public var paramChangePasswordSubmit: [String: Any] {
-        return [
-            JsonKey.objective.rawValue: self.objective.rawValue,
-            JsonKey.refCode.rawValue: self.refCode,
-            JsonKey.newPassword.rawValue: self.newPassword
-        ]
     }
 
     public var paramRequestOtpEmail: [String: Any] {

@@ -42,10 +42,11 @@ public protocol AuthenticationRepository {
     func requestLinkVerify(_ completion: @escaping ResponseHandle)
     func refreshToken(_ completion: @escaping (Bool, Bool) -> Void)
     func verifyPassword(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
-    func changePasswordSubmit(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func changePassword(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
     func requestOtp(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
     func requestOtpWithEmail(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
     func verificationOtp(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func verificationOtpWithEmail(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
     func loginWithSocial(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
     func connectWithSocial(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
 }
@@ -263,8 +264,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
         }
     }
 
-    public func changePasswordSubmit(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
-        self.authenticationProvider.request(.changePasswordSubmit(authenRequest)) { result in
+    public func changePassword(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
+        self.authenticationProvider.request(.changePassword(authenRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -304,6 +305,19 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
 
     public func verificationOtp(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.verificationOtp(authenRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func verificationOtpWithEmail(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
+        self.authenticationProvider.request(.verificationOtpWithEmail(authenRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
