@@ -19,44 +19,30 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  AdsRepository.swift
+//  WalletRepository.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 15/2/2565 BE.
+//  Created by Castcle Co., Ltd. on 9/6/2565 BE.
 //
 
 import Core
 import Moya
 import SwiftyJSON
 
-public protocol AdsRepository {
-    func getAds(adsRequest: AdsRequest, _ completion: @escaping ResponseHandle)
-    func createAds(adsRequest: AdsRequest, _ completion: @escaping ResponseHandle)
+public protocol WalletRepository {
+    func getQrCode(chainId: String, userId: String, walletRequest: WalletRequest, _ completion: @escaping ResponseHandle)
 }
 
-public final class AdsRepositoryImpl: AdsRepository {
-    private let adsProvider = MoyaProvider<AdsApi>()
+public final class WalletRepositoryImpl: WalletRepository {
+    private let walletProvider = MoyaProvider<WalletApi>()
     private let completionHelper: CompletionHelper = CompletionHelper()
 
     public init() {
         // MARK: - Init
     }
 
-    public func getAds(adsRequest: AdsRequest, _ completion: @escaping ResponseHandle) {
-        self.adsProvider.request(.getAds(adsRequest)) { result in
-            switch result {
-            case .success(let response):
-                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
-                    completion(success, response, isRefreshToken)
-                }
-            case .failure:
-                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
-            }
-        }
-    }
-
-    public func createAds(adsRequest: AdsRequest, _ completion: @escaping ResponseHandle) {
-        self.adsProvider.request(.createAds(adsRequest)) { result in
+    public func getQrCode(chainId: String, userId: String, walletRequest: WalletRequest, _ completion: @escaping ResponseHandle) {
+        self.walletProvider.request(.getQrCode(chainId, userId, walletRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

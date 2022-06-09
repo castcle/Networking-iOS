@@ -137,7 +137,7 @@ extension AuthenticationApi: TargetType {
 
     var headers: [String: String]? {
         switch self {
-        case .guestLogin, .login, .checkEmail, .checkCastcleId, .loginWithSocial, .requestOtpWithEmail, .verificationOtpWithEmail, .changePassword, .verificationPassword:
+        case .guestLogin, .login, .checkEmail, .checkCastcleId, .loginWithSocial, .requestOtpWithEmail, .verificationOtpWithEmail, .changePassword, .verificationPassword, .connectWithSocial:
             return ApiHelper.header()
         case .refreshToken:
             return ApiHelper.headerRefreshToken()
