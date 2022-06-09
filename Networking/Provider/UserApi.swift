@@ -139,7 +139,7 @@ extension UserApi: TargetType {
 
     var headers: [String: String]? {
         switch self {
-        case .getMe, .getUser, .syncSocial, .updateInfo:
+        case .getMe, .getUser, .syncSocial, .updateInfo, .follow, .unfollow, .getUserFollowing, .getUserFollower:
             return ApiHelper.header()
         default:
             return ApiHelper.header(version: "1.0")
