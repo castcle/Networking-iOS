@@ -38,7 +38,7 @@ public protocol AuthenticationRepository {
     func suggestCastcleId(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
     func checkCastcleId(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
     func register(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
-    func verificationEmail(_ completion: @escaping (Bool) -> Void)
+//    func verificationEmail(_ completion: @escaping (Bool) -> Void)
     func requestLinkVerify(_ completion: @escaping ResponseHandle)
     func refreshToken(_ completion: @escaping (Bool, Bool) -> Void)
     func verifyPassword(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
