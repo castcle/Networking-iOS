@@ -38,7 +38,6 @@ public protocol AuthenticationRepository {
     func suggestCastcleId(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
     func checkCastcleId(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
     func register(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
-//    func verificationEmail(_ completion: @escaping (Bool) -> Void)
     func requestLinkVerify(_ completion: @escaping ResponseHandle)
     func refreshToken(_ completion: @escaping (Bool, Bool) -> Void)
     func verifyPassword(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
@@ -163,33 +162,6 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                 }
             case .failure:
                 completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
-            }
-        }
-    }
-
-    public func verificationEmail(_ completion: @escaping (Bool) -> Void) {
-        self.authenticationProvider.request(.requestLinkVerify) { result in
-            switch result {
-            case .success(let response):
-                do {
-                    if response.statusCode <= 204 {
-                        completion(true)
-                    }
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    if response.statusCode < 300 {
-                        completion(true)
-                    } else {
-                        ApiHelper.displayError(code: "\(json[JsonKey.code.rawValue].stringValue)", error: "\(json[JsonKey.message.rawValue].stringValue)")
-                        completion(false)
-                    }
-                } catch {
-                    ApiHelper.displayError()
-                    completion(false)
-                }
-            case .failure:
-                ApiHelper.displayError()
-                completion(false)
             }
         }
     }

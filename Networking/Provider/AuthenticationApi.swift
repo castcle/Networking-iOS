@@ -35,7 +35,6 @@ enum AuthenticationApi {
     case suggestCastcleId(AuthenRequest)
     case checkCastcleId(AuthenRequest)
     case register(AuthenRequest)
-    case verificationEmail
     case requestLinkVerify
     case refreshToken
     case verificationPassword(AuthenRequest)
@@ -67,8 +66,6 @@ extension AuthenticationApi: TargetType {
             return APIs.Authentication.checkCastcleId.path
         case .register:
             return APIs.Authentication.register.path
-        case .verificationEmail:
-            return APIs.Authentication.verificationEmail.path
         case .requestLinkVerify:
             return APIs.Authentication.requestLinkVerify.path
         case .refreshToken:
@@ -137,12 +134,12 @@ extension AuthenticationApi: TargetType {
 
     var headers: [String: String]? {
         switch self {
-        case .guestLogin, .login, .checkEmail, .checkCastcleId, .loginWithSocial, .requestOtpWithEmail, .verificationOtpWithEmail, .changePassword, .verificationPassword, .connectWithSocial, .requestLinkVerify:
-            return ApiHelper.header()
+        case .suggestCastcleId, .verificationOtp, .requestOtp:
+            return ApiHelper.header(version: "1.0")
         case .refreshToken:
             return ApiHelper.headerRefreshToken()
         default:
-            return ApiHelper.header(version: "1.0")
+            return ApiHelper.header()
         }
     }
 }
