@@ -69,7 +69,7 @@ extension AuthenticationApi: TargetType {
         case .verificationEmail:
             return "/authentications/verificationEmail"
         case .requestLinkVerify:
-            return "/authentications/requestLinkVerify"
+            return "/v2/authentications/request-link/email"
         case .refreshToken:
             return "/v2/authentications/refresh-token"
         case .verificationPassword:
