@@ -40,7 +40,7 @@ public struct FacebookPage {
     public init(json: JSON) {
         self.id = json[JsonKey.id.rawValue].string ?? ""
         self.name = json[JsonKey.name.rawValue].string ?? ""
-        self.userName = json[JsonKey.username.rawValue].string ?? ""
+        self.userName = json[JsonKey.userNameLower.rawValue].string ?? ""
         self.about = json[JsonKey.about.rawValue].string ?? ""
         self.accessToken = json[JsonKey.fbAccessToken.rawValue].string ?? ""
         self.avatar = ConstantUrl.facebookAvatar(self.id, self.accessToken).path
