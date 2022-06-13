@@ -90,7 +90,7 @@ extension FeedApi: TargetType {
 
     var headers: [String: String]? {
         switch self {
-        case .getSuggestionFollow:
+        case .getSuggestionFollow, .getHashtags:
             return ApiHelper.header()
         default:
             return ApiHelper.header(version: "1.0")
