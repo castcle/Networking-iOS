@@ -30,7 +30,7 @@ import Moya
 
 enum AdsApi {
     case getAds(AdsRequest)
-    case createAds(AdsRequest)
+    case createAdsUser(AdsRequest)
 }
 
 extension AdsApi: TargetType {
@@ -42,8 +42,8 @@ extension AdsApi: TargetType {
         switch self {
         case .getAds:
             return APIs.Ads.getAds.path
-        case .createAds:
-            return APIs.Ads.createAds.path
+        case .createAdsUser:
+            return APIs.Ads.createAdsUser.path
         }
     }
 
@@ -51,7 +51,7 @@ extension AdsApi: TargetType {
         switch self {
         case .getAds:
             return .get
-        case .createAds:
+        case .createAdsUser:
             return .post
         }
     }
@@ -64,8 +64,8 @@ extension AdsApi: TargetType {
         switch self {
         case .getAds:
             return .requestPlain
-        case .createAds(let adsRequest):
-            return .requestParameters(parameters: adsRequest.paramCreateAds, encoding: JSONEncoding.default)
+        case .createAdsUser(let adsRequest):
+            return .requestParameters(parameters: adsRequest.paramCreateAdsUser, encoding: JSONEncoding.default)
         }
     }
 

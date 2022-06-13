@@ -28,16 +28,21 @@
 import Core
 
 public struct AdsRequest {
+    // MARK: - Get
     public var untilId: String = ""
     public var maxResults: Int = 25
+
+    // MARK: - Create
+    public var boostType: BoostType = .user
+    public var castcleId: String = ""
     public var campaignName: String = ""
     public var campaignMessage: String = ""
     public var objective: AdsObjective = .engagement
     public var dailyBudget: Double = 0.0
     public var duration: Int = 0
+    public var dailyBidType: DailyBidType = .auto
+    public var dailyBidValue: Int = 0
     public var paymentMethod: AdsPaymentType = .token
-    public var contentId: String = ""
-    public var userId: String = ""
 
     public init() {
         // Init AdsRequest
@@ -55,20 +60,19 @@ public struct AdsRequest {
         return param
     }
 
-    public var paramCreateAds: [String: Any] {
+    public var paramCreateAdsUser: [String: Any] {
         var param: [String: Any] = [
+            JsonKey.castcleId.rawValue: self.castcleId,
             JsonKey.campaignName.rawValue: self.campaignName,
             JsonKey.objective.rawValue: self.objective.rawValue,
             JsonKey.dailyBudget.rawValue: self.dailyBudget,
             JsonKey.duration.rawValue: self.duration,
-            JsonKey.paymentMethod.rawValue: self.paymentMethod.rawValue,
-            JsonKey.userId.rawValue: self.userId
+            JsonKey.dailyBidType.rawValue: self.dailyBidType.rawValue,
+            JsonKey.dailyBidValue.rawValue: self.dailyBidValue,
+            JsonKey.paymentMethod.rawValue: self.paymentMethod.rawValue
         ]
         if !self.campaignMessage.isEmpty {
             param[JsonKey.campaignMessage.rawValue] = self.campaignMessage
-        }
-        if !self.contentId.isEmpty {
-            param[JsonKey.contentId.rawValue] = self.campaignMessage
         }
         return param
     }
