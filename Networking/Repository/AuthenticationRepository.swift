@@ -42,9 +42,9 @@ public protocol AuthenticationRepository {
     func refreshToken(_ completion: @escaping (Bool, Bool) -> Void)
     func verifyPassword(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
     func changePassword(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
-    func requestOtp(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func requestOtpWithMobile(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
     func requestOtpWithEmail(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
-    func verificationOtp(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func verificationOtpWithMobile(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
     func verificationOtpWithEmail(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
     func loginWithSocial(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
     func connectWithSocial(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
@@ -249,8 +249,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
         }
     }
 
-    public func requestOtp(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
-        self.authenticationProvider.request(.requestOtp(authenRequest)) { result in
+    public func requestOtpWithMobile(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
+        self.authenticationProvider.request(.requestOtpWithMobile(authenRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -275,8 +275,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
         }
     }
 
-    public func verificationOtp(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
-        self.authenticationProvider.request(.verificationOtp(authenRequest)) { result in
+    public func verificationOtpWithMobile(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
+        self.authenticationProvider.request(.verificationOtpWithMobile(authenRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

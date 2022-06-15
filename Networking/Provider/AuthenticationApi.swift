@@ -39,9 +39,9 @@ enum AuthenticationApi {
     case refreshToken
     case verificationPassword(AuthenRequest)
     case changePassword(AuthenRequest)
-    case requestOtp(AuthenRequest)
+    case requestOtpWithMobile(AuthenRequest)
     case requestOtpWithEmail(AuthenRequest)
-    case verificationOtp(AuthenRequest)
+    case verificationOtpWithMobile(AuthenRequest)
     case verificationOtpWithEmail(AuthenRequest)
     case loginWithSocial(AuthenRequest)
     case connectWithSocial(AuthenRequest)
@@ -74,12 +74,12 @@ extension AuthenticationApi: TargetType {
             return APIs.Authentication.verificationPassword.path
         case .changePassword:
             return APIs.Authentication.changePassword.path
-        case .requestOtp:
-            return APIs.Authentication.requestOtp.path
+        case .requestOtpWithMobile:
+            return APIs.Authentication.requestOtpWithMobile.path
         case .requestOtpWithEmail:
             return APIs.Authentication.requestOtpWithEmail.path
-        case .verificationOtp:
-            return APIs.Authentication.verificationOtp.path
+        case .verificationOtpWithMobile:
+            return APIs.Authentication.verificationOtpWithMobile.path
         case .verificationOtpWithEmail:
             return APIs.Authentication.verificationOtpWithEmail.path
         case .loginWithSocial:
@@ -115,12 +115,12 @@ extension AuthenticationApi: TargetType {
             return .requestParameters(parameters: authenRequest.paramVerificationPassword, encoding: JSONEncoding.default)
         case .changePassword(let authenRequest):
             return .requestParameters(parameters: authenRequest.paramChangePassword, encoding: JSONEncoding.default)
-        case .requestOtp(let authenRequest):
-            return .requestParameters(parameters: authenRequest.paramRequestOtp, encoding: JSONEncoding.default)
+        case .requestOtpWithMobile(let authenRequest):
+            return .requestParameters(parameters: authenRequest.paramRequestOtpWithMobile, encoding: JSONEncoding.default)
         case .requestOtpWithEmail(let authenRequest):
             return .requestParameters(parameters: authenRequest.paramRequestOtpWithEmail, encoding: JSONEncoding.default)
-        case .verificationOtp(let authenRequest):
-            return .requestParameters(parameters: authenRequest.paramVerifyOtp, encoding: JSONEncoding.default)
+        case .verificationOtpWithMobile(let authenRequest):
+            return .requestParameters(parameters: authenRequest.paramVerifyOtpWithMobile, encoding: JSONEncoding.default)
         case .verificationOtpWithEmail(let authenRequest):
             return .requestParameters(parameters: authenRequest.paramVerifyOtpWithEmail, encoding: JSONEncoding.default)
         case .loginWithSocial(let authenRequest):
@@ -134,7 +134,7 @@ extension AuthenticationApi: TargetType {
 
     var headers: [String: String]? {
         switch self {
-        case .suggestCastcleId, .verificationOtp, .requestOtp:
+        case .suggestCastcleId:
             return ApiHelper.header(version: "1.0")
         case .refreshToken:
             return ApiHelper.headerRefreshToken()

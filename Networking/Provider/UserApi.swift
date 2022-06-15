@@ -104,12 +104,12 @@ extension UserApi: TargetType {
         switch self {
         case .getMe:
             let param = [
-                JsonKey.userFields.rawValue: "relationships,sync-social,link-social"
+                JsonKey.userFields.rawValue: "relationships,sync-social,link-social,casts"
             ]
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .getUser:
             let param = [
-                JsonKey.userFields.rawValue: "relationships,sync-social"
+                JsonKey.userFields.rawValue: "relationships,sync-social,casts"
             ]
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .updateInfo(_, let userRequest):
