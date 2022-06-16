@@ -30,14 +30,18 @@ import SwiftyJSON
 
 // MARK: - Feed
 public class Feed: NSObject {
-    public let id: String
-    public let feature: Feature
-    public let circle: Circle
-    public let type: FeedType
-    public let content: Content
-    public let userToFollow: [Author]
-    public let createdAt: String
-    public let updatedAt: String
+    public var id: String = ""
+    public var feature: Feature = Feature()
+    public var circle: Circle = Circle()
+    public var type: FeedType = .content
+    public var content: Content = Content()
+    public var userToFollow: [Author] = []
+    public var createdAt: String = ""
+    public var updatedAt: String = ""
+
+    public override init() {
+        // Init
+    }
 
     public init(json: JSON) {
         self.id = json[JsonKey.id.rawValue].stringValue
