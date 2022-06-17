@@ -90,6 +90,11 @@ extension PageApi: TargetType {
             return .requestParameters(parameters: pageSocialRequest.paramCreatePageWithSocial, encoding: JSONEncoding.default)
         case .reconnectSyncSocial(_, let pageSocial):
             return .requestParameters(parameters: pageSocial.paramConnectSocial, encoding: JSONEncoding.default)
+        case .getMyPage:
+            let param = [
+                JsonKey.userFields.rawValue: "sync-social"
+            ]
+            return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         default:
             return .requestPlain
         }
