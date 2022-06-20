@@ -118,6 +118,10 @@ public class UserHelper {
     public func updatePage(pages: [JSON]) {
         do {
             let realm = try Realm()
+            let pageRealm = realm.objects(Page.self)
+            try realm.write {
+                realm.delete(pageRealm)
+            }
             try realm.write {
                 pages.forEach { page in
                     let pageInfo = UserInfo(json: page)

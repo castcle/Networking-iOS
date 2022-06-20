@@ -184,7 +184,6 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             switch result {
             case .success(let response):
                 do {
-                    let realm = try Realm()
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     if response.statusCode < 300 {
@@ -193,10 +192,6 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                         let profile = JSON(json[JsonKey.profile.rawValue].dictionaryValue)
                         let pages = json[JsonKey.pages.rawValue].arrayValue
                         UserHelper.shared.updateLocalProfile(user: UserInfo(json: profile))
-                        let pageRealm = realm.objects(Page.self)
-                        try realm.write {
-                            realm.delete(pageRealm)
-                        }
                         UserHelper.shared.updatePage(pages: pages)
                         UserManager.shared.setAccessToken(token: accessToken)
                         if !refreshToken.isEmpty {
