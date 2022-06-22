@@ -125,7 +125,7 @@ extension ContentApi: TargetType {
 
     var headers: [String: String]? {
         switch self {
-        case .likeContent, .unlikeContent, .getQuoteCast, .createContent, .getContentDetail, .deleteContent:
+        case .getMeContents, .likeContent, .unlikeContent, .getQuoteCast, .createContent, .getContentDetail, .deleteContent:
             return ApiHelper.header()
         default:
             return ApiHelper.header(version: "1.0")

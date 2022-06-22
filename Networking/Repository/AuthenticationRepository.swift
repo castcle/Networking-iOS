@@ -187,10 +187,14 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     if response.statusCode < 300 {
+                        print(rawJson)
                         let accessToken = json[JsonKey.accessToken.rawValue].stringValue
                         let refreshToken = json[JsonKey.refreshToken.rawValue].stringValue
                         let profile = JSON(json[JsonKey.profile.rawValue].dictionaryValue)
                         let pages = json[JsonKey.pages.rawValue].arrayValue
+                        print(profile)
+                        let info = UserInfo(json: profile)
+                        print(info.images.avatar.thumbnail)
                         UserHelper.shared.updateLocalProfile(user: UserInfo(json: profile))
                         UserHelper.shared.updatePage(pages: pages)
                         UserManager.shared.setAccessToken(token: accessToken)
