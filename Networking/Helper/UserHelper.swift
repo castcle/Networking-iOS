@@ -111,6 +111,20 @@ public class UserHelper {
         UIApplication.shared.applicationIconBadgeNumber = 0
     }
 
+    public func setupDataUserLogin(json: JSON) {
+        let accessToken = json[JsonKey.accessToken.rawValue].stringValue
+        let refreshToken = json[JsonKey.refreshToken.rawValue].stringValue
+        let profile = JSON(json[JsonKey.profile.rawValue].dictionaryValue)
+        let pages = json[JsonKey.pages.rawValue].arrayValue
+        self.updateLocalProfile(user: UserInfo(json: profile))
+        self.clearSeenContent()
+        NotifyHelper.shared.getBadges()
+        self.updatePage(pages: pages)
+        UserManager.shared.setUserRole(userRole: .user)
+        UserManager.shared.setAccessToken(token: accessToken)
+        UserManager.shared.setRefreshToken(token: refreshToken)
+    }
+
     public func clearSeenContent() {
         Defaults[.seenId] = ""
     }

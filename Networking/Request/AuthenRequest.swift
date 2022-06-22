@@ -29,7 +29,7 @@ import Core
 
 public struct AuthenRequest {
     public var objective: AuthenObjective = .none
-    public var provider: AuthenSocialProvider = .none
+    public var provider: SocialType = .unknow
     public var socialId: String = ""
     public var displayName: String = ""
     public var userName: String = ""
