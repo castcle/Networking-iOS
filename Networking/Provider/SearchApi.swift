@@ -46,7 +46,7 @@ extension SearchApi: TargetType {
         case .getTopTrends:
             return "/searches/topTrends"
         case .getSuggestion:
-            return "/searches"
+            return "/v2/searches/by"
         case .searchTrend:
             return "/feeds/search/trends"
         case .searchRecent:
