@@ -33,10 +33,9 @@ enum PageApi {
     case getMyPage
     case deletePage(String, PageRequest)
     case createPageWithSocial(PageSocialRequest)
-    case setAutoPost(String)
-    case cancelAutoPost(String)
-    case reconnectSyncSocial(String, PageSocial)
-    case disconnectSyncSocial(String)
+    case setAutoPost(String, String)
+    case cancelAutoPost(String, String)
+    case disconnectSyncSocial(String, String)
 }
 
 extension PageApi: TargetType {
@@ -54,20 +53,18 @@ extension PageApi: TargetType {
             return APIs.Page.deletePage(pageId).path
         case .createPageWithSocial:
             return APIs.Page.createPageWithSocial.path
-        case .setAutoPost(let syncSocialId):
-            return APIs.Page.setAutoPost(syncSocialId).path
-        case .cancelAutoPost(let syncSocialId):
-            return APIs.Page.cancelAutoPost(syncSocialId).path
-        case .reconnectSyncSocial(let syncSocialId, _):
-            return APIs.Page.reconnectSyncSocial(syncSocialId).path
-        case .disconnectSyncSocial(let syncSocialId):
-            return APIs.Page.disconnectSyncSocial(syncSocialId).path
+        case .setAutoPost(let castcleId, let syncSocialId):
+            return APIs.Page.setAutoPost(castcleId, syncSocialId).path
+        case .cancelAutoPost(let castcleId, let syncSocialId):
+            return APIs.Page.cancelAutoPost(castcleId, syncSocialId).path
+        case .disconnectSyncSocial(let castcleId, let syncSocialId):
+            return APIs.Page.disconnectSyncSocial(castcleId, syncSocialId).path
         }
     }
 
     var method: Moya.Method {
         switch self {
-        case .createPage, .createPageWithSocial, .setAutoPost, .reconnectSyncSocial:
+        case .createPage, .createPageWithSocial, .setAutoPost:
             return .post
         case .getMyPage:
             return .get
@@ -88,11 +85,9 @@ extension PageApi: TargetType {
             return .requestParameters(parameters: pageRequest.paramDeletePage, encoding: JSONEncoding.default)
         case .createPageWithSocial(let pageSocialRequest):
             return .requestParameters(parameters: pageSocialRequest.paramCreatePageWithSocial, encoding: JSONEncoding.default)
-        case .reconnectSyncSocial(_, let pageSocial):
-            return .requestParameters(parameters: pageSocial.paramConnectSocial, encoding: JSONEncoding.default)
         case .getMyPage:
             let param = [
-                JsonKey.userFields.rawValue: "sync-social"
+                JsonKey.userFields.rawValue: UserFields.syncSocial.rawValue
             ]
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         default:
