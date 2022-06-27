@@ -79,6 +79,7 @@ public class UserHelper {
         Defaults[.canUpdateCastcleId] = user.canUpdateCastcleId
         Defaults[.mobileCountryCode] = user.mobile.countryCode
         Defaults[.mobileNumber] = user.mobile.number
+        Defaults[.pdpa] = user.pdpa
     }
 
     public func clearUserData() {
@@ -105,6 +106,7 @@ public class UserHelper {
         Defaults[.canUpdateCastcleId] = false
         Defaults[.mobileCountryCode] = ""
         Defaults[.mobileNumber] = ""
+        Defaults[.pdpa] = false
         Defaults[.badgePage] = 0
         Defaults[.badgeProfile] = 0
         Defaults[.badgeSystem] = 0
