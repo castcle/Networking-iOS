@@ -19,39 +19,34 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  EngagementApi.swift
+//
+//  WalletApi.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 13/9/2564 BE.
+//  Created by Castcle Co., Ltd. on 9/6/2565 BE.
 //
 
 import Core
 import Moya
 
-enum EngagementApi {
-    case engagement(EngagementRequest)
-    case seenContent(String)
-    case castOffView(String)
+enum WalletApi {
+    case getQrCode(String, String, WalletRequest)
 }
 
-extension EngagementApi: TargetType {
+extension WalletApi: TargetType {
     var baseURL: URL {
         return URL(string: Environment.baseUrl)!
     }
 
     var path: String {
         switch self {
-        case .engagement:
-            return APIs.Engagement.engagement.path
-        case.seenContent(let feedId):
-            return APIs.Engagement.seenContent(feedId).path
-        case.castOffView(let feedId):
-            return APIs.Engagement.castOffView(feedId).path
+        case .getQrCode(let chainId, let userId, _):
+            return APIs.Wallet.getQrCode(chainId, userId).path
         }
     }
 
     var method: Moya.Method {
-        return .post
+        return .get
     }
 
     var sampleData: Data {
@@ -60,16 +55,12 @@ extension EngagementApi: TargetType {
 
     var task: Task {
         switch self {
-        case .engagement(let engagementRequest):
-            return .requestParameters(parameters: engagementRequest.paramEngagement, encoding: JSONEncoding.default)
-        case.seenContent:
-            return .requestPlain
-        case.castOffView:
-            return .requestPlain
+        case .getQrCode(_, _, let walletRequest):
+            return .requestParameters(parameters: walletRequest.paramGetQrCode, encoding: URLEncoding.queryString)
         }
     }
 
     var headers: [String: String]? {
-        return ApiHelper.header(version: "1.0")
+        return ApiHelper.header()
     }
 }

@@ -43,22 +43,22 @@ extension ReportApi: TargetType {
     var path: String {
         switch self {
         case .reportUser(let userId, _):
-            return "/users/\(userId)/reporting"
+            return APIs.Report.reportUser(userId).path
         case .reportContent(let userId, _):
-            return "/users/\(userId)/reporting"
+            return APIs.Report.reportContent(userId).path
         case .blockUser(let userId, _):
-            return "/users/\(userId)/blocking"
+            return APIs.Report.blockUser(userId).path
         case .unblockUser(let userId, let targetCastcleId):
-            return "/users/\(userId)/unblocking/\(targetCastcleId)"
+            return APIs.Report.unblockUser(userId, targetCastcleId).path
         }
     }
 
     var method: Moya.Method {
         switch self {
+        case .reportUser, .reportContent, .blockUser:
+            return .post
         case.unblockUser:
             return .delete
-        default:
-            return .post
         }
     }
 
@@ -80,6 +80,6 @@ extension ReportApi: TargetType {
     }
 
     var headers: [String: String]? {
-        return ApiHelper.header(version: "1.0")
+        return ApiHelper.header()
     }
 }

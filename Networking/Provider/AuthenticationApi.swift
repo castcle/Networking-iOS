@@ -35,14 +35,14 @@ enum AuthenticationApi {
     case suggestCastcleId(AuthenRequest)
     case checkCastcleId(AuthenRequest)
     case register(AuthenRequest)
-    case verificationEmail
     case requestLinkVerify
     case refreshToken
     case verificationPassword(AuthenRequest)
-    case changePasswordSubmit(AuthenRequest)
-    case requestOtp(AuthenRequest)
+    case changePassword(AuthenRequest)
+    case requestOtpWithMobile(AuthenRequest)
     case requestOtpWithEmail(AuthenRequest)
-    case verificationOtp(AuthenRequest)
+    case verificationOtpWithMobile(AuthenRequest)
+    case verificationOtpWithEmail(AuthenRequest)
     case loginWithSocial(AuthenRequest)
     case connectWithSocial(AuthenRequest)
 }
@@ -55,37 +55,37 @@ extension AuthenticationApi: TargetType {
     var path: String {
         switch self {
         case .guestLogin:
-            return "/authentications/guestLogin"
+            return APIs.Authentication.guestLogin.path
         case .login:
-            return "/v2/authentications/login-with-email"
+            return APIs.Authentication.login.path
         case .checkEmail:
-            return "/v2/authentications/exists/email"
+            return APIs.Authentication.checkEmail.path
         case .suggestCastcleId:
-            return "/authentications/suggestCastcleId"
+            return APIs.Authentication.suggestCastcleId.path
         case .checkCastcleId:
-            return "/v2/authentications/exists/castcle-id"
+            return APIs.Authentication.checkCastcleId.path
         case .register:
-            return "/v2/authentications/register-with-email"
-        case .verificationEmail:
-            return "/authentications/verificationEmail"
+            return APIs.Authentication.register.path
         case .requestLinkVerify:
-            return "/v2/authentications/request-link/email"
+            return APIs.Authentication.requestLinkVerify.path
         case .refreshToken:
-            return "/v2/authentications/refresh-token"
+            return APIs.Authentication.refreshToken.path
         case .verificationPassword:
-            return "/authentications/verificationPassword"
-        case .changePasswordSubmit:
-            return "/authentications/changePasswordSubmit"
-        case .requestOtp:
-            return "/authentications/requestOTP"
+            return APIs.Authentication.verificationPassword.path
+        case .changePassword:
+            return APIs.Authentication.changePassword.path
+        case .requestOtpWithMobile:
+            return APIs.Authentication.requestOtpWithMobile.path
         case .requestOtpWithEmail:
-            return "/v2/authentications/request-otp/email"
-        case .verificationOtp:
-            return "/authentications/verificationOTP"
+            return APIs.Authentication.requestOtpWithEmail.path
+        case .verificationOtpWithMobile:
+            return APIs.Authentication.verificationOtpWithMobile.path
+        case .verificationOtpWithEmail:
+            return APIs.Authentication.verificationOtpWithEmail.path
         case .loginWithSocial:
-            return "/v2/authentications/login-with-social"
+            return APIs.Authentication.loginWithSocial.path
         case .connectWithSocial:
-            return "/authentications/connect-with-social"
+            return APIs.Authentication.connectWithSocial.path
         }
     }
 
@@ -94,7 +94,7 @@ extension AuthenticationApi: TargetType {
     }
 
     var sampleData: Data {
-        return "{\"message\": \"success message\"}".dataEncoded
+        return Data()
     }
 
     var task: Task {
@@ -113,14 +113,16 @@ extension AuthenticationApi: TargetType {
             return .requestParameters(parameters: authenRequest.paramRegister, encoding: JSONEncoding.default)
         case .verificationPassword(let authenRequest):
             return .requestParameters(parameters: authenRequest.paramVerificationPassword, encoding: JSONEncoding.default)
-        case .changePasswordSubmit(let authenRequest):
-            return .requestParameters(parameters: authenRequest.payload.paramChangePasswordSubmit, encoding: JSONEncoding.default)
-        case .requestOtp(let authenRequest):
-            return .requestParameters(parameters: authenRequest.paramRequestOtp, encoding: JSONEncoding.default)
+        case .changePassword(let authenRequest):
+            return .requestParameters(parameters: authenRequest.paramChangePassword, encoding: JSONEncoding.default)
+        case .requestOtpWithMobile(let authenRequest):
+            return .requestParameters(parameters: authenRequest.paramRequestOtpWithMobile, encoding: JSONEncoding.default)
         case .requestOtpWithEmail(let authenRequest):
             return .requestParameters(parameters: authenRequest.paramRequestOtpWithEmail, encoding: JSONEncoding.default)
-        case .verificationOtp(let authenRequest):
-            return .requestParameters(parameters: authenRequest.paramVerifyOtp, encoding: JSONEncoding.default)
+        case .verificationOtpWithMobile(let authenRequest):
+            return .requestParameters(parameters: authenRequest.paramVerifyOtpWithMobile, encoding: JSONEncoding.default)
+        case .verificationOtpWithEmail(let authenRequest):
+            return .requestParameters(parameters: authenRequest.paramVerifyOtpWithEmail, encoding: JSONEncoding.default)
         case .loginWithSocial(let authenRequest):
             return .requestParameters(parameters: authenRequest.paramLoginWithSocial, encoding: JSONEncoding.default)
         case .connectWithSocial(let authenRequest):
@@ -132,12 +134,12 @@ extension AuthenticationApi: TargetType {
 
     var headers: [String: String]? {
         switch self {
-        case .login, .checkEmail, .checkCastcleId, .loginWithSocial, .requestOtpWithEmail:
-            return ApiHelper.header()
+        case .suggestCastcleId:
+            return ApiHelper.header(version: "1.0")
         case .refreshToken:
             return ApiHelper.headerRefreshToken()
         default:
-            return ApiHelper.header(version: "1.0")
+            return ApiHelper.header()
         }
     }
 }

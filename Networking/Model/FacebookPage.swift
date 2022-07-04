@@ -26,6 +26,7 @@
 //
 
 import Swifter
+import Core
 
 public struct FacebookPage {
     public var id: String = ""
@@ -37,14 +38,14 @@ public struct FacebookPage {
     public var cover: String = ""
 
     public init(json: JSON) {
-        self.id = json["id"].string ?? ""
-        self.name = json["name"].string ?? ""
-        self.userName = json["username"].string ?? ""
-        self.about = json["about"].string ?? ""
-        self.accessToken = json["access_token"].string ?? ""
-        self.avatar = "https://graph.facebook.com/\(self.id)/picture?type=large&access_token=\(self.accessToken)"
-        if let cover = json["cover"].object {
-            self.cover = cover["source"]?.string ?? ""
+        self.id = json[JsonKey.id.rawValue].string ?? ""
+        self.name = json[JsonKey.name.rawValue].string ?? ""
+        self.userName = json[JsonKey.userNameLower.rawValue].string ?? ""
+        self.about = json[JsonKey.about.rawValue].string ?? ""
+        self.accessToken = json[JsonKey.fbAccessToken.rawValue].string ?? ""
+        self.avatar = ConstantUrl.facebookAvatar(self.id, self.accessToken).path
+        if let cover = json[JsonKey.cover.rawValue].object {
+            self.cover = cover[JsonKey.source.rawValue]?.string ?? ""
         }
     }
 }

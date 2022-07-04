@@ -38,14 +38,14 @@ public protocol AuthenticationRepository {
     func suggestCastcleId(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
     func checkCastcleId(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
     func register(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
-    func verificationEmail(_ completion: @escaping (Bool) -> Void)
     func requestLinkVerify(_ completion: @escaping ResponseHandle)
     func refreshToken(_ completion: @escaping (Bool, Bool) -> Void)
     func verifyPassword(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
-    func changePasswordSubmit(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
-    func requestOtp(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func changePassword(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func requestOtpWithMobile(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
     func requestOtpWithEmail(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
-    func verificationOtp(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func verificationOtpWithMobile(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
+    func verificationOtpWithEmail(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
     func loginWithSocial(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
     func connectWithSocial(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle)
 }
@@ -166,33 +166,6 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
         }
     }
 
-    public func verificationEmail(_ completion: @escaping (Bool) -> Void) {
-        self.authenticationProvider.request(.requestLinkVerify) { result in
-            switch result {
-            case .success(let response):
-                do {
-                    if response.statusCode <= 204 {
-                        completion(true)
-                    }
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    if response.statusCode < 300 {
-                        completion(true)
-                    } else {
-                        ApiHelper.displayError(code: "\(json[JsonKey.code.rawValue].stringValue)", error: "\(json[JsonKey.message.rawValue].stringValue)")
-                        completion(false)
-                    }
-                } catch {
-                    ApiHelper.displayError()
-                    completion(false)
-                }
-            case .failure:
-                ApiHelper.displayError()
-                completion(false)
-            }
-        }
-    }
-
     public func requestLinkVerify(_ completion: @escaping ResponseHandle) {
         self.authenticationProvider.request(.requestLinkVerify) { result in
             switch result {
@@ -211,7 +184,6 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
             switch result {
             case .success(let response):
                 do {
-                    let realm = try Realm()
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     if response.statusCode < 300 {
@@ -220,10 +192,6 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
                         let profile = JSON(json[JsonKey.profile.rawValue].dictionaryValue)
                         let pages = json[JsonKey.pages.rawValue].arrayValue
                         UserHelper.shared.updateLocalProfile(user: UserInfo(json: profile))
-                        let pageRealm = realm.objects(Page.self)
-                        try realm.write {
-                            realm.delete(pageRealm)
-                        }
                         UserHelper.shared.updatePage(pages: pages)
                         UserManager.shared.setAccessToken(token: accessToken)
                         if !refreshToken.isEmpty {
@@ -263,8 +231,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
         }
     }
 
-    public func changePasswordSubmit(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
-        self.authenticationProvider.request(.changePasswordSubmit(authenRequest)) { result in
+    public func changePassword(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
+        self.authenticationProvider.request(.changePassword(authenRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -276,8 +244,8 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
         }
     }
 
-    public func requestOtp(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
-        self.authenticationProvider.request(.requestOtp(authenRequest)) { result in
+    public func requestOtpWithMobile(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
+        self.authenticationProvider.request(.requestOtpWithMobile(authenRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
@@ -302,8 +270,21 @@ public final class AuthenticationRepositoryImpl: AuthenticationRepository {
         }
     }
 
-    public func verificationOtp(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
-        self.authenticationProvider.request(.verificationOtp(authenRequest)) { result in
+    public func verificationOtpWithMobile(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
+        self.authenticationProvider.request(.verificationOtpWithMobile(authenRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func verificationOtpWithEmail(authenRequest: AuthenRequest, _ completion: @escaping ResponseHandle) {
+        self.authenticationProvider.request(.verificationOtpWithEmail(authenRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

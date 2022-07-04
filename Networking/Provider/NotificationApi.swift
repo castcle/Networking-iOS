@@ -45,18 +45,20 @@ extension NotificationApi: TargetType {
 
     var path: String {
         switch self {
-        case .registerToken, .unregisterToken:
-            return "/authentications/register-token"
+        case .registerToken:
+            return APIs.Notification.registerToken.path
+        case .unregisterToken:
+            return  APIs.Notification.unregisterToken.path
         case .getBadges:
-            return "/v2/notifications/badges"
+            return  APIs.Notification.getBadges.path
         case .getNotification:
-            return "/v2/notifications"
+            return  APIs.Notification.getNotification.path
         case .deleteNotification(let notifyId):
-            return "/v2/notifications/\(notifyId)"
+            return  APIs.Notification.deleteNotification(notifyId).path
         case .readNotification(let notifyId):
-            return "/v2/notifications/\(notifyId)/reads"
+            return  APIs.Notification.readNotification(notifyId).path
         case.readAllNotification:
-            return "/v2/notifications/reads"
+            return  APIs.Notification.readAllNotification.path
         }
     }
 
@@ -91,11 +93,6 @@ extension NotificationApi: TargetType {
     }
 
     var headers: [String: String]? {
-        switch self {
-        case .getBadges, .getNotification, .deleteNotification, .readNotification, .readAllNotification:
-            return ApiHelper.header()
-        default:
-            return ApiHelper.header(version: "1.0")
-        }
+        return ApiHelper.header()
     }
 }

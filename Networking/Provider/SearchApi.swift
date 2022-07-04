@@ -44,15 +44,15 @@ extension SearchApi: TargetType {
     var path: String {
         switch self {
         case .getTopTrends:
-            return "/searches/topTrends"
+            return APIs.Search.getTopTrends.path
         case .getSuggestion:
-            return "/v2/searches/by"
+            return APIs.Search.getSuggestion.path
         case .searchTrend:
-            return "/feeds/search/trends"
+            return APIs.Search.searchTrend.path
         case .searchRecent:
-            return "/feeds/search/recent"
+            return APIs.Search.searchRecent.path
         case .searchUser:
-            return "/users/search"
+            return APIs.Search.searchUser.path
         }
     }
 
@@ -80,6 +80,6 @@ extension SearchApi: TargetType {
     }
 
     var headers: [String: String]? {
-        return ApiHelper.header(version: "1.0")
+        return ApiHelper.header()
     }
 }

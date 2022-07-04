@@ -79,6 +79,7 @@ public class UserHelper {
         Defaults[.canUpdateCastcleId] = user.canUpdateCastcleId
         Defaults[.mobileCountryCode] = user.mobile.countryCode
         Defaults[.mobileNumber] = user.mobile.number
+        Defaults[.pdpa] = user.pdpa
     }
 
     public func clearUserData() {
@@ -105,10 +106,25 @@ public class UserHelper {
         Defaults[.canUpdateCastcleId] = false
         Defaults[.mobileCountryCode] = ""
         Defaults[.mobileNumber] = ""
+        Defaults[.pdpa] = false
         Defaults[.badgePage] = 0
         Defaults[.badgeProfile] = 0
         Defaults[.badgeSystem] = 0
         UIApplication.shared.applicationIconBadgeNumber = 0
+    }
+
+    public func setupDataUserLogin(json: JSON) {
+        let accessToken = json[JsonKey.accessToken.rawValue].stringValue
+        let refreshToken = json[JsonKey.refreshToken.rawValue].stringValue
+        let profile = JSON(json[JsonKey.profile.rawValue].dictionaryValue)
+        let pages = json[JsonKey.pages.rawValue].arrayValue
+        self.updateLocalProfile(user: UserInfo(json: profile))
+        self.clearSeenContent()
+        NotifyHelper.shared.getBadges()
+        self.updatePage(pages: pages)
+        UserManager.shared.setUserRole(userRole: .user)
+        UserManager.shared.setAccessToken(token: accessToken)
+        UserManager.shared.setRefreshToken(token: refreshToken)
     }
 
     public func clearSeenContent() {
@@ -118,6 +134,10 @@ public class UserHelper {
     public func updatePage(pages: [JSON]) {
         do {
             let realm = try Realm()
+            let pageRealm = realm.objects(Page.self)
+            try realm.write {
+                realm.delete(pageRealm)
+            }
             try realm.write {
                 pages.forEach { page in
                     let pageInfo = UserInfo(json: page)
@@ -132,6 +152,18 @@ public class UserHelper {
                     pageTemp.isSyncTwitter = !pageInfo.syncSocial.twitter.socialId.isEmpty
                     pageTemp.isSyncFacebook = !pageInfo.syncSocial.facebook.socialId.isEmpty
                     realm.add(pageTemp, update: .modified)
+                }
+            }
+        } catch {}
+    }
+
+    public func updateAuthorRef(users: [JSON]) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                users.forEach { user in
+                    let authorRef = AuthorRef().initCustom(json: user)
+                    realm.add(authorRef, update: .modified)
                 }
             }
         } catch {}

@@ -44,6 +44,7 @@ public protocol UserRepository {
     func follow(userRequest: UserRequest, _ completion: @escaping ResponseHandle)
     func unfollow(targetCastcleId: String, _ completion: @escaping ResponseHandle)
     func syncSocial(userId: String, pageSocial: PageSocial, _ completion: @escaping ResponseHandle)
+    func pdpa(date: String, _ completion: @escaping ResponseHandle)
 }
 
 public final class UserRepositoryImpl: UserRepository {
@@ -225,6 +226,19 @@ public final class UserRepositoryImpl: UserRepository {
 
     public func syncSocial(userId: String, pageSocial: PageSocial, _ completion: @escaping ResponseHandle) {
         self.userProvider.request(.syncSocial(userId, pageSocial)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func pdpa(date: String, _ completion: @escaping ResponseHandle) {
+        self.userProvider.request(.pdpa(date)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

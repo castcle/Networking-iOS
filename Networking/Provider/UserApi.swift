@@ -43,6 +43,7 @@ enum UserApi {
     case follow(UserRequest)
     case unfollow(String)
     case syncSocial(String, PageSocial)
+    case pdpa(String)
 }
 
 extension UserApi: TargetType {
@@ -53,33 +54,35 @@ extension UserApi: TargetType {
     var path: String {
         switch self {
         case .getAllUser:
-            return "/users"
+            return APIs.User.getAllUser.path
         case .getMe:
-            return "/v2/users/me"
+            return APIs.User.getMe.path
         case .getUser(let userId):
-            return "/v2/users/\(userId)"
+            return APIs.User.getUser(userId).path
         case .getUserContents(let userId, _):
-            return "/users/\(userId)/contents"
+            return APIs.User.getUserContents(userId).path
         case .getUserFollower(let userId, _):
-            return "/users/\(userId)/followers"
+            return APIs.User.getUserFollower(userId).path
         case .getUserFollowing(let userId, _):
-            return "/users/\(userId)/following"
+            return APIs.User.getUserFollowing(userId).path
         case .follow:
-            return "/users/me/following"
+            return APIs.User.follow.path
         case .unfollow(let targetCastcleId):
-            return "/users/me/following/\(targetCastcleId)"
+            return APIs.User.unfollow(targetCastcleId).path
         case .updateMobile:
-            return "/users/me/mobile"
+            return APIs.User.updateMobile.path
+        case .delateUser:
+            return APIs.User.delateUser.path
         case .updateInfo(let userId, _):
-            return "/v2/users/\(userId)"
+            return APIs.User.updateInfo(userId).path
         case .updateAvatar(let userId, _):
-            return "/users/\(userId)"
+            return APIs.User.updateAvatar(userId).path
         case .updateCover(let userId, _):
-            return "/users/\(userId)"
+            return APIs.User.updateCover(userId).path
         case .syncSocial(let userId, _):
-            return "/v2/users/\(userId)/sync-social"
-        default:
-            return "/users/me"
+            return APIs.User.syncSocial(userId).path
+        case .pdpa:
+            return APIs.User.pdpa.path
         }
     }
 
@@ -87,7 +90,7 @@ extension UserApi: TargetType {
         switch self {
         case .getAllUser, .getMe, .getUser, .getUserContents, .getUserFollower, .getUserFollowing:
             return .get
-        case .updateInfo, .updateAvatar, .updateMobile, .updateCover:
+        case .updateInfo, .updateAvatar, .updateMobile, .updateCover, .pdpa:
             return .put
         case .follow, .syncSocial:
             return .post
@@ -104,12 +107,12 @@ extension UserApi: TargetType {
         switch self {
         case .getMe:
             let param = [
-                JsonKey.userFields.rawValue: "relationships,sync-social,link-social"
+                JsonKey.userFields.rawValue: "relationships,sync-social,link-social,casts"
             ]
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .getUser:
             let param = [
-                JsonKey.userFields.rawValue: "relationships,sync-social"
+                JsonKey.userFields.rawValue: "relationships,sync-social,casts"
             ]
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .updateInfo(_, let userRequest):
@@ -123,7 +126,7 @@ extension UserApi: TargetType {
         case .delateUser(let userRequest):
             return .requestParameters(parameters: userRequest.paramDeleteUser, encoding: JSONEncoding.default)
         case .getUserContents(_, let contentRequest):
-            return .requestParameters(parameters: contentRequest.paramGetContent, encoding: URLEncoding.queryString)
+            return .requestParameters(parameters: contentRequest.commonParamGetData, encoding: URLEncoding.queryString)
         case .follow(let userRequest):
             return .requestParameters(parameters: userRequest.paramFollowUser, encoding: JSONEncoding.default)
         case .getUserFollower(_, let userFollowRequest):
@@ -132,6 +135,11 @@ extension UserApi: TargetType {
             return .requestParameters(parameters: userFollowRequest.paramGetFollowUser, encoding: URLEncoding.queryString)
         case .syncSocial(_, let pageSocial):
             return .requestParameters(parameters: pageSocial.paramPageSocial, encoding: JSONEncoding.default)
+        case .pdpa(let date):
+            let param = [
+                JsonKey.date.rawValue: date
+            ]
+            return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         default:
             return .requestPlain
         }
@@ -139,7 +147,7 @@ extension UserApi: TargetType {
 
     var headers: [String: String]? {
         switch self {
-        case .getMe, .getUser, .syncSocial, .updateInfo:
+        case .getMe, .getUser, .syncSocial, .updateInfo, .follow, .unfollow, .getUserFollowing, .getUserFollower, .getUserContents:
             return ApiHelper.header()
         default:
             return ApiHelper.header(version: "1.0")

@@ -47,21 +47,21 @@ extension CommentApi: TargetType {
     var path: String {
         switch self {
         case .getComments(let contentId, _):
-            return "/v2/contents/\(contentId)/comments"
+            return APIs.Comment.getComments(contentId).path
         case .getCommentDetail(let contentId, let commentId, _):
-            return "/v2/contents/\(contentId)/comments/\(commentId)"
+            return APIs.Comment.getCommentDetail(contentId, commentId).path
         case .createComment(let castcleId, _):
-            return "/v2/users/\(castcleId)/comments"
+            return APIs.Comment.createComment(castcleId).path
         case .replyComment(let castcleId, let commentId, _):
-            return "/v2/users/\(castcleId)/comments/\(commentId)/reply"
+            return APIs.Comment.replyComment(castcleId, commentId).path
         case .likedComment(let castcleId, _):
-            return "/v2/users/\(castcleId)/likes-comments"
+            return APIs.Comment.likedComment(castcleId).path
         case .unlikedComment(let castcleId, let commentId):
-            return "/v2/users/\(castcleId)/likes-comments/\(commentId)"
+            return APIs.Comment.unlikedComment(castcleId, commentId).path
         case .deleteComment(let castcleId, let commentId):
-            return "/v2/users/\(castcleId)/comments/\(commentId)"
+            return APIs.Comment.deleteComment(castcleId, commentId).path
         case .deleteReplyComment(let castcleId, let commentId, let replyId):
-            return "/v2/users/\(castcleId)/comments/\(commentId)/reply/\(replyId)"
+            return APIs.Comment.deleteReplyComment(castcleId, commentId, replyId).path
         }
     }
 

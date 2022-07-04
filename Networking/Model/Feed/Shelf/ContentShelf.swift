@@ -41,24 +41,10 @@ public class ContentShelf: NSObject {
     public init(json: JSON) {
         self.contents = (json[JsonKey.payload.rawValue].arrayValue).map { Content(json: $0) }.filter { $0.participate.reported == false }
         self.meta = Meta(json: JSON(json[JsonKey.meta.rawValue].dictionaryValue))
-
         let includes = JSON(json[JsonKey.includes.rawValue].dictionaryValue)
         let casts = includes[JsonKey.casts.rawValue].arrayValue
         let users = includes[JsonKey.users.rawValue].arrayValue
-        do {
-            let realm = try Realm()
-            try realm.write {
-                casts.forEach { cast in
-                    let contentRef = ContentRef().initCustom(json: cast)
-                    realm.add(contentRef, update: .modified)
-                }
-            }
-            try realm.write {
-                users.forEach { user in
-                    let authorRef = AuthorRef().initCustom(json: user)
-                    realm.add(authorRef, update: .modified)
-                }
-            }
-        } catch {}
+        ContentHelper.shared.updateContentRef(casts: casts)
+        UserHelper.shared.updateAuthorRef(users: users)
     }
 }

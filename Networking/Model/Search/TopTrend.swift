@@ -31,7 +31,7 @@ import SwiftyJSON
 // MARK: - Comment Payload
 public class TopTrend: NSObject {
     public var hashtags: [Hashtag] = []
-    public var follows: [Follow] = []
+    public var users: [UserInfo] = []
 
     public override init() {
         // Init TopTrend
@@ -39,6 +39,6 @@ public class TopTrend: NSObject {
 
     public init(json: JSON) {
         self.hashtags = (json[JsonKey.hashtags.rawValue].arrayValue).map { Hashtag(json: $0) }
-        self.follows = (json[JsonKey.follows.rawValue].arrayValue).map { Follow(json: $0) }
+        self.users = (json[JsonKey.users.rawValue].arrayValue).map { UserInfo(json: $0) }
     }
 }

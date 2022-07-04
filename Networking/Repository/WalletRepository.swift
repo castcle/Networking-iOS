@@ -19,28 +19,38 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Suggestion.swift
+//  WalletRepository.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 14/10/2564 BE.
+//  Created by Castcle Co., Ltd. on 9/6/2565 BE.
 //
 
 import Core
+import Moya
 import SwiftyJSON
 
-// MARK: - Comment Payload
-public class Suggestion: NSObject {
-    public var keyword: [Keyword] = []
-    public var hashtags: [Hashtag] = []
-    public var users: [UserInfo] = []
+public protocol WalletRepository {
+    func getQrCode(chainId: String, userId: String, walletRequest: WalletRequest, _ completion: @escaping ResponseHandle)
+}
 
-    public override init() {
-        // Init TopTrend
+public final class WalletRepositoryImpl: WalletRepository {
+    private let walletProvider = MoyaProvider<WalletApi>()
+    private let completionHelper: CompletionHelper = CompletionHelper()
+
+    public init() {
+        // MARK: - Init
     }
 
-    public init(json: JSON) {
-        self.keyword = (json[JsonKey.keyword.rawValue].arrayValue).map { Keyword(json: $0) }.filter { !$0.text.isEmpty}
-        self.hashtags = (json[JsonKey.hashtags.rawValue].arrayValue).map { Hashtag(json: $0) }
-        self.users = (json[JsonKey.users.rawValue].arrayValue).map { UserInfo(json: $0) }
+    public func getQrCode(chainId: String, userId: String, walletRequest: WalletRequest, _ completion: @escaping ResponseHandle) {
+        self.walletProvider.request(.getQrCode(chainId, userId, walletRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
     }
 }

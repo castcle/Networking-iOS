@@ -48,7 +48,6 @@ public final class ReportRepositoryImpl: ReportRepository {
         self.reportProvider.request(.reportUser(userId, reportRequest)) { result in
             switch result {
             case .success(let response):
-                completion(true, response, false)
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
                     completion(success, response, isRefreshToken)
                 }

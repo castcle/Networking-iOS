@@ -27,7 +27,6 @@
 
 import Core
 import SwiftyJSON
-import RealmSwift
 
 // MARK: - Hashtag List
 public class FeedShelf: NSObject {
@@ -44,20 +43,7 @@ public class FeedShelf: NSObject {
         let includes = JSON(json[JsonKey.includes.rawValue].dictionaryValue)
         let casts = includes[JsonKey.casts.rawValue].arrayValue
         let users = includes[JsonKey.users.rawValue].arrayValue
-        do {
-            let realm = try Realm()
-            try realm.write {
-                casts.forEach { cast in
-                    let contentRef = ContentRef().initCustom(json: cast)
-                    realm.add(contentRef, update: .modified)
-                }
-            }
-            try realm.write {
-                users.forEach { user in
-                    let authorRef = AuthorRef().initCustom(json: user)
-                    realm.add(authorRef, update: .modified)
-                }
-            }
-        } catch {}
+        ContentHelper.shared.updateContentRef(casts: casts)
+        UserHelper.shared.updateAuthorRef(users: users)
     }
 }

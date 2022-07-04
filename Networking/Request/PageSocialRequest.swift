@@ -87,18 +87,4 @@ public struct PageSocial {
             JsonKey.authToken.rawValue: self.authToken
         ]
     }
-
-    public var paramConnectSocial: [String: Any] {
-        return [
-            JsonKey.payload.rawValue: [
-                JsonKey.provider.rawValue: self.provider.rawValue,
-                JsonKey.socialId.rawValue: self.socialId,
-                JsonKey.userName.rawValue: self.userName,
-                JsonKey.displayName.rawValue: self.displayName,
-                JsonKey.overview.rawValue: self.overview,
-                JsonKey.avatar.rawValue: self.avatar,
-                JsonKey.cover.rawValue: self.cover
-            ]
-        ]
-    }
 }

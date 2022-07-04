@@ -39,7 +39,7 @@ public class Ads: NSObject {
     public var duration: Int = 1
     public var adStatus: AdStatus = .processing
     public var boostStatus: BoostStatus = .unknown
-    public var boostType: BoostType = .page
+    public var boostType: BoostType = .user
 //    public var payload: Bool = false
     public var statistics: Statistics = Statistics()
     public var engagement: Engagement = Engagement()
@@ -60,7 +60,7 @@ public class Ads: NSObject {
         self.duration = json[JsonKey.duration.rawValue].intValue
         self.adStatus = AdStatus(rawValue: json[JsonKey.adStatus.rawValue].stringValue) ?? .processing
         self.boostStatus = BoostStatus(rawValue: json[JsonKey.boostStatus.rawValue].stringValue) ?? .unknown
-        self.boostType = BoostType(rawValue: json[JsonKey.boostType.rawValue].stringValue) ?? .page
+        self.boostType = BoostType(rawValue: json[JsonKey.boostType.rawValue].stringValue) ?? .user
         self.createdAt = json[JsonKey.createdAt.rawValue].stringValue
         self.updatedAt = json[JsonKey.updatedAt.rawValue].stringValue
 

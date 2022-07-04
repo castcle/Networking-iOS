@@ -27,6 +27,7 @@
 
 import Core
 import RealmSwift
+import SwiftyJSON
 
 public class ContentHelper {
     public static let shared = ContentHelper()
@@ -133,5 +134,17 @@ public class ContentHelper {
             content.link.append(link)
         }
         return content
+    }
+
+    public func updateContentRef(casts: [JSON]) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                casts.forEach { cast in
+                    let contentRef = ContentRef().initCustom(json: cast)
+                    realm.add(contentRef, update: .modified)
+                }
+            }
+        } catch {}
     }
 }

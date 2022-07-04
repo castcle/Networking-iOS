@@ -19,36 +19,24 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  Follow.swift
+//  WalletRequest.swift
 //  Networking
 //
-//  Created by Castcle Co., Ltd. on 12/10/2564 BE.
+//  Created by Castcle Co., Ltd. on 9/6/2565 BE.
 //
 
 import Core
-import SwiftyJSON
 
-// MARK: - Follow
-public class Follow: NSObject {
-    public let id: String
-    public let castcleId: String
-    public let displayName: String
-    public let avatar: ImageInfo
-    public let overview: String
-    public let verified: Verified
-    public let type: AuthorType
-    public let count: Int
+public struct WalletRequest {
+    public var size: SizeType = .thumbnail
 
-    public init(json: JSON) {
-        self.id = json[JsonKey.id.rawValue].stringValue
-        self.castcleId = json[JsonKey.castcleId.rawValue].stringValue
-        self.displayName = json[JsonKey.displayName.rawValue].stringValue
-        self.overview = json[JsonKey.overview.rawValue].stringValue
-        self.type = AuthorType(rawValue: json[JsonKey.type.rawValue].stringValue) ?? .people
-        self.count = json[JsonKey.count.rawValue].intValue
+    public init() {
+        // Init WalletRequest
+    }
 
-        // MARK: - Object
-        self.verified = Verified(json: JSON(json[JsonKey.verified.rawValue].dictionaryObject ?? [:]))
-        self.avatar = ImageInfo(json: JSON(json[JsonKey.avatar.rawValue].dictionaryObject ?? [:]))
+    public var paramGetQrCode: [String: Any] {
+        return [
+            JsonKey.size.rawValue: self.size.rawValue
+        ]
     }
 }
