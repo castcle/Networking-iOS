@@ -48,6 +48,7 @@ public class UserInfo {
     public var blocking: Bool = false
     public var blocked: Bool = false
     public var casts: Int = 0
+    public var pdpa: Bool = false
     public var passwordNotSet: Bool = true
     public var linkSocial: LinkSocial = LinkSocial()
     public var mobile: Mobile = Mobile()
@@ -70,6 +71,7 @@ public class UserInfo {
         self.blocking = json[JsonKey.blocking.rawValue].boolValue
         self.blocked = json[JsonKey.blocked.rawValue].boolValue
         self.casts = json[JsonKey.casts.rawValue].intValue
+        self.pdpa = json[JsonKey.pdpa.rawValue].boolValue
         self.passwordNotSet = json[JsonKey.passwordNotSet.rawValue].boolValue
         self.canUpdateCastcleId = json[JsonKey.canUpdateCastcleId.rawValue].boolValue
 

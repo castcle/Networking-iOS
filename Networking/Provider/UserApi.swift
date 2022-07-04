@@ -43,6 +43,7 @@ enum UserApi {
     case follow(UserRequest)
     case unfollow(String)
     case syncSocial(String, PageSocial)
+    case pdpa(String)
 }
 
 extension UserApi: TargetType {
@@ -80,6 +81,8 @@ extension UserApi: TargetType {
             return APIs.User.updateCover(userId).path
         case .syncSocial(let userId, _):
             return APIs.User.syncSocial(userId).path
+        case .pdpa:
+            return APIs.User.pdpa.path
         }
     }
 
@@ -87,7 +90,7 @@ extension UserApi: TargetType {
         switch self {
         case .getAllUser, .getMe, .getUser, .getUserContents, .getUserFollower, .getUserFollowing:
             return .get
-        case .updateInfo, .updateAvatar, .updateMobile, .updateCover:
+        case .updateInfo, .updateAvatar, .updateMobile, .updateCover, .pdpa:
             return .put
         case .follow, .syncSocial:
             return .post
@@ -132,6 +135,11 @@ extension UserApi: TargetType {
             return .requestParameters(parameters: userFollowRequest.paramGetFollowUser, encoding: URLEncoding.queryString)
         case .syncSocial(_, let pageSocial):
             return .requestParameters(parameters: pageSocial.paramPageSocial, encoding: JSONEncoding.default)
+        case .pdpa(let date):
+            let param = [
+                JsonKey.date.rawValue: date
+            ]
+            return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         default:
             return .requestPlain
         }
