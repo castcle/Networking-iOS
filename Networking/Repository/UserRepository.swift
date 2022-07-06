@@ -30,7 +30,6 @@ import Moya
 import SwiftyJSON
 
 public protocol UserRepository {
-    func getAllUser(_ completion: @escaping ResponseHandle)
     func getMe(_ completion: @escaping ResponseHandle)
     func updateInfo(userId: String, userRequest: UserRequest, _ completion: @escaping ResponseHandle)
     func updateAvatar(userId: String, userRequest: UserRequest, _ completion: @escaping ResponseHandle)
@@ -53,19 +52,6 @@ public final class UserRepositoryImpl: UserRepository {
 
     public init() {
         // MARK: - Init
-    }
-
-    public func getAllUser(_ completion: @escaping ResponseHandle) {
-        self.userProvider.request(.getAllUser) { result in
-            switch result {
-            case .success(let response):
-                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
-                    completion(success, response, isRefreshToken)
-                }
-            case .failure:
-                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
-            }
-        }
     }
 
     public func getMe(_ completion: @escaping ResponseHandle) {

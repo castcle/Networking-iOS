@@ -29,7 +29,6 @@ import Core
 import Moya
 
 enum UserApi {
-    case getAllUser
     case getMe
     case updateInfo(String, UserRequest)
     case updateAvatar(String, UserRequest)
@@ -53,8 +52,6 @@ extension UserApi: TargetType {
 
     var path: String {
         switch self {
-        case .getAllUser:
-            return APIs.User.getAllUser.path
         case .getMe:
             return APIs.User.getMe.path
         case .getUser(let userId):
@@ -88,7 +85,7 @@ extension UserApi: TargetType {
 
     var method: Moya.Method {
         switch self {
-        case .getAllUser, .getMe, .getUser, .getUserContents, .getUserFollower, .getUserFollowing:
+        case .getMe, .getUser, .getUserContents, .getUserFollower, .getUserFollowing:
             return .get
         case .updateInfo, .updateAvatar, .updateMobile, .updateCover, .pdpa:
             return .put
@@ -100,7 +97,7 @@ extension UserApi: TargetType {
     }
 
     var sampleData: Data {
-        return "{\"message\": \"success message\"}".dataEncoded
+        return Data()
     }
 
     var task: Task {
@@ -146,11 +143,6 @@ extension UserApi: TargetType {
     }
 
     var headers: [String: String]? {
-        switch self {
-        case .getMe, .getUser, .syncSocial, .updateInfo, .follow, .unfollow, .getUserFollowing, .getUserFollower, .getUserContents:
-            return ApiHelper.header()
-        default:
-            return ApiHelper.header(version: "1.0")
-        }
+        return ApiHelper.header()
     }
 }

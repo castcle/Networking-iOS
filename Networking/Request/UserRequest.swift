@@ -42,8 +42,7 @@ public struct UserRequest {
 
     public var paramDeleteUser: [String: Any] {
         return [
-            JsonKey.channel.rawValue: self.channel.rawValue,
-            JsonKey.payload.rawValue: self.payload.paramDeleteUserWithEmail
+            JsonKey.password.rawValue: self.payload.password
         ]
     }
 
@@ -75,12 +74,6 @@ public struct UserPayloadRequest {
 
     public init() {
         // Init
-    }
-
-    public var paramDeleteUserWithEmail: [String: Any] {
-        return [
-            JsonKey.password.rawValue: self.password
-        ]
     }
 
     public var paramEditUserProfile: [String: Any] {
