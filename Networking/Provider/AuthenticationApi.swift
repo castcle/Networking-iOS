@@ -134,8 +134,6 @@ extension AuthenticationApi: TargetType {
 
     var headers: [String: String]? {
         switch self {
-        case .suggestCastcleId:
-            return ApiHelper.header(version: "1.0")
         case .refreshToken:
             return ApiHelper.headerRefreshToken()
         default:
