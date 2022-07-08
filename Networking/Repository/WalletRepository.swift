@@ -31,6 +31,7 @@ import SwiftyJSON
 
 public protocol WalletRepository {
     func getQrCode(chainId: String, userId: String, walletRequest: WalletRequest, _ completion: @escaping ResponseHandle)
+    func getWalletShortcuts(accountId: String, _ completion: @escaping ResponseHandle)
 }
 
 public final class WalletRepositoryImpl: WalletRepository {
@@ -43,6 +44,19 @@ public final class WalletRepositoryImpl: WalletRepository {
 
     public func getQrCode(chainId: String, userId: String, walletRequest: WalletRequest, _ completion: @escaping ResponseHandle) {
         self.walletProvider.request(.getQrCode(chainId, userId, walletRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func getWalletShortcuts(accountId: String, _ completion: @escaping ResponseHandle) {
+        self.walletProvider.request(.getWalletShortcuts(accountId)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
