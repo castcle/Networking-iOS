@@ -52,6 +52,12 @@ public enum ScreenId: String {
     case viewProfile = "VIEW_PROFILE"
     case search = "SEARCH"
     case photo = "PHOTO"
+    case setting = "SETTING"
+    case account = "ACCOUNT"
+    case resetPassword = "RESET_PASSWORD"
+    case syncSocial = "SYNC_SOCIAL"
+    case deleteAccount = "DELETE_ACCOUNT"
+    case wallet = "WALLET"
     case unknown
 }
 

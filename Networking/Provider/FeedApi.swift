@@ -58,21 +58,7 @@ extension FeedApi: TargetType {
     }
 
     var sampleData: Data {
-        switch self {
-        case .getHashtags:
-            if let path = ConfigBundle.network.path(forResource: "Hashtag", ofType: "json") {
-                do {
-                    let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-                    return data
-                } catch {
-                    return Data()
-                }
-            } else {
-                return Data()
-            }
-        default:
-            return Data()
-        }
+        return Data()
     }
 
     var task: Task {
