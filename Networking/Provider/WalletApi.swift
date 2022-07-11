@@ -32,6 +32,7 @@ import Moya
 enum WalletApi {
     case getQrCode(String, String, WalletRequest)
     case getWalletShortcuts(String)
+    case getWalletRecent(String)
 }
 
 extension WalletApi: TargetType {
@@ -45,12 +46,14 @@ extension WalletApi: TargetType {
             return APIs.Wallet.getQrCode(chainId, userId).path
         case .getWalletShortcuts(let accountId):
             return APIs.Wallet.getWalletShortcuts(accountId).path
+        case .getWalletRecent(let accountId):
+            return APIs.Wallet.getWalletRecent(accountId).path
         }
     }
 
     var method: Moya.Method {
         switch self {
-        case .getQrCode, .getWalletShortcuts:
+        case .getQrCode, .getWalletShortcuts, .getWalletRecent:
             return .get
         }
     }
@@ -63,7 +66,7 @@ extension WalletApi: TargetType {
         switch self {
         case .getQrCode(_, _, let walletRequest):
             return .requestParameters(parameters: walletRequest.paramGetQrCode, encoding: URLEncoding.queryString)
-        default:
+        case .getWalletShortcuts, .getWalletRecent:
             return .requestPlain
         }
     }
