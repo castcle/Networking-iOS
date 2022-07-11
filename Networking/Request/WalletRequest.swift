@@ -29,6 +29,7 @@ import Core
 
 public struct WalletRequest {
     public var size: SizeType = .thumbnail
+    public var keyword: String = ""
 
     public init() {
         // Init WalletRequest
@@ -37,6 +38,12 @@ public struct WalletRequest {
     public var paramGetQrCode: [String: Any] {
         return [
             JsonKey.size.rawValue: self.size.rawValue
+        ]
+    }
+
+    public var paramWalletSearch: [String: Any] {
+        return [
+            JsonKey.keyword.rawValue: self.keyword
         ]
     }
 }

@@ -32,7 +32,8 @@ import SwiftyJSON
 public protocol WalletRepository {
     func getQrCode(chainId: String, userId: String, walletRequest: WalletRequest, _ completion: @escaping ResponseHandle)
     func getWalletShortcuts(accountId: String, _ completion: @escaping ResponseHandle)
-    func getWalletRecent(accountId: String, _ completion: @escaping ResponseHandle)
+    func getWalletRecent(userId: String, _ completion: @escaping ResponseHandle)
+    func walletSearch(userId: String, walletRequest: WalletRequest, _ completion: @escaping ResponseHandle)
 }
 
 public final class WalletRepositoryImpl: WalletRepository {
@@ -69,8 +70,21 @@ public final class WalletRepositoryImpl: WalletRepository {
         }
     }
 
-    public func getWalletRecent(accountId: String, _ completion: @escaping ResponseHandle) {
-        self.walletProvider.request(.getWalletRecent(accountId)) { result in
+    public func getWalletRecent(userId: String, _ completion: @escaping ResponseHandle) {
+        self.walletProvider.request(.getWalletRecent(userId)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func walletSearch(userId: String, walletRequest: WalletRequest, _ completion: @escaping ResponseHandle) {
+        self.walletProvider.request(.walletSearch(userId, walletRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
