@@ -34,6 +34,7 @@ enum WalletApi {
     case getWalletShortcuts(String)
     case getWalletRecent(String)
     case walletSearch(String, WalletRequest)
+    case createShortcutCastcle(String, WalletRequest)
 }
 
 extension WalletApi: TargetType {
@@ -51,6 +52,8 @@ extension WalletApi: TargetType {
             return APIs.Wallet.getWalletRecent(userId).path
         case .walletSearch(let userId, _):
             return APIs.Wallet.walletSearch(userId).path
+        case .createShortcutCastcle(let accountId, _):
+            return APIs.Wallet.createShortcutCastcle(accountId).path
         }
     }
 
@@ -58,6 +61,8 @@ extension WalletApi: TargetType {
         switch self {
         case .getQrCode, .getWalletShortcuts, .getWalletRecent, .walletSearch:
             return .get
+        case .createShortcutCastcle:
+            return .post
         }
     }
 
@@ -71,6 +76,8 @@ extension WalletApi: TargetType {
             return .requestParameters(parameters: walletRequest.paramGetQrCode, encoding: URLEncoding.queryString)
         case .walletSearch(_, let walletRequest):
             return .requestParameters(parameters: walletRequest.paramWalletSearch, encoding: URLEncoding.queryString)
+        case .createShortcutCastcle(_, let walletRequest):
+            return .requestParameters(parameters: walletRequest.paramCreateShortcutsCastcle, encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }
