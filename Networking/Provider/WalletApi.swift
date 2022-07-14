@@ -35,6 +35,9 @@ enum WalletApi {
     case getWalletRecent(String)
     case walletSearch(String, WalletRequest)
     case createShortcutCastcle(String, WalletRequest)
+    case sortShortcuts(String, WalletRequest)
+    case updateShortcut(String, String, WalletRequest)
+    case deleteShortcut(String, String)
 }
 
 extension WalletApi: TargetType {
@@ -54,6 +57,12 @@ extension WalletApi: TargetType {
             return APIs.Wallet.walletSearch(userId).path
         case .createShortcutCastcle(let accountId, _):
             return APIs.Wallet.createShortcutCastcle(accountId).path
+        case .sortShortcuts(let accountId, _):
+            return APIs.Wallet.sortShortcuts(accountId).path
+        case .updateShortcut(let accountId, let shortcutId, _):
+            return APIs.Wallet.updateShortcut(accountId, shortcutId).path
+        case .deleteShortcut(let accountId, let shortcutId):
+            return APIs.Wallet.deleteShortcut(accountId, shortcutId).path
         }
     }
 
@@ -63,6 +72,10 @@ extension WalletApi: TargetType {
             return .get
         case .createShortcutCastcle:
             return .post
+        case .sortShortcuts, .updateShortcut:
+            return .put
+        case .deleteShortcut:
+            return .delete
         }
     }
 
@@ -77,6 +90,10 @@ extension WalletApi: TargetType {
         case .walletSearch(_, let walletRequest):
             return .requestParameters(parameters: walletRequest.paramWalletSearch, encoding: URLEncoding.queryString)
         case .createShortcutCastcle(_, let walletRequest):
+            return .requestParameters(parameters: walletRequest.paramCreateShortcutsCastcle, encoding: JSONEncoding.default)
+        case .sortShortcuts(_, let walletRequest):
+            return .requestParameters(parameters: walletRequest.paramSortShortcuts, encoding: JSONEncoding.default)
+        case .updateShortcut(_, _, let walletRequest):
             return .requestParameters(parameters: walletRequest.paramCreateShortcutsCastcle, encoding: JSONEncoding.default)
         default:
             return .requestPlain

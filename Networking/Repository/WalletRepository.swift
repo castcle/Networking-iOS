@@ -35,6 +35,9 @@ public protocol WalletRepository {
     func getWalletRecent(userId: String, _ completion: @escaping ResponseHandle)
     func walletSearch(userId: String, walletRequest: WalletRequest, _ completion: @escaping ResponseHandle)
     func createShortcutCastcle(accountId: String, walletRequest: WalletRequest, _ completion: @escaping ResponseHandle)
+    func sortShortcuts(accountId: String, walletRequest: WalletRequest, _ completion: @escaping ResponseHandle)
+    func updateShortcut(accountId: String, shortcutId: String, walletRequest: WalletRequest, _ completion: @escaping ResponseHandle)
+    func deleteShortcut(accountId: String, shortcutId: String, _ completion: @escaping ResponseHandle)
 }
 
 public final class WalletRepositoryImpl: WalletRepository {
@@ -99,6 +102,45 @@ public final class WalletRepositoryImpl: WalletRepository {
 
     public func createShortcutCastcle(accountId: String, walletRequest: WalletRequest, _ completion: @escaping ResponseHandle) {
         self.walletProvider.request(.createShortcutCastcle(accountId, walletRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func sortShortcuts(accountId: String, walletRequest: WalletRequest, _ completion: @escaping ResponseHandle) {
+        self.walletProvider.request(.sortShortcuts(accountId, walletRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func updateShortcut(accountId: String, shortcutId: String, walletRequest: WalletRequest, _ completion: @escaping ResponseHandle) {
+        self.walletProvider.request(.updateShortcut(accountId, shortcutId, walletRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func deleteShortcut(accountId: String, shortcutId: String, _ completion: @escaping ResponseHandle) {
+        self.walletProvider.request(.deleteShortcut(accountId, shortcutId)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

@@ -32,6 +32,7 @@ public struct WalletRequest {
     public var keyword: String = ""
     public var chainId: String = "castcle"
     public var userId: String = ""
+    public var payloadSort: [[String: Any]] = []
 
     public init() {
         // Init WalletRequest
@@ -53,6 +54,12 @@ public struct WalletRequest {
         return [
             JsonKey.chainId.rawValue: self.chainId,
             JsonKey.userId.rawValue: self.userId
+        ]
+    }
+
+    public var paramSortShortcuts: [String: Any] {
+        return [
+            JsonKey.payload.rawValue: self.payloadSort
         ]
     }
 }
