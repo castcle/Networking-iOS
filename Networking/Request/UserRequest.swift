@@ -35,6 +35,7 @@ public struct UserRequest {
     public var refCode: String = ""
     public var countryCode: String = ""
     public var mobileNumber: String = ""
+    public var email: String = ""
 
     public init() {
         // Init
@@ -58,6 +59,12 @@ public struct UserRequest {
             JsonKey.refCode.rawValue: self.refCode,
             JsonKey.countryCode.rawValue: self.countryCode,
             JsonKey.mobileNumber.rawValue: self.mobileNumber
+        ]
+    }
+
+    public var paramUpdateEmail: [String: Any] {
+        return [
+            JsonKey.email.rawValue: self.email
         ]
     }
 }

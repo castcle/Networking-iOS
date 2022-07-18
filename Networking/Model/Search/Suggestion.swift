@@ -39,7 +39,7 @@ public class Suggestion: NSObject {
     }
 
     public init(json: JSON) {
-        self.keyword = (json[JsonKey.keyword.rawValue].arrayValue).map { Keyword(json: $0) }.filter { !$0.text.isEmpty}
+        self.keyword = (json[JsonKey.keyword.rawValue].arrayValue).map { Keyword(json: $0) }.filter { !$0.text.isEmpty }
         self.hashtags = (json[JsonKey.hashtags.rawValue].arrayValue).map { Hashtag(json: $0) }
         self.users = (json[JsonKey.users.rawValue].arrayValue).map { UserInfo(json: $0) }
     }

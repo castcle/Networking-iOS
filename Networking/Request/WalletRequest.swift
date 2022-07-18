@@ -30,6 +30,9 @@ import Core
 public struct WalletRequest {
     public var size: SizeType = .thumbnail
     public var keyword: String = ""
+    public var chainId: String = "castcle"
+    public var userId: String = ""
+    public var payloadSort: [[String: Any]] = []
 
     public init() {
         // Init WalletRequest
@@ -44,6 +47,19 @@ public struct WalletRequest {
     public var paramWalletSearch: [String: Any] {
         return [
             JsonKey.keyword.rawValue: self.keyword
+        ]
+    }
+
+    public var paramCreateShortcutsCastcle: [String: Any] {
+        return [
+            JsonKey.chainId.rawValue: self.chainId,
+            JsonKey.userId.rawValue: self.userId
+        ]
+    }
+
+    public var paramSortShortcuts: [String: Any] {
+        return [
+            JsonKey.payload.rawValue: self.payloadSort
         ]
     }
 }
