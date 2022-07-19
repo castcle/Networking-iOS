@@ -54,6 +54,7 @@ public class UserInfo {
     public var mobile: Mobile = Mobile()
     public var syncSocial: SyncSocial = SyncSocial()
     public var canUpdateCastcleId: Bool = false
+    public var createdAt: String = ""
 
     public init() {
         // Init UserInfo
@@ -74,6 +75,7 @@ public class UserInfo {
         self.pdpa = json[JsonKey.pdpa.rawValue].boolValue
         self.passwordNotSet = json[JsonKey.passwordNotSet.rawValue].boolValue
         self.canUpdateCastcleId = json[JsonKey.canUpdateCastcleId.rawValue].boolValue
+        self.createdAt = json[JsonKey.createdAt.rawValue].stringValue
 
         // MARK: - Object
         self.images = UserImage(json: JSON(json[JsonKey.images.rawValue].dictionaryObject ?? [:]))
