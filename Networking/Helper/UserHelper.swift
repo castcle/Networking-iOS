@@ -74,7 +74,9 @@ public class UserHelper {
         Defaults[.mediumLink] = user.links.medium
         Defaults[.websiteLink] = user.links.website
         Defaults[.avatar] = user.images.avatar.thumbnail
+        Defaults[.avatarFullHd] = user.images.avatar.fullHd
         Defaults[.cover] = user.images.cover.fullHd
+        Defaults[.coverFullHd] = user.images.cover.fullHd
         Defaults[.passwordNotSet] = user.passwordNotSet
         Defaults[.canUpdateCastcleId] = user.canUpdateCastcleId
         Defaults[.mobileCountryCode] = user.mobile.countryCode
@@ -101,7 +103,9 @@ public class UserHelper {
         Defaults[.mediumLink] = ""
         Defaults[.websiteLink] = ""
         Defaults[.avatar] = ""
+        Defaults[.avatarFullHd] = ""
         Defaults[.cover] = ""
+        Defaults[.coverFullHd] = ""
         Defaults[.passwordNotSet] = true
         Defaults[.canUpdateCastcleId] = false
         Defaults[.mobileCountryCode] = ""

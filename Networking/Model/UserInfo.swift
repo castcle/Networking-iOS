@@ -161,11 +161,11 @@ public class UserLink {
     }
 
     public init(json: JSON) {
-        self.facebook = json[JsonKey.facebook.rawValue].stringValue
-        self.twitter = json[JsonKey.twitter.rawValue].stringValue
-        self.youtube = json[JsonKey.youtube.rawValue].stringValue
-        self.medium = json[JsonKey.medium.rawValue].stringValue
-        self.website = json[JsonKey.website.rawValue].stringValue
+        self.facebook = (json[JsonKey.facebook.rawValue].stringValue).toUrlString
+        self.twitter = (json[JsonKey.twitter.rawValue].stringValue).toUrlString
+        self.youtube = (json[JsonKey.youtube.rawValue].stringValue).toUrlString
+        self.medium = (json[JsonKey.medium.rawValue].stringValue).toUrlString
+        self.website = (json[JsonKey.website.rawValue].stringValue).toUrlString
     }
 }
 
