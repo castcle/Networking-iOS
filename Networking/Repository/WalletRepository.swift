@@ -38,6 +38,8 @@ public protocol WalletRepository {
     func sortShortcuts(accountId: String, walletRequest: WalletRequest, _ completion: @escaping ResponseHandle)
     func updateShortcut(accountId: String, shortcutId: String, walletRequest: WalletRequest, _ completion: @escaping ResponseHandle)
     func deleteShortcut(accountId: String, shortcutId: String, _ completion: @escaping ResponseHandle)
+    func reviewSendToken(userId: String, walletRequest: WalletRequest, _ completion: @escaping ResponseHandle)
+    func walletLookup(userId: String, _ completion: @escaping ResponseHandle)
 }
 
 public final class WalletRepositoryImpl: WalletRepository {
@@ -141,6 +143,32 @@ public final class WalletRepositoryImpl: WalletRepository {
 
     public func deleteShortcut(accountId: String, shortcutId: String, _ completion: @escaping ResponseHandle) {
         self.walletProvider.request(.deleteShortcut(accountId, shortcutId)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func reviewSendToken(userId: String, walletRequest: WalletRequest, _ completion: @escaping ResponseHandle) {
+        self.walletProvider.request(.reviewSendToken(userId, walletRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func walletLookup(userId: String, _ completion: @escaping ResponseHandle) {
+        self.walletProvider.request(.walletLookup(userId)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

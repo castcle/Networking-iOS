@@ -38,6 +38,8 @@ enum WalletApi {
     case sortShortcuts(String, WalletRequest)
     case updateShortcut(String, String, WalletRequest)
     case deleteShortcut(String, String)
+    case reviewSendToken(String, WalletRequest)
+    case walletLookup(String)
 }
 
 extension WalletApi: TargetType {
@@ -63,14 +65,18 @@ extension WalletApi: TargetType {
             return APIs.Wallet.updateShortcut(accountId, shortcutId).path
         case .deleteShortcut(let accountId, let shortcutId):
             return APIs.Wallet.deleteShortcut(accountId, shortcutId).path
+        case .reviewSendToken(let userId, _):
+            return APIs.Wallet.reviewSendToken(userId).path
+        case .walletLookup(let userId):
+            return APIs.Wallet.walletLookup(userId).path
         }
     }
 
     var method: Moya.Method {
         switch self {
-        case .getQrCode, .getWalletShortcuts, .getWalletRecent, .walletSearch:
+        case .getQrCode, .getWalletShortcuts, .getWalletRecent, .walletSearch, .walletLookup:
             return .get
-        case .createShortcutCastcle:
+        case .createShortcutCastcle, .reviewSendToken:
             return .post
         case .sortShortcuts, .updateShortcut:
             return .put
@@ -95,6 +101,8 @@ extension WalletApi: TargetType {
             return .requestParameters(parameters: walletRequest.paramSortShortcuts, encoding: JSONEncoding.default)
         case .updateShortcut(_, _, let walletRequest):
             return .requestParameters(parameters: walletRequest.paramCreateShortcutsCastcle, encoding: JSONEncoding.default)
+        case .reviewSendToken(_, let walletRequest):
+            return .requestParameters(parameters: walletRequest.paramReviewSendToken, encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }

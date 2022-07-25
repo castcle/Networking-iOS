@@ -32,6 +32,10 @@ public struct WalletRequest {
     public var keyword: String = ""
     public var chainId: String = "castcle"
     public var userId: String = ""
+    public var address: String = ""
+    public var memo: String = ""
+    public var amount: String = ""
+    public var note: String = ""
     public var payloadSort: [[String: Any]] = []
 
     public init() {
@@ -60,6 +64,23 @@ public struct WalletRequest {
     public var paramSortShortcuts: [String: Any] {
         return [
             JsonKey.payload.rawValue: self.payloadSort
+        ]
+    }
+
+    public var paramReviewSendToken: [String: Any] {
+        var param: [String: Any] = [
+            JsonKey.chainId.rawValue: self.chainId,
+            JsonKey.address.rawValue: self.address,
+            JsonKey.amount.rawValue: Float(self.amount) ?? 0.0
+        ]
+        if !self.memo.isEmpty {
+            param[JsonKey.memo.rawValue] = self.memo
+        }
+        if !self.note.isEmpty {
+            param[JsonKey.note.rawValue] = self.note
+        }
+        return [
+            JsonKey.transaction.rawValue: param
         ]
     }
 }

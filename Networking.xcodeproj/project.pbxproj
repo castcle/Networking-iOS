@@ -31,6 +31,7 @@
 		B747123F287BE80000C3C7EE /* WalletsRecent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B747123E287BE80000C3C7EE /* WalletsRecent.swift */; };
 		B74CEF1226C50727006B1F2C /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B74CEF1126C50727006B1F2C /* Core.framework */; };
 		B754A12127463DED00147210 /* CommentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B754A12027463DED00147210 /* CommentRequest.swift */; };
+		B75E416D288E98240037B388 /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75E416C288E98240037B388 /* Wallet.swift */; };
 		B7642C5A26E1073800CDCE95 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7642C5926E1073800CDCE95 /* Comment.swift */; };
 		B7642C5E26E10F8000CDCE95 /* CommentApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7642C5D26E10F8000CDCE95 /* CommentApi.swift */; };
 		B7642C6026E1105A00CDCE95 /* CommentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7642C5F26E1105A00CDCE95 /* CommentRepository.swift */; };
@@ -125,6 +126,7 @@
 		B747123E287BE80000C3C7EE /* WalletsRecent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletsRecent.swift; sourceTree = "<group>"; };
 		B74CEF1126C50727006B1F2C /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B754A12027463DED00147210 /* CommentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentRequest.swift; sourceTree = "<group>"; };
+		B75E416C288E98240037B388 /* Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallet.swift; sourceTree = "<group>"; };
 		B7642C5926E1073800CDCE95 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		B7642C5D26E10F8000CDCE95 /* CommentApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentApi.swift; sourceTree = "<group>"; };
 		B7642C5F26E1105A00CDCE95 /* CommentRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentRepository.swift; sourceTree = "<group>"; };
@@ -316,6 +318,7 @@
 				B79A8ECA2822281800918716 /* Notify.swift */,
 				B744AC352878042B00378924 /* Shortcut.swift */,
 				B747123E287BE80000C3C7EE /* WalletsRecent.swift */,
+				B75E416C288E98240037B388 /* Wallet.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -533,6 +536,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B75E416D288E98240037B388 /* Wallet.swift in Sources */,
 				B7684A6626C5061C00C438C5 /* FeedShelf.swift in Sources */,
 				B7AF660526F06EE400BDE9C4 /* UserHelper.swift in Sources */,
 				B7167F9027ACEC6300067DBD /* PageSocialRequest.swift in Sources */,
