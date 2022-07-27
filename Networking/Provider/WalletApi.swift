@@ -39,6 +39,7 @@ enum WalletApi {
     case updateShortcut(String, String, WalletRequest)
     case deleteShortcut(String, String)
     case reviewSendToken(String, WalletRequest)
+    case confirmSendToken(String, WalletRequest)
     case walletLookup(String)
 }
 
@@ -67,6 +68,8 @@ extension WalletApi: TargetType {
             return APIs.Wallet.deleteShortcut(accountId, shortcutId).path
         case .reviewSendToken(let userId, _):
             return APIs.Wallet.reviewSendToken(userId).path
+        case .confirmSendToken(let userId, _):
+            return APIs.Wallet.confirmSendToken(userId).path
         case .walletLookup(let userId):
             return APIs.Wallet.walletLookup(userId).path
         }
@@ -76,7 +79,7 @@ extension WalletApi: TargetType {
         switch self {
         case .getQrCode, .getWalletShortcuts, .getWalletRecent, .walletSearch, .walletLookup:
             return .get
-        case .createShortcutCastcle, .reviewSendToken:
+        case .createShortcutCastcle, .reviewSendToken, .confirmSendToken:
             return .post
         case .sortShortcuts, .updateShortcut:
             return .put
@@ -103,6 +106,8 @@ extension WalletApi: TargetType {
             return .requestParameters(parameters: walletRequest.paramCreateShortcutsCastcle, encoding: JSONEncoding.default)
         case .reviewSendToken(_, let walletRequest):
             return .requestParameters(parameters: walletRequest.paramReviewSendToken, encoding: JSONEncoding.default)
+        case .confirmSendToken(_, let walletRequest):
+            return .requestParameters(parameters: walletRequest.paramConfirmSendToken, encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }

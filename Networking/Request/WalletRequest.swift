@@ -38,6 +38,14 @@ public struct WalletRequest {
     public var note: String = ""
     public var castcleId: String = ""
     public var payloadSort: [[String: Any]] = []
+    public var objective: AuthenObjective = .sendToken
+    public var email: String = ""
+    public var emailRefCode: String = ""
+    public var emailOtp: String = ""
+    public var countryCode: String = ""
+    public var mobileNumber: String = ""
+    public var mobileRefCode: String = ""
+    public var mobileOtp: String = ""
 
     public init() {
         // Init WalletRequest
@@ -69,6 +77,19 @@ public struct WalletRequest {
     }
 
     public var paramReviewSendToken: [String: Any] {
+        return [
+            JsonKey.transaction.rawValue: self.paramTransaction
+        ]
+    }
+
+    public var paramConfirmSendToken: [String: Any] {
+        return [
+            JsonKey.transaction.rawValue: self.paramTransaction,
+            JsonKey.verification.rawValue: self.paramVerification
+        ]
+    }
+
+    private var paramTransaction: [String: Any] {
         var param: [String: Any] = [
             JsonKey.chainId.rawValue: self.chainId,
             JsonKey.address.rawValue: self.address,
@@ -80,8 +101,32 @@ public struct WalletRequest {
         if !self.note.isEmpty {
             param[JsonKey.note.rawValue] = self.note
         }
+        return param
+    }
+
+    private var paramVerification: [String: Any] {
         return [
-            JsonKey.transaction.rawValue: param
+            JsonKey.email.rawValue: self.paramVerificationEmail,
+            JsonKey.mobile.rawValue: self.paramVerificationMobile
+        ]
+    }
+
+    private var paramVerificationEmail: [String: Any] {
+        return [
+            JsonKey.objective.rawValue: self.objective.rawValue,
+            JsonKey.email.rawValue: self.email,
+            JsonKey.refCode.rawValue: self.emailRefCode,
+            JsonKey.otp.rawValue: self.emailOtp
+        ]
+    }
+
+    private var paramVerificationMobile: [String: Any] {
+        return [
+            JsonKey.objective.rawValue: self.objective.rawValue,
+            JsonKey.countryCode.rawValue: self.countryCode,
+            JsonKey.mobileNumber.rawValue: self.mobileNumber,
+            JsonKey.refCode.rawValue: self.mobileRefCode,
+            JsonKey.otp.rawValue: self.mobileOtp
         ]
     }
 }
