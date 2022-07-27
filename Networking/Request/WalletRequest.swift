@@ -36,6 +36,7 @@ public struct WalletRequest {
     public var memo: String = ""
     public var amount: String = ""
     public var note: String = ""
+    public var castcleId: String = ""
     public var payloadSort: [[String: Any]] = []
 
     public init() {
