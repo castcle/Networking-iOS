@@ -29,6 +29,7 @@ import Core
 
 public struct WalletRequest {
     public var size: SizeType = .thumbnail
+    public var filter: WalletHistoryType = .walletBalance
     public var keyword: String = ""
     public var chainId: String = "castcle"
     public var userId: String = ""
@@ -86,6 +87,12 @@ public struct WalletRequest {
         return [
             JsonKey.transaction.rawValue: self.paramTransaction,
             JsonKey.verification.rawValue: self.paramVerification
+        ]
+    }
+
+    public var paramGetWalletHistory: [String: Any] {
+        return [
+            JsonKey.filter.rawValue: self.filter.rawValue
         ]
     }
 

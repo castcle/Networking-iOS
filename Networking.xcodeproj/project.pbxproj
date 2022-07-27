@@ -31,6 +31,7 @@
 		B747123F287BE80000C3C7EE /* WalletsRecent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B747123E287BE80000C3C7EE /* WalletsRecent.swift */; };
 		B74CEF1226C50727006B1F2C /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B74CEF1126C50727006B1F2C /* Core.framework */; };
 		B754A12127463DED00147210 /* CommentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B754A12027463DED00147210 /* CommentRequest.swift */; };
+		B75AFE4F289193910036AC36 /* WalletHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75AFE4E289193910036AC36 /* WalletHistory.swift */; };
 		B75E416D288E98240037B388 /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75E416C288E98240037B388 /* Wallet.swift */; };
 		B7642C5A26E1073800CDCE95 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7642C5926E1073800CDCE95 /* Comment.swift */; };
 		B7642C5E26E10F8000CDCE95 /* CommentApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7642C5D26E10F8000CDCE95 /* CommentApi.swift */; };
@@ -126,6 +127,7 @@
 		B747123E287BE80000C3C7EE /* WalletsRecent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletsRecent.swift; sourceTree = "<group>"; };
 		B74CEF1126C50727006B1F2C /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B754A12027463DED00147210 /* CommentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentRequest.swift; sourceTree = "<group>"; };
+		B75AFE4E289193910036AC36 /* WalletHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletHistory.swift; sourceTree = "<group>"; };
 		B75E416C288E98240037B388 /* Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallet.swift; sourceTree = "<group>"; };
 		B7642C5926E1073800CDCE95 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		B7642C5D26E10F8000CDCE95 /* CommentApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentApi.swift; sourceTree = "<group>"; };
@@ -319,6 +321,7 @@
 				B744AC352878042B00378924 /* Shortcut.swift */,
 				B747123E287BE80000C3C7EE /* WalletsRecent.swift */,
 				B75E416C288E98240037B388 /* Wallet.swift */,
+				B75AFE4E289193910036AC36 /* WalletHistory.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -600,6 +603,7 @@
 				B7684A7126C5061C00C438C5 /* LoginRequest.swift in Sources */,
 				B7AF661826F2FA1200BDE9C4 /* PageApi.swift in Sources */,
 				B7684A6A26C5061C00C438C5 /* ContentPayload.swift in Sources */,
+				B75AFE4F289193910036AC36 /* WalletHistory.swift in Sources */,
 				B7642C5A26E1073800CDCE95 /* Comment.swift in Sources */,
 				B786903527CCAA290029EDFE /* UserFollowRequest.swift in Sources */,
 				B70EDBD727BB5F4400EA53E2 /* AdsRepository.swift in Sources */,

@@ -41,6 +41,7 @@ enum WalletApi {
     case reviewSendToken(String, WalletRequest)
     case confirmSendToken(String, WalletRequest)
     case walletLookup(String)
+    case getWalletHistory(String, WalletRequest)
 }
 
 extension WalletApi: TargetType {
@@ -72,12 +73,14 @@ extension WalletApi: TargetType {
             return APIs.Wallet.confirmSendToken(userId).path
         case .walletLookup(let userId):
             return APIs.Wallet.walletLookup(userId).path
+        case .getWalletHistory(let userId, _):
+            return APIs.Wallet.getWalletHistory(userId).path
         }
     }
 
     var method: Moya.Method {
         switch self {
-        case .getQrCode, .getWalletShortcuts, .getWalletRecent, .walletSearch, .walletLookup:
+        case .getQrCode, .getWalletShortcuts, .getWalletRecent, .walletSearch, .walletLookup, .getWalletHistory:
             return .get
         case .createShortcutCastcle, .reviewSendToken, .confirmSendToken:
             return .post
@@ -108,6 +111,8 @@ extension WalletApi: TargetType {
             return .requestParameters(parameters: walletRequest.paramReviewSendToken, encoding: JSONEncoding.default)
         case .confirmSendToken(_, let walletRequest):
             return .requestParameters(parameters: walletRequest.paramConfirmSendToken, encoding: JSONEncoding.default)
+        case .getWalletHistory(_, let walletRequest):
+            return .requestParameters(parameters: walletRequest.paramGetWalletHistory, encoding: URLEncoding.queryString)
         default:
             return .requestPlain
         }
