@@ -38,6 +38,10 @@ enum WalletApi {
     case sortShortcuts(String, WalletRequest)
     case updateShortcut(String, String, WalletRequest)
     case deleteShortcut(String, String)
+    case reviewSendToken(String, WalletRequest)
+    case confirmSendToken(String, WalletRequest)
+    case walletLookup(String)
+    case getWalletHistory(String, WalletRequest)
 }
 
 extension WalletApi: TargetType {
@@ -63,14 +67,22 @@ extension WalletApi: TargetType {
             return APIs.Wallet.updateShortcut(accountId, shortcutId).path
         case .deleteShortcut(let accountId, let shortcutId):
             return APIs.Wallet.deleteShortcut(accountId, shortcutId).path
+        case .reviewSendToken(let userId, _):
+            return APIs.Wallet.reviewSendToken(userId).path
+        case .confirmSendToken(let userId, _):
+            return APIs.Wallet.confirmSendToken(userId).path
+        case .walletLookup(let userId):
+            return APIs.Wallet.walletLookup(userId).path
+        case .getWalletHistory(let userId, _):
+            return APIs.Wallet.getWalletHistory(userId).path
         }
     }
 
     var method: Moya.Method {
         switch self {
-        case .getQrCode, .getWalletShortcuts, .getWalletRecent, .walletSearch:
+        case .getQrCode, .getWalletShortcuts, .getWalletRecent, .walletSearch, .walletLookup, .getWalletHistory:
             return .get
-        case .createShortcutCastcle:
+        case .createShortcutCastcle, .reviewSendToken, .confirmSendToken:
             return .post
         case .sortShortcuts, .updateShortcut:
             return .put
@@ -95,6 +107,12 @@ extension WalletApi: TargetType {
             return .requestParameters(parameters: walletRequest.paramSortShortcuts, encoding: JSONEncoding.default)
         case .updateShortcut(_, _, let walletRequest):
             return .requestParameters(parameters: walletRequest.paramCreateShortcutsCastcle, encoding: JSONEncoding.default)
+        case .reviewSendToken(_, let walletRequest):
+            return .requestParameters(parameters: walletRequest.paramReviewSendToken, encoding: JSONEncoding.default)
+        case .confirmSendToken(_, let walletRequest):
+            return .requestParameters(parameters: walletRequest.paramConfirmSendToken, encoding: JSONEncoding.default)
+        case .getWalletHistory(_, let walletRequest):
+            return .requestParameters(parameters: walletRequest.paramGetWalletHistory, encoding: URLEncoding.queryString)
         default:
             return .requestPlain
         }

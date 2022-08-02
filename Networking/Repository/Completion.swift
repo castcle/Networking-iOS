@@ -52,8 +52,11 @@ public class CompletionHelper {
                     print("########## ERROR ##########")
                     print("\(response.request!)")
                     print("\(String(describing: response.request?.headers))")
+                    print("\(json)")
                     print("###########################")
-                    ApiHelper.displayError(code: "\(code)", error: "\(json[JsonKey.message.rawValue].stringValue)")
+                    let errorMessage: String = json[JsonKey.message.rawValue].stringValue
+                    let errorMessageArr: [String] = json[JsonKey.message.rawValue].arrayValue.map { $0.stringValue }
+                    ApiHelper.displayError(code: "\(code)", error: "\(errorMessage.isEmpty ? errorMessageArr.joined(separator: "\n") : errorMessage)")
                     completion(false, response, false)
                 }
             } catch {
