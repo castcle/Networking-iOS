@@ -68,7 +68,7 @@ public class Comment: NSObject {
 
     public init(json: JSON, isFirst: Bool = false, isLast: Bool = false) {
         self.id = json[JsonKey.id.rawValue].stringValue
-        self.authorId = json[JsonKey.author.rawValue].stringValue
+        self.authorId = json[JsonKey.authorId.rawValue].stringValue
         self.message = json[JsonKey.message.rawValue].stringValue
         self.createdAt = json[JsonKey.createdAt.rawValue].stringValue
         self.updatedAt = json[JsonKey.updatedAt.rawValue].stringValue

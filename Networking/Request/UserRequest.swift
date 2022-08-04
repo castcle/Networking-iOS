@@ -85,9 +85,7 @@ public struct UserPayloadRequest {
 
     public var paramEditUserProfile: [String: Any] {
         var param: [String: Any] = [:]
-        if !self.overview.isEmpty {
-            param[JsonKey.overview.rawValue] = self.overview
-        }
+        param[JsonKey.overview.rawValue] = self.overview
 
         if !self.dob.isEmpty {
             param[JsonKey.dob.rawValue] = self.dob
