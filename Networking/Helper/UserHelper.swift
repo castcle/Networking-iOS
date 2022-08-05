@@ -160,7 +160,7 @@ public class UserHelper {
             }
         } catch {}
     }
-    
+
     public func updateSinglePage(page: UserInfo) {
         do {
             let realm = try Realm()
