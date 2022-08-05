@@ -29,7 +29,6 @@ import Core
 import Moya
 
 enum FeedApi {
-    case getHashtags
     case getFeedsGuests(FeedRequest)
     case getFeedsMembers(String, String, FeedRequest)
     case getSuggestionFollow(FeedRequest)
@@ -42,8 +41,6 @@ extension FeedApi: TargetType {
 
     var path: String {
         switch self {
-        case .getHashtags:
-            return APIs.Feed.getHashtags.path
         case .getFeedsGuests:
             return APIs.Feed.getFeedsGuests.path
         case .getFeedsMembers(let featureSlug, let circleSlug, _):
@@ -69,14 +66,12 @@ extension FeedApi: TargetType {
             return .requestParameters(parameters: feedRequest.paramGetFeed, encoding: URLEncoding.queryString)
         case .getSuggestionFollow(let feedRequest):
             return .requestParameters(parameters: feedRequest.paramGetSuggestionUser, encoding: URLEncoding.queryString)
-        default:
-            return .requestPlain
         }
     }
 
     var headers: [String: String]? {
         switch self {
-        case .getSuggestionFollow, .getHashtags:
+        case .getSuggestionFollow:
             return ApiHelper.header()
         default:
             return ApiHelper.header(version: "1.0")

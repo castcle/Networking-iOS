@@ -160,6 +160,25 @@ public class UserHelper {
             }
         } catch {}
     }
+    
+    public func updateSinglePage(page: UserInfo) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                let pageTemp = Page()
+                pageTemp.id = page.id
+                pageTemp.castcleId = page.castcleId
+                pageTemp.displayName = page.displayName
+                pageTemp.avatar = page.images.avatar.thumbnail
+                pageTemp.cover = page.images.cover.fullHd
+                pageTemp.overview = page.overview
+                pageTemp.official = page.verified.official
+                pageTemp.isSyncTwitter = !page.syncSocial.twitter.socialId.isEmpty
+                pageTemp.isSyncFacebook = !page.syncSocial.facebook.socialId.isEmpty
+                realm.add(pageTemp, update: .modified)
+            }
+        } catch {}
+    }
 
     public func updateAuthorRef(users: [JSON]) {
         do {

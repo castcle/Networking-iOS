@@ -30,7 +30,6 @@ import Moya
 import SwiftyJSON
 
 public protocol FeedRepository {
-    func getHashtags(_ completion: @escaping (Bool, HashtagShelf) -> Void)
     func getFeedsGuests(feedRequest: FeedRequest, _ completion: @escaping ResponseHandle)
     func getFeedsMembers(featureSlug: String, circleSlug: String, feedRequest: FeedRequest, _ completion: @escaping ResponseHandle)
     func getSuggestionFollow(feedRequest: FeedRequest, _ completion: @escaping ResponseHandle)
@@ -43,23 +42,6 @@ public final class FeedRepositoryImpl: FeedRepository {
 
     public init() {
         // MARK: - Init
-    }
-
-    public func getHashtags(_ completion: @escaping (Bool, HashtagShelf) -> Void) {
-        self.feedProviderMock.request(.getHashtags) { result in
-            switch result {
-            case .success(let response):
-                do {
-                    let rawJson = try response.mapJSON()
-                    let json = JSON(rawJson)
-                    completion(true, HashtagShelf(json: json))
-                } catch {
-                    completion(false, HashtagShelf())
-                }
-            case .failure:
-                completion(false, HashtagShelf())
-            }
-        }
     }
 
     public func getFeedsGuests(feedRequest: FeedRequest, _ completion: @escaping ResponseHandle) {
