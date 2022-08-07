@@ -30,6 +30,7 @@ import Moya
 import SwiftyJSON
 
 public protocol ReportRepository {
+    func getReportSubject(_ completion: @escaping ResponseHandle)
     func reportUser(userId: String, reportRequest: ReportRequest, _ completion: @escaping ResponseHandle)
     func reportContent(userId: String, reportRequest: ReportRequest, _ completion: @escaping ResponseHandle)
     func blockUser(userId: String, reportRequest: ReportRequest, _ completion: @escaping ResponseHandle)
@@ -42,6 +43,19 @@ public final class ReportRepositoryImpl: ReportRepository {
 
     public init() {
         // MARK: - Init
+    }
+
+    public func getReportSubject(_ completion: @escaping ResponseHandle) {
+        self.reportProvider.request(.getReportSubject) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
     }
 
     public func reportUser(userId: String, reportRequest: ReportRequest, _ completion: @escaping ResponseHandle) {

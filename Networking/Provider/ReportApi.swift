@@ -29,6 +29,7 @@ import Core
 import Moya
 
 enum ReportApi {
+    case getReportSubject
     case reportUser(String, ReportRequest)
     case reportContent(String, ReportRequest)
     case blockUser(String, ReportRequest)
@@ -42,6 +43,8 @@ extension ReportApi: TargetType {
 
     var path: String {
         switch self {
+        case .getReportSubject:
+            return APIs.Report.getReportSubject.path
         case .reportUser(let userId, _):
             return APIs.Report.reportUser(userId).path
         case .reportContent(let userId, _):
@@ -55,6 +58,8 @@ extension ReportApi: TargetType {
 
     var method: Moya.Method {
         switch self {
+        case .getReportSubject:
+            return .get
         case .reportUser, .reportContent, .blockUser:
             return .post
         case.unblockUser:
