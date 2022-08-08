@@ -39,7 +39,7 @@ public class ContentShelf: NSObject {
     }
 
     public init(json: JSON) {
-        self.contents = (json[JsonKey.payload.rawValue].arrayValue).map { Content(json: $0) }.filter { $0.participate.reported == false }
+        self.contents = (json[JsonKey.payload.rawValue].arrayValue).map { Content(json: $0) }
         self.meta = Meta(json: JSON(json[JsonKey.meta.rawValue].dictionaryValue))
         let includes = JSON(json[JsonKey.includes.rawValue].dictionaryValue)
         let casts = includes[JsonKey.casts.rawValue].arrayValue

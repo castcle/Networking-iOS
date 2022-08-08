@@ -147,4 +147,33 @@ public class ContentHelper {
             }
         } catch {}
     }
+
+    public func updateReportRef(contentId: String) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                let reportRef = ReportRef()
+                reportRef.id = contentId
+                reportRef.updateAt = Date()
+                realm.add(reportRef, update: .modified)
+            }
+        } catch {}
+    }
+
+    public func isReportContent(contentId: String) -> Bool {
+        if contentId.isEmpty {
+            return false
+        } else {
+            do {
+                let realm = try Realm()
+                if realm.objects(ReportRef.self).filter("id = '\(contentId)'").first != nil {
+                    return true
+                } else {
+                    return false
+                }
+            } catch {
+                return false
+            }
+        }
+    }
 }

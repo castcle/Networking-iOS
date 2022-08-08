@@ -29,6 +29,7 @@ import Core
 
 public struct ReportRequest {
     public var message: String = " "
+    public var subject: String = ""
     public var targetCastcleId: String = ""
     public var targetContentId: String = ""
 
@@ -39,14 +40,16 @@ public struct ReportRequest {
     public var paramReportUser: [String: Any] {
         return [
             JsonKey.message.rawValue: self.message,
-            JsonKey.targetCastcleId.rawValue: self.targetCastcleId
+            JsonKey.targetCastcleId.rawValue: self.targetCastcleId,
+            JsonKey.subject.rawValue: self.subject
         ]
     }
 
     public var paramReportContent: [String: Any] {
         return [
             JsonKey.message.rawValue: self.message,
-            JsonKey.targetContentId.rawValue: self.targetContentId
+            JsonKey.targetContentId.rawValue: self.targetContentId,
+            JsonKey.subject.rawValue: self.subject
         ]
     }
 

@@ -43,6 +43,7 @@ public class Content {
     public var updatedAt: String = "2021-11-19T06:41:33.179Z"
     public var isExpand: Bool = false
     public var isOriginalExpand: Bool = false
+    public var isShowContentReport: Bool = false
 
     public var postDate: Date {
         return Date.stringToDate(str: self.createdAt)
