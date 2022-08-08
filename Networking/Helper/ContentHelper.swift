@@ -176,4 +176,14 @@ public class ContentHelper {
             }
         }
     }
+
+    public func clearReportContent() {
+        do {
+            let realm = try Realm()
+            let reportRealm = realm.objects(ReportRef.self)
+            try realm.write {
+                realm.delete(reportRealm)
+            }
+        } catch {}
+    }
 }

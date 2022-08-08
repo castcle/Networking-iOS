@@ -43,8 +43,9 @@ public class TokenHelper {
             } else {
                 if refreshTokenExpired {
                     UserHelper.shared.clearUserData()
+                    UserHelper.shared.clearSeenContent()
+                    ContentHelper.shared.clearReportContent()
                     self.guestLogin()
-                    print("refreshTokenExpired")
                 }
             }
         }
