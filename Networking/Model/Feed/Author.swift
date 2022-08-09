@@ -46,7 +46,7 @@ public class Author: NSObject {
         // Init
     }
 
-    public init(authorRef: AuthorRef) {
+    public init(authorRef: AuthorRealm) {
         self.id = authorRef.id
         self.type = AuthorType(rawValue: authorRef.type) ?? .people
         self.castcleId = authorRef.castcleId

@@ -32,26 +32,26 @@ import SwiftyJSON
 public class ContentHelper {
     public static let shared = ContentHelper()
 
-    public func getAuthorRef(id: String) -> AuthorRef? {
+    public func getAuthorRef(id: String) -> AuthorRealm? {
         if id.isEmpty {
             return nil
         } else {
             do {
                 let realm = try Realm()
-                return realm.objects(AuthorRef.self).filter("id = '\(id)'").first
+                return realm.objects(AuthorRealm.self).filter("id = '\(id)'").first
             } catch {
                 return nil
             }
         }
     }
 
-    public func getAuthorRef(castcleId: String) -> AuthorRef? {
+    public func getAuthorRef(castcleId: String) -> AuthorRealm? {
         if castcleId.isEmpty {
             return nil
         } else {
             do {
                 let realm = try Realm()
-                return realm.objects(AuthorRef.self).filter("castcleId = '\(castcleId)'").first
+                return realm.objects(AuthorRealm.self).filter("castcleId = '\(castcleId)'").first
             } catch {
                 return nil
             }
@@ -75,7 +75,7 @@ public class ContentHelper {
         }
     }
 
-    public func authorRefToAuthor(authorRef: AuthorRef) -> Author {
+    public func authorRefToAuthor(authorRef: AuthorRealm) -> Author {
         let author: Author = Author()
         author.id = authorRef.id
         author.type = AuthorType(rawValue: authorRef.type) ?? .people

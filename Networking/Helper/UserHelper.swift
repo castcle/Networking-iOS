@@ -44,7 +44,7 @@ public class UserHelper {
         } else {
             do {
                 let realm = try Realm()
-                if realm.objects(Page.self).filter("id = '\(id)'").first != nil {
+                if realm.objects(PageRealm.self).filter("id = '\(id)'").first != nil {
                     return true
                 } else {
                     return false
@@ -138,14 +138,14 @@ public class UserHelper {
     public func updatePage(pages: [JSON]) {
         do {
             let realm = try Realm()
-            let pageRealm = realm.objects(Page.self)
+            let pageRealm = realm.objects(PageRealm.self)
             try realm.write {
                 realm.delete(pageRealm)
             }
             try realm.write {
                 pages.forEach { page in
                     let pageInfo = UserInfo(json: page)
-                    let pageTemp = Page()
+                    let pageTemp = PageRealm()
                     pageTemp.id = pageInfo.id
                     pageTemp.castcleId = pageInfo.castcleId
                     pageTemp.displayName = pageInfo.displayName
@@ -165,7 +165,7 @@ public class UserHelper {
         do {
             let realm = try Realm()
             try realm.write {
-                let pageTemp = Page()
+                let pageTemp = PageRealm()
                 pageTemp.id = page.id
                 pageTemp.castcleId = page.castcleId
                 pageTemp.displayName = page.displayName
@@ -185,7 +185,7 @@ public class UserHelper {
             let realm = try Realm()
             try realm.write {
                 users.forEach { user in
-                    let authorRef = AuthorRef().initCustom(json: user)
+                    let authorRef = AuthorRealm().initCustom(json: user)
                     realm.add(authorRef, update: .modified)
                 }
             }
