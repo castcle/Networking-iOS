@@ -39,6 +39,7 @@ public class Content {
     public var referencedCasts: ReferencedCast = ReferencedCast()
     public var metrics: Metric = Metric()
     public var participate: Participate = Participate()
+    public var reportedStatus: ReportedStatusType = .none
     public var createdAt: String = "2021-11-19T06:41:33.179Z"
     public var updatedAt: String = "2021-11-19T06:41:33.179Z"
     public var isExpand: Bool = false
@@ -102,6 +103,7 @@ public class Content {
         self.authorId = json[JsonKey.authorId.rawValue].stringValue
         self.type = ContentType(rawValue: json[JsonKey.type.rawValue].stringValue) ?? .short
         self.message = json[JsonKey.message.rawValue].stringValue
+        self.reportedStatus = ReportedStatusType(rawValue: json[JsonKey.reportedStatus.rawValue].stringValue) ?? .none
         self.createdAt = json[JsonKey.createdAt.rawValue].stringValue
         self.updatedAt = json[JsonKey.updatedAt.rawValue].stringValue
 
