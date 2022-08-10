@@ -33,10 +33,18 @@ public class Wallet: NSObject {
     public var id: String = ""
     public var castcleId: String = ""
     public var displayName: String = ""
-    public var availableBalance: Double = 0
-    public var adsCredit: Double = 0
-    public var farmBalance: Double = 0
-    public var totalBalance: Double = 0
+    public var availableBalance: String = "0.0"
+    public var adsCredit: String = "0.0"
+    public var farmBalance: String = "0.0"
+    public var totalBalance: String = "0.0"
+
+    public var availableBalanceNumber: Double {
+        return Double(self.availableBalance) ?? 0.0
+    }
+
+    public var farmBalanceNumber: Double {
+        return Double(self.farmBalance) ?? 0.0
+    }
 
     public override init() {
         // Init Wallet
@@ -46,9 +54,9 @@ public class Wallet: NSObject {
         self.id = json[JsonKey.id.rawValue].stringValue
         self.castcleId = json[JsonKey.castcleId.rawValue].stringValue
         self.displayName = json[JsonKey.displayName.rawValue].stringValue
-        self.availableBalance = json[JsonKey.availableBalance.rawValue].doubleValue
-        self.adsCredit = json[JsonKey.adsCredit.rawValue].doubleValue
-        self.farmBalance = json[JsonKey.farmBalance.rawValue].doubleValue
-        self.totalBalance = json[JsonKey.totalBalance.rawValue].doubleValue
+        self.availableBalance = json[JsonKey.availableBalance.rawValue].stringValue
+        self.adsCredit = json[JsonKey.adsCredit.rawValue].stringValue
+        self.farmBalance = json[JsonKey.farmBalance.rawValue].stringValue
+        self.totalBalance = json[JsonKey.totalBalance.rawValue].stringValue
     }
 }
