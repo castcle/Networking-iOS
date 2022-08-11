@@ -35,6 +35,8 @@ public protocol ReportRepository {
     func reportContent(userId: String, reportRequest: ReportRequest, _ completion: @escaping ResponseHandle)
     func blockUser(userId: String, reportRequest: ReportRequest, _ completion: @escaping ResponseHandle)
     func unblockUser(userId: String, targetCastcleId: String, _ completion: @escaping ResponseHandle)
+    func notAppealCast(contentId: String, _ completion: @escaping ResponseHandle)
+    func appealCast(contentId: String, _ completion: @escaping ResponseHandle)
 }
 
 public final class ReportRepositoryImpl: ReportRepository {
@@ -99,6 +101,32 @@ public final class ReportRepositoryImpl: ReportRepository {
 
     public func unblockUser(userId: String, targetCastcleId: String, _ completion: @escaping ResponseHandle) {
         self.reportProvider.request(.unblockUser(userId, targetCastcleId)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func notAppealCast(contentId: String, _ completion: @escaping ResponseHandle) {
+        self.reportProvider.request(.notAppealCast(contentId)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func appealCast(contentId: String, _ completion: @escaping ResponseHandle) {
+        self.reportProvider.request(.appealCast(contentId)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

@@ -34,6 +34,8 @@ enum ReportApi {
     case reportContent(String, ReportRequest)
     case blockUser(String, ReportRequest)
     case unblockUser(String, String)
+    case notAppealCast(String)
+    case appealCast(String)
 }
 
 extension ReportApi: TargetType {
@@ -53,6 +55,10 @@ extension ReportApi: TargetType {
             return APIs.Report.blockUser(userId).path
         case .unblockUser(let userId, let targetCastcleId):
             return APIs.Report.unblockUser(userId, targetCastcleId).path
+        case .notAppealCast(let contentId):
+            return APIs.Report.notAppealCast(contentId).path
+        case .appealCast(let contentId):
+            return APIs.Report.appealCast(contentId).path
         }
     }
 
@@ -60,7 +66,7 @@ extension ReportApi: TargetType {
         switch self {
         case .getReportSubject:
             return .get
-        case .reportUser, .reportContent, .blockUser:
+        case .reportUser, .reportContent, .blockUser, .notAppealCast, .appealCast:
             return .post
         case.unblockUser:
             return .delete
