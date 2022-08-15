@@ -135,7 +135,7 @@ extension AuthenticationApi: TargetType {
     var headers: [String: String]? {
         switch self {
         case .guestLogin:
-            return ApiHelper.header()
+            return ApiHelper.header(isGuestLogin: true)
         case .refreshToken:
             return ApiHelper.headerRefreshToken()
         default:
