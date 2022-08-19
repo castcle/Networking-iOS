@@ -85,10 +85,7 @@ public struct UserPayloadRequest {
 
     public var paramEditUserProfile: [String: Any] {
         var param: [String: Any] = [:]
-
-        if !self.overview.isEmpty {
-            param[JsonKey.overview.rawValue] = self.overview
-        }
+        param[JsonKey.overview.rawValue] = self.overview
 
         if !self.dob.isEmpty {
             param[JsonKey.dob.rawValue] = self.dob
@@ -174,27 +171,11 @@ public struct UserLinkRequest {
 
     public var paramEditUserLink: [String: Any] {
         var param: [String: Any] = [:]
-
-        if !self.facebook.isEmpty {
-            param[JsonKey.facebook.rawValue] = self.facebook
-        }
-
-        if !self.twitter.isEmpty {
-            param[JsonKey.twitter.rawValue] = self.twitter
-        }
-
-        if !self.youtube.isEmpty {
-            param[JsonKey.youtube.rawValue] = self.youtube
-        }
-
-        if !self.medium.isEmpty {
-            param[JsonKey.medium.rawValue] = self.medium
-        }
-
-        if !self.website.isEmpty {
-            param[JsonKey.website.rawValue] = self.website
-        }
-
+        param[JsonKey.facebook.rawValue] = self.facebook
+        param[JsonKey.twitter.rawValue] = self.twitter
+        param[JsonKey.youtube.rawValue] = self.youtube
+        param[JsonKey.medium.rawValue] = self.medium
+        param[JsonKey.website.rawValue] = self.website
         return param
     }
 }
