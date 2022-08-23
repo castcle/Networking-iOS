@@ -48,6 +48,11 @@ public class Farming: NSObject {
         self.balance = FarmingBalance(json: JSON(json[JsonKey.balance.rawValue].dictionaryValue))
         self.status = FarmingStatus(rawValue: json[JsonKey.status.rawValue].stringValue) ?? .available
         self.createdAt = json[JsonKey.createdAt.rawValue].stringValue
+
+        // Update Author ref
+        let includes = JSON(json[JsonKey.includes.rawValue].dictionaryValue)
+        let users = includes[JsonKey.users.rawValue].arrayValue
+        UserHelper.shared.updateAuthorRef(users: users)
     }
 }
 
