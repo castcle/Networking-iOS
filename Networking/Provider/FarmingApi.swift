@@ -33,6 +33,7 @@ enum FarmingApi {
     case farmingCast(String, String)
     case unfarmingCast(String, String)
     case getFarmingActive
+    case getFarmingHistory(FarmingRequest)
 }
 
 extension FarmingApi: TargetType {
@@ -50,12 +51,14 @@ extension FarmingApi: TargetType {
             return APIs.Farming.unfarmingCast(userId, farmId).path
         case .getFarmingActive:
             return APIs.Farming.getFarmingActive.path
+        case .getFarmingHistory:
+            return APIs.Farming.getFarmingHistory.path
         }
     }
 
     var method: Moya.Method {
         switch self {
-        case .farmingLookup, .getFarmingActive:
+        case .farmingLookup, .getFarmingActive, .getFarmingHistory:
             return .get
         case .farmingCast:
             return .post
@@ -73,6 +76,8 @@ extension FarmingApi: TargetType {
         case .farmingCast(_, let contentId):
             let param = [JsonKey.targetContentId.rawValue: contentId]
             return .requestParameters(parameters: param, encoding: JSONEncoding.default)
+        case .getFarmingHistory(let farmingRequest):
+            return .requestParameters(parameters: farmingRequest.paramGetHistory, encoding: URLEncoding.queryString)
         default:
             return .requestPlain
         }

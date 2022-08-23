@@ -34,6 +34,7 @@ public protocol FarmingRepository {
     func farmingCast(userId: String, contentId: String, _ completion: @escaping ResponseHandle)
     func unfarmingCast(userId: String, farmId: String, _ completion: @escaping ResponseHandle)
     func getFarmingActive(_ completion: @escaping ResponseHandle)
+    func getFarmingHistory(farmingRequest: FarmingRequest, _ completion: @escaping ResponseHandle)
 }
 
 public final class FarmingRepositoryImpl: FarmingRepository {
@@ -82,9 +83,22 @@ public final class FarmingRepositoryImpl: FarmingRepository {
             }
         }
     }
-    
+
     public func getFarmingActive(_ completion: @escaping ResponseHandle) {
         self.farmingProvider.request(.getFarmingActive) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func getFarmingHistory(farmingRequest: FarmingRequest, _ completion: @escaping ResponseHandle) {
+        self.farmingProvider.request(.getFarmingHistory(farmingRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
