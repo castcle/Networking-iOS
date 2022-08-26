@@ -30,20 +30,14 @@ import RealmSwift
 import SwiftyJSON
 
 public struct PageSocialRequest {
-    public var payload: [PageSocial] = []
+    public var pageSocial: PageSocial = PageSocial()
 
     public init() {
         // Init PageRequest
     }
 
     public var paramCreatePageWithSocial: [String: Any] {
-        var payloadArr: [[String: Any]] = []
-        self.payload.forEach { page in
-            payloadArr.append(page.paramPageSocial)
-        }
-        return [
-            JsonKey.payload.rawValue: payloadArr
-        ]
+        return self.pageSocial.paramPageSocial
     }
 }
 

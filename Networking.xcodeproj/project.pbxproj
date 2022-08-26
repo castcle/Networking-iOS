@@ -18,7 +18,6 @@
 		B7167F9027ACEC6300067DBD /* PageSocialRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7167F8F27ACEC6300067DBD /* PageSocialRequest.swift */; };
 		B7189ACC26EDCADF00CB9719 /* TokenHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189ACB26EDCADF00CB9719 /* TokenHelper.swift */; };
 		B7189AD026EF24A000CB9719 /* EngagementApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189ACF26EF24A000CB9719 /* EngagementApi.swift */; };
-		B7189AD326EF260100CB9719 /* EngagementRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189AD226EF260100CB9719 /* EngagementRequest.swift */; };
 		B7189AD526EF2E1F00CB9719 /* EngagementRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189AD426EF2E1F00CB9719 /* EngagementRepository.swift */; };
 		B7189AD726EF347100CB9719 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189AD626EF347100CB9719 /* UserRepository.swift */; };
 		B7189ADE26EF489100CB9719 /* EngagementHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7189ADD26EF489100CB9719 /* EngagementHelper.swift */; };
@@ -118,7 +117,6 @@
 		B7167F8F27ACEC6300067DBD /* PageSocialRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageSocialRequest.swift; sourceTree = "<group>"; };
 		B7189ACB26EDCADF00CB9719 /* TokenHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHelper.swift; sourceTree = "<group>"; };
 		B7189ACF26EF24A000CB9719 /* EngagementApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngagementApi.swift; sourceTree = "<group>"; };
-		B7189AD226EF260100CB9719 /* EngagementRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngagementRequest.swift; sourceTree = "<group>"; };
 		B7189AD426EF2E1F00CB9719 /* EngagementRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngagementRepository.swift; sourceTree = "<group>"; };
 		B7189AD626EF347100CB9719 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		B7189ADD26EF489100CB9719 /* EngagementHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngagementHelper.swift; sourceTree = "<group>"; };
@@ -395,7 +393,6 @@
 				B7684A5526C5061C00C438C5 /* LoginRequest.swift */,
 				B7684A5626C5061C00C438C5 /* AuthenRequest.swift */,
 				B743388D26DE21F8004BBC05 /* UserRequest.swift */,
-				B7189AD226EF260100CB9719 /* EngagementRequest.swift */,
 				B7AF661926F2FAD500BDE9C4 /* PageRequest.swift */,
 				B7167F8F27ACEC6300067DBD /* PageSocialRequest.swift */,
 				B7A71D0426FC5C160092F318 /* NotificationRequest.swift */,
@@ -557,7 +554,6 @@
 				B7189ADE26EF489100CB9719 /* EngagementHelper.swift in Sources */,
 				B786633A27478B7000B13EEF /* ContentHelper.swift in Sources */,
 				B754A12127463DED00147210 /* CommentRequest.swift in Sources */,
-				B7189AD326EF260100CB9719 /* EngagementRequest.swift in Sources */,
 				B7B2CDC228B3599800C2D855 /* FarmingApi.swift in Sources */,
 				B79DF1AA270AB34300A40502 /* Verified.swift in Sources */,
 				B7684A5E26C5061C00C438C5 /* Author.swift in Sources */,

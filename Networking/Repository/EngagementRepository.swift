@@ -30,7 +30,6 @@ import Moya
 import SwiftyJSON
 
 public protocol EngagementRepository {
-    func engagement(engagementRequest: EngagementRequest)
     func seenContent(feedId: String)
     func castOffView(feedId: String)
 }
@@ -40,17 +39,6 @@ public final class EngagementRepositoryImpl: EngagementRepository {
 
     public init() {
         // MARK: - Init
-    }
-
-    public func engagement(engagementRequest: EngagementRequest) {
-        self.engagementProvider.request(.engagement(engagementRequest)) { result in
-            switch result {
-            case .success:
-                print("Send Engagement Success")
-            case .failure:
-                print("Send Engagement Failure")
-            }
-        }
     }
 
     public func seenContent(feedId: String) {

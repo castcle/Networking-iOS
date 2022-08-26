@@ -33,6 +33,7 @@ public class Meta: NSObject {
     public var oldestId: String = ""
     public var newestId: String = ""
     public var resultCount: Int = 5
+    public var nextToken: String = ""
 
     public override init() {
         // MARK: - Init
@@ -42,5 +43,6 @@ public class Meta: NSObject {
         self.oldestId = json[JsonKey.oldestId.rawValue].stringValue
         self.newestId = json[JsonKey.newestId.rawValue].stringValue
         self.resultCount = json[JsonKey.resultCount.rawValue].intValue
+        self.nextToken = json[JsonKey.nextToken.rawValue].stringValue
     }
 }

@@ -77,6 +77,6 @@ extension DataApi: TargetType {
     }
 
     var headers: [String: String]? {
-        return ApiHelper.header(version: "1.0")
+        return ApiHelper.header()
     }
 }

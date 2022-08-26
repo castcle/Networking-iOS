@@ -29,8 +29,7 @@ import Core
 import Moya
 
 enum FeedApi {
-    case getFeedsGuests(FeedRequest)
-    case getFeedsMembers(String, String, FeedRequest)
+    case getFeeds(String, FeedRequest)
     case getSuggestionFollow(FeedRequest)
 }
 
@@ -41,10 +40,8 @@ extension FeedApi: TargetType {
 
     var path: String {
         switch self {
-        case .getFeedsGuests:
-            return APIs.Feed.getFeedsGuests.path
-        case .getFeedsMembers(let featureSlug, let circleSlug, _):
-            return APIs.Feed.getFeedsMembers(featureSlug, circleSlug).path
+        case .getFeeds(let circleSlug, _):
+            return APIs.Feed.getFeeds(circleSlug).path
         case .getSuggestionFollow:
             return APIs.Feed.getSuggestionFollow.path
         }
@@ -60,9 +57,7 @@ extension FeedApi: TargetType {
 
     var task: Task {
         switch self {
-        case .getFeedsGuests(let feedRequest):
-            return .requestParameters(parameters: feedRequest.paramGetFeed, encoding: URLEncoding.queryString)
-        case .getFeedsMembers(_, _, let feedRequest):
+        case .getFeeds(_, let feedRequest):
             return .requestParameters(parameters: feedRequest.paramGetFeed, encoding: URLEncoding.queryString)
         case .getSuggestionFollow(let feedRequest):
             return .requestParameters(parameters: feedRequest.paramGetSuggestionUser, encoding: URLEncoding.queryString)
@@ -70,11 +65,6 @@ extension FeedApi: TargetType {
     }
 
     var headers: [String: String]? {
-        switch self {
-        case .getSuggestionFollow:
-            return ApiHelper.header()
-        default:
-            return ApiHelper.header(version: "1.0")
-        }
+        return ApiHelper.header()
     }
 }

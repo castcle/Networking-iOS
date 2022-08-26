@@ -124,11 +124,6 @@ extension ContentApi: TargetType {
     }
 
     var headers: [String: String]? {
-        switch self {
-        case .getMeContents, .likeContent, .unlikeContent, .getQuoteCast, .createContent, .getContentDetail, .deleteContent:
-            return ApiHelper.header()
-        default:
-            return ApiHelper.header(version: "1.0")
-        }
+        return ApiHelper.header()
     }
 }

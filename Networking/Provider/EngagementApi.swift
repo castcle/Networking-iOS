@@ -29,7 +29,6 @@ import Core
 import Moya
 
 enum EngagementApi {
-    case engagement(EngagementRequest)
     case seenContent(String)
     case castOffView(String)
 }
@@ -41,8 +40,6 @@ extension EngagementApi: TargetType {
 
     var path: String {
         switch self {
-        case .engagement:
-            return APIs.Engagement.engagement.path
         case.seenContent(let feedId):
             return APIs.Engagement.seenContent(feedId).path
         case.castOffView(let feedId):
@@ -59,17 +56,10 @@ extension EngagementApi: TargetType {
     }
 
     var task: Task {
-        switch self {
-        case .engagement(let engagementRequest):
-            return .requestParameters(parameters: engagementRequest.paramEngagement, encoding: JSONEncoding.default)
-        case.seenContent:
-            return .requestPlain
-        case.castOffView:
-            return .requestPlain
-        }
+        return .requestPlain
     }
 
     var headers: [String: String]? {
-        return ApiHelper.header(version: "1.0")
+        return ApiHelper.header()
     }
 }

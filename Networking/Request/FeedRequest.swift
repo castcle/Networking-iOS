@@ -29,6 +29,7 @@ import Core
 
 public struct FeedRequest {
     public var untilId: String = ""
+    public var nextToken: String = ""
     public var maxResults: Int = 25
     public var hashtag: String = ""
     public var type: ContentType = .unknow
@@ -47,8 +48,8 @@ public struct FeedRequest {
             param[JsonKey.userFields.rawValue] = self.userFields.rawValue
         }
 
-        if !self.untilId.isEmpty {
-            param[JsonKey.untilId.rawValue] = self.untilId
+        if !self.nextToken.isEmpty {
+            param[JsonKey.nextToken.rawValue] = self.nextToken
         }
 
         if !self.hashtag.isEmpty {

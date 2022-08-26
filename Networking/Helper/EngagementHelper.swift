@@ -78,16 +78,6 @@ public class EngagementHelper {
 
     public func sendCastcleAnalytic(event: EventType, screen: ScreenId) {
         DispatchQueue.background(background: {
-            let systemVersion = UIDevice.current.systemVersion
-            var engagementRequest: EngagementRequest = EngagementRequest()
-            engagementRequest.client = "iOS \(systemVersion)"
-            engagementRequest.accountId = UserManager.shared.accountId
-            engagementRequest.uxSessionId = UserManager.shared.uxSessionId
-            engagementRequest.screenId =  screen.rawValue
-            engagementRequest.eventType = event.rawValue
-            engagementRequest.timestamp = "\(Date.currentTimeStamp)"
-            self.engagementRepository.engagement(engagementRequest: engagementRequest)
-
             if event == .onScreenView {
                 self.sendFirebaseAnalytic(screen: screen)
             }

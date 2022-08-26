@@ -30,13 +30,11 @@ import Moya
 import SwiftyJSON
 
 public protocol FeedRepository {
-    func getFeedsGuests(feedRequest: FeedRequest, _ completion: @escaping ResponseHandle)
-    func getFeedsMembers(featureSlug: String, circleSlug: String, feedRequest: FeedRequest, _ completion: @escaping ResponseHandle)
+    func getFeeds(circleSlug: String, feedRequest: FeedRequest, _ completion: @escaping ResponseHandle)
     func getSuggestionFollow(feedRequest: FeedRequest, _ completion: @escaping ResponseHandle)
 }
 
 public final class FeedRepositoryImpl: FeedRepository {
-    private let feedProviderMock = MoyaProvider<FeedApi>(stubClosure: MoyaProvider.delayedStub(1.0))
     private let feedProvider = MoyaProvider<FeedApi>()
     private let completionHelper: CompletionHelper = CompletionHelper()
 
@@ -44,21 +42,8 @@ public final class FeedRepositoryImpl: FeedRepository {
         // MARK: - Init
     }
 
-    public func getFeedsGuests(feedRequest: FeedRequest, _ completion: @escaping ResponseHandle) {
-        self.feedProvider.request(.getFeedsGuests(feedRequest)) { result in
-            switch result {
-            case .success(let response):
-                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
-                    completion(success, response, isRefreshToken)
-                }
-            case .failure:
-                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
-            }
-        }
-    }
-
-    public func getFeedsMembers(featureSlug: String, circleSlug: String, feedRequest: FeedRequest, _ completion: @escaping ResponseHandle) {
-        self.feedProvider.request(.getFeedsMembers(featureSlug, circleSlug, feedRequest)) { result in
+    public func getFeeds(circleSlug: String, feedRequest: FeedRequest, _ completion: @escaping ResponseHandle) {
+        self.feedProvider.request(.getFeeds(circleSlug, feedRequest)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
