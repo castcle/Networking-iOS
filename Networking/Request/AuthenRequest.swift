@@ -53,7 +53,7 @@ public struct AuthenRequest {
 
     public var paramCheckEmail: [String: Any] {
         return [
-            JsonKey.email.rawValue: self.email
+            JsonKey.email.rawValue: self.email.lowercased()
         ]
     }
 
@@ -71,7 +71,7 @@ public struct AuthenRequest {
 
     public var paramRegister: [String: Any] {
         return [
-            JsonKey.email.rawValue: self.email,
+            JsonKey.email.rawValue: self.email.lowercased(),
             JsonKey.password.rawValue: self.password,
             JsonKey.displayName.rawValue: self.displayName,
             JsonKey.castcleId.rawValue: self.castcleId,
@@ -82,7 +82,7 @@ public struct AuthenRequest {
     public var paramVerificationPassword: [String: Any] {
         return [
             JsonKey.objective.rawValue: self.objective.rawValue,
-            JsonKey.email.rawValue: self.email,
+            JsonKey.email.rawValue: self.email.lowercased(),
             JsonKey.password.rawValue: self.password
         ]
     }
@@ -98,7 +98,7 @@ public struct AuthenRequest {
     public var paramRequestOtpWithEmail: [String: Any] {
         return [
             JsonKey.objective.rawValue: self.objective.rawValue,
-            JsonKey.email.rawValue: self.email
+            JsonKey.email.rawValue: self.email.lowercased()
         ]
     }
 
@@ -115,7 +115,7 @@ public struct AuthenRequest {
     public var paramVerifyOtpWithEmail: [String: Any] {
         return [
             JsonKey.objective.rawValue: self.objective.rawValue,
-            JsonKey.email.rawValue: self.email,
+            JsonKey.email.rawValue: self.email.lowercased(),
             JsonKey.refCode.rawValue: self.refCode,
             JsonKey.otp.rawValue: self.otp
         ]
@@ -124,7 +124,7 @@ public struct AuthenRequest {
     public var paramChangePassword: [String: Any] {
         return [
             JsonKey.objective.rawValue: self.objective.rawValue,
-            JsonKey.email.rawValue: self.email,
+            JsonKey.email.rawValue: self.email.lowercased(),
             JsonKey.refCode.rawValue: self.refCode,
             JsonKey.newPassword.rawValue: self.newPassword
         ]
@@ -137,7 +137,7 @@ public struct AuthenRequest {
             JsonKey.displayName.rawValue: self.displayName,
             JsonKey.userName.rawValue: self.userName,
             JsonKey.avatar.rawValue: self.avatar,
-            JsonKey.email.rawValue: self.email,
+            JsonKey.email.rawValue: self.email.lowercased(),
             JsonKey.overview.rawValue: self.overview,
             JsonKey.cover.rawValue: self.cover,
             JsonKey.authToken.rawValue: self.authToken

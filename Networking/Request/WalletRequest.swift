@@ -121,7 +121,7 @@ public struct WalletRequest {
     private var paramVerificationEmail: [String: Any] {
         return [
             JsonKey.objective.rawValue: self.objective.rawValue,
-            JsonKey.email.rawValue: self.email,
+            JsonKey.email.rawValue: self.email.lowercased(),
             JsonKey.refCode.rawValue: self.emailRefCode,
             JsonKey.otp.rawValue: self.emailOtp
         ]

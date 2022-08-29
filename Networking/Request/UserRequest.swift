@@ -64,7 +64,7 @@ public struct UserRequest {
 
     public var paramUpdateEmail: [String: Any] {
         return [
-            JsonKey.email.rawValue: self.email
+            JsonKey.email.rawValue: self.email.lowercased()
         ]
     }
 }
@@ -193,7 +193,7 @@ public struct ContactRequest {
         return [
             JsonKey.countryCode.rawValue: self.countryCode,
             JsonKey.phone.rawValue: self.phone,
-            JsonKey.email.rawValue: self.email
+            JsonKey.email.rawValue: self.email.lowercased()
         ]
     }
 }

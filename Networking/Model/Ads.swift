@@ -31,21 +31,29 @@ import SwiftyJSON
 
 // MARK: - Ads
 public class Ads: NSObject {
+    public var id: String = ""
     public var campaignName: String = ""
     public var campaignMessage: String = ""
     public var campaignCode: String = ""
     public var objective: AdsObjective = .engagement
     public var dailyBudget: Double = 10
     public var duration: Int = 1
+    public var dailyBidType: DailyBidType = .auto
+    public var dailyBidValue: Double = 0
     public var adStatus: AdStatus = .processing
     public var boostStatus: BoostStatus = .unknown
     public var boostType: BoostType = .user
-//    public var payload: Bool = false
+    public var user: UserInfo = UserInfo()
+    public var content: Content = Content()
     public var statistics: Statistics = Statistics()
     public var engagement: Engagement = Engagement()
     public var payment: AdsPaymentType = .adCredit
     public var createdAt: String = ""
     public var updatedAt: String = ""
+
+    public var createdDisplay: Date {
+        return Date.stringToDate(str: self.createdAt)
+    }
 
     public override init() {
         // Init Ads
@@ -58,6 +66,8 @@ public class Ads: NSObject {
         self.objective = AdsObjective(rawValue: json[JsonKey.objective.rawValue].stringValue) ?? .engagement
         self.dailyBudget = json[JsonKey.dailyBudget.rawValue].doubleValue
         self.duration = json[JsonKey.duration.rawValue].intValue
+        self.dailyBidType = DailyBidType(rawValue: json[JsonKey.dailyBidType.rawValue].stringValue) ?? .auto
+        self.dailyBidValue = json[JsonKey.dailyBidValue.rawValue].doubleValue
         self.adStatus = AdStatus(rawValue: json[JsonKey.adStatus.rawValue].stringValue) ?? .processing
         self.boostStatus = BoostStatus(rawValue: json[JsonKey.boostStatus.rawValue].stringValue) ?? .unknown
         self.boostType = BoostType(rawValue: json[JsonKey.boostType.rawValue].stringValue) ?? .user
@@ -67,6 +77,11 @@ public class Ads: NSObject {
         // MARK: - Object
         self.statistics = Statistics(json: JSON(json[JsonKey.statistics.rawValue].dictionaryValue))
         self.engagement = Engagement(json: JSON(json[JsonKey.engagement.rawValue].dictionaryValue))
+        if self.boostType == .user {
+            self.user = UserInfo(json: JSON(json[JsonKey.payload.rawValue].dictionaryValue))
+        } else {
+            self.content = Content(json: JSON(json[JsonKey.payload.rawValue].dictionaryValue))
+        }
     }
 }
 
@@ -76,6 +91,7 @@ public class Statistics: NSObject {
     public var impression: StatisticsReach = StatisticsReach()
     public var reach: StatisticsReach = StatisticsReach()
     public var cpm: Double = 0
+    public var dailySpent: Double = 0
 
     public override init() {
         // Init Statistics
@@ -84,6 +100,7 @@ public class Statistics: NSObject {
     public init(json: JSON) {
         self.budgetSpent = json[JsonKey.budgetSpent.rawValue].doubleValue
         self.cpm = json[JsonKey.cpm.rawValue].doubleValue
+        self.dailySpent = json[JsonKey.dailySpent.rawValue].doubleValue
 
         // MARK: - Object
         self.impression = StatisticsReach(json: JSON(json[JsonKey.impression.rawValue].dictionaryValue))

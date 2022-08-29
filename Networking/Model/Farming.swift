@@ -36,10 +36,9 @@ public class Farming: NSObject {
     public var balance: FarmingBalance = FarmingBalance()
     public var status: FarmingStatus = .available
     public var createdAt: String = ""
-    public var farmedAt: String = ""
 
     public var farmingDateDisplay: Date {
-        return Date.stringToDate(str: self.farmedAt)
+        return Date.stringToDate(str: self.createdAt)
     }
 
     public override init() {
@@ -53,7 +52,6 @@ public class Farming: NSObject {
         self.balance = FarmingBalance(json: JSON(json[JsonKey.balance.rawValue].dictionaryValue))
         self.status = FarmingStatus(rawValue: json[JsonKey.status.rawValue].stringValue) ?? .available
         self.createdAt = json[JsonKey.createdAt.rawValue].stringValue
-        self.farmedAt = json[JsonKey.farmedAt.rawValue].stringValue
     }
 }
 

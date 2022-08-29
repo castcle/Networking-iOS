@@ -31,6 +31,7 @@ public struct AdsRequest {
     // MARK: - Get
     public var untilId: String = ""
     public var maxResults: Int = 25
+    public var filter: HistoryFilterType = .all
 
     // MARK: - Create
     public var boostType: BoostType = .user
@@ -50,6 +51,7 @@ public struct AdsRequest {
 
     public var paramGetAds: [String: Any] {
         var param: [String: Any] = [
+            JsonKey.filter.rawValue: self.filter.rawValue,
             JsonKey.maxResults.rawValue: self.maxResults
         ]
 

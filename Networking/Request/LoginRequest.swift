@@ -38,7 +38,7 @@ public struct LoginRequest {
 
     public var paramLogin: [String: Any] {
         return [
-            JsonKey.email.rawValue: self.email,
+            JsonKey.email.rawValue: self.email.lowercased(),
             JsonKey.password.rawValue: self.password
         ]
     }

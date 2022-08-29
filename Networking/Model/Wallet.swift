@@ -46,6 +46,10 @@ public class Wallet: NSObject {
         return Double(self.farmBalance) ?? 0.0
     }
 
+    public var adsCreditNumber: Double {
+        return Double(self.adsCredit) ?? 0.0
+    }
+
     public override init() {
         // Init Wallet
     }
