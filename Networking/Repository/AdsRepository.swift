@@ -31,7 +31,9 @@ import SwiftyJSON
 
 public protocol AdsRepository {
     func getAds(adsRequest: AdsRequest, _ completion: @escaping ResponseHandle)
+    func getAdsDetail(adsId: String, _ completion: @escaping ResponseHandle)
     func createAdsUser(adsRequest: AdsRequest, _ completion: @escaping ResponseHandle)
+    func cancelAds(adsId: String, _ completion: @escaping ResponseHandle)
 }
 
 public final class AdsRepositoryImpl: AdsRepository {
@@ -55,8 +57,34 @@ public final class AdsRepositoryImpl: AdsRepository {
         }
     }
 
+    public func getAdsDetail(adsId: String, _ completion: @escaping ResponseHandle) {
+        self.adsProvider.request(.getAdsDetail(adsId)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
     public func createAdsUser(adsRequest: AdsRequest, _ completion: @escaping ResponseHandle) {
         self.adsProvider.request(.createAdsUser(adsRequest)) { result in
+            switch result {
+            case .success(let response):
+                self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in
+                    completion(success, response, isRefreshToken)
+                }
+            case .failure:
+                completion(false, Response(statusCode: 500, data: ApiHelper.errorResponse), false)
+            }
+        }
+    }
+
+    public func cancelAds(adsId: String, _ completion: @escaping ResponseHandle) {
+        self.adsProvider.request(.cancelAds(adsId)) { result in
             switch result {
             case .success(let response):
                 self.completionHelper.handleNetworingResponse(response: response) { (success, response, isRefreshToken) in

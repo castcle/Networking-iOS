@@ -30,7 +30,9 @@ import Moya
 
 enum AdsApi {
     case getAds(AdsRequest)
+    case getAdsDetail(String)
     case createAdsUser(AdsRequest)
+    case cancelAds(String)
 }
 
 extension AdsApi: TargetType {
@@ -42,16 +44,20 @@ extension AdsApi: TargetType {
         switch self {
         case .getAds:
             return APIs.Ads.getAds.path
+        case .getAdsDetail(let adsId):
+            return APIs.Ads.getAdsDetail(adsId).path
         case .createAdsUser:
             return APIs.Ads.createAdsUser.path
+        case .cancelAds(let adsId):
+            return APIs.Ads.cancelAds(adsId).path
         }
     }
 
     var method: Moya.Method {
         switch self {
-        case .getAds:
+        case .getAds, .getAdsDetail:
             return .get
-        case .createAdsUser:
+        case .createAdsUser, .cancelAds:
             return .post
         }
     }
@@ -66,6 +72,8 @@ extension AdsApi: TargetType {
             return .requestParameters(parameters: adsRequest.paramGetAds, encoding: URLEncoding.queryString)
         case .createAdsUser(let adsRequest):
             return .requestParameters(parameters: adsRequest.paramCreateAdsUser, encoding: JSONEncoding.default)
+        default:
+            return .requestPlain
         }
     }
 

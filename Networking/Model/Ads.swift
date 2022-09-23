@@ -60,6 +60,7 @@ public class Ads: NSObject {
     }
 
     public init(json: JSON) {
+        self.id = json[JsonKey.id.rawValue].stringValue
         self.campaignName = json[JsonKey.campaignName.rawValue].stringValue
         self.campaignMessage = json[JsonKey.campaignMessage.rawValue].stringValue
         self.campaignCode = json[JsonKey.campaignCode.rawValue].stringValue
