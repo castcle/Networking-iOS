@@ -100,7 +100,7 @@ public struct WalletRequest {
         var param: [String: Any] = [
             JsonKey.chainId.rawValue: self.chainId,
             JsonKey.address.rawValue: self.address,
-            JsonKey.amount.rawValue: Float(self.amount) ?? 0.0
+            JsonKey.amount.rawValue: Double(self.amount) ?? 0.0
         ]
         if !self.memo.isEmpty {
             param[JsonKey.memo.rawValue] = self.memo
