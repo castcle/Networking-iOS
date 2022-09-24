@@ -32,6 +32,7 @@ import SwiftyJSON
 public class WalletsRecent: NSObject {
     public var id: String = ""
     public var chainId: String = ""
+    public var userId: String = ""
     public var castcleId: String = ""
     public var displayName: String = ""
     public var type: AuthorType = .people
@@ -48,6 +49,7 @@ public class WalletsRecent: NSObject {
     public init(json: JSON) {
         self.id = json[JsonKey.id.rawValue].stringValue
         self.chainId = json[JsonKey.chainId.rawValue].stringValue
+        self.userId = json[JsonKey.userId.rawValue].stringValue
         self.castcleId = json[JsonKey.castcleId.rawValue].stringValue
         self.displayName = json[JsonKey.displayName.rawValue].stringValue
         self.walletAddress = json[JsonKey.walletAddress.rawValue].stringValue
