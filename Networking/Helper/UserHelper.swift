@@ -191,4 +191,17 @@ public class UserHelper {
             }
         } catch {}
     }
+
+    public func updateIsFollowAuthorRef(userId: String, isFollow: Bool) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                guard let authorRef = realm.objects(AuthorRealm.self).filter("id = '\(userId)'").first else { return }
+                print(authorRef.followed)
+                authorRef.followed = isFollow
+                print(authorRef.followed)
+                realm.add(authorRef, update: .modified)
+            }
+        } catch {}
+    }
 }
