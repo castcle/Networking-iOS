@@ -33,6 +33,9 @@ enum AdsApi {
     case getAdsDetail(String)
     case createAdsUser(AdsRequest)
     case cancelAds(String)
+    case endAds(String)
+    case runAds(String)
+    case pauseAds(String)
 }
 
 extension AdsApi: TargetType {
@@ -50,6 +53,12 @@ extension AdsApi: TargetType {
             return APIs.Ads.createAdsUser.path
         case .cancelAds(let adsId):
             return APIs.Ads.cancelAds(adsId).path
+        case .endAds(let adsId):
+            return APIs.Ads.endAds(adsId).path
+        case .runAds(let adsId):
+            return APIs.Ads.runAds(adsId).path
+        case .pauseAds(let adsId):
+            return APIs.Ads.pauseAds(adsId).path
         }
     }
 
@@ -57,7 +66,7 @@ extension AdsApi: TargetType {
         switch self {
         case .getAds, .getAdsDetail:
             return .get
-        case .createAdsUser, .cancelAds:
+        case .createAdsUser, .cancelAds, .endAds, .runAds, .pauseAds:
             return .post
         }
     }
